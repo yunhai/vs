@@ -1,0 +1,131 @@
+/*-----
+css name: ke toan van lang
+version: 
+date:02/11/2012
+author: Nguyen Duy Khoa
+email:duykhoa@vietsol.net
+website:http://www.vietsol.net/
+version history:
+----*/
+
+/**reset css***/
+
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	
+	color:#666666;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:12px;
+	line-height:18px;
+	background:url(../images/bg_body1.png) top repeat-x;
+}
+html{
+	
+}
+
+@font-face {
+    font-family: 'UVNTinTucHepBold';
+    src: url('../javascripts/uvntintuchep_b-webfont.eot');
+    src: url('../javascripts/uvntintuchep_b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvntintuchep_b-webfont.woff') format('woff'),
+         url('../javascripts/uvntintuchep_b-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'uvn_ke_chuyen3regular';
+    src: url('../javascripts/uvnkechuyen3_0-webfont.eot');
+    src: url('../javascripts/uvnkechuyen3_0-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvnkechuyen3_0-webfont.woff') format('woff'),
+         url('../javascripts/uvnkechuyen3_0-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+.clear{
+	clear:both;
+}
+.clear_left{
+	clear:left;
+	height:0px;
+}
+.clear_right{
+	clear:right;
+}
+.fload_left{
+	float:left;
+}
+.fload_right{
+float:right;
+}
+h1, h2, h3, h4, h5, h6{
+	font-size:12px; 
+}
+img, p, ul{
+	border:0px;
+
+}
+li{
+
+	list-style-type:none;
+}
+a{
+	text-decoration:none;
+	outline: none;
+}
+a:hover{
+	text-decoration:none;	
+}
+select{
+	outline:none;
+}
+table{
+	border-collapse:collapse;
+}
+/*---------- Một số chuẩn khi cắt css và tránh lỗi IE6-------------
+- Khi thêm thuộc tính margin cho thẻ phải thêm thuộc tính display:inline (trừ những thẻ không có chiều cao, rộng cố định thì không cần thiết)
+- Khi thêm padding chiều nào của một thẻ phải giảm độ rộng, cao tương ứng nếu thẻ có chiều rộng hoặc cao cố định.
+- Tất cả các link phải có hover
+- Những button như Hủy,Gửi đặt trong thẻ input phải có thuộc tính cursor:pointer . 
+- Những Title chỉ có một dòng thì tránh dùng padding-left khi muốn cách đầu dòng_ nên dùng text-indent:px và nên sét chiều rộng và thuộc tính overflow:hidden.
+- Nếu thẻ <img/> đặt trong một thẻ khác mà hình ảnh quá nhỏ thì phải có thuộc tính font-size:1px trong thẻ chứa <img/>
+
+* ---------------------------Qui tắc đặt tên--------------*/
+.page{
+	
+	height:30px;
+	float:right;
+	text-align:center;
+	padding-top:20px;
+	
+}
+
+.page a{
+	color:#222222;
+	width:23px;
+	height:23px;
+	text-align:center;
+	line-height:23px;
+	background:url(../images/page_bg.jpg) no-repeat;
+	float:left;
+	margin-left:9px;
+}
+.page a:hover,.page a.active{
+	background:url(../images/page_active.png) no-repeat;
+	color:#fff;
+}
+.last_child {
+	margin-right:0px!important;	
+}
+.li_child {
+	border-bottom: none!important;
+}
+.last_none {
+	background:none!important;
+}

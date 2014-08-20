@@ -1,0 +1,6 @@
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+Allow from 113.161.77.147
+
+Options -Indexes 

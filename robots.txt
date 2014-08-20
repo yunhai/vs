@@ -1,0 +1,3 @@
+User-Agent: googlebot
+Allow: /
+Disallow: /skins
