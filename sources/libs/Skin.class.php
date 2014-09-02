@@ -42,11 +42,19 @@ class VSFSkin extends skins {
 			<meta name="author" content="{$this->AUTHOR}">
 			<meta name="copyright" content="{$this->COPYRIGHT}">
 			<meta name="robots" content="FOLLOW,INDEX">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link href="{$this->GOOGLELINK}" rel="publisher" />
 			<link rel="shortcut icon" href="{$this->SHORTCUT}" type="image/x-icon" />
 			{$this->GENERATOR}
 			{$this->CSS}
 			{$this->JAVASCRIPT_TOP}
+			
+			<!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+              <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+			
+			
 			</head>
 			<body>
 			{$this->BOARD}

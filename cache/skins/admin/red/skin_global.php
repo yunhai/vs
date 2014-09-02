@@ -237,7 +237,7 @@ EOF;
 if( $this->getAddon()->getMenuTop() ) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b7dc7ad2()}
+{$this->__foreach_loop__id_53f5c292ca347()}
 
 EOF;
 }
@@ -295,7 +295,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b7dc7ad2()
+function __foreach_loop__id_53f5c292ca347()
 {
 global $bw,  $vsUser;
     $BWHTML = '';

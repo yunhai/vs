@@ -66,7 +66,7 @@ class skin_pages extends skin_objectadmin {
 					</td>
 				</tr>
 				</if>
-				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()">
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list', 'Category',$bw->input[0]) and $this->model->getCategories()->getChildren()">
 				<tr>
 					<td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
 					<td>

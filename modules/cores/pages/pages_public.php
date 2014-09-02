@@ -19,4 +19,3 @@ class pages_public extends VSPublicBoard{
 		parent::auto_run($vsModule->basicObject->getClass());
 	}
 }
-?>

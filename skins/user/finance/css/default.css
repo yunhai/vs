@@ -1,131 +1,261 @@
-/*-----
-css name: ke toan van lang
-version: 
-date:02/11/2012
-author: Nguyen Duy Khoa
-email:duykhoa@vietsol.net
-website:http://www.vietsol.net/
-version history:
-----*/
-
-/**reset css***/
-
-*{
-	padding:0px;
-	margin:0px;
-}
-body{
-	
-	color:#666666;
-	font-family: Arial,Helvetica,sans-serif;
-	font-size:12px;
-	line-height:18px;
-	background:url(../images/bg_body1.png) top repeat-x;
-}
-html{
-	
+/**********************/
+body {
+	background: #f6f6f6;
+	color: #333333;
+	font-size: 13px;
 }
 
-@font-face {
-    font-family: 'UVNTinTucHepBold';
-    src: url('../javascripts/uvntintuchep_b-webfont.eot');
-    src: url('../javascripts/uvntintuchep_b-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../javascripts/uvntintuchep_b-webfont.woff') format('woff'),
-         url('../javascripts/uvntintuchep_b-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+.navbar{
+    font-weight: bold;	
 }
-@font-face {
-    font-family: 'uvn_ke_chuyen3regular';
-    src: url('../javascripts/uvnkechuyen3_0-webfont.eot');
-    src: url('../javascripts/uvnkechuyen3_0-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../javascripts/uvnkechuyen3_0-webfont.woff') format('woff'),
-         url('../javascripts/uvnkechuyen3_0-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+.hotline {
+	color: #ff6600;
 }
 
+.navbar {
+	margin-bottom: 0;
+}
 
+.container .jumbotron{
+	background: url(../images/jumbotron.png) no-repeat scroll 100px 0 transparent;
+	height: 200px;
+	padding: 30px 0 0 0;
+	margin:0;
+}
+
+a.branch-name{
+	text-decoration: none;
+	color: #333;
+}
+
+a.branch-name img{
+    float: left;
+    margin-right: 20px;
+}
+
+a.branch-name h1{
+    font-size: 44px;
+    margin: 0px;
+    font-weight: bold;
+}
+
+a.branch-name span{
+	color: #555;
+    font-size: 24px;
+    margin: 0px;
+    line-height: auto;
+}
+
+.search {
+	margin-top: 25px;
+}
+.search .input{
+    border: solid 1px #dddddd;	
+    width: 325px;
+    height: 35px;
+}
+
+.search .submit{
+	border: 0;
+	background: url(../images/search.png) no-repeat scroll 0 0 transparent;
+	width: 75px;
+	height: 35px;
+	text-indent: 20px;
+	color: #fff;
+	font-weight: bold;
+}
 .clear{
-	clear:both;
+	float: none;
+	clear: both;
 }
-.clear_left{
-	clear:left;
-	height:0px;
-}
-.clear_right{
-	clear:right;
-}
-.fload_left{
-	float:left;
-}
-.fload_right{
-float:right;
-}
-h1, h2, h3, h4, h5, h6{
-	font-size:12px; 
-}
-img, p, ul{
-	border:0px;
-
-}
-li{
-
-	list-style-type:none;
-}
-a{
-	text-decoration:none;
-	outline: none;
-}
-a:hover{
-	text-decoration:none;	
-}
-select{
-	outline:none;
-}
-table{
-	border-collapse:collapse;
-}
-/*---------- Một số chuẩn khi cắt css và tránh lỗi IE6-------------
-- Khi thêm thuộc tính margin cho thẻ phải thêm thuộc tính display:inline (trừ những thẻ không có chiều cao, rộng cố định thì không cần thiết)
-- Khi thêm padding chiều nào của một thẻ phải giảm độ rộng, cao tương ứng nếu thẻ có chiều rộng hoặc cao cố định.
-- Tất cả các link phải có hover
-- Những button như Hủy,Gửi đặt trong thẻ input phải có thuộc tính cursor:pointer . 
-- Những Title chỉ có một dòng thì tránh dùng padding-left khi muốn cách đầu dòng_ nên dùng text-indent:px và nên sét chiều rộng và thuộc tính overflow:hidden.
-- Nếu thẻ <img/> đặt trong một thẻ khác mà hình ảnh quá nhỏ thì phải có thuộc tính font-size:1px trong thẻ chứa <img/>
-
-* ---------------------------Qui tắc đặt tên--------------*/
-.page{
-	
-	height:30px;
-	float:right;
-	text-align:center;
-	padding-top:20px;
-	
+.top-banner{
+	display:block;
+	height: 150px;
+	padding: 0;
+	overflow: hidden;
 }
 
-.page a{
-	color:#222222;
-	width:23px;
-	height:23px;
-	text-align:center;
-	line-height:23px;
-	background:url(../images/page_bg.jpg) no-repeat;
-	float:left;
-	margin-left:9px;
+.nav-tabs,
+.header{
+    background: #00a5e7;
+    color: #fff;
+    font-size: 12px;
+    height: 37px;
 }
-.page a:hover,.page a.active{
-	background:url(../images/page_active.png) no-repeat;
+
+.nav-tabs li a{
+    color: #fff;
+	display: block;
+	height: 35px;
+	margin-top: 2px;
+	border-radius: 0;
+}
+
+.nav-tabs li a:hover{
+    background: #fff;
+    color: #555;
+    display: block;
+    height: 35px;
+    margin-top: 2px;
+    border-radius: 0;
+}
+
+.shadow{
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(136,136,136,0.3);
+-moz-box-shadow: 0px 0px 2px 1px rgba(136,136,136,0.3);
+box-shadow: 0px 0px 2px 1px rgba(136,136,136,0.3);
+}
+
+.paging {
+	text-align: center;
+	margin: auto;
+	width: 300px;
+}
+.paging a{
+	background: url(../images/paging-normal.png) no-repeat scroll 0 0 transparent;
+	width: 23px;
+	height: 23px;
+	display: block;
+	text-align: center;
+	float: left;
+	padding-top: 2px;
+	text-decoration: none;
+	color: #333;
+    margin: 0 5px;
+}
+
+.paging a.active{
+    background: url(../images/paging-active.png) no-repeat scroll 0 0 transparent;
+    color: #fff;
+}
+
+.paging a.prev,
+.paging a.next{
+	background: none;
+    padding-top: 0;
+    color: #333;
+}
+
+
+.carousel-inner {
+	height: 150px;
+	display:block;
+}
+.top-banner .carousel-inner .item img{
+	width: 280px;
+	height: 150px;
+	margin: 0 0 0 10px;
+	float: right;
+}
+
+.faq-item {
+	border-bottom: dotted 1px #bdbcbc;
+	margin: 0 0 20px;
+	padding-bottom: 20px;
+}
+
+.faq-item .postdate{
+	font-size: 11px;
+	font-style: italic;
+	color: #999999;
+}
+
+.faq-item .label-question{
+	font-size: 14px;
+    color: #00a5e7;
+    margin: 5px 0;
+    display: block;
+    font-weight: bold;
+}
+
+.faq-item .label-answer{
+    font-size: 11px;
+    color: #00a5e7;
+    cursor: pointer;
+    margin: 10px 0 0;
+    display: block;
+}
+
+.faq-item .icon-plus{
+    background: url(../images/icon-plus.png) no-repeat scroll 0 0 transparent;
+    height: 13px;
+    text-indent: 20px;
+    line-height: 13px;
+}
+
+.faq-item .icon-minus{
+    background: url(../images/icon-minus.png) no-repeat scroll 0 0 transparent;
+    height: 13px;
+    text-indent: 20px;
+    line-height: 13px;
+}
+
+.faq-item .intro{
+    color: #444444;
+    font-weight: bold;
+}
+
+.faq-item .content {
+	background: #f2f2f2;
+	color: #666666;
+	display:none;
+	font-style: italic;
+	font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+   	padding: 15px;
+}
+
+.faq-item .content p {
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .header{
+	background: #555555;
 	color:#fff;
+	font-size: 12px;
+	height: 37px;
+	line-height: 37px;
+	margin-bottom: 10px;
+	text-indent: 20px;
+	text-transform: uppercase;
 }
-.last_child {
-	margin-right:0px!important;	
+
+.sidebar img{
+	display: block;
+	margin: 0 auto 10px;
 }
-.li_child {
-	border-bottom: none!important;
+
+.content {
+	background: #fff;
+	margin-top: 10px;
+	padding: 0 15px;
 }
-.last_none {
-	background:none!important;
+.sub-header {
+    color: #00a5e7;
+	font-size: 16px;
+	font-weight: bold;
+    height: 40px;
+	line-height: 40px;
+	text-transform: uppercase;
 }
+
+#map_canvas{
+	display:block;
+	height: 500px;
+}
+/**********************/
+
+
+body .container{
+    1border: solid 1px #000;
+}
+
+
+
+
+
+
+
+

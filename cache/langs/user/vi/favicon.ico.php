@@ -4,4 +4,5 @@
   'main_title' => 'Quản trị website',
   'pageTitle' => 'Trang chủ',
   'develop_get_obj_success' => 'Execute successful',
+  'group_global_module' => 'global',
 )?>

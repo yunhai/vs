@@ -160,7 +160,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b781b08c($objItems,$option)}
+{$this->__foreach_loop__id_5403fbe2d0248($objItems,$option)}
 
 EOF;
 }
@@ -208,7 +208,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b781b08c($objItems=array(),$option=array())
+function __foreach_loop__id_5403fbe2d0248($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -265,13 +265,12 @@ return $BWHTML;
 //===========================================================================
 function readContact($contact="",$contactProfile="") {global $bw;
 
-
-
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div id='viewFormContainer' class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-    <div >
-<span class="ui-dialog-title">{$this->getLang()->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
+    <div>
+<span class="ui-dialog-title">
+    {$this->getLang()->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
         <p style="float:right; cursor:pointer;">
 <span class='ui-dialog-title' id='closeread'>
 {$this->getLang()->getWords('obj_back', 'Back')}
@@ -280,17 +279,6 @@ $BWHTML .= <<<EOF
         </a>
 </div>
 <table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" width="100%">
-
-EOF;
-if( $this->getSettings()->getSystemKey("contact_form_name", 1, "contacts", 0, 1)) {
-$BWHTML .= <<<EOF
-
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 <tr class="smalltitle">
         <td class='left' width="100">{$this->getLang()->getWords('name')}:</td>
              <td>{$contact->getName()}</td>
@@ -307,7 +295,6 @@ $BWHTML .= <<<EOF
         <td class='left' width="100">{$this->getLang()->getWords('Content')}:</td>
              <td>{$contact->getContent()}</td>
 </tr>
-
         <tr class="smalltitle">
         <td class='left' width="100">{$this->getLang()->getWords('contactTime','Thời gian')}:</td>
             <td>{$this->dateTimeFormat($contact->getPostDate(),"d/m/Y")}</td>
@@ -318,6 +305,11 @@ $BWHTML .= <<<EOF
             <div style="background-color: #EBEEF7; padding: 5px;">
 {$contact->getContent()}
                </div>
+</td>
+</tr>
+<tr>
+        <td colspan="2" valign="top" style='padding: 2px 0;'>
+            <input id='replyButton' type='button' value='{$this->getLang()->getWords('contactReply', 'Trả lời')}' />
 </td>
 </tr>
 </table>

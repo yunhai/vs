@@ -7,6 +7,7 @@ class skin_posts extends skin_objectpublic {
 // <vsf:showDefault:desc::trigger:>
 //===========================================================================
 function showDefault($option=array()) {global $bw,$vsPrint;
+echo 413432;exit;
 $this->bw=$bw;
 $option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
 $option['title'] = VSFactory::getLangs()->getWords($bw->input[0]."s");
@@ -22,7 +23,7 @@ $BWHTML .= <<<EOF
             
             
             
-            {$this->__foreach_loop__id_53f0adfed2f99($option)}
+            {$this->__foreach_loop__id_540593ee53661($option)}
             
             
             <div class="clear"></div>
@@ -48,7 +49,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adfed2f99($option=array())
+function __foreach_loop__id_540593ee53661($option=array())
 {
 global $bw,$vsPrint;
     $BWHTML = '';
@@ -103,7 +104,7 @@ $BWHTML .= <<<EOF
            <div class="other">
            <p class="title_other">Các tin liên quan</p>
            <ul>
-           {$this->__foreach_loop__id_53f0adfed319b($obj,$option)}
+           {$this->__foreach_loop__id_540593ee537f7($obj,$option)}
            </ul>
            </div>
            
@@ -138,7 +139,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adfed319b($obj="",$option=array())
+function __foreach_loop__id_540593ee537f7($obj="",$option=array())
 {
 global $bw,$vsPrint;
     $BWHTML = '';

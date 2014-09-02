@@ -1,7 +1,9 @@
 <?php
-class skin_pages extends skin_objectpublic{
+class skin_posts extends skin_objectpublic{
+    
 	function showDefault($option = array()) {
 		global $bw,$vsPrint;
+		echo 413432;exit;
 		$this->bw=$bw;
 		$option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
 		$option['title'] = VSFactory::getLangs()->getWords($bw->input[0]."s");
@@ -47,8 +49,8 @@ class skin_pages extends skin_objectpublic{
     	<div class="clear"></div>
         
     </div>
-			
 EOF;
+            return $BWHTML;
 	}
 	
 	function showDetail($obj,$option = array()) {

@@ -4,26 +4,13 @@ require_once ('./cache/skins/user/finance/skin_board_public.php');
 class skin_objectpublic extends skin_board_public {
 
 //===========================================================================
-// <vsf:showDefault:desc::trigger:>
-//===========================================================================
-function showDefault($option=array()) {global $bw;
-echo 1233;exit();
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
 // <vsf:itemProduct:desc::trigger:>
 //===========================================================================
 function itemProduct($option=array()) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_53f0adf8ce149($option)}
+        {$this->__foreach_loop__id_540593e8b1be7($option)}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -32,7 +19,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adf8ce149($option=array())
+function __foreach_loop__id_540593e8b1be7($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -161,7 +148,7 @@ function showMore($option=array(),$count=4) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_53f0adf8ce52e($option,$count)}
+        {$this->__foreach_loop__id_540593e8b1e6e($option,$count)}
 <script type="text/javascript">
 var tallest = 0
 jQuery(document).ready(function(){
@@ -184,7 +171,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adf8ce52e($option=array(),$count=4)
+function __foreach_loop__id_540593e8b1e6e($option=array(),$count=4)
 {
 global $bw;
     $BWHTML = '';

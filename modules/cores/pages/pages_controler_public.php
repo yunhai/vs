@@ -1,13 +1,13 @@
 <?php
 require_once CORE_PATH.'pages/pages.php';
+      
 class pages_controler_public extends VSControl_public {
 	function __construct($modelName){
 		global $vsTemplate,$bw,$vsPrint,$vsSkin;
 		if(file_exists(ROOT_PATH.$vsSkin->basicObject->getFolder()."/skin_".$bw->input[0].".php")){
-			
-		parent::__construct($modelName,"skin_".$bw->input[0],"page",$bw->input[0]);;
+		  parent::__construct($modelName,"skin_".$bw->input[0],"page",$bw->input[0]);;
 		}else{
-		parent::__construct($modelName,"skin_pages","page",$bw->input[0]);
+		  parent::__construct($modelName,"skin_pages","page",$bw->input[0]);
 		}
 		unset($_SESSION['active']);
 	}
@@ -45,72 +45,11 @@ class pages_controler_public extends VSControl_public {
 				$this->export_exel();
 				break;	
 			default :
-				$this->showDefault ();
+			    $this->showCategory ( $bw->input [2] );
+// 				$this->showDefault ();
 				break;
 		}
 	}
-	
-	function export_exel(){
-  global $bw;
-  
- 
-  date_default_timezone_set ( "Asia/Ho_Chi_Minh" );
-    
-  require_once './Classes/ExExcel.php';
-  $phpExcel = new PHPExcel();
-  $time=time();
-  
-   $this->model->setCondition("status>=0");
-   $option['list']=$this->model->getObjectsByCondition();
-  $time=VSFactory::getDateTime()->getDate(time());
-  $foo = $phpExcel->getActiveSheet();
-  $foo->setCellValue("A1", "list Email -- {$time} ");
-  $foo->setCellValue("A2", "STT");
-  $foo->setCellValue("B2", "Email");
-  
-  $phpExcel->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
-  $phpExcel->getActiveSheet()->getColumnDimension("B")->setAutoSize(true);
-
-  $option['letter']=Object::getObjModule('pages', 'getEmail', '>-1', '', '');
-
-  $col=3;
-  foreach ($option['letter'] as $key=>$value){
-   $foo->setCellValue("A$col", "$value->stt");
-   $foo->setCellValue("B$col", "{$value->getTitle()}");
- 
-   $col++;
-  }
-  
-  //for ($i=0;$i<=100;$i++){
-   
-  //}
-  
-  
-  $phpExcel->getActiveSheet()->mergeCells('A1:F1');//->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-  //$phpExcel->getActiveSheet()->getStyle("A1:H1")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-  $phpExcel->getActiveSheet()->getStyle("A1:F1")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
-  ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-  $phpExcel->getActiveSheet()->getStyle("A1:A1000")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
-  ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-  /*$phpExcel->getActiveSheet()->getStyle("AH2:AJ2")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
-  ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);*/
- 
-  $phpExcel->setActiveSheetIndex(o);
- 
-  header("Content-Type: application/vnd.ms-excel");
-  header("Content-Disposition: attachment; filename=\"list-email-$time.xlsx\"");
-  header("Cache-Control: max-age=0");
- 
-  $objWriter = PHPExcel_IOFactory::createWriter($phpExcel, "Excel2007");
-  $objWriter->save("php://output");
-  exit;
-  
- }
-	function showVideo(){
-			global $bw,$vsStd;
-			$link=$bw->input['link'];
-			return $this->output=$this->getHtml()->showVideo($link);
-		}
 	
 	function showDefault($option=array()){
 		global $bw,$vsTemplate,$vsStd,$vsPrint;
@@ -141,26 +80,50 @@ class pages_controler_public extends VSControl_public {
 
 	function showCategory($catId){
 		global $bw,$vsPrint;
-        $category=VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
-		$idcate = $this->getIdFromUrl($catId);		
+		
+		$category=VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
+		$option['cate'] = $category->getChildren();
+		
+		if((!empty($bw->input[1]) && $bw->input[1] != 'category') || empty($catId)) {
+		   reset($option['cate']);
+		   $tmp = current($option['cate']);
+		
+		   $idcate = $tmp->getId();
+		   
+		   $index = 1;
+		   $url = $bw->input[0]."/";
+		   
+		} else {
+	       $idcate = $this->getIdFromUrl($catId);
+	       
+	       $index = 3;
+	       $url = $bw->input[0]."/".$bw->input[1]."/".$bw->input[2]."/";
+		}
+		
+		$option['current'] = $idcate;
 		$category=VSFactory::getMenus()->getCategoryById($idcate);
 		if(!$category){
 			$vsPrint->boink_it($bw->base_url);
 		}
 		
-		
 		$ids=VSFactory::getMenus()->getChildrenIdInTree($category);
-		$this->model->setCondition("status>0 and catId in ({$idcate})");
+		$this->model->setCondition("status>0 and catId in ({$ids})");
 		
-		$this->model->setOrder("`index` desc,id desc");
-		$option=$this->model->getPageList($bw->input[0]."/".$bw->input[1]."/".$bw->input[2]."/".$bw->input[3],4,VSFactory::getSettings()->getSystemKey($bw->input[0].'_paging_limit',12));
+		$this->model->setOrder("`index` desc, id desc");
+		
+		
+		$option[$idcate]=$this->model->getPageList($url,$index,VSFactory::getSettings()->getSystemKey($bw->input[0].'_paging_limit',12));
 
-		$option['title']=$category->getTitle();
-		$vsPrint->mainTitle=$vsPrint->pageTitle=$option['title'];
-        $option['cate'] = $category->getChildren();
+		
+		$vsPrint->mainTitle = $vsPrint->pageTitle = $category->getTitle();
+		
         $option['breakcrum']=$this->createBreakCrum(VSFactory::getMenus()->getCategoryById($idcate) );
         $option['obj']=$category;
      
+//         print "<pre>";
+//         print_r($option);
+//         print "</pre>";
+        
 		return $this->output = $this->getHtml()->showDefault($option);
 	}
 	function showDetail($objId,$option=array()){

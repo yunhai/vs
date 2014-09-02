@@ -256,7 +256,7 @@ Số lượng
 Thành tiền
 </th>
 </tr>
-{$this->__foreach_loop__id_53f47b8e676a6($obj,$option)}
+{$this->__foreach_loop__id_53f5c299191f8($obj,$option)}
 <tr>
 <th colspan="3" style="text-align:right;">Tổng cộng</th>
 <th style="text-align:right;">{$this->numberFormat($option['total'],0)} {$this->getLang()->getWords('currency','VNĐ')}</th>
@@ -350,7 +350,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b8e676a6($obj="",$option=array())
+function __foreach_loop__id_53f5c299191f8($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -455,7 +455,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b8e67d64($objItems,$option)}
+{$this->__foreach_loop__id_53f5c299197d8($objItems,$option)}
 
 EOF;
 }
@@ -651,7 +651,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b8e67d64($objItems=array(),$option=array())
+function __foreach_loop__id_53f5c299197d8($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';

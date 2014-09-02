@@ -42,4 +42,6 @@
   'action_edit' => 'Sửa',
   'action_delete' => 'Xóa',
   'category' => 'Danh mục',
+  'develop_get_obj_success' => 'Execute successful',
+  'move_to_categories' => 'Di chuyển tin đến',
 )?>

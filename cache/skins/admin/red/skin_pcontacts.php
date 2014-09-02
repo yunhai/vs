@@ -14,9 +14,8 @@ if(!$obj->getZoom()) $obj->setZoom($this->getSettings()->getSystemKey('default_z
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="vs_panel" id="vs_panel_{$this->modelName}">
-<div class="ui-dialog">
-<div >
-</div>
+  <div class="ui-dialog"><div>
+        </div>
 <form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
 <input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
 <input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
@@ -118,7 +117,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("category")}</label></td>
 <td>
 <select  name="{$this->modelName}[catId]">
-{$this->__foreach_loop__id_53f47b9173d3a($obj,$option)}
+{$this->__foreach_loop__id_5403f32e4d7d4($obj,$option)}
 </select>
 <br>
 </td>
@@ -429,7 +428,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b9173d3a($obj="",$option=array())
+function __foreach_loop__id_5403f32e4d7d4($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

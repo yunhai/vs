@@ -7,12 +7,11 @@ class skin_pcontacts extends skin_objectadmin {
 		if(!$obj->getLongitude()) $obj->setLongitude($this->getSettings()->getSystemKey('default_longitude','106.66831443098454'));
 		if(!$obj->getZoom()) $obj->setZoom($this->getSettings()->getSystemKey('default_zoom','17'));
 		$BWHTML .= <<<EOF
+		
 		<div class="vs_panel" id="vs_panel_{$this->modelName}">
-		<div class="ui-dialog">
-<div >
-
-</div>
-
+		  <div class="ui-dialog"><div>
+        </div>
+		
 		<form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
 		<input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
 		<input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
@@ -28,7 +27,6 @@ class skin_pcontacts extends skin_objectadmin {
 							</div>
 						</th>
 					</tr>
-					
 				</thead>
 				<tbody>
 				<tr>

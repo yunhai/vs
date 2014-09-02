@@ -32,7 +32,7 @@ $BWHTML .= <<<EOF
 <th class="id">{$this->getLang()->getWords("type", "Type")}</th>
 <th class="id">{$this->getLang()->getWords("module", "Module")}</th>
 <th class="title">{$this->getLang()->getWords("key", 'Key')}</th>
-{$this->__foreach_loop__id_53f47b7f89113($objItems,$option)}
+{$this->__foreach_loop__id_53f5c29368e02($objItems,$option)}
 <th class="action">{$this->getLang()->getWords("action")}</th>
 </tr>
 </thead>
@@ -42,7 +42,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b7f891ce($objItems,$option)}
+{$this->__foreach_loop__id_53f5c29368e99($objItems,$option)}
 
 EOF;
 }
@@ -127,7 +127,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b7f89113($objItems=array(),$option=array())
+function __foreach_loop__id_53f5c29368e02($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -152,7 +152,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b7f891ce($objItems=array(),$option=array())
+function __foreach_loop__id_53f5c29368e99($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -218,7 +218,7 @@ $BWHTML .= <<<EOF
 <label>
 {$this->getLang()->getWords('search_language', 'Languages')}
 </label>
-{$this->__foreach_loop__id_53f47b7f89653($option)}
+{$this->__foreach_loop__id_53f5c293692b6($option)}
 <br />
 <label>
 {$this->getLang()->getWords('search_type', 'Types')}
@@ -452,7 +452,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b7f89653($option=array())
+function __foreach_loop__id_53f5c293692b6($option=array())
 {
 global $bw;
     $BWHTML = '';

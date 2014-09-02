@@ -13,7 +13,7 @@ $this->bw = $bw;
 $BWHTML .= <<<EOF
         <div class="content_mid">
 <div class="content_mid_title">{$vsPrint->mainTitle}</div>
-{$this->__foreach_loop__id_53f0adff38e79($option)}
+{$this->__foreach_loop__id_540593eeaba01($option)}
 <div class="clear"></div>
 <div class="page"> {$option['paging']}</div>
 </div>
@@ -25,7 +25,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adff38e79($option=array())
+function __foreach_loop__id_540593eeaba01($option=array())
 {
 global $bw,$vsPrint;
     $BWHTML = '';
@@ -202,7 +202,7 @@ $BWHTML .= <<<EOF
 </div>
 </div>
 <div class="other">Sản phẩm khác</div>
-{$this->__foreach_loop__id_53f0adff391ad($obj,$option)}
+{$this->__foreach_loop__id_540593eeabe45($obj,$option)}
 <div class="clear"></div>
 </div>
 <script>
@@ -217,7 +217,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f0adff391ad($obj="",$option=array())
+function __foreach_loop__id_540593eeabe45($obj="",$option=array())
 {
 global $bw, $vsPrint;
     $BWHTML = '';

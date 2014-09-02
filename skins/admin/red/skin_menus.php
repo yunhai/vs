@@ -62,10 +62,7 @@ $BWHTML .= <<<EOF
 <tr>
     <td>{$this->getLang()->getWords('menu_form_link',"Url")}</td>
     <td>
-    	
     	<input type="text" value="{$menu->url}" name="menuUrl" size="35" />
-    	
-		
 	</td>
 </tr>
 <tr>

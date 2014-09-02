@@ -15,126 +15,45 @@ class skin_global extends skin_board_public{
 	//
 	function vs_global(){
 		global $bw, $vsLang;
-//		$vsLang = VSFactory::getLangs();
-
 		
-		$total = count($_SESSION['vs_item_cart']);
 		$BWHTML .= <<<EOF
-		<script type="text/javascript">
-			$(document).ready(function(){
-			$('.cate_sitebar li:last').addClass('li_child');
-			$('.main_menu ul li a:first').addClass('last_none');
-			$('.top_menu ul li a:first').addClass('last_none');
-			$('.menu_boot ul li a:last').addClass('last_none');
-			$('.cate_sitebar ul > li > ul  li:first').addClass('cate_top');
-			
-			
-				var count=1;
-				$('.block1 .box_item').each(function(){
-				if(count%3==0)
-				$(this).addClass('last_child');
-				count ++;
-				});
-				
-				var count=1;
-				$('.block2 .pro_item').each(function(){
-				if(count%3==0)
-				$(this).addClass('last_child');
-				count ++;
-				});
-				var count=1;
-				$('.center .project_item').each(function(){
-				if(count%2==0)
-				$(this).addClass('last_child');
-				count ++;
-				});
-			
-			});
-		</script>
-			<script>
-				$(document).ready(function(){
-					$('.bxslider').bxSlider({
-					 mode: 'fade',
-					 infiniteLoop: true,
-					 hideControlOnEnd: true,
-					 controls: false,
-					 pager: false,
-					auto: true
-					});
-				});
-            </script>
-			
-		<script type="text/javascript">
-		$(document).ready(function(){
-			
-			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-   				var check_device=1;
-				
-  			}
-  			if(check_device==1){
-  				
-  				$('.banner').css({'width':'1100px'});
-				$('.footer').css({'width':'1100px'});
-				$('.menu_top li a').css({'font-size':'10px'});
-				$('.menu_top li a').css({'padding-left':'5px'});
-				$('.menu_top').css({'left':'60px'});
-				$('.slogan').css({'left':'100px'});
-				$('.bg_right_head').css({'right':'-200px'});
-				$('.bg_left_head').css({'width':'80px'});
-				$('.bott_right_head').remove();
-				
-  			}
-  			
-		});
-		</script>
-			
 		
-	<if="$bw->input[0]!='home' ">
-		<div class="bg_left_head"></div>
-		<div class="bg_right_head"></div>
-		<div class="header">
-        	<div class="wrap_header">
-            	<div class="wrap_letf">
-            	<a href="{$bw->base_url}"><img src="{$bw->vars['img_url']}/logo.png" /></a>
-            	<div class="bott_left_head"></div>
-            	</div>
-                <div class="wrap_right">
-                <div class="slogan">Today - Tomorrow and Forever</div>
-                	{$this->getAddon()->getMenuTop($option)}
-                	<div class="bott_right_head"></div>
-                </div>
-            </div>
+		<div class="navbar navbar-default navbar-static-top" role="navigation">
+          <div class="main-container container">
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-earphone"></span>&nbsp;Hotline
+                        <span class='hotline'>{$this->getSettings()->getSystemKey('configs_hotline', '0937256242', 'configs')}</span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hỗ trợ trực tuyến</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                  </ul>
+                </li>
+              </ul>
+              {$this->getAddon()->getMenuTop($option)}
+            </div><!--/.nav-collapse -->
+          </div>
         </div>	
-	</if>
-	{$this->SITE_MAIN_CONTENT}
-	<if="$bw->input[0]!='home' ">
-		<div class="footer">
-    	<div class="wrap_footer">
-        	<div class="left">
-            	{$this->getAddon()->getHtml()->getContactFooter()}
-            </div>
-            <div class="right">
-            	{$this->getAddon()->getAnalytic()}
-                <div class="vs">
-            <a href='http://www.vietsol.net/' target='_blank' rel="" title='Thiết kế web chuyên nghiệp' style="color:#7c7b7b">Thiết kế web </a><span style="color:#7c7b7b">bởi</span>
-            <a href='http://www.vietsol.net/gioi-thieu-cong-ty-thiet-ke-web/' rel="nofollow" target='_blank' title='Công ty thiết kế web' style="color:#7c7b7b;">Viet Solution</a>
-                    
-</div>
-            </div>
+		
+		
+		<div class="container">
+          <div class="row">
+            {$this->getAddon()->getJumotron()}
+            
+            {$this->SITE_MAIN_CONTENT}
+          </div>
         </div>
-    </div>
-	</if>
 EOF;
 	return $BWHTML;
 	}
 	
-	function getSiteBar($option=null){
-		global $bw,$vsLang,$vsMenu,$vsSettings,$urlcate,$vsExperts,$vsTemplate;
-		$BWHTML .= <<<EOF
-EOF;
-						
-		return $BWHTML;
-	}
 	
 	function addCSS($cssUrl="", $media = "") {
 		$media = $media?"media='$media'":'';

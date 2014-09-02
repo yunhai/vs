@@ -31,9 +31,17 @@ class addon_public extends addon_public_board{
 		return $this->getHtml()->getMenuTop($option);
 	}
 	
+	function getJumotron() {
+	    return $this->getHtml()->getJumotron();
+	}
 	
+	function getSidebar(){
+	    return $this->getHtml()->getSideBar($option);
+	}
+	
+	////////////////////////////////////////////
 	function getMenuMain($option=array()){
-		global   $bw;
+		global $bw;
 		
 		$option['menu']=VSFactory::getMenus()->getMenuByPosition('main');
         $option['list'] = VSFactory::getMenus()->getListGroup();   
@@ -56,7 +64,6 @@ class addon_public extends addon_public_board{
 			}
 			if(in_array($menu->getUrl(), array("lease/"))){
 				$option['obj_lease'][$menu->getId()]=Object::getObjModule('pages', 'lease', '>0', '', '');
-
 			}
 			
 		}
@@ -80,10 +87,6 @@ class addon_public extends addon_public_board{
 
 	
 	
-	function getBanner(){
-		$option['banner']=Object::getObjModule('pages', 'slidebanner', '>0', '', '');
-	  return $this->getHtml()->getBanner($option);
-	}
 	
 	
 	
@@ -107,7 +110,7 @@ class addon_public extends addon_public_board{
 	  return $this->getHtml()->getNewsBlock($option);
 	}
 	function getAdsBlock(){
-		$option['ads']=Object::getObjModule('banners', 'banners', '>0', '', '');
+	  $option['ads']=Object::getObjModule('banners', 'banners', '>0', '', '');
 	  return $this->getHtml()->getAdsBlock($option);
 	}
 	function getProMaxBlock(){

@@ -24,4 +24,11 @@
   'intro' => 'Mô tả',
   'error_title' => 'Error Title',
   'develop_get_obj_fail' => 'No object was found',
+  'page_index' => 'Trang',
+  'group_global_module' => 'global',
+  'tab_admin' => 'Tài khoản',
+  'tab_admin_changpassword' => 'Thay đổi mật khẩu',
+  'tab_admingroup' => 'Quản lý nhóm',
+  'settings_ss' => 'Cấu hình settings',
+  'no_data' => 'Hiện không có dữ liệu',
 )?>

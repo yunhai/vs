@@ -32,7 +32,7 @@ EOF;
 if(count($option['pageList'])&&is_array($option['pageList'])) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b9684834($option)}
+{$this->__foreach_loop__id_53f5c29d86c05($option)}
 
 EOF;
 }
@@ -50,7 +50,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b9684834($option=array())
+function __foreach_loop__id_53f5c29d86c05($option=array())
 {
 global $vsLang, $bw;
     $BWHTML = '';

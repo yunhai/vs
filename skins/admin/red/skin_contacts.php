@@ -185,7 +185,6 @@ EOF;
             	<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_delete',1)">
 				<input value="Xóa" type="button" onClick="btnRemoveItem_Click({$obj->getId()})" class="btnDelete">
 				</if>
-				
 EOF;
             return $BWHTML;
         }
@@ -195,14 +194,12 @@ EOF;
 
 	function readContact($contact, $contactProfile){
 			global $bw;
-			
-			
-			
 		
 			$BWHTML .= <<<EOF
 				<div id='viewFormContainer' class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-				    <div >
-						<span class="ui-dialog-title">{$this->getLang()->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
+				    <div>
+						<span class="ui-dialog-title">
+						    {$this->getLang()->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
 				        	<p style="float:right; cursor:pointer;">
 							<span class='ui-dialog-title' id='closeread'>
 								{$this->getLang()->getWords('obj_back', 'Back')}
@@ -212,9 +209,6 @@ EOF;
 					</div>
 					
 					<table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" width="100%">
-						<if=" $this->getSettings()->getSystemKey("contact_form_name", 1, "contacts", 0, 1)">
-						
-						</if>
 						<tr class="smalltitle">
 				        	<td class='left' width="100">{$this->getLang()->getWords('name')}:</td>
 				             <td>{$contact->getName()}</td>
@@ -233,7 +227,6 @@ EOF;
 				             <td>{$contact->getContent()}</td>
 						</tr>
 						
-						
 				        <tr class="smalltitle">
 				        	<td class='left' width="100">{$this->getLang()->getWords('contactTime','Thời gian')}:</td>
 				            <td>{$this->dateTimeFormat($contact->getPostDate(),"d/m/Y")}</td>
@@ -246,8 +239,12 @@ EOF;
 				               	</div>
 							</td>
 						</tr>
+						<tr>
+				        	<td colspan="2" valign="top" style='padding: 2px 0;'>
+				            	<input id='replyButton' type='button' value='{$this->getLang()->getWords('contactReply', 'Trả lời')}' />
+							</td>
+						</tr>
 					</table>
-					
 				</div>
 
 				<script type='text/javascript'>

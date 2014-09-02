@@ -2,122 +2,124 @@
 class skin_addon extends skin_board_public {
 
 	
-	
-function getTags($obj){
-		global $bw;
-		
-		
-		require_once CORE_PATH.'tags/tags.php';
-//		$option['category']=VSFactory::getMenus()->getCategoryGroup('products');
-//		$ids=VSFactory::getMenus()->getChildrenIdInTree($category->getId());
-		$tags=new tags();
-		//$tags->setCondition("status>0");
-		$tags->setCondition("`id` IN (SELECT `tagId` FROM `vsf_tagcontent` WHERE `contentId` ={$obj->getId()})");
-		 
-		//$tags->setOrder("`index`");
-		$this->list_tag=$tags->getObjectsByCondition();
-		
-		
-		$BWHTML .= <<<EOF
-		
-		<if="$this->list_tag">
-			<div class="tag_detail"><span>Tag:</span>
-				<foreach="$this->list_tag as $obj">
-	                <a  href="{$bw->base_url}products/tags/{$obj->getSlugId()}">{$obj->getTitle()} </a>
-	            </foreach>
-			</div>
-		</if>
-        
-EOF;
-		return $BWHTML;
-	}		
-	
-	
-	
-	
-	
-	
-	
-	function getBannerHome($option) {
-		global $bw, $vsPrint;
-		$option['banners']=Object::getObjModule('banners', 'banners', '>0', '', '');
-		$vsPrint->addCurentJavaScriptFile ('jquery.nivo.slider.pack');
-		$vsPrint->addCSSFile('nivo-slider');
-		$BWHTML .= <<<EOF
-		<script type="text/javascript">
-	$(window).load(function() {
-        $('#slider').nivoSlider({
-        effect : 'random',
-        slices:18,
-        animSpeed:1000,
-        pauseTime:3000,
-        startSlide:0,
-        directionNav:false,
-        directionNavHide:true,
-        controlNav:false,
-        controlNavThumbs:false,
-        controlNavThumbsFromRel:true,
-        keyboardNav:true,
-        pauseOnHover:true,
-        manualAdvance:false
-    });
-});
-	</script>		
-				<div id="slider" class="nivoSlider">
-					<foreach="$option['banners'] as $obj ">
-					<a href="{$obj->getUrl()}">{$obj->createImageCache($obj->getImage(),1400,675)}</a>
-					</foreach>
-				</div>
-	
-		
-EOF;
-		return $BWHTML;
-	}
-	
-
-
-
-
-	
 	function getMenuTop($option = array()) {
 		global $bw,$vsLang;
 		$this->bw = $bw;
 		$vsLang = VSFactory::getLangs();
+		
 		$BWHTML .= <<<EOF
-		<div class="menu_top">
-		<ul>
-				
-				<foreach="$option['menu'] as $mn">
-              	<li class="menu_li_{$vsf_count}"><a  href="{$this->bw->base_url}{$mn->getUrl()}" class="{$mn->active}">{$mn->getTitle()}</a>
-                	<ul>
-                		<div class="bg_submenu"></div>
-                    	<if="$mn->getCate()&&$option ['list'][$mn->getCate()] ">
-	                    	<foreach="$option ['list'][$mn->getCate()]->getChildren() as $mnChil">
-		                    	<li><a href="{$mnChil->getCatUrl()}">{$mnChil->getTitle()}</a>
-	                        </foreach>
-                        </if>
-                        
-                        <foreach="$option['obj_customers'][$mn->getId()] as $page ">
-                            <li><a href="{$page->getUrl('customers')}"><span>{$page->getTitle()}</span></a></li>
-                        </foreach>		
-                        
-                    </ul>
-                </li>
-                </foreach>	
-            </ul>
-	</div>
-	<style>
-		.menu_li_1 ul, .menu_li_2 ul, .menu_li_3 ul, .menu_li_7 ul{
-			display:none!important;
-		}
-		.menu_li_6 ul {
-			margin-left:20px!important;
-		}
-	</style>
+          <ul class="nav navbar-nav navbar-right">
+            <foreach=" $option['menu'] as $menu ">
+                <if=" $menu->getAlt() == 'users_login' ">
+                    <li class='dropdown'>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
+                        <ul class="dropdown-menu" role="menu">
+        	                <li>
+        	                   <form>
+        	                       <input type='button' value='đăng nhập' />
+        	                   </form>
+        	                </li>
+                        </ul>
+                    </li>
+                <else />
+                    <li><a href="{$menu->getUrl(false)}" class='menu-item {$menu->getAlt()}' title='{$menu->getTitle()}'>{$menu->getTitle()}</a></li>
+                </if>
+            </foreach>
+          </ul>
 EOF;
 		return $BWHTML;
 	}
 	
+	function getJumotron($option = array()) {
+	    global $bw, $vsStd, $vsLang;
+	
+	    $vsStd->requireFile(CORE_PATH."banners/banners.php");
+	    $model = new banners();
+	
+	    $option['news'] = $model->getByPosition('BANNER_TOP');
+	    
+	    $option['news'] = array_merge($option['news'], $option['news'], $option['news'],$option['news']);
+	    $this->index = 0;
+	    
+	    $BWHTML .= <<<EOF
+        <div class="jumbotron">
+          <div class="container">
+            <div class='col-md-5 pull-left'>
+                <a class='branch-name' href='{$bw->base_url}' title='{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}'>
+                    <img alt='logo' src="{$bw->vars['img_url']}/logo.png" />
+                    
+                    <h1>{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}</h1>
+                    <span>{$this->getSettings()->getSystemKey('configs_slogan', 'slogan here!', 'configs')}</span>
+                <div class='clear'></div>
+                </a>
+            	<form class='search' name="search" method="get" action="{$bw->base_url}posts/search" >
+            	    <input class="input" type="input" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" name='keywords' />
+                    <input class="submit" type="submit" value="Tìm" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" />
+                    <div class="clear"></div>
+                </form>
+            </div>
+            
+            
+            
+            <div id="carousel-example-generic" class="carousel col-md-7 top-banner slide pull-right" data-type="multi" data-interval="3000" >
+                  <!-- Wrapper for slides -->
+                  <div class="carousel-inner">
+                    <foreach="$option['news'] as $obj ">
+                    <div class="item <if=" $this->index++ == 0">active</if>">
+                        {$obj->createImageCache($obj->getImage(),280, 150)}
+                    </div>
+                    </foreach>
+                  </div>
+            </div>
+            <script>
+                    $('.carousel[data-type="multi"] .item').each(function(){
+                      var next = $(this).next();
+                      if (!next.length) {
+                        next = $(this).siblings(':first');
+                      }
+                      next.children(':first-child').clone().appendTo($(this));
+                      
+                      for (var i=0; i<2; i++) {
+                        next=next.next();
+                        if (!next.length) {
+                        	next = $(this).siblings(':first');
+                      	}
+                        
+                        next.children(':first-child').clone().appendTo($(this));
+                      }
+                    });
+                                                  
+                    $('.carousel').carousel({
+                      interval: 5000,
+                      wrap: true
+                    });
+                </script>
+          </div>
+        </div>
+EOF;
+	    return $BWHTML;
+	}
+	
+	function getSideBar($option) {
+        global $vsStd;
+         
+        $vsStd->requireFile(CORE_PATH."banners/banners.php");
+        $model = new banners();
+    
+        $option['banner'] = $model->getByPosition('BANNER_RIGHT');
+        
+        $BWHTML .= <<<EOF
+		<div class='col-md-3 sidebar'>
+		    <div class='header'>
+	           {$this->getLang()->getWords('global_sidebar_ad', 'Quảng cáo')}
+		    </div>
+          	<foreach="$option['banner'] as $obj ">
+	           {$obj->createImageCache($obj->getImage(),200, 0)}
+          	</foreach>
+         </div>
+EOF;
+      	 return $BWHTML;
+	}
 	
 	function getSocial($option=array()){
 		global $bw;
@@ -430,7 +432,9 @@ EOF;
 	function getAdsSitebar($option = array()) {
 		global $bw;
 		$this->bw=$bw;
-		$option['news']=Object::getObjModule('pages', 'ads', '>0', '', '');
+		$option['news']=Object::getObjModule('pages', 'banners', '>0', '', '');
+		
+		$option['ads']=Object::getObjModule('banners', 'banners', '>0', '', '');
 		$BWHTML .= <<<EOF
 			<div class="ads_sitebar">
               	<foreach="$option['news'] as $obj ">

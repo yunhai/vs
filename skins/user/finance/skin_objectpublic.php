@@ -1,12 +1,5 @@
 <?php
 class skin_objectpublic extends skin_board_public{
-	function showDefault($option = array()) {
-		global $bw;
-		echo 1233;exit();
-		$BWHTML .= <<<EOF
-	
-EOF;
-	}
 function itemProduct($option = array()) {
 		global $bw;
 		$BWHTML .= <<<EOF

@@ -79,9 +79,7 @@ $BWHTML .= <<<EOF
 <tr>
     <td>{$this->getLang()->getWords('menu_form_link',"Url")}</td>
     <td>
-    
     <input type="text" value="{$menu->url}" name="menuUrl" size="35" />
-    
 </td>
 </tr>
 <tr>
@@ -227,7 +225,7 @@ $BWHTML .= <<<EOF
 <td>
 <select name="menuCate" id="menuCate">
                     <option> Chọn danh mục </option>
-                    {$this->__foreach_loop__id_53f47b86df2f5($form,$message,$menu)}
+                    {$this->__foreach_loop__id_53f9b2dbdf495($form,$message,$menu)}
                 </select>
 </td >
 </tr>
@@ -275,7 +273,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b86df2f5($form=array(),$message="",$menu="")
+function __foreach_loop__id_53f9b2dbdf495($form=array(),$message="",$menu="")
 {
 global  $vsMenu,$bw;
     $BWHTML = '';

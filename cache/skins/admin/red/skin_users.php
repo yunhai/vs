@@ -181,7 +181,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f47b9f751a9($objItems,$option)}
+{$this->__foreach_loop__id_53f5c2a101bf0($objItems,$option)}
 
 EOF;
 }
@@ -369,7 +369,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b9f751a9($objItems=array(),$option=array())
+function __foreach_loop__id_53f5c2a101bf0($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -508,7 +508,7 @@ $BWHTML .= <<<EOF
 <td style="width: 111px;"><label>{$this->getLang()->getWords('location')}</label></td>
 <td>
 <select name="{$this->modelName}[location]">
-{$this->__foreach_loop__id_53f47b9f75caf($obj,$option)}
+{$this->__foreach_loop__id_53f5c2a102820($obj,$option)}
 </select>
 </td>
 </tr>
@@ -826,7 +826,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b9f75bee($obj="",$option=array(),$lca='')
+function __foreach_loop__id_53f5c2a102758($obj="",$option=array(),$lca='')
 {
 ;
     $BWHTML = '';
@@ -860,7 +860,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b9f75caf($obj="",$option=array())
+function __foreach_loop__id_53f5c2a102820($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -882,7 +882,7 @@ EOF;
 
 $BWHTML .= <<<EOF
  value="{$lca->getId()}">{$lca->getTitle()}</option>
-{$this->__foreach_loop__id_53f47b9f75bee($obj,$option,$lca)}
+{$this->__foreach_loop__id_53f5c2a102758($obj,$option,$lca)}
 
 EOF;
 $vsf_count++;

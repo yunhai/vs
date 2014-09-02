@@ -39,7 +39,7 @@ $BWHTML .= <<<EOF
 <input type="hidden" name="currentAction" value="{$bw->input['action']}" />
 {$title}
 <select name='languageid' id="language-list">
-{$this->__foreach_loop__id_53f47b6b36ae6($arrayObj,$title)}
+{$this->__foreach_loop__id_53f5c28dabfeb($arrayObj,$title)}
 </select>
 </form>
 </div>
@@ -64,7 +64,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b6b36ae6($arrayObj=array(),$title='')
+function __foreach_loop__id_53f5c28dabfeb($arrayObj=array(),$title='')
 {
 global $bw;
     $BWHTML = '';
@@ -127,7 +127,7 @@ $BWHTML .= <<<EOF
 {$this->vsLang->getWords('global_notification', 'Notifications')}: <span id='notify'><b>{$option['total']}</b></span>
 </div>
 <div id='notifylist' style='display:none;'>
-        {$this->__foreach_loop__id_53f47b6b36d29($option)}
+        {$this->__foreach_loop__id_53f5c28dac262($option)}
         <div id='allnotify'>
         <a href='{$bw->base_url}notifys/mylist' title='{$this->vsLang->getWords('global_all_notification', 'All notifications')}'>
         {$this->vsLang->getWords('global_all_notification', 'All notifications')}
@@ -167,7 +167,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f47b6b36d29($option="")
+function __foreach_loop__id_53f5c28dac262($option="")
 {
 global $bw;
     $BWHTML = '';

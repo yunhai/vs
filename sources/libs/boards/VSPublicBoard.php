@@ -3,12 +3,14 @@ class VSPublicBoard {
 	protected  $tabs=array();
 	function auto_run($module,$defaultModel="") {
 		global $bw;
+		
 		//$cClass=$bw->input[0];
 		if(!$bw->input [1]){
 			$action=$defaultModel?$defaultModel:$module;
 		}else{
 			$action=$bw->input [1];
 		}
+		
 		$expl=explode('_',$action);
 		if(!file_exists(CORE_PATH.$module."/{$expl[0]}_controler_public.php")){
 			$action=($defaultModel?$defaultModel:$module)."_".$action;
@@ -24,12 +26,12 @@ class VSPublicBoard {
 					$controler=new $class($cClass);
 					if(method_exists($controler,"auto_run")){
 						$bw->input['action']=$action;
-							$controler->auto_run();
-							return $this->setOutput($controler->getOutput());
+						$controler->auto_run();
+						return $this->setOutput($controler->getOutput());
 					}else die("$cClass::auto_run()  not exist!");
 				}
 			}else{
-				die("controler  not exist!");
+				die("controler not exist!");
 			}
 		}
 	}
