@@ -30,6 +30,11 @@ define ( 'USE_MODULES', 1 );
 define ( 'RELOAD_CACHE', 1 );
 define ( 'USE_SHUTDOWN', 1 );
 define("MAX_FILE_SIZE", 100*1024*1024);
+
+define ( "USER_TYPE_NORMAL", 1);
+define ( "USER_TYPE_VIP", 2);
+
+
 /////////////////////////////SHOW SQL ERROR
 ///////////fore debug set to 1 then for run on host set to 0
 define ( "SHOW_SQL_ERROR"	, 0);

@@ -15,7 +15,7 @@ function showDefault($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_540594e3ad435($option)}
+                {$this->__foreach_loop__id_5405ccf9eba61($option)}
             </ul>
                 
             <div class='content'>
@@ -27,7 +27,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_540594e3ad645($option)}
+                    {$this->__foreach_loop__id_5405ccf9ebc68($option)}
                 </div>
             </div>
             <script>
@@ -46,7 +46,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540594e3ad435($option=array())
+function __foreach_loop__id_5405ccf9eba61($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -82,7 +82,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540594e3ad5a4($option=array(),$key='',$cat='')
+function __foreach_loop__id_5405ccf9ebbad($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -115,7 +115,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540594e3ad645($option=array())
+function __foreach_loop__id_5405ccf9ebc68($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -142,7 +142,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                {$this->__foreach_loop__id_540594e3ad5a4($option,$key,$cat)}
+                                {$this->__foreach_loop__id_5405ccf9ebbad($option,$key,$cat)}
             
                                 
 EOF;
@@ -213,7 +213,7 @@ function showForm($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_540594e3ada0b($option)}
+                {$this->__foreach_loop__id_5405ccf9ec001($option)}
             </ul>
     
             <div class='content'>
@@ -225,7 +225,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_540594e3adb2e($option)}
+                    {$this->__foreach_loop__id_5405ccf9ec12f($option)}
                 </div>
             </div>
             <script>
@@ -244,7 +244,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540594e3ada0b($option=array())
+function __foreach_loop__id_5405ccf9ec001($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -280,7 +280,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540594e3adb2e($option=array())
+function __foreach_loop__id_5405ccf9ec12f($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -328,7 +328,7 @@ $BWHTML .= <<<EOF
                                   <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                                     <div class="col-sm-10">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value='yunha@mail.com'>
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
                                     </div>
                                   </div>
                                   <div class="form-group">

@@ -32,6 +32,7 @@ class users extends VSFObject {
 		}
 		$_SESSION['user']['obj']=$obj->convertToDB();
 	}
+	
 	function getObjectByName($name){
 		$name=strtolower($name);
 		$this->setCondition("name='$name'");

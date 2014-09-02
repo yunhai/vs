@@ -145,43 +145,12 @@ function getContactForm($option = array(), $category = array()) {
                 </div>
               </div>
           </form>
-		<!--
-                    <form id="contact" class="contact" method="POST" action="">
-                     <label>Họ tên<span>(*)</span> </label><input class="an" name="name" required type="name" class="col_left" value="{$option['obj']->getName()}"  />
-                    <div class="clear"></div>
-                    
-                   
-                    
-                    <label>Điện thoại<span>(*)</span></label><input name="phone" required type="name"  value="{$option['obj']->getPhone()}"  />
-                    <div class="clear"></div>
-                    
-                    <label>Email<span>(*)</span></label><input  name="email" required type="email" value="{$option['obj']->getEmail()}"  />                           
-                    <div class="clear"></div>
-                    
-                  	<label>Tiêu đề<span>(*)</span> </label><input class="an" name="title" required type="name" class="col_left" value="{$option['obj']->getTitle()}"  />
-                    <div class="clear"></div>
-                    <label>Nội dung:</label><textarea class="an" name="content">{$option['obj']->getContent()}</textarea>
-                    <div class="clear"></div>
-                     <label>Mã bảo vệ :</label><input  name="sec_code"  type="text" style="width:100px" />
-                     <img id="siimage" src="{$bw->vars['board_url']}/vscaptcha/" />
-                     <a href="#" id="reload_img" class="mamoi">refresh</a>
-                    <div class="clear"></div> 
-                    <input type="submit" name="btnSubmit" value="Gửi" class="input_submit" />
-                    <input type="reset" name="btnSubmit" value="Làm lại" class="input_reset" />
-                   
-                    <div class="clear"></div>
-               </form>
-                             -->
-                 <script>
-                            $("#reload_img").click(function(){
-                            $("#siimage").attr("src",$("#siimage").attr("src")+"?a");
-                            return false;
+         <script>
+                $("#reload_img").click(function(){
+                    $("#siimage").attr("src",$("#siimage").attr("src")+"?a");
+                    return false;
 				});
-				
-					
-							
-</script>
-                    
+        </script>
 EOF;
 	} 
 	

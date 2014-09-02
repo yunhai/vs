@@ -420,16 +420,18 @@ class Object {
 		if(!$this->basicObject->getPostDate()){
 			$this->basicObject->setPostDate(time());
 		}
+		
 		if ($object instanceof $this->basicClassName && is_object ( $object ) && $object)
 			$this->basicObject = $object;
 		call_plugin("plugin_".get_class($this)."_insert",array(&$this->basicObject));
 		
 		if (! $this->validateObject ())
 			return false;
+		
 		$this->onInsertObject($this->basicObject);
 		$dbObj = $this->basicObject->convertToDB ();
 		if ($DB->do_insert ( $this->tableName, $dbObj )) {
-			$this->createMessageSuccess ( 'Insert Object success' );
+			$this->createMessageSuccess('Insert Object success' );
 			$this->basicObject->setId ( $DB->get_insert_id () );
 			return $this->result ['status'];
 		}

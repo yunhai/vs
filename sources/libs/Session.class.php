@@ -53,38 +53,44 @@ class VSFSession {
 
 	function createUserSession() {
 		global $vsUser;
-		$thisTime = time();
+		
+		$vsUser->basicObject->convertToObject($_SESSION[APPLICATION_TYPE]['obj']);
+		
+// 		print "<pre>";
+// 		print_r($vsUser);
+// 		print "</pre>";exit;
+// 		$thisTime = time();
 
-//		if(!isset($_SESSION[APPLICATION_TYPE]['session'])){
-//			$vsUser->sessions->deleteSession();
-//			$vsUser->sessions->basicObject->setTime($thisTime);
-//			$vsUser->sessions->basicObject->setCode($thisTime);
-//			$vsUser->sessions->basicObject->setUserId(0);
-//			$vsUser->sessions->insertObject();
-////			$vsCounter->insertCounter(1,1,0);
-////			$_SESSION[APPLICATION_TYPE]['session'] = $vsUser->sessions->basicObject->convertToDB();
-//
-//		}
-//		else{
-//			$vsUser->sessions->setCondition('sessionId='.$_SESSION[APPLICATION_TYPE]['session']['sessionId']);
-//			$vsUser->sessions->getOneObjectsByCondition();
-//			$vsUser->sessions->basicObject->setTime($thisTime);
-//			$vsUser->sessions->basicObject->setCode($thisTime);
-//			$vsUser->sessions->basicObject->setUserId($_SESSION[APPLICATION_TYPE]['session']['userId']);
-//			$vsUser->sessions->setCondition("sessionId={$vsUser->sessions->basicObject->getId()}");
-//			if($vsUser->sessions->result['status']) $vsUser->sessions->updateObjectById($vsUser->sessions->obj);
-//			else{
-//				$vsUser->sessions->insertObject();
-//				$_SESSION[APPLICATION_TYPE]['session'] = $vsUser->sessions->basicObject->convertToDB();
-////				$vsCounter->insertCounter(1,0,1);
-//			}
-//			$vsUser->basicObject->convertToObject($_SESSION[APPLICATION_TYPE]['obj']);
-//			
-//			if(count($_SESSION[APPLICATION_TYPE]['vsgroups'])>0)
-//			foreach ($_SESSION[APPLICATION_TYPE]['vsgroups'] as $groupId) {
-//				$vsUser->basicObject->addGroup($vsUser->groupusers->getGroupById($groupId));
-//			}
-//		}
+// 		if(!isset($_SESSION[APPLICATION_TYPE]['session'])){
+// 			$vsUser->sessions->deleteSession();
+// 			$vsUser->sessions->basicObject->setTime($thisTime);
+// 			$vsUser->sessions->basicObject->setCode($thisTime);
+// 			$vsUser->sessions->basicObject->setUserId(0);
+// 			$vsUser->sessions->insertObject();
+// //			$vsCounter->insertCounter(1,1,0);
+// //			$_SESSION[APPLICATION_TYPE]['session'] = $vsUser->sessions->basicObject->convertToDB();
+
+// 		}
+// 		else{
+// 			$vsUser->sessions->setCondition('sessionId='.$_SESSION[APPLICATION_TYPE]['session']['sessionId']);
+// 			$vsUser->sessions->getOneObjectsByCondition();
+// 			$vsUser->sessions->basicObject->setTime($thisTime);
+// 			$vsUser->sessions->basicObject->setCode($thisTime);
+// 			$vsUser->sessions->basicObject->setUserId($_SESSION[APPLICATION_TYPE]['session']['userId']);
+// 			$vsUser->sessions->setCondition("sessionId={$vsUser->sessions->basicObject->getId()}");
+// 			if($vsUser->sessions->result['status']) $vsUser->sessions->updateObjectById($vsUser->sessions->obj);
+// 			else{
+// 				$vsUser->sessions->insertObject();
+// 				$_SESSION[APPLICATION_TYPE]['session'] = $vsUser->sessions->basicObject->convertToDB();
+// //				$vsCounter->insertCounter(1,0,1);
+// 			}
+// 			$vsUser->basicObject->convertToObject($_SESSION[APPLICATION_TYPE]['obj']);
+			
+// 			if(count($_SESSION[APPLICATION_TYPE]['vsgroups'])>0)
+// 			foreach ($_SESSION[APPLICATION_TYPE]['vsgroups'] as $groupId) {
+// 				$vsUser->basicObject->addGroup($vsUser->groupusers->getGroupById($groupId));
+// 			}
+// 		}
 	}
 }
 ?>

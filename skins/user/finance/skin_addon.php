@@ -15,9 +15,7 @@ class skin_addon extends skin_board_public {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
                         <ul class="dropdown-menu" role="menu">
         	                <li>
-        	                   <form>
-        	                       <input type='button' value='đăng nhập' />
-        	                   </form>
+        	                   {$this->getLoginForm()}
         	                </li>
                         </ul>
                     </li>
@@ -59,8 +57,6 @@ EOF;
                 </form>
             </div>
             
-            
-            
             <div id="carousel-example-generic" class="carousel col-md-7 top-banner slide pull-right" data-type="multi" data-interval="3000" >
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
@@ -71,6 +67,7 @@ EOF;
                     </foreach>
                   </div>
             </div>
+
             <script>
                     $('.carousel[data-type="multi"] .item').each(function(){
                       var next = $(this).next();
@@ -94,7 +91,7 @@ EOF;
                       wrap: true
                     });
                 </script>
-          </div>
+            </div>
         </div>
 EOF;
 	    return $BWHTML;
@@ -120,6 +117,58 @@ EOF;
 EOF;
       	 return $BWHTML;
 	}
+	
+	function getLoginForm($option = array()) {
+	    global $bw,$vsLang;
+	    $vsLang = VSFactory::getLangs();
+	
+	    $BWHTML .= <<<EOF
+          <div style='width: 300px; padding: 10px;'>
+                <span>{$this->getLang()->getWords('global_login', 'Đăng nhập vào tài khoản')}</span>
+	            <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}users/do_login'>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('login_form_phone', 'Số phone')}</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name='users[name]'>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">
+                        {$this->getLang()->getWords('login_form_password', 'Mật khẩu')}
+                    </label>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name='users[password]'>
+                    </div>
+                  </div> 
+                  
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('login_form_forget_password', 'Quên mật khẩu')}</a>
+                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('login_form_login', 'Đăng nhập')}</button>
+                    </div>
+                  </div>
+                </form>
+	      </div>
+EOF;
+	    return $BWHTML;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	function getSocial($option=array()){
 		global $bw;

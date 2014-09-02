@@ -132,4 +132,7 @@
   'Content' => 'Nội dung',
   'contactTime' => 'Thời gian',
   'contactReply' => 'Reply',
+  'global_yes' => 'Yes',
+  'global_no' => 'No',
+  'global_ishome' => 'Trang chủ',
 )?>

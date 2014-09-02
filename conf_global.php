@@ -15,4 +15,16 @@ $INFO['board_url']   		=  	'http://'.$_SERVER['HTTP_HOST'].str_replace("/".basen
 $INFO['version']    			= 	'5.1';
 $INFO['root_admin_groups']	=	'1';
 $INFO['api_server']	=	'http://api.ihost.vn/';
+
+
+
+// raovat.vs8.websiteviet.com
+
+// Administration login: raovat
+// Administration password: fdjng(*&3dnfKHD
+
+// Username for MySQL database: raovat
+// Password for MySQL database: sdg453nfgasASF
+
+// http://vsdb.vs8.websiteviet.com/phpmyadmin/
 ?>

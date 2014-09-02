@@ -21,4 +21,8 @@
   'faq_form_question' => 'Nội dung cần hỏi',
   'faq_form_submit' => 'Gửi',
   'faq_form_reset' => 'Làm lại',
+  'login_form_phone' => 'Số phone',
+  'login_form_password' => 'Mật khẩu',
+  'login_form_forget_password' => 'Quên mật khẩu',
+  'login_form_login' => 'Đăng nhập',
 )?>

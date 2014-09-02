@@ -1,5 +1,7 @@
 <?php
 $arraySetting = array (
+  'users_category_list' => '0',
+  'show_location_list' => '1',
   'email_sender' => 'hieuloc@vietsol.net',
   'email_receive' => 'hieuloc@vietsol.net',
   'contact_form_name' => '1',

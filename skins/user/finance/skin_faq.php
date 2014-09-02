@@ -130,7 +130,7 @@ function showForm($option = array()) {
                                   <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                                     <div class="col-sm-10">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value='yunha@mail.com'>
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
                                     </div>
                                   </div>
                                   <div class="form-group">

@@ -57,4 +57,7 @@
   'category_form_header_index' => 'Thứ tự',
   'err_category_name_blank' => 'Please enter the category name!',
   'page_emptycateincate' => 'Danh mục cha không thể sửa vào danh mục con!',
+  'category_form_header_status' => 'Trạng thái',
+  'category_locations_value' => 'zipcode',
+  'category_form_header_desc' => 'Mô tả',
 )?>

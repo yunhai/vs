@@ -3,82 +3,40 @@
 class User extends BasicObject {
 
 	public	function convertToDB(){
-			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
-		isset ( $this->name ) ? ($dbobj ['name'] = $this->name) : '';
-		isset ( $this->password ) ? ($dbobj ['password'] = $this->password) : '';
-		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
-		isset ( $this->postDate ) ? ($dbobj ['postDate'] = $this->postDate) : '';
-		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
-		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
-		isset ( $this->firstName ) ? ($dbobj ['firstName'] = $this->firstName) : '';
-		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
-		isset ( $this->gender ) ? ($dbobj ['gender'] = $this->gender) : '';
-		isset ( $this->minutes ) ? ($dbobj ['minutes'] = $this->minutes) : '';
-		isset ( $this->hour ) ? ($dbobj ['hour'] = $this->hour) : '';
-		isset ( $this->day ) ? ($dbobj ['day'] = $this->day) : '';
-		isset ( $this->month ) ? ($dbobj ['month'] = $this->month) : '';
-		isset ( $this->year ) ? ($dbobj ['year'] = $this->year) : '';
-		isset ( $this->phone ) ? ($dbobj ['phone'] = $this->phone) : '';
-		isset ( $this->mobile ) ? ($dbobj ['mobile'] = $this->mobile) : '';
-		isset ( $this->company ) ? ($dbobj ['company'] = $this->company) : '';
-		isset ( $this->interested ) ? ($dbobj ['interested'] = $this->interested) : '';
-		isset ( $this->fax ) ? ($dbobj ['fax'] = $this->fax) : '';
-		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
-		isset ( $this->province ) ? ($dbobj ['province'] = $this->province) : '';
-		isset ( $this->skype ) ? ($dbobj ['skype'] = $this->skype) : '';
-		isset ( $this->yahoo ) ? ($dbobj ['yahoo'] = $this->yahoo) : '';
-		isset ( $this->country ) ? ($dbobj ['country'] = $this->country) : '';
-		isset ( $this->score ) ? ($dbobj ['score'] = $this->score) : '';
-		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
-		isset ( $this->location ) ? ($dbobj ['location'] = $this->location) : '';
+		$map = array(
+			     'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status'
+		      );
+		
+        foreach($map as $key) {
+		    isset ( $this->$key ) ? ($dbobj [$key] = $this->$key) : '';
+		}
+		      
 		return $dbobj;
-
 	}
 
 
-
-
-
-	public	function convertToObject($object = array()){
-			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
-		isset ( $object ['name'] ) ? $this->setName ( $object ['name'] ) : '';
-		isset ( $object ['password'] ) ? $this->setPassword ( $object ['password'] ) : '';
-		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
-		isset ( $object ['postDate'] ) ? $this->setPostDate ( $object ['postDate'] ) : '';
-		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
-		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
-		isset ( $object ['firstName'] ) ? $this->setFirstName ( $object ['firstName'] ) : '';
-		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
-		isset ( $object ['gender'] ) ? $this->setGender ( $object ['gender'] ) : '';
-		isset ( $object ['minutes'] ) ? $this->setMinutes ( $object ['minutes'] ) : '';
-		isset ( $object ['hour'] ) ? $this->setHour ( $object ['hour'] ) : '';
-		isset ( $object ['day'] ) ? $this->setDay ( $object ['day'] ) : '';
-		isset ( $object ['month'] ) ? $this->setMonth ( $object ['month'] ) : '';
-		isset ( $object ['year'] ) ? $this->setYear ( $object ['year'] ) : '';
-		isset ( $object ['phone'] ) ? $this->setPhone ( $object ['phone'] ) : '';
-		isset ( $object ['mobile'] ) ? $this->setMobile ( $object ['mobile'] ) : '';
-		isset ( $object ['company'] ) ? $this->setCompany ( $object ['company'] ) : '';
-		isset ( $object ['interested'] ) ? $this->setInterested ( $object ['interested'] ) : '';
-		isset ( $object ['fax'] ) ? $this->setFax ( $object ['fax'] ) : '';
-		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
-		isset ( $object ['province'] ) ? $this->setProvince ( $object ['province'] ) : '';
-		isset ( $object ['skype'] ) ? $this->setSkype ( $object ['skype'] ) : '';
-		isset ( $object ['yahoo'] ) ? $this->setYahoo ( $object ['yahoo'] ) : '';
-		isset ( $object ['country'] ) ? $this->setCountry ( $object ['country'] ) : '';
-		isset ( $object ['score'] ) ? $this->setScore ( $object ['score'] ) : '';
-		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
-		isset ( $object ['location'] ) ? $this->setLocation ( $object ['location'] ) : '';
-
+	public function convertToObject($object = array()){
+		$map = array(
+                'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status'
+		);
+		
+		foreach($map as $key) {
+		    isset ( $object [$key] ) ? ( $this->$key = $object [$key] ) : '';
+		}
 	}
 
+	function validate() {
+	    $status = true;
+	    return $status;
+	}
 
-
-
+    function getFullname() {
+        return $this->fullname;
+    }
 
 	function getId(){
 		return $this->id;
 	}
-
 
 
 	function getName(){
@@ -87,8 +45,8 @@ class User extends BasicObject {
 
 
 
-	function getPassword(){
-		return $this->password;
+	function getZipcode(){
+		return $this->zipcode;
 	}
 
 
@@ -99,100 +57,9 @@ class User extends BasicObject {
 
 
 
-	function getPostDate(){
-		return $this->postDate;
-	}
-
-
-
 	function getStatus(){
 		return $this->status;
 	}
-
-
-
-	function getImage(){
-		return $this->image;
-	}
-
-
-
-	function getFirstName(){
-		return $this->firstName;
-	}
-
-
-
-	function getTitle(){
-		return $this->title;
-	}
-
-
-
-	function getGender(){
-		return $this->gender;
-	}
-
-
-
-	function getMinutes(){
-		return $this->minutes;
-	}
-
-
-
-	function getHour(){
-		return $this->hour;
-	}
-
-
-
-	function getDay(){
-		return $this->day;
-	}
-
-
-
-	function getMonth(){
-		return $this->month;
-	}
-
-
-
-	function getYear(){
-		return $this->year;
-	}
-
-
-
-	function getPhone(){
-		return $this->phone;
-	}
-
-
-
-	function getMobile(){
-		return $this->mobile;
-	}
-
-
-
-	function getCompany(){
-		return $this->company;
-	}
-
-
-
-	function getInterested(){
-		return $this->interested;
-	}
-
-
-
-	function getFax(){
-		return $this->fax;
-	}
-
 
 
 	function getAddress(){
@@ -201,41 +68,9 @@ class User extends BasicObject {
 
 
 
-	function getProvince(){
-		return $this->province;
+	function getCity(){
+		return $this->city;
 	}
-
-
-
-	function getSkype(){
-		return $this->skype;
-	}
-
-
-
-	function getYahoo(){
-		return $this->yahoo;
-	}
-
-
-
-	function getCountry(){
-		return $this->country;
-	}
-
-
-
-	function getScore(){
-		return $this->score;
-	}
-
-
-
-	function getIntro(){
-		return $this->intro;
-	}
-
-
 
 	function getLocation(){
 		return $this->location;
@@ -446,56 +281,7 @@ class User extends BasicObject {
 
 		var		$email;
 
-		var		$postDate;
-
 		var		$status;
 
-		var		$image;
-
-		var		$firstName;
-
-		var		$title;
-
-		var		$gender;
-
-		var		$minutes;
-
-		var		$hour;
-
-		var		$day;
-
-		var		$month;
-
-		var		$year;
-
-		var		$phone;
-
-		var		$mobile;
-
-		var		$company;
-
-		var		$interested;
-
-		var		$fax;
-
-		var		$address;
-
-		var		$province;
-
-		var		$skype;
-
-		var		$yahoo;
-
-		var		$country;
-
-		var		$score;
-
-		var		$intro;
-
 		var		$location;
-		function getComment(){
-			VSFactory::createConnectionDB()->query("select count(*) as vscount from vsf_comment where userId='{$this->getId()}'");
-			$row=VSFactory::createConnectionDB()->fetch_row();
-			return intval($row['vscount']);
-		}
 }

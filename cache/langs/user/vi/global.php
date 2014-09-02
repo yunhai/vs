@@ -21,4 +21,9 @@
   'global_sidebar_ad' => 'Quảng cáo',
   'global_require' => 'Thông tin bắt buộc',
   'global_error_title' => 'Đã có lỗi xảy ra',
+  'global_login' => 'Đăng nhập vào tài khoản',
+  'global_user_update' => 'Cập nhật tiệm (tài khoản)',
+  'global_user_change_password' => 'Cập nhật mật khẩu',
+  'global_post_list' => 'Các tin đã đăng',
+  'global_post_add' => 'Đăng quảng cáo',
 )?>
