@@ -35,10 +35,19 @@ class addon_public extends addon_public_board{
 	    return $this->getHtml()->getJumotron();
 	}
 	
+	function getUserSideBar() {
+	    return $this->getHtml()->getUserSideBar();
+	}
+	
 	function getSidebar(){
 	    return $this->getHtml()->getSideBar($option);
 	}
 	
+	function getSupports(){
+	    $option['support']=Object::getObjModule('supports', 'supports', '>0', '', ' ');
+
+	    return $this->getHtml()->getSupport($option);
+	}
 	////////////////////////////////////////////
 	function getMenuMain($option=array()){
 		global $bw;
@@ -90,11 +99,6 @@ class addon_public extends addon_public_board{
 	
 	
 	
-	function getSupports(){
-		$option['support']=Object::getObjModule('supports', 'supports', '>0', '', ' ');
-		
-	  return $this->getHtml()->getSupport($option);
-	}
 
 	function getProductCategory($option = array()) {
 		require_once CORE_PATH . 'products/products.php';

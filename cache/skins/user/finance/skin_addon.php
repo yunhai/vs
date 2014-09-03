@@ -9,11 +9,40 @@ class skin_addon extends skin_board_public {
 function getMenuTop($option=array()) {global $bw,$vsLang;
 $this->bw = $bw;
 $vsLang = VSFactory::getLangs();
+$this->flag = false;
+if(VSFactory::getUsers()->basicObject->getId()){
+   foreach($option['menu'] as $key => $menu) {
+       if($menu->getAlt() == 'users_login' || $menu->getAlt() == 'users_registry')
+           unset($option['menu'][$key]);
+       $this->flag = true;
+   } 
+}
 
 //--starthtml--//
 $BWHTML .= <<<EOF
         <ul class="nav navbar-nav navbar-right">
-            {$this->__foreach_loop__id_5405eb2410e30($option)}
+            {$this->__foreach_loop__id_5407382357b80($option)}
+            
+EOF;
+if( $this->flag ) {
+$BWHTML .= <<<EOF
+
+                <li>
+                    <a href="#">
+                        Chào <span class='username'>{$this->getUser()->basicObject->getFullName()}</span> 
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="{$this->bw->base_url}users/logout" title='{$this->getLang()->getWords('global_logout', 'Thoát')}'>
+                        {$this->getLang()->getWords('global_logout', 'Thoát')}
+                    </a>
+                </li>
+            
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
           </ul>
 EOF;
 //--endhtml--//
@@ -23,7 +52,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2410e30($option=array())
+function __foreach_loop__id_5407382357b80($option=array())
 {
 global $bw,$vsLang;
     $BWHTML = '';
@@ -40,7 +69,7 @@ EOF;
 if( $menu->getAlt() == 'users_login' ) {
 $BWHTML .= <<<EOF
 
-                    <li class='dropdown'>
+                    <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
                         <ul class="dropdown-menu" role="menu">
                         <li>
@@ -102,7 +131,7 @@ $BWHTML .= <<<EOF
             <div id="carousel-example-generic" class="carousel col-md-7 top-banner slide pull-right" data-type="multi" data-interval="3000" >
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
-                    {$this->__foreach_loop__id_5405eb2411055($option)}
+                    {$this->__foreach_loop__id_5407382357df2($option)}
                   </div>
             </div>
             <script>
@@ -138,7 +167,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411055($option=array())
+function __foreach_loop__id_5407382357df2($option=array())
 {
     global $bw, $vsStd, $vsLang;
     $BWHTML = '';
@@ -186,7 +215,7 @@ $BWHTML .= <<<EOF
     <div class='header'>
            {$this->getLang()->getWords('global_sidebar_ad', 'Quảng cáo')}
     </div>
-          {$this->__foreach_loop__id_5405eb24111e0($option)}
+          {$this->__foreach_loop__id_5407382357f94($option)}
          </div>
 EOF;
 //--endhtml--//
@@ -196,7 +225,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb24111e0($option="")
+function __foreach_loop__id_5407382357f94($option="")
 {
         global $vsStd;
     $BWHTML = '';
@@ -228,7 +257,7 @@ $BWHTML .= <<<EOF
                 <span>{$this->getLang()->getWords('global_login', 'Đăng nhập vào tài khoản')}</span>
             <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}users/do_login'>
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('login_form_phone', 'Số phone')}</label>
+                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('global_login_form_phone', 'Số phone')}</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control" name='users[name]'>
                     </div>
@@ -236,7 +265,7 @@ $BWHTML .= <<<EOF
                   
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">
-                        {$this->getLang()->getWords('login_form_password', 'Mật khẩu')}
+                        {$this->getLang()->getWords('global_login_form_password', 'Mật khẩu')}
                     </label>
                     <div class="col-sm-10">
                       <input type="password" class="form-control" name='users[password]'>
@@ -245,8 +274,8 @@ $BWHTML .= <<<EOF
                   
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('login_form_forget_password', 'Quên mật khẩu')}</a>
-                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('login_form_login', 'Đăng nhập')}</button>
+                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('global_login_form_forget_password', 'Quên mật khẩu')}</a>
+                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('global_login_form_login', 'Đăng nhập')}</button>
                     </div>
                   </div>
                 </form>
@@ -254,6 +283,72 @@ $BWHTML .= <<<EOF
 EOF;
 //--endhtml--//
 return $BWHTML;
+}
+//===========================================================================
+// <vsf:getUserSideBar:desc::trigger:>
+//===========================================================================
+function getUserSideBar() {    global $bw,$vsLang;
+    $vsLang = VSFactory::getLangs();
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class='col-sm-4'>
+    <div>{$this->getLang()->getWords('users_link', 'Quản lý tài khoản')}</div>
+        <div>
+        <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}'>{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}<a><br />
+        <a href='{$bw->base_url}users/change_password' title='{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}'>{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}<a><br />
+        <a href='{$bw->base_url}posts/history' title='{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}'>{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}<a><br />
+        <a href='{$bw->base_url}posts/add' title='{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}'>{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}<a>
+        </div>
+    </div>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:getSupport:desc::trigger:>
+//===========================================================================
+function getSupport($option=array()) {    global $bw;
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="support-portlet" style='width: 300px; padding: 10px 0;'>
+{$this->__foreach_loop__id_54073823581c0($option)}
+</div>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_54073823581c0($option=array())
+{
+    global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array($option['support'])){
+    foreach( $option['support'] as $obj  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+<div class='item'>
+     <div class='title col-sm-8'>{$obj->getTitle()}</div>
+     <div class='icon col-sm-4'>
+         <a href="ymsgr:sendIM?{$obj->getYahoo()}"><img src="{$bw->vars['img_url']}/yahoo.jpg" alt='yahoo icon' /></a>
+     <a href="{$obj->getSkype()}?chat"><img src="{$bw->vars['img_url']}/skype.jpg" alt='skype icon' /></a>
+     </div>
+     <div class='phone col-sm-9'>Tel: {$obj->getPhone()}</div>
+</div>
+
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
 }
 //===========================================================================
 // <vsf:getSocial:desc::trigger:>
@@ -311,7 +406,7 @@ $vsLang = VSFactory::getLangs();
 //--starthtml--//
 $BWHTML .= <<<EOF
         <ul>
-{$this->__foreach_loop__id_5405eb2411459($option)}
+{$this->__foreach_loop__id_5407382358388($option)}
 </ul>
 EOF;
 //--endhtml--//
@@ -321,7 +416,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411459($option=array())
+function __foreach_loop__id_5407382358388($option=array())
 {
 global $bw,$vsLang;
     $BWHTML = '';
@@ -387,7 +482,7 @@ $BWHTML .= <<<EOF
         <div class="sitebar_item cate_sitebar">
 <div class="title_box "><h3>Hoa tươi </h3></div>
 <ul id="menu">
-{$this->__foreach_loop__id_5405eb24116f3($option)}
+{$this->__foreach_loop__id_54073823585f4($option)}
 </ul>
 <div class="sitebar_bott"></div>
 </div>
@@ -399,7 +494,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411676($option=array(),$cate='')
+function __foreach_loop__id_540738235857d($option=array(),$cate='')
 {
 ;
     $BWHTML = '';
@@ -424,7 +519,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb24116f3($option=array())
+function __foreach_loop__id_54073823585f4($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -443,7 +538,7 @@ if($cate->children) {
 $BWHTML .= <<<EOF
 
 <ul>
-{$this->__foreach_loop__id_5405eb2411676($option,$cate)}
+{$this->__foreach_loop__id_540738235857d($option,$cate)}
 </ul>
 
 EOF;
@@ -470,7 +565,7 @@ $option ['category'] = VSFactory::getMenus ()->getCategoryGroup ( 'services' )->
 $BWHTML .= <<<EOF
         <div class="service_home">
     <div class="wrap_service_home">
-        {$this->__foreach_loop__id_5405eb241187d($option)}
+        {$this->__foreach_loop__id_5407382358781($option)}
             <div class="ser_bott"></div>
         </div>
     </div>
@@ -482,7 +577,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb241187d($option=array())
+function __foreach_loop__id_5407382358781($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -517,7 +612,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Tin tức</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_5405eb241199d($option)}
+                {$this->__foreach_loop__id_5407382358897($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -529,7 +624,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb241199d($option=array())
+function __foreach_loop__id_5407382358897($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -561,7 +656,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Hỗ trợ khách hàng</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_5405eb2411ad1($option)}
+                {$this->__foreach_loop__id_54073823589a8($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -573,7 +668,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411ad1($option=array())
+function __foreach_loop__id_54073823589a8($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -605,7 +700,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Dịch vụ</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_5405eb2411c00($option)}
+                {$this->__foreach_loop__id_5407382358ac1($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -617,7 +712,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411c00($option=array())
+function __foreach_loop__id_5407382358ac1($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -649,7 +744,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar ">
             <div class="title">Những bài viết gần đây</div>
                 
-                {$this->__foreach_loop__id_5405eb2411d5d($option)}
+                {$this->__foreach_loop__id_5407382358bf8($option)}
                 <a class="viewall" href="{$bw->base_url}posts">Xem tất cả...</a>
                 <div class="clear"></div>
                 
@@ -662,7 +757,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411d5d($option=array())
+function __foreach_loop__id_5407382358bf8($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -701,7 +796,7 @@ $BWHTML .= <<<EOF
         <div class="box_item">
             <div class="title">Những bài viết gần đây</div>
                 
-                {$this->__foreach_loop__id_5405eb2411ed4($option)}
+                {$this->__foreach_loop__id_5407382358d41($option)}
                 <a href="{$bw->base_url}posts" class="viewall">Xem tất cả...</a>
                 <div class="clear"></div>
             </div>
@@ -713,7 +808,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2411ed4($option=array())
+function __foreach_loop__id_5407382358d41($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -774,7 +869,7 @@ $option['project']=Object::getObjModule('pages', 'projects', '=2', '3', '');
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="title_block2">Hình ảnh dự án</div>
-            {$this->__foreach_loop__id_5405eb2412088($option)}
+            {$this->__foreach_loop__id_5407382358ec3($option)}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -783,7 +878,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2412088($option=array())
+function __foreach_loop__id_5407382358ec3($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -821,7 +916,7 @@ $option['ads']=Object::getObjModule('banners', 'banners', '>0', '', '');
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="ads_sitebar">
-              {$this->__foreach_loop__id_5405eb24121b3($option)}
+              {$this->__foreach_loop__id_5407382358fdc($option)}
                 
              </div>
 EOF;
@@ -832,7 +927,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb24121b3($option=array())
+function __foreach_loop__id_5407382358fdc($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -924,52 +1019,6 @@ EOF;
 return $BWHTML;
 }
 //===========================================================================
-// <vsf:getSupport:desc::trigger:>
-//===========================================================================
-function getSupport($option=array()) {global $bw;
-$this->bw=$bw;
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <div class="sitebar_item support_sitebar">
-<div class="support_sitebar_title"><h3>Hỗ trợ trực tuyến</h3></div>
-{$this->__foreach_loop__id_5405eb241241e($option)}
-<div class="line"></div>
-<div class="sitebar_bott"></div>
-</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-
-//===========================================================================
-// Foreach loop function ifstatement
-//===========================================================================
-function __foreach_loop__id_5405eb241241e($option=array())
-{
-global $bw;
-    $BWHTML = '';
-    $vsf_count = 1;
-    $vsf_class = '';
-    if(is_array($option['support'])){
-    foreach( $option['support'] as $obj  )
-    {
-        $vsf_class = $vsf_count%2?'odd':'even';
-    $BWHTML .= <<<EOF
-        
-<div class="yahoo">{$obj->getTitle()}:</br>
-<a href="ymsgr:sendIM?{$obj->getYahoo()}"><img src="{$bw->vars['img_url']}/yahoo_online.png"  /></a>
-<a href="{$obj->getSkype()}?chat"><img src="{$bw->vars['img_url']}/sky.png"  /></a>
-<a>({$obj->getPhone()})</a>
-</div>
-
-EOF;
-$vsf_count++;
-    }
-    }
-    return $BWHTML;
-}
-//===========================================================================
 // <vsf:getCustomerBlock:desc::trigger:>
 //===========================================================================
 function getCustomerBlock($option=array()) {global $bw;
@@ -980,7 +1029,7 @@ $BWHTML .= <<<EOF
         <div class="sitebar_item partner_sitebar">
 <div class="title_box "><h3>Khách hàng</h3></div>
 <div class="clear"></div>
-{$this->__foreach_loop__id_5405eb2412528($option)}
+{$this->__foreach_loop__id_54073823591eb($option)}
 <div class="sitebar_bott"></div>
 </div>
 EOF;
@@ -991,7 +1040,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405eb2412528($option=array())
+function __foreach_loop__id_54073823591eb($option=array())
 {
 global $bw;
     $BWHTML = '';

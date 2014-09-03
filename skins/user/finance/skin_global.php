@@ -31,9 +31,7 @@ class skin_global extends skin_board_public{
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hỗ trợ trực tuyến</a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li>{$this->getAddon()->getSupports($option)}</li>
                   </ul>
                 </li>
               </ul>

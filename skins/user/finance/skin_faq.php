@@ -31,7 +31,7 @@ function showDefault($option = array()) {
                                 <foreach="$option[$key]['pageList'] as $obj ">
                                 <div class='{$this->bw->input[0]}-item item'>
                                     <span class='postdate'>{$this->getLang()->getWords('faq_postdate', 'Ngày gửi: ')}{$this->dateTimeFormat($obj->getPostDate(),"d/m/Y")}</span>
-                                    <span class='label-question'>{$obj->getId()}:{$this->getLang()->getWords('faq_question', 'Câu hỏi')}</span>
+                                    <span class='label-question'>{$this->getLang()->getWords('faq_question', 'Câu hỏi')}</span>
                                     <div  class='intro'>{$obj->getIntro()}</div>
                                     <span class='label-answer icon-plus' data-id='{$obj->getId()}' id='question-{$obj->getId()}'>
                                         {$this->getLang()->getWords('faq_answer', 'Xem câu trả lời')}

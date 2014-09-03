@@ -6,41 +6,34 @@ class skin_posts extends skin_objectpublic {
 //===========================================================================
 // <vsf:showDefault:desc::trigger:>
 //===========================================================================
-function showDefault($option=array()) {global $bw,$vsPrint;
-echo 413432;exit;
-$this->bw=$bw;
-$option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
-$option['title'] = VSFactory::getLangs()->getWords($bw->input[0]."s");
-$cateId = $option['obj']?$option['obj']->getId():0;
-
-
-
+function showDefault($option=array()) {        global $bw;
+    
+        $this->bw = $bw;
+    
+        
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class="content">
-    <div class="center">
-        <div class="page_title">{$vsPrint->mainTitle}</div>
-            
-            
-            
-            {$this->__foreach_loop__id_540593ee53661($option)}
-            
-            
-            <div class="clear"></div>
-            <div class="page">
-                {$option['paging']}
+        <div class='col-md-12'>
+            <ul class="nav nav-tabs" role="tablist">
+                {$this->__foreach_loop__id_54073e5aa088d($option)}
+            </ul>
+                
+            <div class='content'>
+                <div class='sub-header'>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {$this->__foreach_loop__id_54073e5aa0a83($option)}
+                    
+                </div>
             </div>
-        </div>
-         <div class="sitebar">
-         {$this->getAddon()->getHtml()->getNewsCategory($option)}
-        {$this->getAddon()->getHtml()->getSearchSitebar($option)}
-            {$this->getAddon()->getHtml()->getAdsSitebar($option)}
-            {$this->getAddon()->getHtml()->getNewsSitebar($option)}
-             
-        </div>
-    <div class="clear"></div>
-        
-    </div>
+            <script>
+                $('a[data-toggle="tab"]').on('click', function (e) {
+                    window.location.href = $(e.target).attr("href");
+                    console.log($(e.target).attr("href"));
+                });
+            </script>
+</div>
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -49,28 +42,141 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540593ee53661($option=array())
+function __foreach_loop__id_54073e5aa088d($option=array())
 {
-global $bw,$vsPrint;
+        global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($option['pageList'])){
-    foreach( $option['pageList'] as $obj  )
+    if(is_array( $option['cate'])){
+    foreach(  $option['cate'] as $key=>$cat )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-            <div class="project_item">
-            <div class="im"><a href="{$obj->getUrl('posts')}">{$obj->createImageCache($obj->getImage(),356,208)}</a></div>
-                <div class="na"><a href="{$obj->getUrl('posts')}">{$obj->getTitle()}</a></div>
-                <div class="time">{$this->dateTimeFormat($obj->getPostDate(),'d/m/Y')}</div>
-                <div class="intro">
-                {$this->cut($obj->getIntro(),100)}
-                </div>
-                <a href="{$obj->getUrl('posts')}" class="detail">Chi tiết</a>
-            </div>
+                    <li id='{$key}' 
+EOF;
+if($key == $option['category']->getId() ) {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+>
+                        <a href="{$cat->getUrlCategory()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
+                    </li>
+                
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_54073e5aa09dd($option=array(),$key='',$cat='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array($option[$key]['pageList'])){
+    foreach( $option[$key]['pageList'] as $obj  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                                <div class='{$this->bw->input[0]}-item col-md-6'>
+                                    <div class='pull-left' style='margin-right: 10px;'>
+                                        {$obj->createImageCache($obj->getImage(), 128, 130)}
+                                    </div>
+                                    <div class='title'>
+                                        <a href='{$obj->getUrl('posts')}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a>
+                                    </div>
+                                    <div class='title'>Paradise Nail & Spa,  San Francisco, California, USA </div>
+                                    <div class='intro'>{$obj->getIntro()}</div>
+                                    <div class='clear'></div>
+                                </div>
+                                
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_54073e5aa0a83($option=array())
+{
+        global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['cate'])){
+    foreach(  $option['cate'] as $key => $cat )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                        <div class="tab-pane 
+EOF;
+if( !empty($option[$key]) ) {
+$BWHTML .= <<<EOF
+active
+EOF;
+}
+
+$BWHTML .= <<<EOF
+" id="tab{$key}" ref="{$key}">
+                            
+EOF;
+if( !empty($option[$key]) ) {
+$BWHTML .= <<<EOF
+
+                                {$this->__foreach_loop__id_54073e5aa09dd($option,$key,$cat)}
+                                <div class='clear'></div>
+                                
+EOF;
+if( $option[$key]['paging'] ) {
+$BWHTML .= <<<EOF
+
+                                    <div class='paging pager'>
+                                        {$option[$key]['paging']}
+                                    </div>
+                                
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
             
+                                
+EOF;
+if( count($option[$key]['pageList']) == 0) {
+$BWHTML .= <<<EOF
+
+                                    {$this->getLang()->getWords('faq_empty', 'Hiện thời danh mục chưa có bài viết.')}
+                                
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+                            
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+                        </div>
+                    
 EOF;
 $vsf_count++;
     }
@@ -78,59 +184,37 @@ $vsf_count++;
     return $BWHTML;
 }
 //===========================================================================
-// <vsf:showDetail:desc::trigger:>
+// <vsf:showForm:desc::trigger:>
 //===========================================================================
-function showDetail($obj="",$option=array()) {global $bw,$vsPrint;
-$this->bw=$bw;
-$option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
-$option['title'] = VSFactory::getLangs()->getWords($bw->input[0]."s");
-$this->catTitle=$option['cate_obj']->getTitle();
-$this->urlCate="{$this->bw->base_url}posts/category/{$option['cate_obj']->getSlugId()}";
-
+function showForm($option=array()) {        global $bw;
+    
+        $this->bw = $bw;
+    
+        
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class="content">
-    <div class="center">
-        <div class="page_title">{$this->catTitle}</div>
-            <div class="page_detail">
-            <div class="title_detail">{$obj->getTitle()}</div>
-            <div class="time_detail">Ngày đăng: {$this->dateTimeFormat($obj->getPostDate(),'d/m/y')}</div>
-           {$obj->getContent()}
-           
-EOF;
-if($option['other'] ) {
-$BWHTML .= <<<EOF
-
-           <div class="other">
-           <p class="title_other">Các tin liên quan</p>
-           <ul>
-           {$this->__foreach_loop__id_540593ee537f7($obj,$option)}
-           </ul>
-           </div>
-           
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-             </div>  
-            
-                       
-            <div class="clear"></div>
-        </div>
-         <div class="sitebar">
-         {$this->getAddon()->getHtml()->getNewsCategory($option)}
-        {$this->getAddon()->getHtml()->getSearchSitebar($option)}
-            {$this->getAddon()->getHtml()->getAdsSitebar($option)}
-            {$this->getAddon()->getHtml()->getNewsSitebar($option)}
-             
-        </div>
-    <div class="clear"></div>
-        
-    </div>
-<script>
-var urlcate= '{$this->urlCate}';
-</script>
+        <div class='col-md-9'>
+            <ul class="nav nav-tabs" role="tablist">
+                {$this->__foreach_loop__id_54073e5aa0d9c($option)}
+            </ul>
+    
+            <div class='content'>
+                <div class='sub-header'>
+                    <span>{$this->getLang()->getWords('post_header', 'Đăng quảng cáo')}</span>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {$this->__foreach_loop__id_54073e5aa0eaf($option)}
+                </div>
+            </div>
+            <script>
+                $('a[data-toggle="tab"]').on('click', function (e) {
+                    window.location.href = $(e.target).attr("href");
+                    console.log($(e.target).attr("href"));
+                });
+            </script>
+</div>
+        {$this->getAddon()->getSidebar()}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -139,20 +223,112 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540593ee537f7($obj="",$option=array())
+function __foreach_loop__id_54073e5aa0d9c($option=array())
 {
-global $bw,$vsPrint;
+        global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($option['other'])){
-    foreach( $option['other'] as $other  )
+    if(is_array( $option['cate'])){
+    foreach(  $option['cate'] as $key=>$cat )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-           <li><a href="{$other->getUrl('posts')}">{$other->getTitle()} <span>Ngày đăng: {$this->dateTimeFormat($other->getPostDate(),'d/m/y')}</span></a></li>
-           
+                    <li id='{$key}' 
+EOF;
+if($key == $option['category']->getId() ) {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+>
+                        <a href="{$this->bw->base_url}faq/form/{$cat->getSlugId()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
+                    </li>
+                
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_54073e5aa0eaf($option=array())
+{
+        global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['cate'])){
+    foreach(  $option['cate'] as $key => $cat )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                        <div class="tab-pane 
+EOF;
+if( !empty($option[$key]) ) {
+$BWHTML .= <<<EOF
+active
+EOF;
+}
+
+$BWHTML .= <<<EOF
+" id="tab{$key}" ref="{$key}">
+                            
+EOF;
+if( !empty($option[$key]) ) {
+$BWHTML .= <<<EOF
+
+                                <form class="form-horizontal" role="form" method='post' action='{$this->bw->base_url}posts/submit/{$cat->getSlugId()}'>
+                                  <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">
+                                        {$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}
+                                    </label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]'>
+                                    </div>
+                                  </div>  
+                                  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('post_form_intro', 'Mô tả')}" name='{$this->modelName}[intro]'>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-10">
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_detail', 'Nội dung chi tiết')} (<span class='required'>*</span>)</label>
+                                    <div class="col-sm-10">
+                                      <textarea class="form-control" rows="3" name='{$this->modelName}[content]'></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('faq_form_submit', 'Gửi')}</button>
+                                      <button type="reset" class="btn btn-default">{$this->getLang()->getWords('faq_form_reset', 'Làm lại')}</button>  
+                                      <lable><span class='require'>*</span>{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                                    </div>
+                                  </div>
+                                </form>
+                            
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+                        </div>
+                    
 EOF;
 $vsf_count++;
     }

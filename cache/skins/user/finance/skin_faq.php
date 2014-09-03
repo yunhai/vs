@@ -15,7 +15,7 @@ function showDefault($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_5405ccf9eba61($option)}
+                {$this->__foreach_loop__id_54073ae3a8e57($option)}
             </ul>
                 
             <div class='content'>
@@ -27,7 +27,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_5405ccf9ebc68($option)}
+                    {$this->__foreach_loop__id_54073ae3a902e($option)}
                 </div>
             </div>
             <script>
@@ -46,7 +46,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405ccf9eba61($option=array())
+function __foreach_loop__id_54073ae3a8e57($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -82,7 +82,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405ccf9ebbad($option=array(),$key='',$cat='')
+function __foreach_loop__id_54073ae3a8f86($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -96,7 +96,7 @@ function __foreach_loop__id_5405ccf9ebbad($option=array(),$key='',$cat='')
         
                                 <div class='{$this->bw->input[0]}-item item'>
                                     <span class='postdate'>{$this->getLang()->getWords('faq_postdate', 'Ngày gửi: ')}{$this->dateTimeFormat($obj->getPostDate(),"d/m/Y")}</span>
-                                    <span class='label-question'>{$obj->getId()}:{$this->getLang()->getWords('faq_question', 'Câu hỏi')}</span>
+                                    <span class='label-question'>{$this->getLang()->getWords('faq_question', 'Câu hỏi')}</span>
                                     <div  class='intro'>{$obj->getIntro()}</div>
                                     <span class='label-answer icon-plus' data-id='{$obj->getId()}' id='question-{$obj->getId()}'>
                                         {$this->getLang()->getWords('faq_answer', 'Xem câu trả lời')}
@@ -115,7 +115,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405ccf9ebc68($option=array())
+function __foreach_loop__id_54073ae3a902e($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -142,7 +142,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                {$this->__foreach_loop__id_5405ccf9ebbad($option,$key,$cat)}
+                                {$this->__foreach_loop__id_54073ae3a8f86($option,$key,$cat)}
             
                                 
 EOF;
@@ -213,7 +213,7 @@ function showForm($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_5405ccf9ec001($option)}
+                {$this->__foreach_loop__id_54073ae3a93fb($option)}
             </ul>
     
             <div class='content'>
@@ -225,7 +225,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_5405ccf9ec12f($option)}
+                    {$this->__foreach_loop__id_54073ae3a9518($option)}
                 </div>
             </div>
             <script>
@@ -244,7 +244,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405ccf9ec001($option=array())
+function __foreach_loop__id_54073ae3a93fb($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -280,7 +280,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5405ccf9ec12f($option=array())
+function __foreach_loop__id_54073ae3a9518($option=array())
 {
         global $bw;
     $BWHTML = '';

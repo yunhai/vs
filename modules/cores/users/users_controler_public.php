@@ -25,7 +25,7 @@ class users_controler_public extends VSControl_public {
 			case $this->modelName.'_do_login':
 				$this->doLogin();
 				break;
-			case $this->modelName.'_do_logout':
+			case $this->modelName.'_logout':
 				$this->doLogOut();
 				break;
 			case $this->modelName.'_forgot_password':
@@ -189,14 +189,15 @@ class users_controler_public extends VSControl_public {
 	function changePassword(){
 		global $vsPrint;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'users/do_login');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
 		}
 		return $this->output= $this->html->changePassword($option);
 	}
+	
 	function doChangePassword(){
 		global $vsPrint,$bw;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'users/do_login');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
 		}
 		
 		if(md5($bw->input['users']['password_old'])!=VSFactory::getUsers()->basicObject->getPassword() ){
@@ -217,7 +218,7 @@ class users_controler_public extends VSControl_public {
 		global $vsPrint;
 		
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), 'users/do_login');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), '/');
 		}
 
 		$option['obj']=VSFactory::getUsers()->basicObject;
@@ -228,7 +229,7 @@ class users_controler_public extends VSControl_public {
 	function doChangeInfo(){
 		global $bw, $vsPrint;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'users/do_login');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
 		}
 		unset($bw->input['users']['name']);
 		

@@ -119,13 +119,10 @@ class pages_controler_public extends VSControl_public {
 		
         $option['breakcrum']=$this->createBreakCrum(VSFactory::getMenus()->getCategoryById($idcate) );
         $option['obj']=$category;
-     
-//         print "<pre>";
-//         print_r($option);
-//         print "</pre>";
         
 		return $this->output = $this->getHtml()->showDefault($option);
 	}
+	
 	function showDetail($objId,$option=array()){
 		global $vsPrint, $bw,$vsTemplate;
 		$category=VSFactory::getMenus()->getCategoryGroup($bw->input[0]);

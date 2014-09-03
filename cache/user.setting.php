@@ -1,5 +1,8 @@
 <?php
 $arraySetting = array (
+  'posts_paging_limit' => '12',
+  'users_category_list' => '0',
+  'show_location_list' => '1',
   'email_sender' => 'hieuloc@vietsol.net',
   'email_receive' => 'hieuloc@vietsol.net',
   'contact_form_name' => '1',

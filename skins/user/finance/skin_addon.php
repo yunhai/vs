@@ -7,11 +7,20 @@ class skin_addon extends skin_board_public {
 		$this->bw = $bw;
 		$vsLang = VSFactory::getLangs();
 		
+		$this->flag = false;
+		if(VSFactory::getUsers()->basicObject->getId()){
+		   foreach($option['menu'] as $key => $menu) {
+		       if($menu->getAlt() == 'users_login' || $menu->getAlt() == 'users_registry')
+		           unset($option['menu'][$key]);
+		       $this->flag = true;
+		   } 
+		}
+		
 		$BWHTML .= <<<EOF
           <ul class="nav navbar-nav navbar-right">
             <foreach=" $option['menu'] as $menu ">
                 <if=" $menu->getAlt() == 'users_login' ">
-                    <li class='dropdown'>
+                    <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
                         <ul class="dropdown-menu" role="menu">
         	                <li>
@@ -23,6 +32,18 @@ class skin_addon extends skin_board_public {
                     <li><a href="{$menu->getUrl(false)}" class='menu-item {$menu->getAlt()}' title='{$menu->getTitle()}'>{$menu->getTitle()}</a></li>
                 </if>
             </foreach>
+            <if=" $this->flag ">
+                <li>
+                    <a href="#">
+                        Chào <span class='username'>{$this->getUser()->basicObject->getFullName()}</span> 
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="{$this->bw->base_url}users/logout" title='{$this->getLang()->getWords('global_logout', 'Thoát')}'>
+                        {$this->getLang()->getWords('global_logout', 'Thoát')}
+                    </a>
+                </li>
+            </if>
           </ul>
 EOF;
 		return $BWHTML;
@@ -127,7 +148,7 @@ EOF;
                 <span>{$this->getLang()->getWords('global_login', 'Đăng nhập vào tài khoản')}</span>
 	            <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}users/do_login'>
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('login_form_phone', 'Số phone')}</label>
+                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('global_login_form_phone', 'Số phone')}</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control" name='users[name]'>
                     </div>
@@ -135,7 +156,7 @@ EOF;
                   
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">
-                        {$this->getLang()->getWords('login_form_password', 'Mật khẩu')}
+                        {$this->getLang()->getWords('global_login_form_password', 'Mật khẩu')}
                     </label>
                     <div class="col-sm-10">
                       <input type="password" class="form-control" name='users[password]'>
@@ -144,8 +165,8 @@ EOF;
                   
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('login_form_forget_password', 'Quên mật khẩu')}</a>
-                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('login_form_login', 'Đăng nhập')}</button>
+                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('global_login_form_forget_password', 'Quên mật khẩu')}</a>
+                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('global_login_form_login', 'Đăng nhập')}</button>
                     </div>
                   </div>
                 </form>
@@ -154,6 +175,46 @@ EOF;
 	    return $BWHTML;
 	}
 	
+	function getUserSideBar() {
+	    global $bw,$vsLang;
+	    $vsLang = VSFactory::getLangs();
+	    $BWHTML .= <<<EOF
+	    <div class='col-sm-4'>
+	    <div>{$this->getLang()->getWords('users_link', 'Quản lý tài khoản')}</div>
+    	    <div>
+    	    <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}'>{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}<a><br />
+    	    <a href='{$bw->base_url}users/change_password' title='{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}'>{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}<a><br />
+    	    <a href='{$bw->base_url}posts/history' title='{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}'>{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}<a><br />
+    	    <a href='{$bw->base_url}posts/add' title='{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}'>{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}<a>
+    	    </div>
+	    </div>
+EOF;
+	    return $BWHTML;
+	}
+	
+	//////////<vssupport  id="{$skype->getId()}" ></vssupport>
+	/////////<a href="ymsgr:sendIM?nguyenvanhung2212"><img src="{$bw->vars['img_url']}/yahoo_1.jpg" /></a>
+	/////////<a href="skype:ndt4you?chat"><img src="{$bw->vars['img_url']}/yahoo_1.jpg" /></a>
+	/////////<a rel="nofollow" href="skype:ndt4you?chat"><img src="http://mystatus.skype.com/balloon/ndt4you"> </a>
+	////////<a rel="nofollow" href="ymsgr:sendIM?vietsol_sp"><img  src="http://opi.yahoo.com/online?u=vietsol_sp&amp;m=g&amp;t=1"></a>
+	function getSupport($option = array()) {
+	    global $bw;
+	    $BWHTML .= <<<EOF
+		<div class="support-portlet" style='width: 300px; padding: 10px 0;'>
+			<foreach="$option['support'] as $obj ">
+			<div class='item'>
+			     <div class='title col-sm-8'>{$obj->getTitle()}</div>
+			     <div class='icon col-sm-4'>
+			         <a href="ymsgr:sendIM?{$obj->getYahoo()}"><img src="{$bw->vars['img_url']}/yahoo.jpg" alt='yahoo icon' /></a>
+				     <a href="{$obj->getSkype()}?chat"><img src="{$bw->vars['img_url']}/skype.jpg" alt='skype icon' /></a>
+			     </div>
+			     <div class='phone col-sm-9'>Tel: {$obj->getPhone()}</div>
+			</div>
+			</foreach>
+		</div>
+EOF;
+	    return $BWHTML;
+		}
 	
 	
 	
@@ -163,10 +224,7 @@ EOF;
 	
 	
 	
-	
-	
-	
-	
+	/////////////////////
 	
 	
 	
@@ -560,33 +618,7 @@ EOF;
 	
 	
 	
-	//////////<vssupport  id="{$skype->getId()}" ></vssupport>
-	/////////<a href="ymsgr:sendIM?nguyenvanhung2212"><img src="{$bw->vars['img_url']}/yahoo_1.jpg" /></a>
-	/////////<a href="skype:ndt4you?chat"><img src="{$bw->vars['img_url']}/yahoo_1.jpg" /></a>
-	/////////<a rel="nofollow" href="skype:ndt4you?chat"><img src="http://mystatus.skype.com/balloon/ndt4you"> </a>
-	////////<a rel="nofollow" href="ymsgr:sendIM?vietsol_sp"><img  src="http://opi.yahoo.com/online?u=vietsol_sp&amp;m=g&amp;t=1"></a>
-	function getSupport($option = array()) {
-		global $bw;
-		$this->bw=$bw;
-		$BWHTML .= <<<EOF
-		<div class="sitebar_item support_sitebar">
-			<div class="support_sitebar_title"><h3>Hỗ trợ trực tuyến</h3></div>
-			<foreach="$option['support'] as $obj ">
-			<div class="yahoo">{$obj->getTitle()}:</br>
-				
-				<a href="ymsgr:sendIM?{$obj->getYahoo()}"><img src="{$bw->vars['img_url']}/yahoo_online.png"  /></a>
-				<a href="{$obj->getSkype()}?chat"><img src="{$bw->vars['img_url']}/sky.png"  /></a>
-				<a>({$obj->getPhone()})</a>
-			</div>
-			</foreach>
-			<div class="line"></div>
-			<div class="sitebar_bott"></div>
-		</div>
-                
-                
-EOF;
-		return $BWHTML;
-	}
+	
 	
 	
 	

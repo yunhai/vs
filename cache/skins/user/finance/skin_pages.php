@@ -30,7 +30,7 @@ $BWHTML .= <<<EOF
            <div class="other">
            <p class="title_other">Các tin liên quan</p>
            <ul>
-           {$this->__foreach_loop__id_540593edab97d($obj,$option)}
+           {$this->__foreach_loop__id_54072ea3a4796($obj,$option)}
            </ul>
            </div>
            
@@ -65,7 +65,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540593edab97d($obj="",$option=array())
+function __foreach_loop__id_54072ea3a4796($obj="",$option=array())
 {
 global $bw,$vsPrint;
     $BWHTML = '';
