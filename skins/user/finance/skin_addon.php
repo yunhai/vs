@@ -20,7 +20,7 @@ class skin_addon extends skin_board_public {
           <ul class="nav navbar-nav navbar-right">
             <foreach=" $option['menu'] as $menu ">
                 <if=" $menu->getAlt() == 'users_login' ">
-                    <li>
+                    <li class='dropdown'>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
                         <ul class="dropdown-menu" role="menu">
         	                <li>

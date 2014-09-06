@@ -207,7 +207,7 @@ uploadFile:function(formId, module, action, objIdCallBack, fileFolder, utype,cal
 				var name = this.name;
                 var filetitle = $("#"+formId).find("#fileTitle").val();
                 var fileindex = $("#"+formId).find("#fileIndex").val();
-				var uri = baseUrl+"files/files_uploadfile/&ajax=1&uploadName="+name+"&fileFolder="+fileFolder+"&table="+module+"&fileTitle="+filetitle+"&fileIndex="+fileindex+'&utype='+utype;
+				var uri = baseUrl+"files/files_uploadfile/&ajax=1&uploadName="+name+"&fileFolder=gallerys&table="+module+"&fileTitle="+filetitle+"&fileIndex="+fileindex+'&utype='+utype;
 				if( this.id==''){
 					 this.id=this.name;
 				} 

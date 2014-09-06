@@ -342,13 +342,12 @@ EOF;
                     <input  type="button" class="icon-wrapper icon-wrapper-vs btnVideo" title="{$this->getLang()->getWords('video','Video')}" onclick="vsf.popupGet('gallerys/gallerys_display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=video_{$bw->input[0]}','albumn')">
                             
                </if>     
-               <if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)">
+               <if="1||$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)">
                     <input class="icon-wrapper icon-wrapper-vs btnAlbum" type="button" onclick="vsf.popupGet('gallerys/gallerys_display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image','albumn',700,500,'{$this->getLang()->getWords('album','Album hình ảnh')}')" title="{$this->getLang()->getWords('album','Album hình ảnh')}" />
-                </if>
-                <if=" $this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_comment',0, $bw->input[0], 1, 1)">
-                    <input  type="button"  title="{$this->getLang()->getWords('comment')}" class="icon-wrapper icon-wrapper-vs btnComment" href="comments/comment-tab/{$this->modelName}/{$obj->getId()}" title="{$this->getLang()->getWords('comment','Bình luật')}" />
-                            
-                </if>
+               </if>
+               <if=" $this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_comment',0, $bw->input[0], 1, 1)">
+                   <input  type="button"  title="{$this->getLang()->getWords('comment')}" class="icon-wrapper icon-wrapper-vs btnComment" href="comments/comment-tab/{$this->modelName}/{$obj->getId()}" title="{$this->getLang()->getWords('comment','Bình luật')}" />
+               </if>
 EOF;
 		return $BWHTML;
 	}

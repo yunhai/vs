@@ -1,16 +1,8 @@
 <?php
-require_once(LIBS_PATH.'boards/VSPublicBoard.php');
-
-class files_public extends VSPublicBoard {
-
-	public	function auto_run(){
-	
-		global $bw;
-		parent::auto_run($bw->input[0]);
-
-
+require_once LIBS_PATH.'boards/VSPublicBoard.php';
+class files_public extends VSPublicBoard{
+	function auto_run(){
+		global $bw,$vsModule;
+		parent::auto_run($vsModule->basicObject->getClass());
 	}
-
-
-
 }

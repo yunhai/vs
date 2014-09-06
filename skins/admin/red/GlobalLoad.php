@@ -51,7 +51,8 @@ class GlobalLoad {
 		$vsPrint->addJavaScriptFile ( 'jquery.history' );
 		$vsPrint->addJavaScriptFile("jquery/jquery-ui-datetimepicker");
         $vsPrint->addJavaScriptFile("fileuploader");
-                $vsPrint->addJavaScriptFile ( 'jquery.timeout' );
+                
+        $vsPrint->addJavaScriptFile ( 'jquery.timeout' );
 		$vsPrint->addJavaScriptFile("default");
 		
 		

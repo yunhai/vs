@@ -3,7 +3,7 @@ $skinslog=array (
   'filemtime' => 
   array (
     './skins/user/finance/skin_abouts.php' => 1395395956,
-    './skins/user/finance/skin_addon.php' => 1409759265,
+    './skins/user/finance/skin_addon.php' => 1409988777,
     './skins/user/finance/skin_configs.php' => 1386731498,
     './skins/user/finance/skin_customers.php' => 1395628058,
     './skins/user/finance/skin_global.php' => 1409758048,
@@ -19,7 +19,7 @@ $skinslog=array (
     './skins/user/finance/skin_services.php' => 1396517442,
     './skins/user/finance/skin_simple.php' => 1387808876,
     './skins/user/finance/skin_togethers.php' => 1387267432,
-    './skins/user/finance/skin_posts.php' => 1409760856,
+    './skins/user/finance/skin_posts.php' => 1410021850,
     './skins/user/finance/skin_projects.php' => 1395734782,
     './skins/user/finance/skin_faq.php' => 1409759949,
     './skins/user/finance/skin_faqs.php' => 1409488966,

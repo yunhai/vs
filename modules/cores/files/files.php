@@ -247,36 +247,55 @@ class files extends VSFObject {
 	 * @param string $pathFile the path of file can upload
 	 * @return error if fail and `id` streaming if success
 	 */
-	function uploadFile($uploadName, $pathFile = "", $type= 1) {
+	function uploadFile($uploadName, $pathFile = "", $type= 1, $multiple = false) {
 		global $vsStd, $bw;
+		
+		$info = $_FILES[$uploadName];
+		if($multiple) {
+		    $map = array('file', 'gallery');
+		    foreach($map as $uploadName) {
+		        if(isset($_FILES[$uploadName])) {
+    		        foreach($_FILES[$uploadName] as $key => $value) {
+        		        $info[$key] = $value[0];
+        		    }
+		            break;
+		        }
+		    }
+		}
+	
 		$this->basicObject->convertToObject ( $bw->input );
 		$this->basicObject->setModule ( $bw->input ['table'] );
-		$pathFile=$this->uploadLocalToHost( $_FILES[$uploadName]['tmp_name'], $pathFile,$_FILES[$uploadName]['name'],$this->basicObject);
+		$pathFile=$this->uploadLocalToHost( $info['tmp_name'], $pathFile, $info['name'], $this->basicObject);
+		
 		if(!$pathFile){
 			$message=$this->message;
 		}else{
-//			$fileinfo=pathinfo($pathFile );
-			/**
-			 *$fileinfo['dirname'] => .
-		     *$fileinfo['basename'] => Sunset.jpg
-		     *$fileinfo['extension'] => jpg
-		     *$fileinfo['filename'] => Sunset 
-			 */
-			
-			
-			
 		}
 		
 			
 		$bw->show_callback = 1;
 		if ($bw->input ['ajax']){
-			$return['error']=$message;
-			$return['success']=true;
-			$return['id']=$this->basicObject->getId();
-			$return['ext']=$this->basicObject->getType();
-			$return['name']=$bw->input['uploadName'];
-			echo json_encode($return);
-		}else return $this->basicObject;
+			if($multiple) {
+			    $return['item_name'] = $uploadName;
+			    $return['error']=$message;
+			    $return['success']=true;
+			    $return['id']=$this->basicObject->getId();
+			    $return['url'] = $return['deleteUrl'] = 
+			    $return['deleteUrl'] = $this->basicObject->getCacheImagePathByFile($this->basicObject, 150, 200, 0);
+			    $return['deleteType'] = 'DELETE';
+			    $return['thumbnailUrl'] = $this->basicObject->getCacheImagePathByFile($this->basicObject, 150, 200, 0);
+			    $temp['files'][] = $return;
+			    echo json_encode($temp);
+			} 
+			else {
+			    $return['error']=$message;
+			    $return['success']=true;
+			    $return['id']=$this->basicObject->getId();
+			    $return['ext']=$this->basicObject->getType();
+			    $return['name']=$bw->input['uploadName'];
+			    echo json_encode($return);
+			}
+		} else return $this->basicObject;
 	}
 	/**
 	 * 

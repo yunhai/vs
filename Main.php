@@ -101,7 +101,6 @@ try {
 	$vsModule->getModuleByClass ( strtolower ( $bw->input ['module'] ) );
 	
 	if (APPLICATION_TYPE == "admin") {
-		
 		if (! $vsModule->result ['status'] || ! $vsModule->basicObject->getAdmin ()){
 			$vsModule->basicObject->setClass ( $bw->vars ['admin_frontpage'] );
 			$bw->input['module']=$bw->input[0]=$bw->vars ['admin_frontpage'];
@@ -116,7 +115,6 @@ try {
 			$vsModule->getModuleByClass ( $bw->vars ['public_frontpage'] );
 		}
 		$thread = "public";
-		
 	}
 	
 		// Update language for new display

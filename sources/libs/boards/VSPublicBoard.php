@@ -1,6 +1,6 @@
 <?php
 class VSPublicBoard {
-	protected  $tabs=array();
+	
 	function auto_run($module,$defaultModel="") {
 		global $bw;
 		
@@ -21,14 +21,15 @@ class VSPublicBoard {
 				$cClass=$expl[0];
 				$class=$cClass.'_controler_public';
 				require_once CORE_PATH.$module."/$class.php";
-				
 				if(class_exists($class)){
+				  
 					$controler=new $class($cClass);
+					
 					if(method_exists($controler,"auto_run")){
 						$bw->input['action']=$action;
 						$controler->auto_run();
 						return $this->setOutput($controler->getOutput());
-					}else die("$cClass::auto_run()  not exist!");
+					}else die("$cClass::auto_run() not exist!");
 				}
 			}else{
 				die("controler not exist!");

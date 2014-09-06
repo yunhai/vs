@@ -3,4 +3,7 @@
   'main_title' => 'Quản trị website',
   'pageTitle' => 'Trang chủ',
   'tab_file' => 'file',
+  'develop_get_obj_success' => 'Execute successful',
+  'admins_welcome' => 'Chào mừng',
+  'admins_login_last' => 'Hoạt động cuối',
 )?>

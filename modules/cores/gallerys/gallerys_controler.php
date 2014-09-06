@@ -7,7 +7,6 @@ class gallerys_controler extends VSControl_admin {
 //		$this->html=$vsTemplate->load_template("skin_gallery");
 		parent::__construct($modelName,"skin_gallerys","gallery");
 		$this->model->categoryName=$bw->input[0];
-	
 	}
 	function auto_run(){
 		global $bw;

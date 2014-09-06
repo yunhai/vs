@@ -263,7 +263,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f5c29861b6a($objItems,$option)}
+{$this->__foreach_loop__id_540ac395642bb($objItems,$option)}
 
 EOF;
 }
@@ -460,7 +460,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c29861b6a($objItems=array(),$option=array())
+function __foreach_loop__id_540ac395642bb($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -636,24 +636,23 @@ $BWHTML .= <<<EOF
      
                
 EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)) {
+if(1||$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)) {
 $BWHTML .= <<<EOF
 
                     <input class="icon-wrapper icon-wrapper-vs btnAlbum" type="button" onclick="vsf.popupGet('gallerys/gallerys_display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image','albumn',700,500,'{$this->getLang()->getWords('album','Album hình ảnh')}')" title="{$this->getLang()->getWords('album','Album hình ảnh')}" />
-                
+               
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
-                
+               
 EOF;
 if( $this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_comment',0, $bw->input[0], 1, 1)) {
 $BWHTML .= <<<EOF
 
-                    <input  type="button"  title="{$this->getLang()->getWords('comment')}" class="icon-wrapper icon-wrapper-vs btnComment" href="comments/comment-tab/{$this->modelName}/{$obj->getId()}" title="{$this->getLang()->getWords('comment','Bình luật')}" />
-                            
-                
+                   <input  type="button"  title="{$this->getLang()->getWords('comment')}" class="icon-wrapper icon-wrapper-vs btnComment" href="comments/comment-tab/{$this->modelName}/{$obj->getId()}" title="{$this->getLang()->getWords('comment','Bình luật')}" />
+               
 EOF;
 }
 

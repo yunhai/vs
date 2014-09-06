@@ -15,7 +15,7 @@ function showDefault($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_54073e5aa088d($option)}
+                {$this->__foreach_loop__id_540b39dd126f6($option)}
             </ul>
                 
             <div class='content'>
@@ -23,7 +23,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_54073e5aa0a83($option)}
+                    {$this->__foreach_loop__id_540b39dd128df($option)}
                     
                 </div>
             </div>
@@ -42,7 +42,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073e5aa088d($option=array())
+function __foreach_loop__id_540b39dd126f6($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -78,7 +78,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073e5aa09dd($option=array(),$key='',$cat='')
+function __foreach_loop__id_540b39dd12842($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -113,7 +113,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073e5aa0a83($option=array())
+function __foreach_loop__id_540b39dd128df($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -140,7 +140,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                {$this->__foreach_loop__id_54073e5aa09dd($option,$key,$cat)}
+                                {$this->__foreach_loop__id_540b39dd12842($option,$key,$cat)}
                                 <div class='clear'></div>
                                 
 EOF;
@@ -189,13 +189,13 @@ $vsf_count++;
 function showForm($option=array()) {        global $bw;
     
         $this->bw = $bw;
-    
+    //<if=" $key == {$option['obj']->getCatId()}">selected</if>
         
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_54073e5aa0d9c($option)}
+                {$this->__foreach_loop__id_540b39dd12e14($option)}
             </ul>
     
             <div class='content'>
@@ -204,15 +204,102 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_54073e5aa0eaf($option)}
+                    {$this->__foreach_loop__id_540b39dd13174($option)}
                 </div>
             </div>
             <script>
                 $('a[data-toggle="tab"]').on('click', function (e) {
                     window.location.href = $(e.target).attr("href");
-                    console.log($(e.target).attr("href"));
+                });
+                
+                var current = {$option['current']};
+                var json = {$option['json']};
+                console.log(json);
+                $('#state').change(function(){
+                    var city = '';
+                    $('#city').html(city);
+                    
+                    var state = $('#state').val();
+                    for(var i in json[state]['children']) {
+                        city += "<option value='"+i+"'>"+json[state]['children'][i]['name']+"</option>";
+                    }
+                    $('#city').html(city);
                 });
             </script>
+            
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="col-sm-3">
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+        </td>
+        <td>
+            <span class="preview"></span>
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        <td class="col-sm-3">
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <!--
+                <input type="checkbox" name="delete" value="1" class="toggle">
+                -->
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+        <td>
+            <input type='hidden' name='{%=file.item_name%}[{%=file.id%}]' value='{%=file.id%}' />
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+                {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+            </span>
+        </td>
+    </tr>
+{% } %}
+</script>
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/vendor/jquery.ui.widget.js'></script>
+<script type="text/javascript" src='http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js'></script>
+<script type="text/javascript" src='http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js'></script>
+<script type="text/javascript" src='http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js'></script>
+<script type="text/javascript" src='http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js'></script>
+<script type="text/javascript" src="{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-process.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-image.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-audio.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-video.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-validate.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/jquery.fileupload-ui.js'></script>
+        
+<script type="text/javascript" src='{$bw->vars['board_url']}/skins/user/finance/javascripts/uploader/main.js'></script>
+
 </div>
         {$this->getAddon()->getSidebar()}
 EOF;
@@ -223,7 +310,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073e5aa0d9c($option=array())
+function __foreach_loop__id_540b39dd12e14($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -259,7 +346,75 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073e5aa0eaf($option=array())
+function __foreach_loop__id_540b39dd12f69($option=array(),$key='',$cat='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['category_min'])){
+    foreach(  $option['category_min'] as $key => $item  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                                            <option value="{$key}" 
+EOF;
+if( $key == $option['current']) {
+$BWHTML .= <<<EOF
+selected
+EOF;
+}
+
+$BWHTML .= <<<EOF
+>{$item['name']}</option>
+                                        
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540b39dd1306b($option=array(),$key='',$cat='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['category_min'][$option['current']]['children'])){
+    foreach(  $option['category_min'][$option['current']]['children'] as $key => $item  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                                            <option value="{$key}" 
+EOF;
+if( $key == $option['obj']->getCatId() ) {
+$BWHTML .= <<<EOF
+selected
+EOF;
+}
+
+$BWHTML .= <<<EOF
+>{$item['name']}</option>
+                                        
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540b39dd13174($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -286,31 +441,88 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                <form class="form-horizontal" role="form" method='post' action='{$this->bw->base_url}posts/submit/{$cat->getSlugId()}'>
+                                
+EOF;
+if($option['error']) {
+$BWHTML .= <<<EOF
+
+                          <div class="alert alert-danger fade in" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                      </button>
+                                      <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
+                                      <p>{$option['error']}</p>
+                                  </div>
+                        
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+                                <form id="fileupload" class="form-horizontal" role="form" action='{$this->bw->base_url}posts/submit/{$cat->getSlugId()}' method="POST" enctype="multipart/form-data">
                                   <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label">
-                                        {$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}
+                                    <label class="col-sm-2 control-label">
+                                        {$this->getLang()->getWords('faq_form_category', 'Danh mục cần đăng')}
                                     </label>
                                     <div class="col-sm-10">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]'>
-                                    </div>
-                                  </div>  
-                                  <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}</label>
-                                    <div class="col-sm-10">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('post_form_intro', 'Mô tả')}" name='{$this->modelName}[intro]'>
-                                    </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                                    <div class="col-sm-10">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
+                                      <select class='form-control location-selection' id='state'>
+                                        {$this->__foreach_loop__id_540b39dd12f69($option,$key,$cat)}
+                                      </select>
+                                      <select class='form-control location-selection' id='city' name='{$this->modelName}[catId]'>
+                                        {$this->__foreach_loop__id_540b39dd1306b($option,$key,$cat)}
+                                      </select>
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_detail', 'Nội dung chi tiết')} (<span class='required'>*</span>)</label>
+                                    <label class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_title', 'Tiêu đề')} (<span class='required'>*</span>)</label>
                                     <div class="col-sm-10">
-                                      <textarea class="form-control" rows="3" name='{$this->modelName}[content]'></textarea>
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('post_form_title', 'Tiêu đề')}" name='{$this->modelName}[title]' value="{$option['obj']->getTitle()}">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_file', 'Hình đại diện')} (<span class='required'>*</span>)</label>
+                                    <div class="col-sm-10">
+                                        <div class="fileupload-buttonbar">
+                                            <div>
+                                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                                <span class="btn btn-success fileinput-button">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>{$this->getLang()->getWords('post_form_file_chose', 'Chọn tệp')} ...</span>
+                                                    <input type="file" name="file[]" multiple>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="fileupload-buttonbar">
+                                            <div>
+                                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                                <span class="btn btn-success fileinput-button">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>{$this->getLang()->getWords('faq_form_album', 'Album hình ảnh')}</span>
+                                                    <input type="file" name="gallery[]" multiple>
+                                                </span>
+                                                <!--
+                                                <button type="button" class="btn btn-danger delete hidden delete-button">
+                                                    <i class="glyphicon glyphicon-trash"></i>
+                                                    <span>Delete</span>
+                                                </button>
+                                                <input type="checkbox" class="toggle hidden delete-button">
+                                                -->
+                                            </div>
+                                        </div>
+                                        <table role="presentation" class="table table-striped" id='gallery-container'><tbody class="files"></tbody></table>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_intro', 'Mô tả')} (<span class='required'>*</span>)</label>
+                                    <div class="col-sm-10">
+                                      <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'>{$option['obj']->getIntro()}</textarea>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">{$this->getLang()->getWords('post_form_detail', 'Nội dung chi tiết')} (<span class='required'>*</span>)</label>
+                                    <div class="col-sm-10">
+                                      <textarea class="form-control" rows="15" name='{$this->modelName}[content]'>{$option['obj']->getContent()}</textarea>
                                     </div>
                                   </div>
                                   <div class="form-group">

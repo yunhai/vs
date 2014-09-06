@@ -6,10 +6,13 @@ class VSControl_public extends VSControl {
 		$this->modelName = $modelName;
 		$this->model = new $modelName ( $categoryName );
 		$this->tableName = $tableName;
-		global $vsTemplate;
-		$this->html = $vsTemplate->load_template ( $skinName );
-		$this->html->modelName = $modelName;
-		$this->html->model = $this->model;
+
+		if($skinName) {
+    		global $vsTemplate;
+    		$this->html = $vsTemplate->load_template ( $skinName );
+    		$this->html->modelName = $modelName;
+    		$this->html->model = $this->model;
+		}
 		$vsPrint->pageTitle = $vsPrint->mainTitle = VSFactory::getLangs ()->getWords ( $bw->input [0] );
 		// //////////
 	}

@@ -11,7 +11,7 @@ class posts_controler_public extends VSControl_public {
 	    global $bw;
 	
 	    switch ($bw->input ['action']) {
-	    	case $this->modelName.'_form':
+	    	case $this->modelName.'_add':
 	    	    $this->showForm($bw->input [2]);
 	    	    break;
 	    	case $this->modelName.'_submit':
@@ -63,7 +63,7 @@ class posts_controler_public extends VSControl_public {
 	    return $this->output = $this->getHtml()->showDefault($option);
 	}
 	
-	function showForm($catId) {
+	function showForm($catId, $custom = array()) {
 	    global $vsPrint,$bw;
 	
 	    $category = VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
@@ -83,10 +83,41 @@ class posts_controler_public extends VSControl_public {
 	        $vsPrint->boink_it($bw->base_url);
 	    }
 	     
+	    $json = array();
+	    foreach($option['cate'] as $item) {
+	        $tmp = $item->getChildren();
+	        if(empty($tmp)) continue;
+	        $children = array();
+	        foreach ($tmp as $child) {
+	            $children[$child->getId()] = array('name' => $child->getTitle());
+	        }
+	        
+	        $json[$item->getId()] = array(
+	        	'name' => $item->getTitle(),
+                'children' => $children
+	        );
+	    }
+	    $option['current'] = $idcate;
+	    $option['category_min'] = $json;
+	    $option['json'] = json_encode($json);
 	    $option['category'] = $category;
 	     
 	    $option[$idcate] = true;
+	   
+	    $vsPrint->addCSSFile("uploader/style");
+	    $vsPrint->addCSSFile("uploader/jquery.fileupload");
+	    $vsPrint->addCSSFile("uploader/jquery.fileupload-ui");
 	    
+	    $option['obj'] = $this->model->basicObject;
+	    if($custom) {
+	        foreach($custom as $k => $value) {
+	            $option[$k] = $value;
+	        }
+	    }
+	   
+// 	    print "<pre>";
+// 	    print_r($option['obj']);
+// 	    print "</pre>";
 	    $this->output = $this->html->showForm($option);
 	}
 	
@@ -104,33 +135,66 @@ class posts_controler_public extends VSControl_public {
 	    } else {
 	        $idcate = $this->getIdFromUrl($catId);
 	    }
-	
+	    
 	    $category=VSFactory::getMenus()->getCategoryById($idcate);
 	    if(!$category){
 	        $vsPrint->boink_it($bw->base_url);
 	    }
-	     
+	
+	 //   $bw->input['posts']['title'] = time();
+	    
+	    if(empty($bw->input['file'])) {
+	        $option['error'] = VSFactory::getLangs()->getWords('empty_image','Hình đại diện không hợp lệ');
+	        
+	        $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
+	        return $this->showForm($catId, $option);
+	    }
+	    
+	    reset($bw->input['file']);
+	    $bw->input['posts']['image'] = current($bw->input['file']);
+	    
+	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
+	    $flag = $this->model->insertObject();
+	    if(empty($flag)) {
+	        $option['error'] = VSFactory::getLangs()->getWords('empty_title','Tiêu đề không được để trống');
+	         
+// 	        $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
+	        return $this->showForm($catId, $option);
+	    }
+	    
+	    require_once CORE_PATH.'gallerys/gallerys.php';
+	    $model = new gallerys();
+	    $catId = $model->getCategories ();
+	    
+	    $galleries = array(
+	    	          'title'  => $bw->input['posts']['title'],
+	                  'module' => $this->modelName,
+	                  'catId'  => $catId,
+	                  'status' => -1,
+                      'code'   => $this->modelName.'_'.$this->model->basicObject->getId(),
+	    );
+	    
+	    $model->basicObject->convertToObject($galleries);
+	    $model->insertObject();
+
+	    $g_id = $model->basicObject->getId();
+	    foreach($bw->input['gallery'] as $id) {
+	       $model->addFileToAlbum($id, $g_id);
+	    }
+	   // $newAlbum=$this->model->createAlbum($bw->input[2].'_'.$bw->input[3],$bw->input[2]);
+	    
+	    global $DB;
+	    print "<pre>";
+	    print_r($DB->obj);
+	    print "</pre>";
+	    print "<pre>";
+	    print_r($bw->input);
+	    print "</pre>";exit;
+	    
 	    $redirect = $bw->base_url.'faq';
 	    if(empty($catId)) {
 	        $redirect = $bw->base_url.'faq/category/'.$category->getSlugId();
 	    }
-	
-	    $option['category'] = $category;
-	     
-	    $title = array();
-	    $ignore = array('fullname', 'phone', 'email');
-	    foreach($ignore as $item) {
-	        $title[$item] = $bw->input[$this->modelName][$item];
-	        unset($bw->input[$this->modelName][$item]);
-	    }
-	     
-	    $bw->input[$this->modelName]['title'] = json_encode($title);
-	     
-	    $bw->input[$this->modelName]['catId'] = $idcate;
-	     
-	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
-	    $this->model->insertObject();
-	     
 	    $vsPrint->boink_it($redirect);
 	}
 	
