@@ -17,7 +17,7 @@ $INFO['root_admin_groups']	=	'1';
 $INFO['api_server']	=	'http://api.ihost.vn/';
 
 
-
+// http://getbootstrap.com/javascript/#popovers
 // raovat.vs8.websiteviet.com
 
 // Administration login: raovat

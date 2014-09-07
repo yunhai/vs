@@ -68,13 +68,12 @@ function showForm($option = array()) {
         global $bw;
     
         $this->bw = $bw;
-    //<if=" $key == {$option['obj']->getCatId()}">selected</if>
         $BWHTML .= <<<EOF
 		<div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
                 <foreach=" $option['cate'] as $key=>$cat">
                     <li id='{$key}' <if="$key == $option['category']->getId() ">class='active'</if>>
-                        <a href="{$this->bw->base_url}faq/form/{$cat->getSlugId()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
+                        <a href="{$this->bw->base_url}posts/add/{$cat->getSlugId()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
                     </li>
                 </foreach>
             </ul>

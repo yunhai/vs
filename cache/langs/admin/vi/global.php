@@ -135,4 +135,11 @@
   'global_yes' => 'Yes',
   'global_no' => 'No',
   'global_ishome' => 'Trang chủ',
+  'tab_post' => 'Tin tức',
+  'posts_title' => 'Danh sách bài viết',
+  'location' => 'Địa điểm',
+  'publicdate' => 'Ngày xuất bản',
+  'createddate' => 'Ngày đăng',
+  'album' => 'Album hình ảnh',
+  'action_pending' => 'Pending',
 )?>

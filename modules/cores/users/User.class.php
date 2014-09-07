@@ -4,7 +4,7 @@ class User extends BasicObject {
 
 	public	function convertToDB(){
 		$map = array(
-			     'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status'
+			     'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status', 'website'
 		      );
 		
         foreach($map as $key) {
@@ -17,7 +17,7 @@ class User extends BasicObject {
 
 	public function convertToObject($object = array()){
 		$map = array(
-                'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status'
+                'id', 'name', 'password', 'group_code', 'email', 'fullname', 'address', 'city', 'location', 'zipcode', 'lastlogin', 'joinDate', 'status', 'website'
 		);
 		
 		foreach($map as $key) {
@@ -30,6 +30,10 @@ class User extends BasicObject {
 	    return $status;
 	}
 
+	function getGroupCode() {
+	    return $this->group_code;
+	}
+	
     function getFullname() {
         return $this->fullname;
     }
@@ -56,6 +60,10 @@ class User extends BasicObject {
 	}
 
 
+	function getWebsite(){
+	    return $this->website;
+	}
+	
 
 	function getStatus(){
 		return $this->status;

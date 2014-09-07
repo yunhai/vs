@@ -6,22 +6,20 @@ class skin_posts extends skin_objectadmin {
 //===========================================================================
 // <vsf:addEditObjForm:desc::trigger:>
 //===========================================================================
-function addEditObjForm($obj="",$option=array()) {global $bw;
-$seo = "style='display:none'";
-if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
-$seo = "";
-}
-
+function addEditObjForm($obj="",$option=array()) {    global $bw;
+    $seo = "style='display:none'";
+    if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
+        $seo = "";
+    }
+    
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="vs_panel" id="vs_panel_{$this->modelName}">
 <div class="ui-dialog">
-    
 <form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
 <input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
 <input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
 <input type="hidden" value="{$obj->getId()}" name="{$this->modelName}[id]" />
-<!--<input type="hidden" value="{$obj->getSlug ()}" name="{$this->modelName}[mUrl]" id="mUrl" data-module="{$this->modelName}" data-id = "{$obj->getId()}" />-->
 <table class="obj_add_edit" width="100%">
 <thead>
 <tr>
@@ -41,12 +39,11 @@ group="{$bw->input[0]}_{$this->modelName}_form">
 <tr>
 <td style="width: 111px;"><label>{$this->getLang()->getWords('title','Tiêu đề')}</label></td>
 <td>
-<input  name="{$this->modelName}[title]" id="{$this->modelName}_title" type="text" value="{$obj->getTitle()}" style='width:99%' onBlur="vsf.checkPermalink($('#{$this->modelName}_title').val(),'{$bw->input[0]}')"/>
+<input name="{$this->modelName}[title]" id="{$this->modelName}_title" type="text" value="{$obj->getTitle()}" style='width:99%' onBlur="vsf.checkPermalink($('#{$this->modelName}_title').val(),'{$bw->input[0]}')"/>
 </td>
 </tr>
 <tr>
 </tr>
-    
 
 EOF;
 if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_status','Status',$bw->input[0].'_'.$this->modelName.'_form')) {
@@ -58,36 +55,44 @@ $BWHTML .= <<<EOF
 <label>
 <input 
 EOF;
-if($obj->getStatus()=='0') {
+if($obj->getStatus()=='99') {
 $BWHTML .= <<<EOF
 checked='checked'
 EOF;
 }
 
 $BWHTML .= <<<EOF
-  name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
+ name="{$this->modelName}[status]" id="{$this->modelName}_status_99" type="radio" value="99"  />
+{$this->getLang()->getWords('pending_type','Pending')}
+</label>
+<label>
+<input 
+EOF;
+if($obj->getStatus()==0||$obj->getStatus()==null) {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
 {$this->getLang()->getWords('global_hide','Ẩn')}
 </label>
 <label>
 <input 
 EOF;
-if($obj->getStatus()==1||$obj->getStatus()==null) {
+if($obj->getStatus()==1) {
 $BWHTML .= <<<EOF
 checked='checked'
 EOF;
 }
 
 $BWHTML .= <<<EOF
-  name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
-{$this->getLang()->getWords('global_visible','Hiện')}
+ name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
+{$this->getLang()->getWords('normal_type','Normal')}
 </label>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <label>
-<input  
+<input 
 EOF;
 if($obj->getStatus()==2) {
 $BWHTML .= <<<EOF
@@ -96,16 +101,9 @@ EOF;
 }
 
 $BWHTML .= <<<EOF
-  name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
-{$this->getLang()->getWords('global_home','Trang chủ')}
+ name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
+{$this->getLang()->getWords('vip_type','Vip')}
 </label>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-</td>
 </tr>
 
 EOF;
@@ -113,82 +111,54 @@ EOF;
 
 $BWHTML .= <<<EOF
 
-    
+<tr>
+<td><label>{$this->getLang()->getWords('publicdate', 'Ngày xuất bản')}</label></td>
+<td>
+<input name="{$this->modelName}[publicdate]" type="text" value="{$obj->getPublicDate()}" class='datepicker' />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords('enddate', 'Ngày hết hạn')}</label></td>
+<td>
+<input name="{$this->modelName}[enddate]" type="text" value="{$obj->getEndDate()}" class='datepicker' />
+</td>
+</tr>
 <tr>
 <td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
 <td>
-<select  name="{$this->modelName}[catId]" id="vs_cate"  style="width: 40%">
-{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
+<select name="{$this->modelName}[catId]" style='width: 200px;'>
+{$this->__foreach_loop__id_540c4190a8a0c($obj,$option)}
 </select>
-<br>
 </td>
 </tr>
+
+EOF;
+if( $option['location'] ) {
+$BWHTML .= <<<EOF
+
 <tr>
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
-<select name="{$this->modelName}[location]" style="width: 40%">
-{$this->model->locationList()->getChildrenBoxOption($obj->getLocation())}
+<select name="{$this->modelName}[location]" style='width: 200px;'>
+{$this->__foreach_loop__id_540c4190a8bb0($obj,$option)}
 </select>
-<br>
 </td>
 </tr>
-    
-<tr>
-<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
-<td>
-<input name="{$this->modelName}[website]" id="{$this->modelName}_title" type="text" value="{$obj->getWebsite()}" style='width:40%' />
-</td>
-</tr>
-<tr>
-<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
-<td>
-   <input name="{$this->modelName}[email]" id="{$this->modelName}_email" type="text" value="{$obj->getEmail()}" style='width:40%' />
-</td>
-</tr>
-<tr>
-<td><label>{$this->getLang()->getWords("phone", 'Điện thoại')}</label></td>
-<td><input name="{$this->modelName}[phone]" id="{$this->modelName}_phone" type="text" value="{$obj->getPhone()}" style='width:40%' />
-</td>
-</tr>
-
-
-EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_form')) {
-$BWHTML .= <<<EOF
-
-<tr>
-<td><label>{$this->getLang()->getWords("index",'Thứ tự')}</label></td>
-<td>
-<input  name="{$this->modelName}[index]" id="{$this->modelName}_index" type="text" value="{$obj->getIndex()}" />
-</td>
-</tr>
-
+           
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
-    
-
-EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_code','code',$bw->input[0].'_'.$this->modelName.'_form')) {
-$BWHTML .= <<<EOF
-
 <tr>
-<td><label>{$this->getLang()->getWords("code","Mã")}</label></td>
+<td><label>{$this->getLang()->getWords("address",'Địa chỉ')}</label></td>
 <td>
-<input  name="{$this->modelName}[code]" id="{$this->modelName}_code" type="text" value="{$obj->getCode()}" />
+<input name="{$this->modelName}[address]" id="{$this->modelName}_address" type="text" value="{$obj->getAddress()}" style='width:99%' />
 </td>
 </tr>
 
 EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_image_field', 1)) {
 $BWHTML .= <<<EOF
 
 <tr>
@@ -218,7 +188,7 @@ $BWHTML .= <<<EOF
 </label>
 <br/>
 <label>
-<input name="filetype[image]" value="link" type="radio" obj="image-link"/>
+<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
 {$this->getLang()->getWords('download_from','Tải về từ đường dẫn')}:
 </label>
 <label>
@@ -267,7 +237,7 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_intro','Intro',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_intro', 0)) {
 $BWHTML .= <<<EOF
 
 <tr>
@@ -302,13 +272,13 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_content','Content',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_content', 1)) {
 $BWHTML .= <<<EOF
 
 <tr>
 <td><label>{$this->getLang()->getWords('content','Nội dung')}</label></td>
 <td>
-{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px", "medium")}
+{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px","full")}
 </td>
 </tr>
 
@@ -332,7 +302,6 @@ EOF;
 $BWHTML .= <<<EOF
 
 </tr></td>
-    
 
 EOF;
 if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')) {
@@ -362,10 +331,10 @@ $BWHTML .= <<<EOF
 </tbody>
 </table>
 </form>
-    
-    
+
 </div>
 <script>
+$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 $("#frm_add_edit_obj").submit(function(){
 var flag=false;
 var message="";
@@ -404,7 +373,6 @@ $("#"+$(this).attr('obj')).removeAttr("disabled");
 $("#"+$(this).attr('obj')).attr("disabled","disabled");
 }
 });
-    
 }
 });
 </script>
@@ -412,10 +380,119 @@ EOF;
 //--endhtml--//
 return $BWHTML;
 }
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540c4190a8979($obj="",$option=array(),$item='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $item->getChildren())){
+    foreach(  $item->getChildren() as $key => $child  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+    
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540c4190a8a0c($obj="",$option=array())
+{
+    global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $this->model->getCategories()->getChildren())){
+    foreach(  $this->model->getCategories()->getChildren() as $item  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+    <optgroup label="{$item->getTitle()}">
+    {$this->__foreach_loop__id_540c4190a8979($obj,$option,$item)}
+    </optgroup>
+
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540c4190a8afa($obj="",$option=array(),$item='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $item->getChildren())){
+    foreach(  $item->getChildren() as $key => $child  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+    
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_540c4190a8bb0($obj="",$option=array())
+{
+    global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['location'])){
+    foreach(  $option['location'] as $item  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+    <optgroup label="{$item->getTitle()}">
+    {$this->__foreach_loop__id_540c4190a8afa($obj,$option,$item)}
+    </optgroup>
+
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
 //===========================================================================
 // <vsf:getListItemTable:desc::trigger:>
 //===========================================================================
 function getListItemTable($objItems=array(),$option=array()) {    global $bw;
+    $this->statusMap = array(
+                        '99' => 'pending',
+                            '0' => 'disable',
+                            '1' => 'normal',
+                            '2' => 'vip'
+    );
     $setting="{$bw->base_url}settings#settings/settings/settings_search/&search[catName]={$bw->input[0]}";
     
 //--starthtml--//
@@ -522,6 +599,7 @@ EOF;
 $BWHTML .= <<<EOF
 
 <th class="date">{$this->getLang()->getWords("publicdate","Ngày xuất bản")}</th>
+<th class="date">{$this->getLang()->getWords("createddate","Ngày đăng")}</th>
 
 EOF;
 if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_list')) {
@@ -543,7 +621,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f5c29b3c2aa($objItems,$option)}
+{$this->__foreach_loop__id_540c4190a950b($objItems,$option)}
 
 EOF;
 }
@@ -740,7 +818,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c29b3c2aa($objItems=array(),$option=array())
+function __foreach_loop__id_540c4190a950b($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -827,14 +905,30 @@ EOF;
 if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_status','Status',$bw->input[0].'_'.$this->modelName.'_list')) {
 $BWHTML .= <<<EOF
 
-<td class="status"><img src="{$bw->vars['img_url']}/status/status_{$item->getStatus()}.png"></td>
+<td class="status">
+   {$this->statusMap[$item->getStatus()]}
+</td>
 
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
-<td>{$item->getPublicDate()}</td>
+<td>
+   
+EOF;
+if($item->getStatus() != 99) {
+$BWHTML .= <<<EOF
+
+   {$item->getPublicDate()}
+   
+EOF;
+}
+
+$BWHTML .= <<<EOF
+&nbsp;
+    </td>
+<td>{$item->getCreatedDate()}</td>
 
 EOF;
 if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_list')) {
@@ -926,7 +1020,27 @@ EOF;
 }
 
 $BWHTML .= <<<EOF
- value="1">{$this->getLang()->getWords('action_visible','Hiện')}</option>
+ value="1">{$this->getLang()->getWords('action_visible','Normal')}</option>
+<option 
+EOF;
+if($bw->input['search']['status']==2) {
+$BWHTML .= <<<EOF
+selected='selected'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ value="2">{$this->getLang()->getWords('action_visible','VIP')}</option>
+<option 
+EOF;
+if($bw->input['search']['status']==99) {
+$BWHTML .= <<<EOF
+selected='selected'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ value="99">{$this->getLang()->getWords('action_pending','Pending')}</option>
 </select>
 </label>
 

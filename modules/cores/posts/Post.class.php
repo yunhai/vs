@@ -17,7 +17,7 @@ class Post extends BasicObject {
 		
 		
 		$array = array(
-		                'phone','website', 'email', 'location', 'created_date', 'public_date', 'author', 'author_type', 'clean'
+		                'phone','website', 'email', 'location', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean', 'name', 'address'
 		);
 		
 		foreach($array as $key) {
@@ -45,7 +45,7 @@ class Post extends BasicObject {
 		isset ( $object ['mUrl'] ) ? $this->setMUrl ( $object ['mUrl'] ) : '';
 		
 		$array = array(
-			         'phone','website', 'email', 'location', 'created_date', 'public_date', 'author', 'author_type', 'clean'
+			         'phone','website', 'email', 'location', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean', 'name', 'address'
 		);
 		
 		foreach($array as $key) {
@@ -70,7 +70,10 @@ class Post extends BasicObject {
 		return $this->content;
 	}
 
-
+    function getAddress() {
+		return $this->address;
+	}
+	
 	function getStatus() {
 		return $this->status;
 	}
@@ -189,18 +192,37 @@ class Post extends BasicObject {
 	    return $this->created_date;
 	}
 	
-	public function getPublicDate() {
-	    return $this->public_date;
+	public function getPublicDate($full = false) {
+	    if($full)
+	        return $this->public_date;
+	     
+	    $tmp = explode(' ', $this->public_date);
+	    return $tmp[0];
 	}
 	
 	public function getAuthor() {
 	    return $this->author;
 	}
 	
+	public function getEndDate($full = false) {
+	    if($full)
+	       return $this->end_date;
+	    
+	    $tmp = explode(' ', $this->end_date);
+	    return $tmp[0];
+	}
+	
 	public function getAuthorType() {
 	    return $this->author_type;
 	}
 	
+	public function setPublicDate($date) {
+	    return $this->public_date = $date;
+	}
+
+	public function setEndDate($date) {
+	    return $this->end_date = $date;
+	}	
 	var $id;
 	var $title;
 	var $info;

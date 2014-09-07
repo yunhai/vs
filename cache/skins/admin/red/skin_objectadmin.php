@@ -263,7 +263,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_540ac395642bb($objItems,$option)}
+{$this->__foreach_loop__id_540c2d62482e5($objItems,$option)}
 
 EOF;
 }
@@ -460,7 +460,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540ac395642bb($objItems=array(),$option=array())
+function __foreach_loop__id_540c2d62482e5($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -636,7 +636,7 @@ $BWHTML .= <<<EOF
      
                
 EOF;
-if(1||$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_album',0, $bw->input[0], 1, 1)) {
 $BWHTML .= <<<EOF
 
                     <input class="icon-wrapper icon-wrapper-vs btnAlbum" type="button" onclick="vsf.popupGet('gallerys/gallerys_display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image','albumn',700,500,'{$this->getLang()->getWords('album','Album hình ảnh')}')" title="{$this->getLang()->getWords('album','Album hình ảnh')}" />
@@ -772,7 +772,7 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if(1|| $this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()) {
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()) {
 $BWHTML .= <<<EOF
 
 <tr>
@@ -846,7 +846,7 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
 <tr>
@@ -925,7 +925,7 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_intro','Intro',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_intro','Intro',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
 <tr>
@@ -960,7 +960,7 @@ $BWHTML .= <<<EOF
 
 
 EOF;
-if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_content','Content',$bw->input[0].'_'.$this->modelName.'_form')) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_content','Content',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
 <tr>

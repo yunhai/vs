@@ -109,7 +109,6 @@ class users_controler_public extends VSControl_public {
 		$vscaptcha=new VsCaptcha();
 		
 		if($vscaptcha->check($bw->input['security'])){
-// 		    USER_TYPE_NORMAL
 			if(($bw->input['users']['password']!=$bw->input['users']['password_confirm'])||!$bw->input['users']['password']){
 				$option['error']= VSFactory::getLangs()->getWords('password_not_available', 'Mật khẩu không hợp lệ');
 				return $this->output= $this->registry($option);

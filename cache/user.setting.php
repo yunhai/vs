@@ -1,5 +1,7 @@
 <?php
 $arraySetting = array (
+  'vip_post_duration' => '7',
+  'normal_post_duration' => '3',
   'posts_paging_limit' => '12',
   'users_category_list' => '0',
   'show_location_list' => '1',
@@ -258,7 +260,7 @@ $arraySetting = array (
   'contacts_contacts_search_form' => '1',
   'contacts_contacts_button_delete' => '0',
   'contacts_paging_limit' => '20',
-  'contacts_category_list' => '1',
+  'contacts_category_list' => '0',
   'services_pages_maps' => '0',
   'services_pages_dis' => '0',
   'services_pages_provin' => '0',
@@ -834,7 +836,7 @@ $arraySetting = array (
   'contacts_pcontacts_button_delete' => '0',
   'contacts_pcontacts_button_add' => '0',
   'contacts_pcontacts_status' => '0',
-  'contacts_pcontacts_category_list' => '1',
+  'contacts_pcontacts_category_list' => '0',
   'contacts_pcontacts_search_form' => '1',
   'pcontacts_admin_paging_limit' => '20',
   'orders_orders_content' => '1',

@@ -10,7 +10,7 @@ function itemProduct($option=array()) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_54072e9ebc081($option)}
+        {$this->__foreach_loop__id_540c42c3eb245($option)}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -19,7 +19,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54072e9ebc081($option=array())
+function __foreach_loop__id_540c42c3eb245($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -148,7 +148,7 @@ function showMore($option=array(),$count=4) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_54072e9ebc4df($option,$count)}
+        {$this->__foreach_loop__id_540c42c3eb53c($option,$count)}
 <script type="text/javascript">
 var tallest = 0
 jQuery(document).ready(function(){
@@ -171,7 +171,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54072e9ebc4df($option=array(),$count=4)
+function __foreach_loop__id_540c42c3eb53c($option=array(),$count=4)
 {
 global $bw;
     $BWHTML = '';

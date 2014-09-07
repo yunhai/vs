@@ -37,6 +37,29 @@ class posts extends VSFObject {
 	    return VSFactory::getMenus()->getCategoryGroup('locations');
 	}
 	
+	public function createSearch($input) {
+	    global $bw;
+	    
+	    $name = $input['posts']['name'];
+	    $phone    = $input['posts']['phone'];
+	    $address  = $input['posts']['address'];
+	  
+	    if($input['posts']['location']) {
+	        $tmp = VSFactory::getMenus()->getCategoryById($input['posts']['location']);
+	        $state = $tmp->getTitle() . ' ' . $tmp->getIsLink();
+	    }
+	    $zipcode    = $input['posts']['zipcode'];
+	    
+	    $title   = $bw->input['posts']['title'];
+	    $intro   = $bw->input['posts']['intro'];
+	    $content = $bw->input['posts']['content'];
+	    
+	    $clean = $name . ' ' . $phone . ' ' . $address . ' ' . $state . ' ' . $zipcode . ' ' . $title . ' ' . $intro . ' ' . $content;
+	    
+	    return strtolower(VSFactory::getTextCode()->removeAccent($clean, ' '));
+	}
+	
+	
 	/**
 	*Enter description here ...
 	*@var Post

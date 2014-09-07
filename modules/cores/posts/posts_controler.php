@@ -28,17 +28,15 @@ class posts_controler extends VSControl_admin {
 	            if($ids)
 	                $this->model->setCondition("{$this->model->getCategoryField()} in ($ids)");
 	        }
-	        if($bw->input['module']=='products'){
-	            // $this->model->setOrder('`index` ASC');
-	        }
+	        
 	        $result = $DB->query("SHOW COLUMNS FROM `".$bw->vars['sql_tbl_prefix_0'].$this->tableName."` LIKE 'status'");
 	        $exists = (mysql_num_rows($result))?TRUE:FALSE;
 	        if($exists)
 	        if($this->model->getCondition())
-	            $this->model->setCondition($this->model->getCondition().' AND status>=0');
-	        else $this->model->setCondition('status>=0');
+	            $this->model->setCondition($this->model->getCondition().' AND status>=-1');
+	        else $this->model->setCondition('status>=-1');
 	         
-	        $this->model->setOrder('public_date desc');
+	        $this->model->setOrder('created_date desc');
 	        $option=array_merge($option, $this->model->getPageListHash($this->modelName."/".$bw->input [0]."/{$this->modelName}_display_tab/{$catId}/",3,
 	        	
 	        VSFactory::getSettings()->getSystemKey("{$this->modelName}_admin_paging_limit",20)));
@@ -65,6 +63,33 @@ class posts_controler extends VSControl_admin {
 	        $bw->input['back']="/{$bw->input[0]}/{$this->modelName}_display_tab/";
 	    }
 	    $bw->input['back'].="&pageIndex=".$bw->input['pageIndex'];
+	    
+	    $option['location'] = VSFactory::getMenus()->getCategoryGroup('locations')->getChildren();
+	    $option['author_type'] = 'admin';
+	    if($objId) {
+	        require_once (CORE_PATH . 'users/users.php');
+	        $model = new users();
+	        $user = $model->getObjectById($this->model->basicObject->getAuthor());
+	         
+	        $date = date('Y-m-d H:m:s');
+	        if($this->model->basicObject->getPublicDate() == '0000-00-00') {
+	            $this->model->basicObject->setPublicDate($date);
+	        }
+	        
+	        if($this->model->basicObject->getEndDate() == '0000-00-00') {
+	            $duration = $user->getGroupCode() == USER_TYPE_VIP ? 'vip_post_duration' : 'normal_post_duration';
+	            
+	            $duration = VSFactory::getSettings()->getSystemKey($duration, 1);
+	            $date = strtotime("+{$duration} day");
+
+	            $this->model->basicObject->setEndDate(date('Y-m-d H:m:s', $date));
+	        }
+
+	        $option['author_type'] = $this->model->basicObject->getAuthorType();
+	        if($this->model->basicObject->getStatus() == 99) {
+	            $this->model->basicObject->setStatus(0);
+	        }
+	    }
 	    
 	    return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
@@ -96,6 +121,7 @@ class posts_controler extends VSControl_admin {
 	    /****end file processing**************/
 	    if($bw->input[$this->modelName]['id']){
 	        $this->model->getObjectById($bw->input[$this->modelName]['id']);
+	        
 	        if(!$this->model->basicObject->getId()){
 	            return $this->output =  $this->getObjList ($bw->input['pageIndex'],"Not define object of id={$bw->input[$this->modelName]['id']} submited!");
 	        }
@@ -103,8 +129,35 @@ class posts_controler extends VSControl_admin {
 	            $files=new files();
 	            $files->deleteFile($this->model->basicObject->getImage());
 	        }
+	        
+	        require_once (CORE_PATH . 'users/users.php');
+	        $model = new users();
+	        $user = $model->getObjectById($this->model->basicObject->getAuthor());
+	        
+	        if($bw->input[$this->modelName]['status'] == 1 && $this->model->basicObject->getStatus() == 99) {
+	            $status = $user->getGroupCode() == USER_TYPE_VIP ? POST_STATUS_VIP : POST_STATUS_GUEST;
+	            
+	            $bw->input[$this->modelName]['status'] = $status;
+	            
+// 	            $this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form');
+	        }
+	        if($this->model->basicObject->getAuthorType() == 'user'){
+	            $map = array(
+	                            'author'  => 'getId',
+	                            'address' => 'getAddress',
+	                            'phone'   => 'getName',
+	                            'email'   => 'getEmail',
+	                            'website' => 'getWebsite',
+	                            'location'=> 'getLocation',
+	                            'name'    => 'getFullname',
+	                            'zipcode' => 'getZipcode'
+	            );
+	            foreach($map as $k => $f) {
+	                $bw->input[$this->modelName][$k] = $user->$f();
+	            }
+	        }
 	        /////delete some here..........................................
-	    }else{
+	    } else {
 	        $time = date('Y-m-d H:m:s');
 	        $bw->input[$this->modelName]['created_date'] = $time;
 	        $bw->input[$this->modelName]['public_date']  = $time;
@@ -140,7 +193,6 @@ class posts_controler extends VSControl_admin {
 	    $this->afterProcess($this->model);
 	    if(!$this->model->result['status']){
 	        $message=$this->model->result['developer'];
-	        	
 	    }
 	    ///////some here.....................
 	    $this->lastModifyChange();

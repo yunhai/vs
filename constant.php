@@ -19,6 +19,7 @@ define ( "JAVASCRIPT_PATH"	, ROOT_PATH .'javascripts/');
 
 
 
+
 define ( "SKIN_CACHE", 1);
 define ( "TIMTHUMB"	, 2);
 define ("SETTINGS_CACHE",1);
@@ -33,6 +34,9 @@ define("MAX_FILE_SIZE", 100*1024*1024);
 
 define ( "USER_TYPE_NORMAL", 1);
 define ( "USER_TYPE_VIP", 2);
+
+define ( "POST_STATUS_GUEST", 1);
+define ( "POST_STATUS_VIP", 2);
 
 
 /////////////////////////////SHOW SQL ERROR

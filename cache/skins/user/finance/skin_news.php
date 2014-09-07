@@ -17,7 +17,7 @@ $BWHTML .= <<<EOF
             
             
             
-            {$this->__foreach_loop__id_54072e9e805f6($option)}
+            {$this->__foreach_loop__id_540c42c3b3dd2($option)}
             
             
             <div class="clear"></div>
@@ -81,7 +81,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54072e9e805f6($option=array())
+function __foreach_loop__id_540c42c3b3dd2($option=array())
 {
 global $bw,$vsPrint;
     $BWHTML = '';

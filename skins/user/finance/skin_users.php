@@ -55,6 +55,12 @@ function registry($option){
                         </div>
                       </div>
                       <div class="form-group">
+                        <label class="col-sm-2 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')} (<span class='required'>*</span>)</label>
+                        <div class="col-sm-10">
+                          <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_website', 'Website')}" name='{$this->modelName}[website]' />
+                        </div>
+                      </div>
+                      <div class="form-group">
                         <label class="col-sm-2 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')} (<span class='required'>*</span>)</label>
                         <div class="col-sm-10">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]' />
@@ -345,9 +351,15 @@ function changeInfo($option){
                         </div>
                       </div>
                       <div class="form-group">
+                        <label class="col-sm-2 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')} (<span class='required'>*</span>)</label>
+                        <div class="col-sm-10">
+                          <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_website', 'Website')}" name='{$this->modelName}[website]'  value='{$option['obj']->getWebsite()}' />
+                        </div>
+                      </div>
+                      <div class="form-group">
                         <label class="col-sm-2 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')} (<span class='required'>*</span>)</label>
                         <div class="col-sm-10">
-                          <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]'  value='{$option['obj']->getAddress()}' />
+                          <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]' value='{$option['obj']->getAddress()}' />
                         </div>
                       </div>
                       <div class="form-group">

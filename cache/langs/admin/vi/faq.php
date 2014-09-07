@@ -44,4 +44,7 @@
   'category' => 'Danh mục',
   'develop_get_obj_success' => 'Execute successful',
   'move_to_categories' => 'Di chuyển tin đến',
+  'P_trang' => 'trang',
+  'album' => 'Album hình ảnh',
+  'page_index' => 'Trang',
 )?>

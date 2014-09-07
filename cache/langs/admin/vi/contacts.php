@@ -43,4 +43,5 @@
   'contactReplyFormTitle' => 'Reply Email',
   'obj_back' => 'Trở lại',
   'contacts_replyForm_Send' => 'Send Reply',
+  'album' => 'Album hình ảnh',
 )?>

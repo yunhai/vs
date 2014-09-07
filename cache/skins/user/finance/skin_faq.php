@@ -15,7 +15,7 @@ function showDefault($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_54073ae3a8e57($option)}
+                {$this->__foreach_loop__id_540c42c2e02a4($option)}
             </ul>
                 
             <div class='content'>
@@ -27,7 +27,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_54073ae3a902e($option)}
+                    {$this->__foreach_loop__id_540c42c2e048a($option)}
                 </div>
             </div>
             <script>
@@ -46,7 +46,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073ae3a8e57($option=array())
+function __foreach_loop__id_540c42c2e02a4($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -82,7 +82,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073ae3a8f86($option=array(),$key='',$cat='')
+function __foreach_loop__id_540c42c2e03de($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -115,7 +115,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073ae3a902e($option=array())
+function __foreach_loop__id_540c42c2e048a($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -142,7 +142,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                {$this->__foreach_loop__id_54073ae3a8f86($option,$key,$cat)}
+                                {$this->__foreach_loop__id_540c42c2e03de($option,$key,$cat)}
             
                                 
 EOF;
@@ -213,7 +213,7 @@ function showForm($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-9'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_54073ae3a93fb($option)}
+                {$this->__foreach_loop__id_540c42c2e07c6($option)}
             </ul>
     
             <div class='content'>
@@ -225,7 +225,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_54073ae3a9518($option)}
+                    {$this->__foreach_loop__id_540c42c2e0912($option)}
                 </div>
             </div>
             <script>
@@ -244,7 +244,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073ae3a93fb($option=array())
+function __foreach_loop__id_540c42c2e07c6($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -280,7 +280,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54073ae3a9518($option=array())
+function __foreach_loop__id_540c42c2e0912($option=array())
 {
         global $bw;
     $BWHTML = '';

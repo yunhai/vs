@@ -66,6 +66,10 @@ class posts_controler_public extends VSControl_public {
 	function showForm($catId, $custom = array()) {
 	    global $vsPrint,$bw;
 	
+	    if(!VSFactory::getUsers()->basicObject->getId()){
+	        $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), '/');
+	    }
+	    
 	    $category = VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
 	    $option['cate'] = $category->getChildren();
 	    
@@ -115,9 +119,6 @@ class posts_controler_public extends VSControl_public {
 	        }
 	    }
 	   
-// 	    print "<pre>";
-// 	    print_r($option['obj']);
-// 	    print "</pre>";
 	    $this->output = $this->html->showForm($option);
 	}
 	
@@ -141,8 +142,6 @@ class posts_controler_public extends VSControl_public {
 	        $vsPrint->boink_it($bw->base_url);
 	    }
 	
-	 //   $bw->input['posts']['title'] = time();
-	    
 	    if(empty($bw->input['file'])) {
 	        $option['error'] = VSFactory::getLangs()->getWords('empty_image','Hình đại diện không hợp lệ');
 	        
@@ -153,35 +152,59 @@ class posts_controler_public extends VSControl_public {
 	    reset($bw->input['file']);
 	    $bw->input['posts']['image'] = current($bw->input['file']);
 	    
+	    
+	    $user = VSFactory::getUsers()->basicObject;
+	    
+	    $map = array(
+	    	      'author'  => 'getId',
+                  'address' => 'getAddress',
+                  'phone'   => 'getName',
+                  'email'   => 'getEmail',
+                  'website' => 'getWebsite',
+                  'location'=> 'getLocation',
+                  'name'    => 'getFullname',
+                  'zipcode' => 'getZipcode'
+	    );
+	    foreach($map as $k => $f) {
+	        $bw->input['posts'][$k] = $user->$f();
+	    }
+	    
+	    $bw->input['posts']['status'] = 99;
+	    $bw->input['posts']['author_type'] = APPLICATION_TYPE;
+	    
+	    $bw->input['posts']['clean'] = $this->model->createSearch($bw->input);
+	    $bw->input['posts']['created_date'] = date('Y-m-d H:m:s');
+	    
 	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
 	    $flag = $this->model->insertObject();
+	    
 	    if(empty($flag)) {
 	        $option['error'] = VSFactory::getLangs()->getWords('empty_title','Tiêu đề không được để trống');
 	         
-// 	        $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
 	        return $this->showForm($catId, $option);
 	    }
 	    
-	    require_once CORE_PATH.'gallerys/gallerys.php';
-	    $model = new gallerys();
-	    $catId = $model->getCategories ();
-	    
-	    $galleries = array(
-	    	          'title'  => $bw->input['posts']['title'],
-	                  'module' => $this->modelName,
-	                  'catId'  => $catId,
-	                  'status' => -1,
-                      'code'   => $this->modelName.'_'.$this->model->basicObject->getId(),
-	    );
-	    
-	    $model->basicObject->convertToObject($galleries);
-	    $model->insertObject();
-
-	    $g_id = $model->basicObject->getId();
-	    foreach($bw->input['gallery'] as $id) {
-	       $model->addFileToAlbum($id, $g_id);
+	    if(!empty($bw->input['gallery'])) {
+    	    require_once CORE_PATH.'gallerys/gallerys.php';
+    	    $model = new gallerys();
+    	    $catId = $model->getCategories ();
+    	    
+    	    $galleries = array(
+    	    	          'title'  => $bw->input['posts']['title'],
+    	                  'module' => $this->modelName,
+    	                  'catId'  => $catId,
+    	                  'status' => -1,
+                          'code'   => $this->modelName.'_'.$this->model->basicObject->getId(),
+    	    );
+    	    
+    	    $model->basicObject->convertToObject($galleries);
+    	    $model->insertObject();
+    
+    	    $g_id = $model->basicObject->getId();
+    	    foreach($bw->input['gallery'] as $id) {
+    	       $model->addFileToAlbum($id, $g_id);
+    	    }
 	    }
-	   // $newAlbum=$this->model->createAlbum($bw->input[2].'_'.$bw->input[3],$bw->input[2]);
 	    
 	    global $DB;
 	    print "<pre>";
