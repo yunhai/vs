@@ -73,12 +73,14 @@ $BWHTML .= <<<EOF
         <label ><input type="radio" id="type0" class="checkbox"  name="menuType" value="0" />{$this->getLang()->getWords('menu_form_internal',"Internal")}</label>
     </td>
 </tr>
+
 <tr>
     <td>{$this->getLang()->getWords('menu_form_index',"Index")}</td>
     <td>
 		<input type="text" name="menuIndex" size="3" value="{$menu->index}" />	
 	</td>
 </tr>
+
 <tr>
     <td></td>
     <td>{$this->getLang()->getWords('menu_form_visible',"Visible")}:
@@ -502,10 +504,6 @@ function addEditCategoryForm($category, $option) {
 EOF;
 		$checkStatus[$category->status]="checked";
 		$checkDropdown[$category->isDropdown]="checked";
-		
-		
-
-		
 		
 
 		$BWHTML = "";

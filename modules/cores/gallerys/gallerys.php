@@ -143,7 +143,16 @@ class gallerys extends VSFObject {
 												where $condition
 											)
 		");
-		
+	}
+	
+	function getObjByCode($code, $module = "", $limit = 1) {
+	    $vsMenu = VSFactory::getMenus();
+	
+	    $this->setCondition ( "code='" . $code . "'");
+	    $this->setLimit ( array (0, $limit ) );
+	    $list = $this->getObjectsByCondition ();
+	
+	    return current($list);
 	}
 }
 

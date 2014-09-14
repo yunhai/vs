@@ -41,4 +41,5 @@
   'pending_type' => 'Pending',
   'normal_type' => 'Normal',
   'vip_type' => 'Vip',
+  'posts_category' => 'Danh mục',
 )?>

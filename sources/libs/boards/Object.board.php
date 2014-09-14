@@ -764,22 +764,6 @@ class Object {
 		
 		return $list;
 	}
-//	function getObjByCode($code, $module = "", $limit = 1) {
-//		$vsMenu = VSFactory::getMenus();
-//		if ($module)
-//			$categories = $vsMenu->getCategoryGroup ( $module );
-//		else
-//			$categories = $this->getCategories ();
-//		
-//		$strIds = $vsMenu->getChildrenIdInTree ( $categories );
-//		$this->setCondition ( "{$this->tableName}Code='" . $code . "' AND {$this->tableName}CatId in (" . $strIds . ") AND {$this->tableName}Status > 0" );
-//		$this->setLimit ( array (0, $limit ) );
-//		$list = $this->getObjectsByCondition ();
-//		if ($list)
-//			$this->convertFileObject ( $list, $module );
-//		
-//		return $list;
-//	}
 	
 	/**
 	 * @param $categories the $categories to set
@@ -1010,4 +994,21 @@ class Object {
 		else
 			return $pages->getObjectsByCondition ();
 	}
+	
+// 	function getObjByCode($code, $module = "", $limit = 1) {
+// 		$vsMenu = VSFactory::getMenus();
+// 		if ($module)
+//     			$categories = $vsMenu->getCategoryGroup ( $module );
+//     		else
+//         			$categories = $this->getCategories ();
+        
+//         		$strIds = $vsMenu->getChildrenIdInTree ( $categories );
+//         		$this->setCondition ( "{$this->tableName}Code='" . $code . "' AND {$this->tableName}CatId in (" . $strIds . ") AND {$this->tableName}Status > 0" );
+//         		$this->setLimit ( array (0, $limit ) );
+//         		$list = $this->getObjectsByCondition ();
+//         		if ($list)
+// 			$this->convertFileObject ( $list, $module );
+
+// 		return $list;
+// 	}
 }

@@ -128,55 +128,41 @@ function showCategory($catId){
 		return $this->output = $this->getHtml()->showDefault($option);
 	}
 	
-function createBreakCrum($obj){
+    function createBreakCrum($obj, $option = array()){
 		global $bw;
 		
-	
+		$state_city = array(
+		                2 => VSFactory::getLangs()->getWords('posts_state', 'Bang'),	
+		                3 => VSFactory::getLangs()->getWords('posts_cty', 'Thành phố')
+		);
 		
-		$lang=VSFactory::getLangs();
-		$html='<li class="home" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a class='first' href='{$bw->base_url}' itemprop='url'><span itemprop='title'></span></a>".'</li>';
-		if($bw->input[0]!="simple")
-		$html.='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a  href='{$bw->base_url}{$bw->input[0]}' itemprop='url'><span itemprop='title'>{$lang->getWords($bw->input[0],$bw->input[0])}</span></a>".'</li>';
-		//$html.=" <a href='{$bw->base_url}{$bw->input[0]}'>{$lang->getWords($bw->input[0],$bw->input[0])}</a>";
+		$format = array(
+			        2 => 'posts/category/state/',
+	                3 => 'posts/category/city/'
+		);
 		
 		$array=array();
-		if(is_object($obj)){
-			if(get_class($obj)=='Menu'){
-				while($obj->getLevel()>1){
-					//$array[]=" <a href='{$bw->base_url}{$obj->getUrl()}/category/{$obj->getSlugId()}'>{$obj->getTitle()}</a>";
-					$array[]='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a href='{$bw->base_url}{$obj->getUrl()}/category/{$obj->getSlugId()}' itemprop='url'><span itemprop='title'>{$obj->getTitle()}</span></a>".'</li>';
-					$obj=VSFactory::getMenus()->getCategoryById($obj->getParentId());	
-				}
-			}else{
-				//$array[]=" <a href='{$bw->base_url}{$bw->input[0]}detail/{$obj->getSlugId()}'>{$obj->getTitle()}</a>";
-			if($cate=VSFactory::getMenus()->getCategoryById($obj->getCatId()) ){
-				while($cate->getLevel()>1){
-						//if($bw->input[0]=='products')
-						//$array[]='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a href='{$bw->base_url}home/show_menu' itemprop='url'><span itemprop='title'>{$cate->getTitle()}</span></a>".'</li>';
-						//else
-                        $array[]='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a href='{$bw->base_url}{$cate->getUrl()}/category/{$cate->getSlugId()}' itemprop='url'><span itemprop='title'>{$cate->getTitle()}</span></a>".'</li>';
+		$html = '<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'.
+		               "<span itemprop='title'>{$option['target']->getTitle()}</span>".
+		       '</li>';
+		
+		if(is_object($obj)) {
+			if(get_class($obj)=='Menu') {
+				while($obj->getLevel() > 1) {
+					$html = '<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'.
+					           "<a href='{$obj->getCatUrl($format[$obj->getLevel()])}/{$option['category']->getSlugId()}' itemprop='url'>".
+					               "{$state_city[$obj->getLevel()]}&nbsp;<span itemprop='title'>\"{$obj->getTitle()}\"</span>".
+				               "</a>".
+					       '</li>'.
+					       $html;
 					
-					$cate=VSFactory::getMenus()->getCategoryById($cate->getParentId());
-					
+					$obj = VSFactory::getMenus()->getCategoryById($obj->getParentId());	
 				}
 			}
-			}
-		}
-                
-                 if($bw->input[1]=='category' or $bw->input[1]=='child'or $bw->input[1]=='fashion')
-                   $array[0] = "<a>" . preg_replace("/<[^>]*>/", "", $array[0])."</a>";
-                 
-		for($i=count($array)-1;$i>=0;$i--){
-			$html.='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'.$array[$i].'</li>';;
 		}
 		
-		
-		if(is_object($obj) && $bw->input[0]=="simple" ){
-			$html.='<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'." <a  itemprop='url'><span itemprop='title'>{$obj->getTitle()}</span></a>".'</li>';
-		}
-		
-		return $html;	
-	}
+		return "<ul class='breadcrumb'>{$html}</ul>";	
+    }
 	/**
 	 * 
 	 * Enter description here ...

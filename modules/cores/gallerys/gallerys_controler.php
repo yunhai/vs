@@ -47,7 +47,7 @@ class gallerys_controler extends VSControl_admin {
 			return false;
 		}
 
-		return 	$this->showDialog($this->model->basicObject->getId());
+		return $this->showDialog($this->model->basicObject->getId());
 	}
 	
 	function showDialog($GalleryObj){

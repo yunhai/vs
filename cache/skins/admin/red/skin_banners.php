@@ -102,7 +102,7 @@ EOF;
 
 $BWHTML .= <<<EOF
  value="-1">{$this->getLang()->getWords('all')}</option>
-{$this->__foreach_loop__id_53f5c28f8082f($option)}
+{$this->__foreach_loop__id_54153a2e9f049($option)}
 </select>
 </label>
 
@@ -136,7 +136,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c28f8082f($option=array())
+function __foreach_loop__id_54153a2e9f049($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -285,7 +285,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("position")}</label></td>
 <td>
 <select name="{$this->modelName}[position]" id="{$this->modelName}_position">
-{$this->__foreach_loop__id_53f5c28f80d49($obj,$option)}
+{$this->__foreach_loop__id_54153a2e9f5ab($obj,$option)}
 </select>
 </td>
 </tr>
@@ -469,7 +469,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c28f80d49($obj="",$option=array())
+function __foreach_loop__id_54153a2e9f5ab($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

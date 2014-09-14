@@ -61,9 +61,8 @@ EOF;
 	    $this->index = 0;
 	    
 	    $BWHTML .= <<<EOF
-        <div class="jumbotron">
-          <div class="container">
-            <div class='col-md-5 pull-left'>
+        <div class="col-md-12 top-sub-header">
+            <div class='col-md-6 top-sub-header-left'>
                 <a class='branch-name' href='{$bw->base_url}' title='{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}'>
                     <img alt='logo' src="{$bw->vars['img_url']}/logo.png" />
                     
@@ -72,47 +71,46 @@ EOF;
                 <div class='clear'></div>
                 </a>
             	<form class='search' name="search" method="get" action="{$bw->base_url}posts/search" >
-            	    <input class="input" type="input" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" name='keywords' />
+            	    <input class="input col-md-10" type="input" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" name='keywords' />
                     <input class="submit" type="submit" value="Tìm" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" />
                     <div class="clear"></div>
                 </form>
             </div>
             
-            <div id="carousel-example-generic" class="carousel col-md-7 top-banner slide pull-right" data-type="multi" data-interval="3000" >
+            <div class="col-md-6 carousel top-banner slide" data-type="multi" data-interval="3000" >
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
                     <foreach="$option['news'] as $obj ">
                     <div class="item <if=" $this->index++ == 0">active</if>">
-                        {$obj->createImageCache($obj->getImage(),280, 150)}
+                        {$obj->createImageCache($obj->getImage(),260, 150)}
                     </div>
                     </foreach>
                   </div>
             </div>
-
+            <div class='clear'></div>
             <script>
-                    $('.carousel[data-type="multi"] .item').each(function(){
-                      var next = $(this).next();
-                      if (!next.length) {
-                        next = $(this).siblings(':first');
-                      }
-                      next.children(':first-child').clone().appendTo($(this));
-                      
-                      for (var i=0; i<2; i++) {
-                        next=next.next();
-                        if (!next.length) {
-                        	next = $(this).siblings(':first');
-                      	}
-                        
-                        next.children(':first-child').clone().appendTo($(this));
-                      }
-                    });
-                                                  
-                    $('.carousel').carousel({
-                      interval: 5000,
-                      wrap: true
-                    });
-                </script>
-            </div>
+                $('.carousel[data-type="multi"] .item').each(function(){
+                  var next = $(this).next();
+                  if (!next.length) {
+                    next = $(this).siblings(':first');
+                  }
+                  next.children(':first-child').clone().appendTo($(this));
+                  
+                  for (var i=0; i<2; i++) {
+                    next=next.next();
+                    if (!next.length) {
+                    	next = $(this).siblings(':first');
+                  	}
+                    
+                    next.children(':first-child').clone().appendTo($(this));
+                  }
+                });
+                                              
+                $('.carousel').carousel({
+                  interval: 5000,
+                  wrap: true
+                });
+            </script>
         </div>
 EOF;
 	    return $BWHTML;
@@ -200,15 +198,15 @@ EOF;
 	function getSupport($option = array()) {
 	    global $bw;
 	    $BWHTML .= <<<EOF
-		<div class="support-portlet" style='width: 300px; padding: 10px 0;'>
-			<foreach="$option['support'] as $obj ">
+		<div class='support-portlet col-md-6'>
+			<foreach='$option['support'] as $obj '>
 			<div class='item'>
-			     <div class='title col-sm-8'>{$obj->getTitle()}</div>
-			     <div class='icon col-sm-4'>
-			         <a href="ymsgr:sendIM?{$obj->getYahoo()}"><img src="{$bw->vars['img_url']}/yahoo.jpg" alt='yahoo icon' /></a>
-				     <a href="{$obj->getSkype()}?chat"><img src="{$bw->vars['img_url']}/skype.jpg" alt='skype icon' /></a>
+			     <div class='support-title'>{$obj->getTitle()}</div>
+			     <div class='support-icon'>
+			         <a href='ymsgr:sendIM?{$obj->getYahoo()}'><img src='{$bw->vars['img_url']}/yahoo.jpg' alt='yahoo icon' /></a>
+				     <a href='skype:{$obj->getSkype()}?chat'><img src='{$bw->vars['img_url']}/skype.jpg' alt='skype icon' /></a>
 			     </div>
-			     <div class='phone col-sm-9'>Tel: {$obj->getPhone()}</div>
+			     <div class='support-phone'>Tel: {$obj->getPhone()}</div>
 			</div>
 			</foreach>
 		</div>

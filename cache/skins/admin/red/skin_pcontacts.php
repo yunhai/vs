@@ -117,7 +117,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("category")}</label></td>
 <td>
 <select  name="{$this->modelName}[catId]">
-{$this->__foreach_loop__id_5403f32e4d7d4($obj,$option)}
+{$this->__foreach_loop__id_54153a3b722d3($obj,$option)}
 </select>
 <br>
 </td>
@@ -428,7 +428,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5403f32e4d7d4($obj="",$option=array())
+function __foreach_loop__id_54153a3b722d3($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

@@ -52,7 +52,7 @@ $BWHTML .= <<<EOF
 </div>
 <div id="file-panel" >
 <ul style="width:100%;" id="sortable" class="sortable">
-{$this->__foreach_loop__id_53f5c29272c03($option)}
+{$this->__foreach_loop__id_54153a3319f3f($option)}
 </ul>
 </div>
 <div class="clear"></div>
@@ -237,7 +237,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c29272c03($option="")
+function __foreach_loop__id_54153a3319f3f($option="")
 {
 global $bw;
     $BWHTML = '';

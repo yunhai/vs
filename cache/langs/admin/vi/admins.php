@@ -34,4 +34,6 @@
   'phone' => 'Điện thoại',
   'error_user_name' => 'Tên đăng nhập phải nhiều hơn 3 ký tự',
   'error_email' => 'Địa chỉ email không chính xác!',
+  'admins_welcome' => 'Chào mừng',
+  'admins_login_last' => 'Hoạt động cuối',
 )?>

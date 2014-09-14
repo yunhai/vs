@@ -1,12 +1,30 @@
 <?php
 $arraySetting = array (
+  'locations_cat_desc' => '0',
+  'posts_cat_document' => '0',
+  'posts_cat_file' => '0',
+  'posts_cat_index' => '1',
+  'posts_cat_intro' => '0',
+  'posts_cat_desc' => '0',
+  'posts_cat_value' => '0',
+  'posts_cat_status' => '0',
+  'posts_cat_title' => '1',
+  'posts_cat_intro_editor_type' => '0',
+  'posts_arrayimg' => '0',
+  'posts_delete_category' => '1',
+  'posts_edit_category' => '1',
+  'users_users_content' => '0',
+  'users_users_intro' => '0',
+  'users_users_image_size' => '0',
+  'users_users_image' => '0',
+  'users_users_code' => '0',
   'users_users_comment' => '0',
   'users_users_album' => '0',
   'users_users_video' => '0',
   'users_users_postdate' => '1',
   'users_users_name' => '1',
-  'users_users_image_field' => '1',
-  'users_users_index' => '1',
+  'users_users_image_field' => '0',
+  'users_users_index' => '0',
   'users_users_status_home' => '0',
   'users_users_button_visible' => '1',
   'users_users_button_disable' => '1',
@@ -14,13 +32,13 @@ $arraySetting = array (
   'users_users_button_add' => '1',
   'users_users_status' => '1',
   'users_users_category_list' => '0',
-  'users_users_search_form' => '1',
+  'users_users_search_form' => '0',
   'users_admin_paging_limit' => '20',
   'global_meta_descriptions' => '',
   'global_meta_keywords' => '',
   'enable_gzip' => '1',
   'admin_multi_lang' => '0',
-  'posts_category_list' => '0',
+  'posts_category_list' => '1',
   'use_cache_skin_wrapper' => '0',
   'vip_post_duration' => '7',
   'normal_post_duration' => '3',
@@ -162,7 +180,7 @@ $arraySetting = array (
   'posts_posts_button_delete' => '1',
   'posts_posts_button_add' => '1',
   'posts_posts_status' => '1',
-  'posts_posts_category_list' => '0',
+  'posts_posts_category_list' => '1',
   'posts_posts_search_form' => '1',
   'posts_admin_paging_limit' => '20',
   'posts_posts_seo_option' => '0',
@@ -190,7 +208,7 @@ $arraySetting = array (
   'locations_pages_image_field' => '1',
   'locations_pages_id' => '1',
   'locations_pages_export' => '0',
-  'locations_pages_index' => '1',
+  'locations_pages_index' => '0',
   'locations_pages_status_trash_action' => '0',
   'locations_pages_status_home' => '0',
   'locations_pages_button_visible' => '1',
@@ -202,10 +220,9 @@ $arraySetting = array (
   'locations_pages_search_form' => '1',
   'locations_category_list' => '1',
   'locations_cat_document' => '0',
-  'locations_cat_file' => '0',
-  'locations_cat_index' => '1',
+  'locations_cat_file' => '1',
+  'locations_cat_index' => '0',
   'locations_cat_intro' => '1',
-  'locations_cat_desc' => '0',
   'locations_cat_value' => '1',
   'locations_cat_status' => '1',
   'locations_cat_title' => '1',
@@ -220,33 +237,6 @@ $arraySetting = array (
   'customers_pages_maps' => '0',
   'customers_pages_dis' => '0',
   'customers_pages_provin' => '0',
-  'abouts_pages_seo_option' => '0',
-  'abouts_pages_content' => '1',
-  'abouts_pages_editor_intro' => '0',
-  'abouts_pages_intro' => '1',
-  'abouts_pages_maps' => '0',
-  'abouts_pages_dis' => '0',
-  'abouts_pages_provin' => '0',
-  'abouts_pages_link' => '0',
-  'abouts_pages_comment' => '0',
-  'abouts_pages_album' => '0',
-  'abouts_pages_video' => '0',
-  'abouts_pages_postdate' => '1',
-  'abouts_pages_title' => '1',
-  'abouts_pages_image_field' => '1',
-  'abouts_pages_id' => '1',
-  'abouts_pages_export' => '0',
-  'abouts_pages_index' => '1',
-  'abouts_pages_status_trash_action' => '0',
-  'abouts_pages_status_home' => '0',
-  'abouts_pages_button_visible' => '1',
-  'abouts_pages_button_disable' => '1',
-  'abouts_pages_button_delete' => '0',
-  'abouts_pages_button_add' => '0',
-  'abouts_pages_status' => '1',
-  'abouts_pages_category_list' => '0',
-  'abouts_pages_search_form' => '1',
-  'abouts_category_list' => '0',
   'admins_admingroups_export' => '0',
   'seos_seos_comment' => '0',
   'seos_seos_album' => '0',
@@ -453,7 +443,6 @@ $arraySetting = array (
   'customers_pages_category_list' => '0',
   'customers_pages_search_form' => '1',
   'customers_category_list' => '0',
-  'abouts_paging_limit' => '12',
   'expects_pages_image_width' => '426',
   'expects_pages_postdate' => '1',
   'expects_pages_title' => '1',
@@ -1133,38 +1122,6 @@ $arraySetting = array (
     array (
       'products_products_form' => '1',
     ),
-    'abouts_pages_id' => 
-    array (
-      'abouts_pages_list' => '1',
-    ),
-    'abouts_pages_image_field' => 
-    array (
-      'abouts_pages_list' => '1',
-      'abouts_pages_form' => '0',
-    ),
-    'abouts_pages_title' => 
-    array (
-      'abouts_pages_list' => '1',
-    ),
-    'abouts_pages_category_list' => 
-    array (
-      'abouts_pages_list' => '0',
-      'abouts_pages_form' => '0',
-    ),
-    'abouts_pages_status' => 
-    array (
-      'abouts_pages_list' => '1',
-      'abouts_pages_form' => '1',
-    ),
-    'abouts_pages_postdate' => 
-    array (
-      'abouts_pages_list' => '1',
-    ),
-    'abouts_pages_index' => 
-    array (
-      'abouts_pages_list' => '1',
-      'abouts_pages_form' => '0',
-    ),
     'contacts_contacts_index' => 
     array (
       'contacts_contacts_list' => '1',
@@ -1376,18 +1333,6 @@ $arraySetting = array (
     'products_products_album' => 
     array (
       '420px x 420px' => '',
-    ),
-    'abouts_pages_intro' => 
-    array (
-      'abouts_pages_form' => '1',
-    ),
-    'abouts_pages_content' => 
-    array (
-      'abouts_pages_form' => '1',
-    ),
-    'abouts_pages_seo_option' => 
-    array (
-      'abouts_pages_form' => '1',
     ),
     'products_products_code_s' => 
     array (

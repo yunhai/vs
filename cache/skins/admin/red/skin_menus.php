@@ -225,7 +225,7 @@ $BWHTML .= <<<EOF
 <td>
 <select name="menuCate" id="menuCate">
                     <option> Chọn danh mục </option>
-                    {$this->__foreach_loop__id_53f9b2dbdf495($form,$message,$menu)}
+                    {$this->__foreach_loop__id_54153bb6663d5($form,$message,$menu)}
                 </select>
 </td >
 </tr>
@@ -273,7 +273,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f9b2dbdf495($form=array(),$message="",$menu="")
+function __foreach_loop__id_54153bb6663d5($form=array(),$message="",$menu="")
 {
 global  $vsMenu,$bw;
     $BWHTML = '';
@@ -619,8 +619,6 @@ $switchForm = <<<EOF
 EOF;
 $checkStatus[$category->status]="checked";
 $checkDropdown[$category->isDropdown]="checked";
-
-
 
 $BWHTML = "";
 

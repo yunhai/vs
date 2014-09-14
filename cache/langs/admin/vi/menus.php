@@ -60,4 +60,8 @@
   'category_form_header_status' => 'Trạng thái',
   'category_locations_value' => 'zipcode',
   'category_form_header_desc' => 'Mô tả',
+  'news_EditCategoryFormTilte_Edit' => 'Sửa danh mục',
+  'news_EditCategoryFormButton_Edit' => 'Cập nhật',
+  'develop_get_obj_fail' => 'No object was found',
+  'err_category_delete_unempty' => 'Here are several category cannot be deleted due to being unempty! Please delete its children first.',
 )?>

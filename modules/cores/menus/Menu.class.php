@@ -407,5 +407,15 @@ class Menu extends BasicObject {
 		$this->quick = $quick;
 	}
 
+	
+	
+	function getDetailCategory() {
+	    global $bw;
+	    return $bw->base_url . $this->url . "/category/detail/".$this->getSlugId ();
+	}
+	
+	function locationSort( $a, $b ) {
+	    return $a->title == $b->title ? 0 : ( $a->title > $b->title ) ? 1 : -1;
+	}
 }
 ?>

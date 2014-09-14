@@ -350,6 +350,9 @@ class menus_admin extends VSControl {
 		
 		$categoryGroup = $this->module->getCategoryGroup ( $bw->input [2] );
 		
+		if($bw->input [2] == 'locations')
+	       usort( $categoryGroup->children, array("Menu", "locationSort") );
+		
 		$categoryTable = $this->getCategoryBox ( $categoryGroup );
 		$categoryForm = $this->addEditCategoryForm ( 0, $option );
 		

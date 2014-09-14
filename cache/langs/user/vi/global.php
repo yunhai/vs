@@ -36,4 +36,5 @@
   'global_login_form_password' => 'Mật khẩu',
   'global_login_form_forget_password' => 'Quên mật khẩu',
   'global_login_form_login' => 'Đăng nhập',
+  'P_trang' => 'trang',
 )?>

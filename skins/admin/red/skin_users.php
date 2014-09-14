@@ -2,7 +2,8 @@
 
 class skin_users extends skin_objectadmin {
 function getListItemTable($objItems=array(),$option=array()){
-		    global $bw;
+		global $bw;
+		$this->map = array(USER_TYPE_NORMAL => 'Normal', USER_TYPE_VIP => 'VIP');
 		$BWHTML .= <<<EOF
 		<div class="ui-dialog">
 		<div >
@@ -42,23 +43,13 @@ function getListItemTable($objItems=array(),$option=array()){
 			<tr>
 				<th class="cb"><input type="checkbox" onClick="checkAllClick()" class="check_alll" name=""/></th>
 				<th class="id">{$this->getLang()->getWords("id")}</th>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])">
-					<th class="img">{$this->getLang()->getWords("image")}</th>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_name",1,$bw->input[0])">
-				<th >Tên đăng nhập</th>
-				</if>
+				
+				<th>Tên đăng nhập</th>
 				<th class="title">Tên nhóm</th>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])">
-					<th>{$this->getLang()->getWords("category")}</th>
-				</if>
+				
 				<th class="status">{$this->getLang()->getWords("status")}</th>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])">
 				<th class="date">Ngày tham gia</th>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])">
-				<th class="index">{$this->getLang()->getWords("index")}</th>
-				</if>
+				
 				<th class="action">{$this->getLang()->getWords("action")}</th>
 			</tr>
 		</thead>
@@ -68,26 +59,11 @@ function getListItemTable($objItems=array(),$option=array()){
 			<tr class="$vsf_class">
 				<td><input onClick="checkRow()" class="btn_checkbox" value="{$item->getId()}" type="checkbox" /></td>
 				<td>{$item->getId()}</td>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])">
-					<td> <a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->createImageCache($item->getImage(),100,50)}</a></td>
-				</if>
 				<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->getName()}</a></td>
-				<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->getTitle()}</a></td>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])">
-				<td>
-				<if="$this->getMenu()->getCategoryById($item->getCatId())">
-				{$this->getMenu()->getCategoryById($item->getCatId())->getTitle()}
-				<else />
-				{$this->getLang()->getWords("Uncategory")}
-				</if>
-				</td>
-				</if>
-				<td class="status"><img src="{$bw->vars['img_url']}/status_{$item->getStatus()}.png"/></td>
+				<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$this->map[$item->getGroupCode()]}</a></td>
+				<td class="status"><img src="{$bw->vars['img_url']}/status/status_{$item->getStatus()}.png"/></td>
 				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])">
 				<td>{$this->dateTimeFormat($item->getPostDate(),"d/m/Y") }</td>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])">
-				<td class="index"><input type="textbox" name="indexitem[{$item->getId()}]" value="{$item->getIndex()}"/></td>
 				</if>
 				<td class="action">
 				{$this->addOtionList($item)}
@@ -103,6 +79,7 @@ function getListItemTable($objItems=array(),$option=array()){
 		</tfoot>
 		</table>
 		</div>
+		<!--
 		<div class="more_action">
 		<img width="38" height="22" alt="With selected:" src="{$bw->vars['img_url']}/arrow_ltr.png" class="selectallarrow">
 		<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])">
@@ -117,6 +94,7 @@ function getListItemTable($objItems=array(),$option=array()){
 		<if="$option['vdata']">
 		<input type="hidden" value='{$option['vdata']}' name="vdata"/>
 		</if>
+		-->
 		<!--MORE_ACTION-->
 		</div>
 		</form>
@@ -252,162 +230,100 @@ function addEditObjForm($obj, $option = array()) {
 		global $bw;
 		$BWHTML .= <<<EOF
 		<div class="vs_panel" id="vs_panel_{$this->modelName}">
-		<div class="ui-dialog">
-<div >
-<span class="ui-dialog-title">{$this->getLang()->getWords('add_edit_'.$bw->input[0].'_'.$this->modelName,'Add edit '.$this->modelName)}</span>
-
-<a href="#" class="ui-dialog-titlebar-close ui-corner-all frm_close" role="button" id="frm_close">{$this->getLang()->getWords('close')}</a>
-</div>
-		<form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
+            <span class="ui-dialog-title">
+                {$this->getLang()->getWords('add_edit_'.$bw->input[0].'_'.$this->modelName,'Add edit '.$this->modelName)}
+            </span>
+        </div>
+        
+		<form class="frm_add_edit_obj" id="frm_add_edit_obj" method="POST" enctype='multipart/form-data'>
 		<input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
 		<input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
 		<input type="hidden" value="{$obj->getId()}" name="{$this->modelName}[id]"/>
 			<table class="obj_add_edit">
 				<tbody>
 				<tr>
-					<td style="width: 111px;"><label>{$this->getLang()->getWords('name')}</label></td>
+					<td style="width: 111px;"><label>{$this->getLang()->getWords('name', 'số phone')}</label></td>
 					<td>
-					<input  name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
+					<input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 111px;"><label>{$this->getLang()->getWords('title')}</label></td>
+					<td style="width: 111px;"><label>{$this->getLang()->getWords('password')}</label></td>
 					<td>
-					<input  name="{$this->modelName}[title]" id="{$this->modelName}_title" type="textbox" value="{$obj->getTitle()}" style='width:100%' />
+					   <input name="{$this->modelName}[password]" id="{$this->modelName}_password" type="password" style='width:150px' />
 					</td>
 				</tr>
-				<tr>
-					<td style="width: 111px;"><label>{$this->getLang()->getWords('birthday')}</label></td>
-					<td>
-					<input  name="{$this->modelName}[birthday]" id="{$this->modelName}_birthday" type="textbox" value="{$obj->getDay()}/{$obj->getMonth()}/{$obj->getYear()}" style='width:100px' />
-					(dd/mm/yyyy)
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 111px;"><label>{$this->getLang()->getWords('location')}</label></td>
-					<td>
-					<select name="{$this->modelName}[location]">
-					<foreach="$option['location'] as $lca">
-					<option <if="$obj->getLocation()==$lca->getId()">selected='selected'</if> value="{$lca->getId()}">{$lca->getTitle()}</option>
-						<foreach="$lca->getChildren() as $l">
-						<option <if="$obj->getLocation()==$l->getId()">selected='selected'</if> value="{$l->getId()}">|--{$l->getTitle()}</option>
-						</foreach>
-					</foreach>
-					</select>
-					</td>
-				</tr>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status",1,$bw->input[0])">
 				<tr>
 					<td style="width: 121px;"><label>{$this->getLang()->getWords('status')}</label></td>
 					<td>
 					<label>
 						<input <if="$obj->getStatus()=='0'">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
-							{$this->getLang()->getWords('unapprove','Chưa duyệt')}
-						<!--<img title="{$this->getLang()->getWords('hide')}" src="{$bw->vars['img_url']}/status_0.png"/>-->
+						{$this->getLang()->getWords('unapprove','Chưa duyệt')}
 					</label>
 					<label>
 						<input <if="$obj->getStatus()==1||$obj->getStatus()==null">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
-							{$this->getLang()->getWords('approve_reg','Chấp nhận đăng ký')}
-						<!--<img title="{$this->getLang()->getWords('visible')}" src="{$bw->vars['img_url']}/status_1.png"/>-->
+						{$this->getLang()->getWords('approve_reg','Chấp nhận đăng ký')}
 					</label>
-					<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])">
-					<label>
-						<input  <if="$obj->getStatus()==2">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
-							{$this->getLang()->getWords('approve_reg_join','Chấp nhận tham gia')}
-						<!--<img title="{$this->getLang()->getWords('home')}" src="{$bw->vars['img_url']}/status_2.png"/>-->
-					</label>
-					</if>
 					</td>
 				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])">
 				<tr>
-					<td><label>{$this->getLang()->getWords("category")}</label></td>
+					<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
 					<td>
-					<select  name="{$this->modelName}[catId]">
-							{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
-					</select>
-					<br>
+						<input name="{$this->modelName}[fulname]" type="textbox" value="{$obj->getFullname()}" />
 					</td>
 				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])">
 				<tr>
-					<td><label>{$this->getLang()->getWords("index")}</label></td>
+					<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
 					<td>
-					<input  name="{$this->modelName}[index]" id="{$this->modelName}_index" type="textbox" value="{$obj->getIndex()}" />
+						<input name="{$this->modelName}[website]" type="textbox" value="{$obj->getWebsite()}" />
 					</td>
 				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_code", 0, $bw->input[0])">
 				<tr>
-					<td><label>{$this->getLang()->getWords("code")}</label></td>
+					<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
 					<td>
-					<input  name="{$this->modelName}[code]" id="{$this->modelName}_code" type="textbox" value="{$obj->getCode()}" />
+						<input name="{$this->modelName}[email]" type="textbox" value="{$obj->getEmail()}" />
 					</td>
 				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image",1,$bw->input[0])">
 				<tr>
-					<td><label>{$this->getLang()->getWords('image')}</label>
-					<p><if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_size",'')">{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_size",'')}</if></p>
-					</td>
+					<td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
 					<td>
-					<div style="float:left;width:300px">
-						<label>
-							<input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
-							{$this->getLang()->getWords('upload')}:</label>
-						<label>
-							<input    type="file" value="" style='width:250px;'  id="image-file" name="image"/>
-						</label>
-						<br/>
-						<label>
-							<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
-							{$this->getLang()->getWords('download_from')}:
-						</label>
-						<label>
-							<input disabled='disabled' type="text" value="" style='width:250px;' id="image-link" name="links[image]"/>
-						</label>
-					</div>
-					<div style="float:left;width:200px">
-					<if="$obj->getImage()">
-					{$obj->createImageCache($obj->getImage(),100,90)}
-					</if>
-					</div>
+						<input name="{$this->modelName}[address]" type="textbox" value="{$obj->getAddress()}" />
 					</td>
 				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_intro",1,$bw->input[0])">
 				<tr>
-					<if="$bw->input['module']=='partners'">
-					<td><label>{$this->getLang()->getWords('website','Website')}</label></td>
+					<td><label>{$this->getLang()->getWords("city", 'Thành phố')}</label></td>
 					<td>
-					<input type="textbox" value="{$obj->getWebsite()}" style='width:100%' id="{$this->modelName}_intro" name="{$this->modelName}[intro]" />
-					</td>
-					<else />
-					<td><label>{$this->getLang()->getWords('intro')}</label></td>
-					<td>
-					<textarea id="{$this->modelName}_intro" name="{$this->modelName}[intro]" style="width: 100%; height: 111px;">{$obj->getIntro()}</textarea>
-					</td>
-					</if>
-				</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_content",1,$bw->input[0])">
-				<tr>
-					<td><label>{$this->getLang()->getWords('content')}</label></td>
-					<td>
-					{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px","full")}
+						<input name="{$this->modelName}[city]" type="textbox" value="{$obj->getCity()}" />
 					</td>
 				</tr>
-				</if>
 				<tr>
-				<td></td>
-				<td>
-				<center>
-				<input type="submit" value="{$this->getLang()->getWords('accept')}" class="btnOk"/>
-				<input type="button" id="frm_close" value="{$this->getLang()->getWords("Cancel")}" class="btnCancel frm_close"/>
-				</center>
-				</td>
+					<td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
+					<td>
+						<select name="{$this->modelName}[location]" style='width: 150px;'>
+							<foreach=" $option['location'] as $item ">
+							    <optgroup label="{$item->getTitle()}">
+							    <foreach=" $item->getChildren() as $key => $child ">
+							    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+							    </foreach>
+							    </optgroup>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label>{$this->getLang()->getWords("zipcode", 'Zipcode')}</label></td>
+					<td>
+						<input name="{$this->modelName}[zipcode]" type="textbox" value="{$obj->getZipcode()}" />
+					</td>
+				</tr>
+				<tr>
+    				<td></td>
+    				<td>
+        				<center>
+        				<input type="submit" value="{$this->getLang()->getWords('accept')}" class="btnOk"/>
+        				<input type="button" id="frm_close" value="{$this->getLang()->getWords("Cancel")}" class="btnCancel frm_close"/>
+        				</center>
+    				</td>
 				</tr>
 				</tbody>
 			</table>
@@ -420,26 +336,22 @@ function addEditObjForm($obj, $option = array()) {
 				var flag=false;
 				var message="";
 				var frm=$(this);
-				if($("#{$this->modelName}_title").val().length<3){
+				if($("#{$this->modelName}_name").val().length<3){
 					message+='{$this->getLang()->getWords('error_title')}{$this->DS}n';
 					flag=true;
 				}
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_intro",1,$bw->input[0])">
-				if($("#{$this->modelName}_intro").val().length<3){
-					message+='{$this->getLang()->getWords('error_intro')}{$this->DS}n';
-					flag=true;
-				}
-				</if>
+				
 				if(flag){
 					jAlert(message);
 					return false;
 				}
-				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
-							function(){
-								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-								window.location.hash=hashbase+"/{$bw->input['back']}";	
-							}
-				);
+				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
+// 				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+// 							function(){
+// 								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+// 								//window.location.hash=hashbase+"/{$bw->input['back']}";	
+// 							}
+// 				);
 				return false;
 		});
 		$(".frm_close").click(function(){

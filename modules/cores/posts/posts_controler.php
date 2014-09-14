@@ -46,6 +46,7 @@ class posts_controler extends VSControl_admin {
 	        $bw->input['pageIndex']=$bw->input[3];
 	        $bw->input['back']="&pageIndex=".$bw->input['pageIndex'];
 	        $option['table']=$this->html->getListItemTable ($this->model->getArrayObj (), $option );
+	       
 	        ///some here..................
 	    }
 	    return $this->output = $this->html->objListHtml ( $option );
@@ -86,6 +87,7 @@ class posts_controler extends VSControl_admin {
 	        }
 
 	        $option['author_type'] = $this->model->basicObject->getAuthorType();
+	        
 	        if($this->model->basicObject->getStatus() == 99) {
 	            $this->model->basicObject->setStatus(0);
 	        }

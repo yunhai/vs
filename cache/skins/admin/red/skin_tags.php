@@ -169,7 +169,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f5c2a00edb1($objItems,$option)}
+{$this->__foreach_loop__id_54153a433dcd7($objItems,$option)}
 
 EOF;
 }
@@ -357,7 +357,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c2a00edb1($objItems=array(),$option=array())
+function __foreach_loop__id_54153a433dcd7($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -505,7 +505,7 @@ EOF;
 if($option['newtag']) {
 $BWHTML .= <<<EOF
 
-     {$this->__foreach_loop__id_53f5c2a00f6b9($option)}
+     {$this->__foreach_loop__id_54153a433e6dc($option)}
 
 EOF;
 }
@@ -522,7 +522,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c2a00f6b9($option="")
+function __foreach_loop__id_54153a433e6dc($option="")
 {
 global $vsLang, $bw,$vsSettings;
     $BWHTML = '';

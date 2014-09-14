@@ -6,7 +6,8 @@ class skin_users extends skin_objectadmin {
 //===========================================================================
 // <vsf:getListItemTable:desc::trigger:>
 //===========================================================================
-function getListItemTable($objItems=array(),$option=array()) {    global $bw;
+function getListItemTable($objItems=array(),$option=array()) {global $bw;
+$this->map = array(USER_TYPE_NORMAL => 'Normal', USER_TYPE_VIP => 'VIP');
 
 //--starthtml--//
 $BWHTML .= <<<EOF
@@ -110,68 +111,10 @@ $BWHTML .= <<<EOF
 <tr>
 <th class="cb"><input type="checkbox" onClick="checkAllClick()" class="check_alll" name=""/></th>
 <th class="id">{$this->getLang()->getWords("id")}</th>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<th class="img">{$this->getLang()->getWords("image")}</th>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_name",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<th >Tên đăng nhập</th>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
+<th>Tên đăng nhập</th>
 <th class="title">Tên nhóm</th>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<th>{$this->getLang()->getWords("category")}</th>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 <th class="status">{$this->getLang()->getWords("status")}</th>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <th class="date">Ngày tham gia</th>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<th class="index">{$this->getLang()->getWords("index")}</th>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 <th class="action">{$this->getLang()->getWords("action")}</th>
 </tr>
 </thead>
@@ -181,7 +124,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_53f5c2a101bf0($objItems,$option)}
+{$this->__foreach_loop__id_54153a442c087($objItems,$option)}
 
 EOF;
 }
@@ -196,6 +139,7 @@ $BWHTML .= <<<EOF
 </tfoot>
 </table>
 </div>
+<!--
 <div class="more_action">
 <img width="38" height="22" alt="With selected:" src="{$bw->vars['img_url']}/arrow_ltr.png" class="selectallarrow">
 
@@ -228,6 +172,7 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+-->
 <!--MORE_ACTION-->
 </div>
 </form>
@@ -369,9 +314,9 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c2a101bf0($objItems=array(),$option=array())
+function __foreach_loop__id_54153a442c087($objItems=array(),$option=array())
 {
-    global $bw;
+global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
@@ -384,71 +329,15 @@ function __foreach_loop__id_53f5c2a101bf0($objItems=array(),$option=array())
 <tr class="$vsf_class">
 <td><input onClick="checkRow()" class="btn_checkbox" value="{$item->getId()}" type="checkbox" /></td>
 <td>{$item->getId()}</td>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<td> <a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->createImageCache($item->getImage(),100,50)}</a></td>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 <td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->getName()}</a></td>
-<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->getTitle()}</a></td>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<td>
-
-EOF;
-if($this->getMenu()->getCategoryById($item->getCatId())) {
-$BWHTML .= <<<EOF
-
-{$this->getMenu()->getCategoryById($item->getCatId())->getTitle()}
-
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-
-{$this->getLang()->getWords("Uncategory")}
-
-EOF;
-}
-$BWHTML .= <<<EOF
-
-</td>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-<td class="status"><img src="{$bw->vars['img_url']}/status_{$item->getStatus()}.png"/></td>
+<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$this->map[$item->getGroupCode()]}</a></td>
+<td class="status"><img src="{$bw->vars['img_url']}/status/status_{$item->getStatus()}.png"/></td>
 
 EOF;
 if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])) {
 $BWHTML .= <<<EOF
 
 <td>{$this->dateTimeFormat($item->getPostDate(),"d/m/Y") }</td>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<td class="index"><input type="textbox" name="indexitem[{$item->getId()}]" value="{$item->getIndex()}"/></td>
 
 EOF;
 }
@@ -474,49 +363,29 @@ function addEditObjForm($obj="",$option=array()) {global $bw;
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="vs_panel" id="vs_panel_{$this->modelName}">
-<div class="ui-dialog">
-<div >
-<span class="ui-dialog-title">{$this->getLang()->getWords('add_edit_'.$bw->input[0].'_'.$this->modelName,'Add edit '.$this->modelName)}</span>
-<a href="#" class="ui-dialog-titlebar-close ui-corner-all frm_close" role="button" id="frm_close">{$this->getLang()->getWords('close')}</a>
-</div>
-<form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
+            <span class="ui-dialog-title">
+                {$this->getLang()->getWords('add_edit_'.$bw->input[0].'_'.$this->modelName,'Add edit '.$this->modelName)}
+            </span>
+        </div>
+        
+<form class="frm_add_edit_obj" id="frm_add_edit_obj" method="POST" enctype='multipart/form-data'>
 <input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
 <input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
 <input type="hidden" value="{$obj->getId()}" name="{$this->modelName}[id]"/>
 <table class="obj_add_edit">
 <tbody>
 <tr>
-<td style="width: 111px;"><label>{$this->getLang()->getWords('name')}</label></td>
+<td style="width: 111px;"><label>{$this->getLang()->getWords('name', 'số phone')}</label></td>
 <td>
-<input  name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
+<input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
 </td>
 </tr>
 <tr>
-<td style="width: 111px;"><label>{$this->getLang()->getWords('title')}</label></td>
+<td style="width: 111px;"><label>{$this->getLang()->getWords('password')}</label></td>
 <td>
-<input  name="{$this->modelName}[title]" id="{$this->modelName}_title" type="textbox" value="{$obj->getTitle()}" style='width:100%' />
+   <input name="{$this->modelName}[password]" id="{$this->modelName}_password" type="password" style='width:150px' />
 </td>
 </tr>
-<tr>
-<td style="width: 111px;"><label>{$this->getLang()->getWords('birthday')}</label></td>
-<td>
-<input  name="{$this->modelName}[birthday]" id="{$this->modelName}_birthday" type="textbox" value="{$obj->getDay()}/{$obj->getMonth()}/{$obj->getYear()}" style='width:100px' />
-(dd/mm/yyyy)
-</td>
-</tr>
-<tr>
-<td style="width: 111px;"><label>{$this->getLang()->getWords('location')}</label></td>
-<td>
-<select name="{$this->modelName}[location]">
-{$this->__foreach_loop__id_53f5c2a102820($obj,$option)}
-</select>
-</td>
-</tr>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <tr>
 <td style="width: 121px;"><label>{$this->getLang()->getWords('status')}</label></td>
 <td>
@@ -532,7 +401,6 @@ EOF;
 $BWHTML .= <<<EOF
   name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
 {$this->getLang()->getWords('unapprove','Chưa duyệt')}
-<!--<img title="{$this->getLang()->getWords('hide')}" src="{$bw->vars['img_url']}/status_0.png"/>-->
 </label>
 <label>
 <input 
@@ -546,215 +414,61 @@ EOF;
 $BWHTML .= <<<EOF
   name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
 {$this->getLang()->getWords('approve_reg','Chấp nhận đăng ký')}
-<!--<img title="{$this->getLang()->getWords('visible')}" src="{$bw->vars['img_url']}/status_1.png"/>-->
 </label>
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<label>
-<input  
-EOF;
-if($obj->getStatus()==2) {
-$BWHTML .= <<<EOF
-checked='checked'
-EOF;
-}
-
-$BWHTML .= <<<EOF
-  name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
-{$this->getLang()->getWords('approve_reg_join','Chấp nhận tham gia')}
-<!--<img title="{$this->getLang()->getWords('home')}" src="{$bw->vars['img_url']}/status_2.png"/>-->
-</label>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 </td>
 </tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <tr>
-<td><label>{$this->getLang()->getWords("category")}</label></td>
+<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
 <td>
-<select  name="{$this->modelName}[catId]">
-{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
+<input name="{$this->modelName}[fulname]" type="textbox" value="{$obj->getFullname()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
+<td>
+<input name="{$this->modelName}[website]" type="textbox" value="{$obj->getWebsite()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
+<td>
+<input name="{$this->modelName}[email]" type="textbox" value="{$obj->getEmail()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
+<td>
+<input name="{$this->modelName}[address]" type="textbox" value="{$obj->getAddress()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("city", 'Thành phố')}</label></td>
+<td>
+<input name="{$this->modelName}[city]" type="textbox" value="{$obj->getCity()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
+<td>
+<select name="{$this->modelName}[location]" style='width: 150px;'>
+{$this->__foreach_loop__id_54153a442c82c($obj,$option)}
 </select>
-<br>
 </td>
 </tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <tr>
-<td><label>{$this->getLang()->getWords("index")}</label></td>
+<td><label>{$this->getLang()->getWords("zipcode", 'Zipcode')}</label></td>
 <td>
-<input  name="{$this->modelName}[index]" id="{$this->modelName}_index" type="textbox" value="{$obj->getIndex()}" />
+<input name="{$this->modelName}[zipcode]" type="textbox" value="{$obj->getZipcode()}" />
 </td>
 </tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_code", 0, $bw->input[0])) {
-$BWHTML .= <<<EOF
-
 <tr>
-<td><label>{$this->getLang()->getWords("code")}</label></td>
-<td>
-<input  name="{$this->modelName}[code]" id="{$this->modelName}_code" type="textbox" value="{$obj->getCode()}" />
-</td>
-</tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<tr>
-<td><label>{$this->getLang()->getWords('image')}</label>
-<p>
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_size",'')) {
-$BWHTML .= <<<EOF
-{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_size",'')}
-EOF;
-}
-
-$BWHTML .= <<<EOF
-</p>
-</td>
-<td>
-<div style="float:left;width:300px">
-<label>
-<input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
-{$this->getLang()->getWords('upload')}:</label>
-<label>
-<input    type="file" value="" style='width:250px;'  id="image-file" name="image"/>
-</label>
-<br/>
-<label>
-<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
-{$this->getLang()->getWords('download_from')}:
-</label>
-<label>
-<input disabled='disabled' type="text" value="" style='width:250px;' id="image-link" name="links[image]"/>
-</label>
-</div>
-<div style="float:left;width:200px">
-
-EOF;
-if($obj->getImage()) {
-$BWHTML .= <<<EOF
-
-{$obj->createImageCache($obj->getImage(),100,90)}
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-</div>
-</td>
-</tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_intro",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<tr>
-
-EOF;
-if($bw->input['module']=='partners') {
-$BWHTML .= <<<EOF
-
-<td><label>{$this->getLang()->getWords('website','Website')}</label></td>
-<td>
-<input type="textbox" value="{$obj->getWebsite()}" style='width:100%' id="{$this->modelName}_intro" name="{$this->modelName}[intro]" />
-</td>
-
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-
-<td><label>{$this->getLang()->getWords('intro')}</label></td>
-<td>
-<textarea id="{$this->modelName}_intro" name="{$this->modelName}[intro]" style="width: 100%; height: 111px;">{$obj->getIntro()}</textarea>
-</td>
-
-EOF;
-}
-$BWHTML .= <<<EOF
-
-</tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_content",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-<tr>
-<td><label>{$this->getLang()->getWords('content')}</label></td>
-<td>
-{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px","full")}
-</td>
-</tr>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-<tr>
-<td></td>
-<td>
-<center>
-<input type="submit" value="{$this->getLang()->getWords('accept')}" class="btnOk"/>
-<input type="button" id="frm_close" value="{$this->getLang()->getWords("Cancel")}" class="btnCancel frm_close"/>
-</center>
-</td>
+    <td></td>
+    <td>
+        <center>
+        <input type="submit" value="{$this->getLang()->getWords('accept')}" class="btnOk"/>
+        <input type="button" id="frm_close" value="{$this->getLang()->getWords("Cancel")}" class="btnCancel frm_close"/>
+        </center>
+    </td>
 </tr>
 </tbody>
 </table>
@@ -766,35 +480,21 @@ $("#frm_add_edit_obj").submit(function(){
 var flag=false;
 var message="";
 var frm=$(this);
-if($("#{$this->modelName}_title").val().length<3){
+if($("#{$this->modelName}_name").val().length<3){
 message+='{$this->getLang()->getWords('error_title')}{$this->DS}n';
 flag=true;
 }
-
-EOF;
-if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_intro",1,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-if($("#{$this->modelName}_intro").val().length<3){
-message+='{$this->getLang()->getWords('error_intro')}{$this->DS}n';
-flag=true;
-}
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
 if(flag){
 jAlert(message);
 return false;
 }
-vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
-function(){
-var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-window.location.hash=hashbase+"/{$bw->input['back']}";
-}
-);
+vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
+// vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+// function(){
+// var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+// //window.location.hash=hashbase+"/{$bw->input['back']}";
+// }
+// );
 return false;
 });
 $(".frm_close").click(function(){
@@ -826,29 +526,20 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c2a102758($obj="",$option=array(),$lca='')
+function __foreach_loop__id_54153a442c7ad($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($lca->getChildren())){
-    foreach( $lca->getChildren() as $l )
+    if(is_array( $item->getChildren())){
+    foreach(  $item->getChildren() as $key => $child  )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-<option 
-EOF;
-if($obj->getLocation()==$l->getId()) {
-$BWHTML .= <<<EOF
-selected='selected'
-EOF;
-}
-
-$BWHTML .= <<<EOF
- value="{$l->getId()}">|--{$l->getTitle()}</option>
-
+    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+    
 EOF;
 $vsf_count++;
     }
@@ -860,29 +551,21 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_53f5c2a102820($obj="",$option=array())
+function __foreach_loop__id_54153a442c82c($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($option['location'])){
-    foreach( $option['location'] as $lca )
+    if(is_array( $option['location'])){
+    foreach(  $option['location'] as $item  )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-<option 
-EOF;
-if($obj->getLocation()==$lca->getId()) {
-$BWHTML .= <<<EOF
-selected='selected'
-EOF;
-}
-
-$BWHTML .= <<<EOF
- value="{$lca->getId()}">{$lca->getTitle()}</option>
-{$this->__foreach_loop__id_53f5c2a102758($obj,$option,$lca)}
+    <optgroup label="{$item->getTitle()}">
+    {$this->__foreach_loop__id_54153a442c7ad($obj,$option,$item)}
+    </optgroup>
 
 EOF;
 $vsf_count++;

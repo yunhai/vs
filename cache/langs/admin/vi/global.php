@@ -142,4 +142,7 @@
   'createddate' => 'Ngày đăng',
   'album' => 'Album hình ảnh',
   'action_pending' => 'Pending',
+  'category_form_header_status' => 'Trạng thái',
+  'category_locations_value' => 'zipcode',
+  'category_form_header_desc' => 'Mô tả',
 )?>

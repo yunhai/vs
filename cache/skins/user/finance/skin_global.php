@@ -11,7 +11,8 @@ function vs_global() {global $bw, $vsLang;
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="navbar navbar-default navbar-static-top" role="navigation">
-          <div class="main-container container">
+<div class="container">
+          <div class="col-md-12">
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li>
@@ -21,23 +22,27 @@ $BWHTML .= <<<EOF
                     </a>
                 </li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hỗ trợ trực tuyến</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>{$this->getAddon()->getSupports($option)}</li>
-                  </ul>
+                  <a href="#" data-placement="bottom" class='popover-container'
+                    data-toggle="popover" 
+                    data-html="true" 
+                    data-content="{$this->getAddon()->getSupports($option)}">
+                      Hỗ trợ trực tuyến
+                  </a>
                 </li>
               </ul>
+             
+              <script>
+                  $('.popover-container').popover()
+              </script>
               {$this->getAddon()->getMenuTop($option)}
             </div><!--/.nav-collapse -->
           </div>
         </div>
-
+</div>
 <div class="container">
-          <div class="row">
             {$this->getAddon()->getJumotron()}
             
             {$this->SITE_MAIN_CONTENT}
-          </div>
         </div>
 EOF;
 //--endhtml--//

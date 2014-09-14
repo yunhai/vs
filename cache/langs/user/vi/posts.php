@@ -28,4 +28,12 @@
   'empty_image' => 'Hình đại diện không hợp lệ',
   'post_form_title' => 'Tiêu đề',
   'empty_title' => 'Tiêu đề không được để trống',
+  'P_trang' => 'trang',
+  'page_index' => 'Trang',
+  'develop_get_obj_fail' => 'No object was found',
+  'posts_id' => 'Ad Id:',
+  'posts_empty' => 'Hiện thời danh mục chưa có bài viết.',
+  'posts_state' => 'Bang',
+  'posts_cty' => 'Thành phố',
+  'location-info' => 'Thông tin thành phố',
 )?>
