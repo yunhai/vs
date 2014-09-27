@@ -60,7 +60,7 @@ class skin_admins extends skin_objectadmin {
 					<td> <a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="#">{$item->getTitle()}</a></td>
 				</if>
 				<td>{$item->getEmail()}</td>
-				<td class="status">{$item->getStatus('image')}</td>
+				<td class="status"><img src="{$bw->vars['img_url']}/status/status_{$item->getStatus()}.png"></td>
 				<td><if="$item->getLastLogin()">{$this->dateTimeFormat($item->getLastLogin(),"h:i d/m/Y") }<else />{$this->getLang()->getWords('no_login','Chưa đăng nhập lần nào')}</if></td>
 				<td class="action">
 				{$this->addOtionList($item)}

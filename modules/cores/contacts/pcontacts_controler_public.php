@@ -3,16 +3,35 @@ require_once CORE_PATH.'contacts/pcontacts.php';
 class pcontacts_controler_public extends VSControl_public {
 	function __construct($modelName){
 		global $vsTemplate,$bw,$vsPrint;
-//		$this->html=$vsTemplate->load_template("skin_product");
 		parent::__construct($modelName,"skin_pcontacts","pcontact",$bw->input[0]);
-		//$this->model->categoryName=$bw->input[0];
 		$vsPrint->addExternalJavaScriptFile("http://maps.google.com/maps/api/js?sensor=true&language=vi",1);
 	}
 	
+	
+	function auto_run() {
+	    global $bw;
+	
+	    switch ($bw->input ['action']) {
+	    	case $this->modelName . '_detail' :
+	    	    $this->showDetail ( $bw->input [2] );
+	    	    break;
+	    	case $this->modelName . '_review' :
+	    	    $this->showReview ( $bw->input [2] );
+	    	    break;
+	    	case $this->modelName . '_search' :
+	    	    $this->showSearch ();
+	    	    break;
+	    	    
+    	    case $this->modelName . '_category' :
+	    	default :
+	    	    $this->showDefault ($bw->input [2] );
+	    	    break;
+	    }
+	}
 	/*
 	 * Show default action 
 	 */
-	function showDefault($catId){
+	function showDefault($catId = ''){
 		global $bw,$vsTemplate,$vsStd,$vsPrint;
 		
 		$category=VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
@@ -23,10 +42,10 @@ class pcontacts_controler_public extends VSControl_public {
 		
 		$option['cate'] = $category->getChildren();
 		if(empty($catId)) {
-		    reset($option['cate']);
-		    $tmp = current($option['cate']);
-		
-		    $idcate = $tmp->getId();
+    		reset($option['cate']);
+    	    $tmp = current($option['cate']);
+    	
+    	    $idcate = $tmp->getId();
 		} else {
 		    $idcate = $this->getIdFromUrl($catId);
 		}
@@ -36,7 +55,7 @@ class pcontacts_controler_public extends VSControl_public {
 		    $vsPrint->boink_it($bw->base_url);
 		}
 		
-		$this->model->setCondition("status=1 and catId in ($ids) and code='contact'");
+		$this->model->setCondition("status=1 and code='contact'");
 		$this->model->setOrder("`index`");
 		$obj=$this->model->getOneObjectsByCondition();
 		

@@ -4,6 +4,7 @@ class pages_controler extends VSControl_admin {
 
 	function __construct($modelName) {
 		global $vsSkin, $bw;
+		
 		if (file_exists ( ROOT_PATH . $vsSkin->basicObject->getFolder () . "/skin_" . $bw->input [0] . ".php" )) {
 			parent::__construct ( $modelName, "skin_" . $bw->input [0], "page", $bw->input [0] );
 		} else {

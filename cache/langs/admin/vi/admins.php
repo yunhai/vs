@@ -36,4 +36,12 @@
   'error_email' => 'Địa chỉ email không chính xác!',
   'admins_welcome' => 'Chào mừng',
   'admins_login_last' => 'Hoạt động cuối',
+  'changpassword' => 'Đổi mật khẩu',
+  'new_password' => 'Mật khẩu mới',
+  'password_confirm' => 'Xác nhận mật khẩu',
+  'image' => 'Hình ảnh',
+  'intro' => 'Mô tả',
+  'content' => 'Nội dung',
+  'error_password_confirm' => 'Password not valid',
+  'error_password' => 'Mật khẩu ít nhất 6 ký tự',
 )?>

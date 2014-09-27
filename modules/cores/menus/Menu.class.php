@@ -164,12 +164,13 @@ class Menu extends BasicObject {
 		return $bw->vars ['board_url'] . "/rss/" . strtolower ( VSFTextCode::removeAccent ( str_replace ( "/", '-', trim ( $this->title ) ), '-' ) ) . '-' . $this->id . '.rss';
 	}
 
-	function getClassActive() {
+	function getClassActive($class = 'active-item') {
 		global $bw, $vsMenu;
-		
-		if ($bw->input ['vs'] == "home" && trim ( $this->url, "/" ) == trim ( $bw->vars ['board_url'], "/" )) {
-			return 'active';
-		}
+		if($this->url){
+		    if(strpos(trim($bw->input['vs']), trim($this->url,"/ "))===0) return $class;
+		}elseif($bw->input['module']=="home") return $class;
+			
+		if($bw->input['vs']=="home" && trim($this->url,"/") == trim($bw->vars['board_url'],"/")) return $class;
 	}
 
 	function getFileId() {
@@ -411,7 +412,7 @@ class Menu extends BasicObject {
 	
 	function getDetailCategory() {
 	    global $bw;
-	    return $bw->base_url . $this->url . "/category/detail/".$this->getSlugId ();
+	    return $bw->base_url . $this->url . "/category/detail/".$this->getSlugId();
 	}
 	
 	function locationSort( $a, $b ) {

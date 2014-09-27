@@ -148,8 +148,11 @@ $(function () {
             progress + '%'
         );
     }).on('fileuploaddone', function (e, data) {
-    	
-        $('.delete-button').removeClass('hidden');
+		$.each(data.result, function (index, file) {
+    		if(file[0]['item_name'] == 'file') {
+    			$('.file').remove();
+    		}
+		});
     }).on('fileuploadfail', function (e, data) {
         $.each(data.files, function (index, file) {
             var error = $('<span class="text-danger"/>').text('File upload failed.');

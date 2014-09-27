@@ -1,34 +1,35 @@
 <?php
 
 class skin_pcontacts extends skin_objectpublic{
+
 function showDefault($obj,$option = array()) {
 		global $bw;
 		
 		$BWHTML .= <<<EOF
 		
-		
-		<div>
-            <ul class="nav nav-tabs" role="tablist">
+		<div class='col-md-12 no-padding'>
+		    <ul class="nav nav-tabs shadow" role="tablist">
                 <foreach=" $option['cate'] as $key=>$cat">
-                    <li id='{$key}' <if=" $key == $option['category']->getId() ">class='active'</if>>
-                        <a href="{$this->bw->base_url}contacts/{$cat->getSlugId()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
+                    <li id='{$key}' <if="$key == $option['category']->getId() ">class='active'</if>>
+                        <a href="{$cat->getUrlCategory()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
                     </li>
                 </foreach>
             </ul>
-    
-            <div class='content'>
+            
+            <div class='content shadow'>
                 <div class='sub-header'>
                     <span>{$this->getLang()->getWords('contact_header', 'Thông tin liên hệ')}</span>
                 </div>
                 
-                <!-- Tab panes -->
                 <div class="tab-content">
                     <foreach=" $option['cate'] as $key => $cat">
-                        <div class="tab-pane <if=" $key == $option['category']->getId() ">active</if>" id="tab{$key}" ref="{$key}">
+                        <div class="tab-pane contact <if=" $key == $option['category']->getId() ">active</if>" id="tab{$key}" ref="{$key}">
                             <if=" !empty($option[$key]) ">
-                                <div class='col-md-6 left'>
+                                <div class='col-md-6 left info'>
+                                    <if=" !empty($obj) ">
                                     <div class="title">{$obj->getTitle()}</div>
                                     <div class="info">{$obj->getContent()}</div>
+                                    </if>
                                     <div class='form-container'>{$this->getContactForm($option, $cat)}</div>
                                 </div>
                                 <div class='col-md-6 map'>
@@ -39,22 +40,26 @@ function showDefault($obj,$option = array()) {
                         </div>
                     </foreach>
                 </div>
+                <div class='clear'></div>
             </div>
-            <script>
-                $('a[data-toggle="tab"]').on('click', function (e) {
-                    window.location.href = $(e.target).attr("href");
-                });
-            </script>
-	   </div>
-       <script>
+		</div>
+        <script>
+            $('a[data-toggle="tab"]').on('click', function (e) {
+                window.location.href = $(e.target).attr("href");
+            });
+
+            <if=" !empty($obj) ">
             function init() {
+              var myHtml = '';
+              
               var myHtml = "<h4>{$obj->getTitle()}</h4><p>{$obj->getAddress()}</p>";
+             
               var map = new google.maps.Map(
                   document.getElementById("map_canvas"),
                   {scaleControl: true}
               );
               map.setCenter(new google.maps.LatLng({$obj->getLatitude()},{$obj->getLongitude()}));
-              map.setZoom({$obj->getZoom()});
+              map.setZoom(15);
               map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
               var marker = new google.maps.Marker({
               map: map,
@@ -71,7 +76,8 @@ function showDefault($obj,$option = array()) {
             $(document).ready(function(){
         	   init();
         	});
-        </script>
+            </if>
+        </script>                                    
 EOF;
 	}
 	
@@ -90,67 +96,70 @@ function getContactForm($option = array(), $category = array()) {
 		  </if>
 		  <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}contacts/submit/{$category->getSlugId()}'>
               <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">
+                <label class="col-md-3 control-label">
                     {$this->getLang()->getWords('contact_form_fullname', 'Họ tên')}
+                    <span class='required'>*</span>
                 </label>
-                <div class="col-sm-10">
+                <div class="col-md-9">
                   <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('contact_form_fullname', 'Họ tên')}" name='{$this->modelName}[name]' value='{$option['obj']->getName()}'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">
+                <label class="col-md-3 control-label">
                     {$this->getLang()->getWords('contact_form_address', 'Địa chỉ')}
                 </label>
-                <div class="col-sm-10">
+                <div class="col-md-9">
                   <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('contact_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]' value='{$option['obj']->getAddress()}'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}</label>
-                <div class="col-sm-10">
+                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}</label>
+                <div class="col-md-9">
                   <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]' value='{$option['obj']->getPhone()}'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                <div class="col-sm-10">
+                <label class="col-md-3 control-label">Email</label>
+                <div class="col-md-9">
                   <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value='{$option['obj']->getEmail()}'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('contact_form_title', 'Tiêu đề')}</label>
-                <div class="col-sm-10">
+                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_title', 'Tiêu đề')}</label>
+                <div class="col-md-9">
                   <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('contact_form_title', 'Tiêu đề')}" name='{$this->modelName}[title]' value='{$option['obj']->getTitle()}'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('contact_form_detail', 'Nội dung')} (<span class='required'>*</span>)</label>
-                <div class="col-sm-10">
+                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_detail', 'Nội dung')} <span class='required'>*</span></label>
+                <div class="col-md-9">
                   <textarea class="form-control" rows="3" name='{$this->modelName}[content]'>{$option['obj']->getContent()}</textarea>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">{$this->getLang()->getWords('contact_form_capchar', 'Mã bảo vệ')} (<span class='required'>*</span>)</label>
-                <div class="col-sm-10">
-                  <input class="form-control" placeholder="capchar" name='{$this->modelName}[sec_code]' value='' />
+                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_capchar', 'Mã bảo vệ')}
+                <span class='required'>*</span></label>
+                <div class="col-md-9">
+                  <input class="form-control" style='width: 150px; float: left; margin-right: 10px;' placeholder="capchar" name='{$this->modelName}[sec_code]' value='' />
                   <img id="siimage" src="{$bw->vars['board_url']}/vscaptcha/" />
-                  <a href="javascript:;" id="reload_img" class="mamoi">refresh</a>
+                  <a href="javascript:;" id="reload_img" class="mamoi">Refresh</a>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <input type="submit" class="btn btn-default" name='btnSubmit' value='{$this->getLang()->getWords('contact_form_submit', 'Gửi')}' />
-                  <button type="reset" class="btn btn-default">{$this->getLang()->getWords('contact_form_reset', 'Làm lại')}</button>  
-                  <lable><span class='require'>*</span>{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                <div class="col-md-offset-3 col-md-9">
+                  <input type="submit" class="btn btn-default nail-button" name='btnSubmit' value='{$this->getLang()->getWords('contact_form_submit', 'Gửi')}' />
+                  <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('contact_form_reset', 'Làm lại')}</button>  
+                  <lable class='pull-right'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                  <div class='clear'></div>
                 </div>
               </div>
           </form>
-         <script>
+          <script>
                 $("#reload_img").click(function(){
                     $("#siimage").attr("src",$("#siimage").attr("src")+"?a");
                     return false;
 				});
-        </script>
+          </script>
 EOF;
 	} 
 	
@@ -158,29 +167,29 @@ function sendContactSuccess($obj,$option = array()) {
 		global $bw;
 		
 		$BWHTML .= <<<EOF
-		<div>
-            <ul class="nav nav-tabs" role="tablist">
+		
+		<div class='col-md-12 no-padding'>
+		    <ul class="nav nav-tabs shadow" role="tablist">
                 <foreach=" $option['cate'] as $key=>$cat">
-                    <li id='{$key}' <if=" $key == $option['category']->getId() ">class='active'</if>>
-                        <a href="{$this->bw->base_url}contacts/{$cat->getSlugId()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
+                    <li id='{$key}' <if="$key == $option['category']->getId() ">class='active'</if>>
+                        <a href="{$cat->getUrlCategory()}" role="tab" data-toggle="tab">{$cat->getTitle()}</a>
                     </li>
                 </foreach>
             </ul>
-    
-            <div class='content'>
+            
+            <div class='content shadow'>
                 <div class='sub-header'>
                     <span>{$this->getLang()->getWords('contact_header', 'Thông tin liên hệ')}</span>
                 </div>
                 
-                <!-- Tab panes -->
                 <div class="tab-content">
                     <foreach=" $option['cate'] as $key => $cat">
-                        <div class="tab-pane <if=" $key == $option['category']->getId() ">active</if>" id="tab{$key}" ref="{$key}">
+                        <div class="tab-pane contact <if=" $key == $option['category']->getId() ">active</if>" id="tab{$key}" ref="{$key}">
                             <if=" !empty($option[$key]) ">
-                                <div class='col-md-6 left'>
+                                <div class='col-md-6 left info'>
                                     <div class="title">{$obj->getTitle()}</div>
                                     <div class="info">{$obj->getContent()}</div>
-                                    <div class='form-container'>{$this->getLang()->getWords('contact_thankyou')}</div>
+                                    <div class='form-container'>{$this->getLang()->getWords('contact_thankyou', "Cám ơn quý khách đã liên hệ chúng tôi.")}</div>
                                 </div>
                                 <div class='col-md-6 map'>
     	           		            <div id='map_canvas'></div>
@@ -190,14 +199,15 @@ function sendContactSuccess($obj,$option = array()) {
                         </div>
                     </foreach>
                 </div>
+                <div class='clear'></div>
             </div>
-            <script>
-                $('a[data-toggle="tab"]').on('click', function (e) {
-                    window.location.href = $(e.target).attr("href");
-                });
-            </script>
-	   </div>
+		</div>
+		
 		<script>
+		    $('a[data-toggle="tab"]').on('click', function (e) {
+                window.location.href = $(e.target).attr("href");
+            });
+                
             function init() {
               var myHtml = "<h4>{$obj->getTitle()}</h4><p>{$obj->getAddress()}</p>";
               var map = new google.maps.Map(
@@ -230,4 +240,3 @@ function sendContactSuccess($obj,$option = array()) {
 EOF;
 	}
 }
-?>

@@ -141,7 +141,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a3c88751($objItems,$option)}
+{$this->__foreach_loop__id_541d228184bc4($objItems,$option)}
 
 EOF;
 }
@@ -338,7 +338,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3c88751($objItems=array(),$option=array())
+function __foreach_loop__id_541d228184bc4($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -701,21 +701,28 @@ $BWHTML .= <<<EOF
 <tr>
 <td><label>{$this->getLang()->getWords('publicdate', 'Ngày xuất bản')}</label></td>
 <td>
-<input name="{$this->modelName}[publicdate]" type="text" value="{$obj->getPublicDate()}" class='datepicker' />
+<input name="{$this->modelName}[public_date]" type="text" value="{$obj->getPublicDate()}" class='datepicker' />
 </td>
 </tr>
 <tr>
 <td><label>{$this->getLang()->getWords('enddate', 'Ngày hết hạn')}</label></td>
 <td>
-<input name="{$this->modelName}[enddate]" type="text" value="{$obj->getEndDate()}" class='datepicker' />
+<input name="{$this->modelName}[end_date]" type="text" value="{$obj->getEndDate()}" class='datepicker' />
 </td>
 </tr>
 <tr>
 <td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
 <td>
 <select name="{$this->modelName}[catId]" style='width: 200px;'>
-{$this->__foreach_loop__id_54153a3c893a3($obj,$option)}
+{$this->__foreach_loop__id_541d228185e4a($obj,$option)}
 </select>
+</td>
+</tr>
+
+<tr>
+<td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
+<td>
+   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" />
 </td>
 </tr>
 
@@ -727,16 +734,40 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
 <select name="{$this->modelName}[location]" style='width: 200px;'>
-{$this->__foreach_loop__id_54153a3c894f2($obj,$option)}
+{$this->__foreach_loop__id_541d228185fd1($obj,$option)}
 </select>
 </td>
 </tr>
-           
+            
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
+<tr>
+<td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
+<td>
+   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("phone", 'Điện thoại')}</label></td>
+<td>
+   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
+<td>
+   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" />
+</td>
+</tr>
+<tr>
+<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
+<td>
+   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" />
+</td>
+</tr>
 <tr>
 <td><label>{$this->getLang()->getWords("address",'Địa chỉ')}</label></td>
 <td>
@@ -971,7 +1002,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3c8932b($obj="",$option=array(),$item='')
+function __foreach_loop__id_541d228185de0($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -996,7 +1027,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3c893a3($obj="",$option=array())
+function __foreach_loop__id_541d228185e4a($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1009,7 +1040,7 @@ function __foreach_loop__id_54153a3c893a3($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_54153a3c8932b($obj,$option,$item)}
+    {$this->__foreach_loop__id_541d228185de0($obj,$option,$item)}
     </optgroup>
 
 EOF;
@@ -1023,7 +1054,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3c8947b($obj="",$option=array(),$item='')
+function __foreach_loop__id_541d228185f46($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1048,7 +1079,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3c894f2($obj="",$option=array())
+function __foreach_loop__id_541d228185fd1($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1061,7 +1092,7 @@ function __foreach_loop__id_54153a3c894f2($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_54153a3c8947b($obj,$option,$item)}
+    {$this->__foreach_loop__id_541d228185f46($obj,$option,$item)}
     </optgroup>
 
 EOF;

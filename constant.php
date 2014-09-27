@@ -22,7 +22,7 @@ define ( "JAVASCRIPT_PATH"	, ROOT_PATH .'javascripts/');
 
 define ( "SKIN_CACHE", 1);
 define ( "TIMTHUMB"	, 2);
-define ("SETTINGS_CACHE",1);
+define ( "SETTINGS_CACHE",1);
 // Enable module usage?
 // (Vital for some mods and VSF enhancements)
 define ( 'USE_MODULES', 1 );
@@ -59,4 +59,3 @@ define ( 'IN_DEV', 1);
 error_reporting ( E_ERROR | E_WARNING | E_PARSE | E_ALL );
 error_reporting(1);
 set_magic_quotes_runtime ( 0 );
-?>

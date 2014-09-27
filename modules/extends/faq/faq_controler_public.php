@@ -65,7 +65,8 @@ class faq_controler_public extends pages_controler_public {
 		
 		$this->model->setOrder("`index` desc, id desc");
 		
-		$option[$idcate]=$this->model->getPageList($url,$index,VSFactory::getSettings()->getSystemKey($bw->input[0].'_paging_limit',12));
+		$length = VSFactory::getSettings()->getSystemKey($bw->input[0].'_paging_limit',12);
+		$option[$idcate]=$this->model->getPageList($url,$index,$length);
 		
 		$vsPrint->mainTitle = $vsPrint->pageTitle = $category->getTitle();
 		

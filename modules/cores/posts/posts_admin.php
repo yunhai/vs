@@ -9,8 +9,8 @@ class posts_admin extends VSAdminBoard {
 	*System IDE create
 	**/
 	public	function auto_run(){
-	
-		global $bw;		$this->tabs[]=array(
+		global $bw;		
+		$this->tabs[]=array(
 				'id'=>'posts',
 				'href'=>"{$bw->base_url}posts/posts_display_tab/&ajax=1",
 				'title'=>$this->getLang()->getWords("tab_post",'post'),

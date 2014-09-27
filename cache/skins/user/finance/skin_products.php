@@ -1,304 +1,267 @@
 <?php
-if(!class_exists('skin_objectpublic'))
-require_once ('./cache/skins/user/finance/skin_objectpublic.php');
-class skin_products extends skin_objectpublic {
+class skin_products{
 
 //===========================================================================
 // <vsf:showDefault:desc::trigger:>
 //===========================================================================
-function showDefault($option=array()) {global $bw,$vsPrint;
-$this->bw = $bw;
+function showDefault($option="") {//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="sanpham">
+        <h3 class="main_title">
+            <a>{$vsLang->getWords('global_productservice','Sản phẩm  - Dịch vụ')}</a>
+                {$vsTemplate->global_template->navigator}
+            </h3>
+            
+EOF;
+if($option['pageList']) {
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class="content_mid">
-<div class="content_mid_title">{$vsPrint->mainTitle}</div>
-{$this->__foreach_loop__id_540c42ca20fed($option)}
-<div class="clear"></div>
-<div class="page"> {$option['paging']}</div>
-</div>
+        <div class="sanpham">
+        <h3 class="main_title">
+            <a>{$vsLang->getWords('global_productservice','Sản phẩm  - Dịch vụ')}</a>
+                {$vsTemplate->global_template->navigator}
+            </h3>
 EOF;
 //--endhtml--//
 return $BWHTML;
 }
+//===========================================================================
+// <vsf:showCategory:desc::trigger:>
+//===========================================================================
+function showCategory($option="") {//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="sanpham">
+        <h3 class="main_title">
+            <a>{$vsLang->getWords('global_productservice','Sản phẩm  - Dịch vụ')}</a>
+                {$vsTemplate->global_template->navigator}
+            </h3>
+            
+EOF;
+if($option['pageList']) {
 
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="sanpham">
+        <h3 class="main_title">
+            <a>{$vsLang->getWords('global_productservice','Sản phẩm  - Dịch vụ')}</a>
+                {$vsTemplate->global_template->navigator}
+            </h3>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
 //===========================================================================
-// Foreach loop function ifstatement
+// <vsf:loadProduct:desc::trigger:>
 //===========================================================================
-function __foreach_loop__id_540c42ca20fed($option=array())
-{
-global $bw,$vsPrint;
+function loadProduct($option="") {
+//--starthtml--//
+$BWHTML .= <<<EOF
+        {$this->__foreach_loop__id_503711e51cc7a($option)}
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:__foreach_loop__id_503711e51cc7a:desc::trigger:>
+//===========================================================================
+function __foreach_loop__id_503711e51cc7a($option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate,$catpro;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($option['pageList'])){
-    foreach( $option['pageList'] as $obj  )
+    foreach( $option as $obj )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
-    $BWHTML .= <<<EOF
-        
-<div class="pro_item">
-<div class="im"><a href="{$obj->getUrl('products')}">{$obj->createImageCache($obj->getImage(),210,210)}</a></div>
-<div class="na">
-<a href="{$obj->getUrl('products')}">{$obj->getTitle()}</a>
-</div>
-
-EOF;
-if($obj->getPromotionPrice()) {
+    
+//--starthtml--//
 $BWHTML .= <<<EOF
-
-<div class="price promo">
-<div class="price_old">{$this->numberFormat($obj->getPrice())} VNÐ</div>
-<div class="price_promo">{$this->numberFormat($obj->getPromotionPrice())} VNÐ</div>
-</div>
-
+        <div class="sanpham_item">
+         <a href="{$obj->getUrl($bw->input['module'])}" title="{$obj->getTitle()}" class="sanpham_img">{$obj->createImageCache($obj->file,142,110,2)}</a>
+                <h3><a href="{$obj->getUrl($bw->input['module'])}" title="{$obj->getTitle()}">{$obj->getTitle()}</a></h3>
 EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-
-<div class="price">
-EOF;
-if($obj->getPrice()) {
-$BWHTML .= <<<EOF
-{$this->numberFormat($obj->getPrice())} VNÐ
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-Call
-EOF;
-}
-$BWHTML .= <<<EOF
-</div>
-
-EOF;
-}
-$BWHTML .= <<<EOF
-
-<a class="order" onclick="addCart({$obj->getId()})"></a>
-
-EOF;
-if($obj->getPromotionPrice()) {
-$BWHTML .= <<<EOF
-
-<div class="sale"></div>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-</div>
-
-EOF;
-$vsf_count++;
-    }
-    }
-    return $BWHTML;
+//--endhtml--//
+return $BWHTML;
 }
 //===========================================================================
 // <vsf:showDetail:desc::trigger:>
 //===========================================================================
-function showDetail($obj="",$option=array()) {global $bw, $vsPrint;
-$this->bw = $bw;
- $this->catTitle=$option['cate_obj']->getTitle();
- $this->bw=$bw;
- $this->urlCate="{$this->bw->base_url}products/category/{$option['cate_obj']->getSlugId()}";
-
+function showDetail($obj="",$option="") {$vsPrint->addCSSFile('jquery.tabs');
+$vsPrint->addCurentJavaScriptFile("jquery.tabs.pack",1);
+$vsPrint->addJavaScriptString ( 'products_script', "
+$(document).ready(function(){
+$('#container-4').tabs({ fxFade: true, fxSpeed: 'fast' });
+});"); 
+$vsPrint->addCSSFile('galleriffic-2');
+$vsPrint->addCurentJavaScriptFile("highslide/highslide-full");
+if ($option['gallery']){
+$vsPrint->addCurentJavaScriptFile("jquery.galleriffic");
+$vsPrint->addCurentJavaScriptFile("jquery.opacityrollover");
+}
+$this->array = array("products","electronics");
+//--starthtml--//
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <script>
- $(function() {
-      if(window.hs!=null)
-{
-hs.graphicsDir = boardUrl+"/skins/user/finance/javascripts/highslide/graphics/";
-hs.align = 'center';
-hs.transitions = ['expand', 'crossfade'];
-hs.outlineType = 'glossy-dark';
-hs.fadeInOut = true;
-hs.dimmingOpacity = 0.75;
-// Add the controlbar
-if (hs.addSlideshow) hs.addSlideshow({
-                        //slideshowGroup: 'group1',
-                        interval: 5000,
-                        repeat: false,
-                        useControls: true,
-                        fixedControls: false,
-                        overlayOptions: {
-                        opacity: 1,
-                        position: 'bottom center',
-                        hideOnMouseOut: true
-                        }
-                });
-}
-             });
-</script>
-<div class="content_mid">
-<div class="content_mid_title">{$this->catTitle}</div>
-<div class="pro_detail">
-<div class="im">
-{$obj->createImageCache($obj->getImage(),210,210)}
-<a onclick="return hs.expand(this)"  class="zoom highslide"  href="{$obj->getCacheImagePathByFile($obj->getImage(),1,1,1,1)}" class="zoom"></a>
-<div class="sale"></div>
-</div>
-<div class="detail_right">
-<div class="na">{$obj->getTitle()}</div>
-<div class="intro">{$this->cut($obj->getIntro(),150)}</div>
-<div class="code"><span class="tit">Mã SP</span>:{$obj->getCode()}</div>
-<div class="status"><span class="tit">Trình trạng</span>:
-EOF;
-if($obj->getState()>0 ) {
-$BWHTML .= <<<EOF
-Còn hàng 
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-Hết hàng
-EOF;
-}
-$BWHTML .= <<<EOF
-</div>
-<div class="view"><span class="tit">Lượt xem</span>:{$obj->getHot()}</div>
-
-EOF;
-if($obj->getPromotionPrice()) {
-$BWHTML .= <<<EOF
-
-<div class="price"><span class="tit">Giá</span>:<span class="old">{$this->numberFormat($obj->getPrice())}</span>{$this->numberFormat($obj->getPromotionPrice())} VNÐ</div>
-
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-
-<div class="price"><span class="tit">Giá</span>:
-EOF;
-if($obj->getPrice()) {
-$BWHTML .= <<<EOF
-{$this->numberFormat($obj->getPrice())} VNÐ
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-Call
-EOF;
-}
-$BWHTML .= <<<EOF
-</div>
-
-EOF;
-}
-$BWHTML .= <<<EOF
-
-<a onclick="addCart({$obj->getId()})"  class="order_button"></a>
-</div>
-</div>
-<div class="other">Sản phẩm khác</div>
-{$this->__foreach_loop__id_540c42ca212b2($obj,$option)}
-<div class="clear"></div>
-</div>
-<script>
-var urlcate= '{$this->urlCate}';
-
-</script>
+        
 EOF;
 //--endhtml--//
 return $BWHTML;
 }
-
 //===========================================================================
-// Foreach loop function ifstatement
+// <vsf:__foreach_loop__id_503711e51d061:desc::trigger:>
 //===========================================================================
-function __foreach_loop__id_540c42ca212b2($obj="",$option=array())
-{
-global $bw, $vsPrint;
+function __foreach_loop__id_503711e51d061($obj="",$option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    if(is_array($option['other'])){
-    foreach( $option['other'] as $obj  )
+    foreach( $option['gallery'] as $i )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
-    $BWHTML .= <<<EOF
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        {$i->showImagePopup($i,285,189,"",2)}
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:__foreach_loop__id_503711e51d44a:desc::trigger:>
+//===========================================================================
+function __foreach_loop__id_503711e51d44a($obj="",$option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    foreach(  $option['gallery'] as $image  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <li>
+                    <a class="thumb" name="leaf" href="{$image->getResizeImagePath($image->getPathView(),249,261,1)}" title="{$image->getTitle()}">
+                    {$image->createImageCache($image,59,61,2)}
+                     </a>                                
+                 </li>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:showDetailNews:desc::trigger:>
+//===========================================================================
+function showDetailNews($obj="",$option="") {//--starthtml--//
+$BWHTML .= <<<EOF
         
-<div class="pro_item">
-<div class="im"><a href="{$obj->getUrl('products')}">{$obj->createImageCache($obj->getImage(),210,210)}</a></div>
-<div class="na">
-<a href="{$obj->getUrl('products')}">{$obj->getTitle()}</a>
-</div>
-
 EOF;
-if($obj->getPromotionPrice()) {
-$BWHTML .= <<<EOF
-
-<div class="price promo">
-<div class="price_old">{$obj->getPrice()} VNÐ</div>
-<div class="price_promo">{$obj->getPromotionPrice()} VNÐ</div>
-</div>
-
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-
-<div class="price">
-EOF;
-if($obj->getPrice()) {
-$BWHTML .= <<<EOF
-{$this->numberFormat($obj->getPrice())} VNÐ
-EOF;
-}
-
-else {
-$BWHTML .= <<<EOF
-Call
-EOF;
-}
-$BWHTML .= <<<EOF
-</div>
-
-EOF;
-}
-$BWHTML .= <<<EOF
-
-<a class="order" href=""></a>
-
-EOF;
-if($obj->getPromotionPrice()) {
-$BWHTML .= <<<EOF
-
-<div class="sale"></div>
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-</div>
-
-EOF;
-$vsf_count++;
-    }
-    }
-    return $BWHTML;
-}
-//===========================================================================
-// <vsf:showSearch:desc::trigger:>
-//===========================================================================
-function showSearch($option=array()) {global $bw,$vsPrint;
+if($obj) {
 
 //--starthtml--//
 $BWHTML .= <<<EOF
         
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:__foreach_loop__id_503711e51d830:desc::trigger:>
+//===========================================================================
+function __foreach_loop__id_503711e51d830($obj="",$option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    foreach( $option['other'] as $ob )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <a href="{$ob->getUrl($bw->input['module'])}" title="{$ob->getTitle()}">{$ob->getTitle()} <span>- ({$ob->getPostDate(SHORT)})</span></a>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:showDetailAbouts:desc::trigger:>
+//===========================================================================
+function showDetailAbouts($obj="",$option="") {//--starthtml--//
+$BWHTML .= <<<EOF
+        
+EOF;
+if($obj) {
+
+//--starthtml--//
+$BWHTML .= <<<EOF
+        
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:__foreach_loop__id_503711e51dc19:desc::trigger:>
+//===========================================================================
+function __foreach_loop__id_503711e51dc19($obj="",$option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    foreach( $option['other'] as $ob )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <a href="{$ob->getUrl($bw->input['module'])}" title="{$ob->getTitle()}">{$ob->getTitle()} <span>- ({$ob->getPostDate(SHORT)})</span></a>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:showSearch:desc::trigger:>
+//===========================================================================
+function showSearch($option="") {//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="title">
+       <div class="title_center">
+       <p>{$vsPrint->mainTitle}</p></div>
+         <div class="clear_left"></div>
+        </div>
+        
+EOF;
+if($option['pageList']) {
+
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="title">
+       <div class="title_center">
+       <p>{$vsPrint->mainTitle}</p></div>
+         <div class="clear_left"></div>
+        </div>
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:__foreach_loop__id_503711e51e001:desc::trigger:>
+//===========================================================================
+function __foreach_loop__id_503711e51e001($option="") {{
+global $bw,$vsLang,$vsPrint,$vsTemplate;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    foreach( $option['pageList'] as $obj )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    
+//--starthtml--//
+$BWHTML .= <<<EOF
+        <div class="vbhc_item">
+            <a href="{$obj->getUrl($obj->getModule())}" title="{$obj->getTitle()}">{$obj->getTitle(80)}</a>
+            </div>
 EOF;
 //--endhtml--//
 return $BWHTML;

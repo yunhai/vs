@@ -42,7 +42,6 @@ class VSFSkin extends skins {
 			<meta name="author" content="{$this->AUTHOR}">
 			<meta name="copyright" content="{$this->COPYRIGHT}">
 			<meta name="robots" content="FOLLOW,INDEX">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link href="{$this->GOOGLELINK}" rel="publisher" />
 			<link rel="shortcut icon" href="{$this->SHORTCUT}" type="image/x-icon" />
 			{$this->GENERATOR}
@@ -57,8 +56,7 @@ class VSFSkin extends skins {
 			
 			</head>
 			<body>
-			{$this->BOARD}
-
+			 {$this->BOARD}
 			</body> 
 			</html>
 			{$this->JAVASCRIPT_BOTTOM }

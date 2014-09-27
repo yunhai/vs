@@ -229,7 +229,6 @@ class menus_admin extends VSControl {
 			$categoryObj->setParentId ( $parentCategory->getId () );
 			$categoryObj->setLevel ( 2 );
 		} else {
-			echo "categoryParentId input " . $bw->input ['categoryParentId'];
 			$parentCategory = $this->module->getCategoryById ( $bw->input ['categoryParentId'] );
 			
 			$categoryObj->setParentId ( $parentCategory->getId () );

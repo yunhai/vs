@@ -11,7 +11,6 @@ class GlobalLoad {
 		
         $vsPrint->addCurentJavaScriptFile("jquery.min", 1);
         $vsPrint->addCurentJavaScriptFile("bootstrap.min", 1);
-        
 		
 		$vsPrint->addJavaScriptString ( 'global_var', '
     			var vs = {};
@@ -36,6 +35,7 @@ class GlobalLoad {
 	function addDefaultCSS() {
 		global $vsPrint;
 		
+// 		$vsPrint->addCSSFile("bootstrap");
 		$vsPrint->addCSSFile("bootstrap.min");
 		$vsPrint->addCSSFile("default");
 	}

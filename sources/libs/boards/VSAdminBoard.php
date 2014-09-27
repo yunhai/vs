@@ -27,7 +27,6 @@ class VSAdminBoard{
 					}else die("$cClass::auto_run()  not exist!");
 				}
 			}
-			
 		}
 		
 				global $vsPrint;
@@ -59,6 +58,7 @@ EOF;
 EOF;
 		return $this->output;
 	}
+	
 	function getLang(){
 		return VSFactory::getLangs();
 	}

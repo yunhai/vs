@@ -110,7 +110,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a2db25a4($objItems,$option)}
+{$this->__foreach_loop__id_541c3ad2919c9($objItems,$option)}
 
 EOF;
 }
@@ -331,7 +331,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2db25a4($objItems=array(),$option=array())
+function __foreach_loop__id_541c3ad2919c9($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -377,7 +377,7 @@ EOF;
 $BWHTML .= <<<EOF
 
 <td>{$item->getEmail()}</td>
-<td class="status">{$item->getStatus('image')}</td>
+<td class="status"><img src="{$bw->vars['img_url']}/status/status_{$item->getStatus()}.png"></td>
 <td>
 EOF;
 if($item->getLastLogin()) {
@@ -618,7 +618,7 @@ $BWHTML .= <<<EOF
 
 <tr>
 <td colspan="2">
-{$this->__foreach_loop__id_54153a2db2db2($obj,$option)}
+{$this->__foreach_loop__id_541c3ad2921dc($obj,$option)}
 </td>
 </tr>
 
@@ -711,7 +711,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2db2db2($obj="",$option=array())
+function __foreach_loop__id_541c3ad2921dc($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

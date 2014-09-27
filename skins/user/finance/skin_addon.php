@@ -20,8 +20,8 @@ class skin_addon extends skin_board_public {
           <ul class="nav navbar-nav navbar-right">
             <foreach=" $option['menu'] as $menu ">
                 <if=" $menu->getAlt() == 'users_login' ">
-                    <li class='dropdown'>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập</a>
+                    <li class='dropdown login-form'>
+                        <a href="javascript:;" class="dropdown-toggle user_login" data-toggle="dropdown">Đăng nhập &nbsp;</a>
                         <ul class="dropdown-menu" role="menu">
         	                <li>
         	                   {$this->getLoginForm()}
@@ -29,12 +29,16 @@ class skin_addon extends skin_board_public {
                         </ul>
                     </li>
                 <else />
-                    <li><a href="{$menu->getUrl(false)}" class='menu-item {$menu->getAlt()}' title='{$menu->getTitle()}'>{$menu->getTitle()}</a></li>
+                    <li class='li-{$menu->getAlt()}'>
+                        <a href="{$menu->getUrl(false)}" class='menu-item {$menu->getAlt()} {$menu->getClassActive()}' title='{$menu->getTitle()}'>
+                            {$menu->getTitle()}
+                        </a>
+                    </li>
                 </if>
             </foreach>
             <if=" $this->flag ">
-                <li>
-                    <a href="#">
+                <li class='current-user'>
+                    <a href="javascript:;">
                         Chào <span class='username'>{$this->getUser()->basicObject->getFullName()}</span> 
                     </a>
                 </li>
@@ -49,7 +53,7 @@ EOF;
 		return $BWHTML;
 	}
 	
-	function getJumotron($option = array()) {
+	function getHeader($option = array()) {
 	    global $bw, $vsStd, $vsLang;
 	
 	    $vsStd->requireFile(CORE_PATH."banners/banners.php");
@@ -61,28 +65,28 @@ EOF;
 	    $this->index = 0;
 	    
 	    $BWHTML .= <<<EOF
-        <div class="col-md-12 top-sub-header">
-            <div class='col-md-6 top-sub-header-left'>
+        <div class="col-md-12 top-sub-header no-padding">
+            <div class='col-md-5 top-sub-header-left no-padding'>
                 <a class='branch-name' href='{$bw->base_url}' title='{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}'>
                     <img alt='logo' src="{$bw->vars['img_url']}/logo.png" />
                     
-                    <h1>{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}</h1>
-                    <span>{$this->getSettings()->getSystemKey('configs_slogan', 'slogan here!', 'configs')}</span>
+                    <h1 class='websitename'>{$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}</h1>
+                    <span class='slogan'>{$this->getSettings()->getSystemKey('configs_slogan', 'slogan here!', 'configs')}</span>
                 <div class='clear'></div>
                 </a>
             	<form class='search' name="search" method="get" action="{$bw->base_url}posts/search" >
-            	    <input class="input col-md-10" type="input" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" name='keywords' />
+            	    <input class="input col-md-9" type="input" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" name='keywords' />
                     <input class="submit" type="submit" value="Tìm" placeholder="{$vsLang->getWords('global_search', 'Tìm theo tên địa điểm, danh mục')}" />
                     <div class="clear"></div>
                 </form>
             </div>
             
-            <div class="col-md-6 carousel top-banner slide" data-type="multi" data-interval="3000" >
+            <div class="col-md-7 carousel top-banner slide" data-type="multi" data-interval="3000" >
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
                     <foreach="$option['news'] as $obj ">
                     <div class="item <if=" $this->index++ == 0">active</if>">
-                        {$obj->createImageCache($obj->getImage(),260, 150)}
+                        {$obj->createImageCache($obj->getImage(),280, 150)}
                     </div>
                     </foreach>
                   </div>
@@ -123,14 +127,13 @@ EOF;
         $model = new banners();
     
         $option['banner'] = $model->getByPosition('BANNER_RIGHT');
-        
         $BWHTML .= <<<EOF
-		<div class='col-md-3 sidebar'>
+		<div class='sidebar'>
 		    <div class='header'>
 	           {$this->getLang()->getWords('global_sidebar_ad', 'Quảng cáo')}
 		    </div>
           	<foreach="$option['banner'] as $obj ">
-	           {$obj->createImageCache($obj->getImage(),200, 0)}
+	           {$obj->createImageCache($obj->getImage(),195, 132, 1)}
           	</foreach>
          </div>
 EOF;
@@ -139,32 +142,37 @@ EOF;
 	
 	function getLoginForm($option = array()) {
 	    global $bw,$vsLang;
-	    $vsLang = VSFactory::getLangs();
-	
+
+	    $session = $_COOKIE['remember_me'];
+	    
 	    $BWHTML .= <<<EOF
-          <div style='width: 300px; padding: 10px;'>
-                <span>{$this->getLang()->getWords('global_login', 'Đăng nhập vào tài khoản')}</span>
+          <div class='form-container'>
+                <span class='title'>{$this->getLang()->getWords('global_login', 'Đăng nhập vào tài khoản')}</span>
 	            <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}users/do_login'>
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">{$this->getLang()->getWords('global_login_form_phone', 'Số phone')}</label>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" name='users[name]'>
+                    <label class="col-md-4 control-label">{$this->getLang()->getWords('global_login_form_phone', 'Số phone:')}</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name='users[name]' value='{$session}' />
                     </div>
                   </div>
                   
                   <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">
-                        {$this->getLang()->getWords('global_login_form_password', 'Mật khẩu')}
+                    <label class="col-md-4 control-label">
+                        {$this->getLang()->getWords('global_login_form_password', 'Mật khẩu:')}
                     </label>
-                    <div class="col-sm-10">
+                    <div class="col-md-8">
                       <input type="password" class="form-control" name='users[password]'>
                     </div>
                   </div> 
                   
                   <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('global_login_form_forget_password', 'Quên mật khẩu')}</a>
-                      <button type="submit" class="btn btn-default">{$this->getLang()->getWords('global_login_form_login', 'Đăng nhập')}</button>
+                    <div class="col-md-12">
+                      <button type="submit" class="pull-right nail-button">{$this->getLang()->getWords('global_login_form_login', 'Đăng nhập')}</button>
+                      <div class='remember-me pull-right'>
+                        <input type='checkbox' name='users[rememberme]' class='remember-me-check' value='1' <if=" isset($_COOKIE['remember_me']) ">checked</if> />&nbsp;
+                        <span class='remember-me-title'>{$this->getLang()->getWords('global_login_form_remember_me', 'Nhớ tài khoản')}</span><br/>
+                        <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('global_login_form_forget_password', 'Quên mật khẩu?')}</a>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -173,22 +181,7 @@ EOF;
 	    return $BWHTML;
 	}
 	
-	function getUserSideBar() {
-	    global $bw,$vsLang;
-	    $vsLang = VSFactory::getLangs();
-	    $BWHTML .= <<<EOF
-	    <div class='col-sm-4'>
-	    <div>{$this->getLang()->getWords('users_link', 'Quản lý tài khoản')}</div>
-    	    <div>
-    	    <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}'>{$this->getLang()->getWords('global_user_update', 'Cập nhật tiệm (tài khoản)')}<a><br />
-    	    <a href='{$bw->base_url}users/change_password' title='{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}'>{$this->getLang()->getWords('global_user_change_password', 'Cập nhật mật khẩu')}<a><br />
-    	    <a href='{$bw->base_url}posts/history' title='{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}'>{$this->getLang()->getWords('global_post_list', 'Các tin đã đăng')}<a><br />
-    	    <a href='{$bw->base_url}posts/add' title='{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}'>{$this->getLang()->getWords('global_post_add', 'Đăng quảng cáo')}<a>
-    	    </div>
-	    </div>
-EOF;
-	    return $BWHTML;
-	}
+	
 	
 	//////////<vssupport  id="{$skype->getId()}" ></vssupport>
 	/////////<a href="ymsgr:sendIM?nguyenvanhung2212"><img src="{$bw->vars['img_url']}/yahoo_1.jpg" /></a>
@@ -198,7 +191,7 @@ EOF;
 	function getSupport($option = array()) {
 	    global $bw;
 	    $BWHTML .= <<<EOF
-		<div class='support-portlet col-md-6'>
+		<div class='support-portlet'>
 			<foreach='$option['support'] as $obj '>
 			<div class='item'>
 			     <div class='support-title'>{$obj->getTitle()}</div>
@@ -207,6 +200,7 @@ EOF;
 				     <a href='skype:{$obj->getSkype()}?chat'><img src='{$bw->vars['img_url']}/skype.jpg' alt='skype icon' /></a>
 			     </div>
 			     <div class='support-phone'>Tel: {$obj->getPhone()}</div>
+	             <div class='clear'></div>
 			</div>
 			</foreach>
 		</div>

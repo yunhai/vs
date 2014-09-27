@@ -74,7 +74,9 @@ class User extends BasicObject {
 		return $this->address;
 	}
 
-
+	function getPassword(){
+	    return $this->password;
+	}
 
 	function getCity(){
 		return $this->city;

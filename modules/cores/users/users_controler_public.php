@@ -68,12 +68,25 @@ class users_controler_public extends VSControl_public {
 	        $option['error'] = VSFactory::getLangs()->getWords('link_invalid','Đường dẫn không chính xác');
 	    }
 	    
+	    $category = VSFactory::getMenus()->getCategoryGroup('posts');
+	    $option['cate'] = $category->getChildren();
+	    $current = current($option['cate']);
+	    $option['category'] = $current;
+	    $option[$current->getId()] = true;
+	    
 	    $option['user'] = $obj;
+	    
 	    return $this->output = $this->html->renewPassword($option);
 	}
 	
 	function doRenewPassword(){
 	    global $bw, $vsPrint;
+	    
+	    $category = VSFactory::getMenus()->getCategoryGroup('posts');
+	    $option['cate'] = $category->getChildren();
+	    $current = current($option['cate']);
+	    $option['category'] = $current;
+	    $option[$current->getId()] = true;
 	    
 	    if(($bw->input['users']['password']!=$bw->input['users']['password_confirm'])||!$bw->input['users']['password']){
 	        $option['error']= VSFactory::getLangs()->getWords('password_not_available', 'Mật khẩu không hợp lệ');
@@ -95,10 +108,17 @@ class users_controler_public extends VSControl_public {
 	    
 	    $flag = $this->model->updateObject();
 	    
-	    $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('renew_password_successfully', 'Mật khẩu đã được cập nhật'),'/');
+	    $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('renew_password_successfully', 'Mật khẩu đã được cập nhật'), '');
 	}
 
 	function registry($option=array()){
+	    $category = VSFactory::getMenus()->getCategoryGroup('posts');
+	    $option['cate'] = $category->getChildren();
+	    $current = current($option['cate']);
+	    $option['category'] = $current;
+	    
+	    $option[$current->getId()] = true;
+	    
 		return $this->output= $this->html->registry($option);
 	}
 	
@@ -108,7 +128,7 @@ class users_controler_public extends VSControl_public {
 		require_once ROOT_PATH.'vscaptcha/VsCaptcha.php';
 		$vscaptcha=new VsCaptcha();
 		
-		if($vscaptcha->check($bw->input['security'])){
+		if($vscaptcha->check($bw->input['users']['security'])){
 			if(($bw->input['users']['password']!=$bw->input['users']['password_confirm'])||!$bw->input['users']['password']){
 				$option['error']= VSFactory::getLangs()->getWords('password_not_available', 'Mật khẩu không hợp lệ');
 				return $this->output= $this->registry($option);
@@ -143,14 +163,21 @@ class users_controler_public extends VSControl_public {
 			    $this->model->executeNoneQuery($query);
 			}
 			
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('registry_successfully','Đăng ký thành công'),'/');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('registry_successfully','Đăng ký thành công'),'');
 		}else{
 			$option['error']=VSFactory::getLangs()->getWords('captcha_not_match','Mã bảo mật không đúng');
 			return $this->output= $this->registry($option);
 		}
 	}
 	
-	function forgotPassword($message=""){
+	function forgotPassword($message="") {
+	    $category = VSFactory::getMenus()->getCategoryGroup('posts');
+	    $option['cate'] = $category->getChildren();
+	    $current = current($option['cate']);
+	    $option['category'] = $current;
+	     
+	    $option[$current->getId()] = true;
+	    
 		return $this->output= $this->html->forgotPassword($option);
 	}
 	
@@ -159,19 +186,27 @@ class users_controler_public extends VSControl_public {
 
 		require_once ROOT_PATH.'vscaptcha/VsCaptcha.php';
 		$vscaptcha=new VsCaptcha();
-		if(0&&!$vscaptcha->check($bw->input['users']['security'])){
+		
+
+		$category = VSFactory::getMenus()->getCategoryGroup('posts');
+		$option['cate'] = $category->getChildren();
+		$current = current($option['cate']);
+		$option['category'] = $current;
+		$option[$current->getId()] = true;
+		
+		if(!$vscaptcha->check($bw->input['users']['security'])){
 			$option['error']=VSFactory::getLangs()->getWords('captcha_not_match','Mã bảo mật không đúng');
 			return $this->output=$this->html->forgotPassword($option);
 		}
 		
-		$this->model->setCondition("name='".strtolower($bw->input['users']['name'])."' and email='".(strtolower($bw->input['users']['email']))."'");
+		$this->model->setCondition("1 or name='".strtolower($bw->input['users']['name'])."' and email='".(strtolower($bw->input['users']['email']))."'");
 		$result=$this->model->getOneObjectsByCondition();
-		if(!count($result)){
+		
+		if(!$result){
 			$option['error']=VSFactory::getLangs()->getWords('user_email_not_exist','Tên đăng nhập hoặc email không đúng');
 			return $this->output=$this->html->forgotPassword($option);
 		}
 		
-// 		$result=current($result);
 		$email=VSFactory::getEmailer();
 		$option['token']=md5($result->getName());
 		$email->setBody($this->html->doSendPasswordForm($result,$option));
@@ -181,23 +216,36 @@ class users_controler_public extends VSControl_public {
 		$email->setSubject(VSFactory::getLangs()->getWords('forgot_password_info','Thông tin mật khẩu'));
 		
 		$email->sendMail();
-		$option['message']=VSFactory::getLangs()->getWords('forgot_passwd_message','Hệ thống đã gửi mật khẩu vào tài khoản email của bạn vui lòng kiểm tra email');
+	    
 		return $this->output= $this->html->doForgotPassword($option);
 	}
 	
 	function changePassword(){
 		global $vsPrint;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'');
 		}
+		
+		$category = VSFactory::getMenus()->getCategoryGroup('posts');
+		$option['cate'] = $category->getChildren();
+		$current = current($option['cate']);
+		$option['category'] = $current;
+		$option[$current->getId()] = true;
+		 
 		return $this->output= $this->html->changePassword($option);
 	}
 	
 	function doChangePassword(){
 		global $vsPrint,$bw;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'');
 		}
+		
+		$category = VSFactory::getMenus()->getCategoryGroup('posts');
+		$option['cate'] = $category->getChildren();
+		$current = current($option['cate']);
+		$option['category'] = $current;
+		$option[$current->getId()] = true;
 		
 		if(md5($bw->input['users']['password_old'])!=VSFactory::getUsers()->basicObject->getPassword() ){
 			$option['error']="Mật khẩu cũ không đúng";
@@ -211,16 +259,24 @@ class users_controler_public extends VSControl_public {
 		VSFactory::getUsers()->updateObject();
 		VSFactory::getUsers()->updateSession();
 		
-		$vsPrint->redirect_screen("Bạn đã cập nhật mật khẩu thành công", '/');
+		$vsPrint->redirect_screen("Bạn đã cập nhật mật khẩu thành công", '');
 	}
+	
 	function changeInfo(){
 		global $vsPrint;
 		
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), '/');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), '');
 		}
+		
+		$option['obj'] = VSFactory::getUsers()->basicObject;
 
-		$option['obj']=VSFactory::getUsers()->basicObject;
+		$category = VSFactory::getMenus()->getCategoryGroup('posts');
+		$option['cate'] = $category->getChildren();
+		$current = current($option['cate']);
+		$option['category'] = $current;
+
+		$option[$current->getId()] = true;
 		
 		return $this->output= $this->html->changeInfo($option);
 	}
@@ -228,7 +284,7 @@ class users_controler_public extends VSControl_public {
 	function doChangeInfo(){
 		global $bw, $vsPrint;
 		if(!VSFactory::getUsers()->basicObject->getId()){
-			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'/');
+			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng  nhập'),'');
 		}
 		unset($bw->input['users']['name']);
 		
@@ -237,19 +293,20 @@ class users_controler_public extends VSControl_public {
 
 		VSFactory::getUsers()->updateObject();
 		VSFactory::getUsers()->updateSession();
-		$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('chang_info_successfully','Thay đổi thông tin thành công'),'/');
+		$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('chang_info_successfully','Thay đổi thông tin thành công'),'');
 		
 		return $this->output= $this->html->changePassword($option);
 	}
 	
 	function doLogin(){
 		global $bw, $vsPrint;
+	
 		$this->model->setCondition("name='".strtolower($bw->input['users']['name'])."' and password='".md5(strtolower($bw->input['users']['password']))."'");
 		$result=$this->model->getObjectsByCondition();
 		
 		if(!count($result)){
 			$option['error']=VSFactory::getLangs()->getWords('user_password_not_exist','Tên đăng nhập hoặc mật khẩu không tồn tại');
-			return $this->output=$this->html->loginForm($option);
+			return $vsPrint->redirect_screen("Thông tin đăng nhập không chính xác", '');
 		}
 		$result=current($result);
 		VSFactory::getUsers()->basicObject=$result;
@@ -257,16 +314,30 @@ class users_controler_public extends VSControl_public {
 
 		VSFactory::getUsers()->obj = VSFactory::getUsers()->basicObject;
 		
-	    $back=str_replace($bw->base_url, "", $_SERVER['HTTP_REFERER']?$_SERVER['HTTP_REFERER']:"") ;
+		if(!empty($bw->input['users']['rememberme'])){
+		    echo 1;
+    		$this->model->setCookies($this->model->obj->getId());
+		} 
+		
+	    $back=str_replace($bw->base_url, "", $_SERVER['HTTP_REFERER']?$_SERVER['HTTP_REFERER']: "");
 		$vsPrint->redirect_screen("Bạn đã đăng nhập thành công",$back);
 	}
 	
+
+	
+	
+	
+	
 	function doLogOut(){
-		global $bw,$vsPrint;
-		unset($_SESSION['user']);
-		$back=str_replace($bw->base_url, "", $_SERVER['HTTP_REFERER']?$_SERVER['HTTP_REFERER']:"") ;
-		$vsPrint->redirect_screen("Bạn đã thoát khỏi hệ thống",$back);
+		global $bw, $vsPrint;
 		
+		unset($_SESSION['user']);
+		
+		//delete cookie
+		$season = time() - 7776000;
+		$this->model->setCookies($this->model->obj->getId(), $season);
+		
+		$vsPrint->boink_it($bw->base_url);
 	}
 	
 	

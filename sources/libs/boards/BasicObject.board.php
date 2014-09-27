@@ -85,14 +85,17 @@ class BasicObject {
 		$this->catId = $catId;
 	}
 	
-	function getContent($size = 0, $br = 0, $tags = "") {
+	function getContent($size = 0, $br = 0, $tags = "", $parser = false) {
 		global $vsCom;
 		
-//		$parser = new PostParser ();
-//		$parser->pp_do_html = 1;
-//		$parser->pp_nl2br = $br;
-		
-		$content = $this->content;//$parser->post_db_parse ( $this->content );
+		$content = $this->content;
+		if($parser) {
+    		$parser = new PostParser ();
+    		$parser->pp_do_html = 1;
+    		$parser->pp_nl2br = $br;
+    		
+    		return $content = $parser->post_db_parse ( $this->content );
+		}
 		if ($size) {
 			if ($tags)
 				$content = strip_tags ( $content, $tags );

@@ -184,17 +184,19 @@ class VSFPagination {
 		
                 if(APPLICATION_TYPE=='user'){
                     if($nCurrentPage<$nTotalPage&&$nCurrentPage>1){
-                        $strPre = '<a href="'.$this->url.($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance'].'" class="prev"><img src="'.$bw->vars['img_url'].'/prev.jpg" /></a>';
-                        $strNext = '<a href="'.$this->url.($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance'].'" class="next"><img src="'.$bw->vars['img_url'].'/next.jpg" /></a>';
+                        //<img src="'.$bw->vars['img_url'].'/prev.jpg" />
+                        //<img src="'.$bw->vars['img_url'].'/next.jpg" />
+                        $strPre = '<a href="'.$this->url.($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance'].'" class="prev"><</a>';
+                        $strNext = '<a href="'.$this->url.($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance'].'" class="next">></a>';
                     }
                     else
                         if($nCurrentPage==1){
-                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].'1'.$this->p_EndingBy.$bw->input['advance'].'" class="prev"><img src="'.$bw->vars['img_url'].'/prev.jpg" /></a>';
-                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].'2'.$this->p_EndingBy.$bw->input['advance'].'" class="next"><img src="'.$bw->vars['img_url'].'/next.jpg" /></a>';
+                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].'1'.$this->p_EndingBy.$bw->input['advance'].'" class="prev"><</a>';
+                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].'2'.$this->p_EndingBy.$bw->input['advance'].'" class="next">></a>';
                         }
                         if($nCurrentPage==$nTotalPage){
-                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage-1).$this->p_EndingBy.$bw->input['advance'].'" class="prev"><img src="'.$bw->vars['img_url'].'/prev.jpg" /></a>';
-                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage).$this->p_EndingBy.$bw->input['advance'].'" class="next"><img src="'.$bw->vars['img_url'].'/next.jpg" /> </a>';
+                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage-1).$this->p_EndingBy.$bw->input['advance'].'" class="prev"><</a>';
+                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage).$this->p_EndingBy.$bw->input['advance'].'" class="next">></a>';
                         }
                 }
 

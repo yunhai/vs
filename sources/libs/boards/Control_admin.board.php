@@ -207,6 +207,7 @@ function uploadImage(){
 		$this->lastModifyChange();
 		return $this->output = $this->getObjList($bw->input[3]);
 	}
+	
 	function displaySearch(){
 		global $bw;
 		if($bw->input['search']['s_order']&&$bw->input['search']['s_ofield'])
@@ -253,6 +254,7 @@ function uploadImage(){
         	$option['s_ofield'] = $bw->input['search']['s_ofield'];
 		return $this->output = $this->html->getListItemTable ($itemList, $option );
 	}
+	
 	function displayObjTab() {
 		global $bw;
 
@@ -341,7 +343,15 @@ function uploadImage(){
 				}
 				unset($url);
 			}
-			
+		}
+		
+		if($bw->input[0] == 'faq') {
+    		$ignore = array('fullname', 'phone', 'email');
+    		foreach($ignore as $item) {
+    		    $title[$item] = $bw->input[$this->modelName][$item];
+    		    unset($bw->input[$this->modelName][$item]);
+    		}
+    		$bw->input[$this->modelName]['title'] = json_encode($title);
 		}
 		
 		/****end file processing**************/

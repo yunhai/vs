@@ -88,9 +88,9 @@ class posts_controler extends VSControl_admin {
 
 	        $option['author_type'] = $this->model->basicObject->getAuthorType();
 	        
-	        if($this->model->basicObject->getStatus() == 99) {
-	            $this->model->basicObject->setStatus(0);
-	        }
+// 	        if($this->model->basicObject->getStatus() == 99) {
+// 	            $this->model->basicObject->setStatus(0);
+// 	        }
 	    }
 	    
 	    return $this->output = $this->html->addEditObjForm ( $obj, $option );
@@ -127,6 +127,7 @@ class posts_controler extends VSControl_admin {
 	        if(!$this->model->basicObject->getId()){
 	            return $this->output =  $this->getObjList ($bw->input['pageIndex'],"Not define object of id={$bw->input[$this->modelName]['id']} submited!");
 	        }
+	        
 	        if($bw->input[$this->modelName]['image']){
 	            $files=new files();
 	            $files->deleteFile($this->model->basicObject->getImage());
@@ -187,6 +188,12 @@ class posts_controler extends VSControl_admin {
 	        $this->model->insertObject();
 	        $message=VSFactory::getLangs()->getWords('insert_success');
 	    }
+	    
+	    global $DB;
+	    print "<pre>";
+	    print_r($DB->obj);
+	    print "</pre>";
+	    
 	    /**add tags process***/
 	    require_once CORE_PATH.'tags/tags.php';
 	    $tags=new tags();

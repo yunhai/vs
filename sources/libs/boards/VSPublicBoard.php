@@ -21,6 +21,7 @@ class VSPublicBoard {
 				$cClass=$expl[0];
 				$class=$cClass.'_controler_public';
 				require_once CORE_PATH.$module."/$class.php";
+				
 				if(class_exists($class)){
 				  
 					$controler=new $class($cClass);

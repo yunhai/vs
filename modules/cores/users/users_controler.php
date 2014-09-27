@@ -12,9 +12,7 @@ class users_controler extends VSControl_admin {
 
 	function auto_run() {
 	    global $bw;
-// 	    print "<pre>";
-// 	    print_r($bw->input);
-// 	    print "</pre>";exit;
+
 	    switch ($bw->input ['action']) {
 	    	case 'dologin' :
 	    	    $this->doLogin ();

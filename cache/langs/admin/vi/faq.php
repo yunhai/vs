@@ -47,4 +47,9 @@
   'P_trang' => 'trang',
   'album' => 'Album hình ảnh',
   'page_index' => 'Trang',
+  'tab_' => 'Tab ',
+  'question' => 'Câu hỏi',
+  'fullname' => 'Họ tên',
+  'email' => 'Email',
+  'answer' => 'Trả lời',
 )?>

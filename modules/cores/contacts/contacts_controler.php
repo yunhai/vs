@@ -11,7 +11,7 @@ class contacts_controler extends VSControl_admin {
 
 function auto_run() {
 		global $bw, $vsSettings;
-		
+	
 		switch ($bw->input ['action']) {
 			case $this->modelName.'_display_tab' :
 				$this->displayObjTab ();

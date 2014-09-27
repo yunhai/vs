@@ -141,6 +141,8 @@ function showCategory($catId){
 	                3 => 'posts/category/city/'
 		);
 		
+		if(empty($option['target'])) return '';
+		
 		$array=array();
 		$html = '<li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">'.
 		               "<span itemprop='title'>{$option['target']->getTitle()}</span>".

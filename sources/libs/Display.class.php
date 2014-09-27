@@ -247,7 +247,7 @@ class VSFDisplay {
 		
 		$vsSkin->loadWrapper ();
 		//$vsSkin->wrapper = preg_replace('/script \n+/script', '\n', $vsSkin->wrapper);
-		$this->zip_file();
+		//$this->zip_file();
 		$vsCom->injectLastProcess();
 		$vsSkin->show ();
 		

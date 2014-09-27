@@ -361,7 +361,6 @@ EOF;
 							</div>
 						</th>
 					</tr>
-			
 				</thead>
 				<tbody>
 				<tr>
@@ -400,14 +399,14 @@ EOF;
 				<tr>
 					<td><label>{$this->getLang()->getWords('publicdate', 'Ngày xuất bản')}</label></td>
 					<td>
-					<input name="{$this->modelName}[publicdate]" type="text" value="{$obj->getPublicDate()}" class='datepicker' />
+					<input name="{$this->modelName}[public_date]" type="text" value="{$obj->getPublicDate()}" class='datepicker' />
 					</td>
 				</tr>
 				
 				<tr>
 					<td><label>{$this->getLang()->getWords('enddate', 'Ngày hết hạn')}</label></td>
 					<td>
-					<input name="{$this->modelName}[enddate]" type="text" value="{$obj->getEndDate()}" class='datepicker' />
+					<input name="{$this->modelName}[end_date]" type="text" value="{$obj->getEndDate()}" class='datepicker' />
 					</td>
 				</tr>
 				<tr>
@@ -425,6 +424,14 @@ EOF;
 					</td>
 				</tr>
 	
+				
+				<tr>
+					<td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
+					<td>
+					   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" />
+					</td>
+				</tr>
+				
 				<if=" $option['location'] ">
 				<tr>
 					<td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
@@ -440,7 +447,35 @@ EOF;
 						</select>
 					</td>
 				</tr>
-	           </if>
+	            </if>
+				<tr>
+					<td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
+					<td>
+					   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label>{$this->getLang()->getWords("phone", 'Điện thoại')}</label></td>
+					<td>
+					   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
+					<td>
+					   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
+					<td>
+					   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" />
+					</td>
+				</tr>
+				
 				<tr>
 					<td><label>{$this->getLang()->getWords("address",'Địa chỉ')}</label></td>
 					<td>

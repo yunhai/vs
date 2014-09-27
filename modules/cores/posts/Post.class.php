@@ -17,7 +17,7 @@ class Post extends BasicObject {
 		
 		
 		$array = array(
-		                'phone','website', 'email', 'location', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean', 'name', 'address'
+		                'phone','website', 'email', 'name', 'address', 'location', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean'
 		);
 		
 		foreach($array as $key) {
@@ -45,7 +45,7 @@ class Post extends BasicObject {
 		isset ( $object ['mUrl'] ) ? $this->setMUrl ( $object ['mUrl'] ) : '';
 		
 		$array = array(
-			         'phone','website', 'email', 'location', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean', 'name', 'address'
+			         'phone','website', 'email', 'location', 'name', 'address', 'created_date', 'public_date', 'end_date', 'author', 'author_type', 'clean'
 		);
 		
 		foreach($array as $key) {
@@ -66,9 +66,6 @@ class Post extends BasicObject {
 		return $this->intro;
 	}
 
-	function getContent() {
-		return $this->content;
-	}
 
     function getAddress() {
 		return $this->address;
@@ -171,6 +168,9 @@ class Post extends BasicObject {
 		$this->image = $image;
 	}
 
+	public function getName() {
+	    return $this->name;
+	}
 	
 	public function getPhone() {
 	    return $this->phone;
@@ -188,15 +188,27 @@ class Post extends BasicObject {
 	    return $this->email;
 	}
 	
-	public function getCreatedDate() {
-	    return $this->created_date;
+	public function getCreatedDate($full = false, $vn = true) {
+	    if($full)
+	        return $this->created_date;
+	    
+	    $tmp = explode(' ', $this->created_date);
+	    if($vn) {
+	        list($year, $month, $day) = explode('-', $tmp[0]);
+	        return "{$day}/{$month}/{$year}";
+	    }
+	    return $tmp[0];
 	}
 	
-	public function getPublicDate($full = false) {
+	public function getPublicDate($full = false, $vn = true) {
 	    if($full)
 	        return $this->public_date;
 	     
 	    $tmp = explode(' ', $this->public_date);
+	    if($vn) {
+	        list($year, $month, $day) = explode('-', $tmp[0]);
+	        return "{$day}/{$month}/{$year}";
+        }
 	    return $tmp[0];
 	}
 	

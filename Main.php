@@ -56,7 +56,9 @@ try {
 		$vsStd->requireFile ( CORE_PATH . "users/users.php" );	
 		$vsUser = VSFactory::getUsers();
 	}
-	// Starting session
+	
+	
+	
 	$vsSess = new VSFSession ();
 	$vsModule = VSFactory::getModules();
 	
@@ -108,13 +110,16 @@ try {
 	// Check the admin session
 		VSFactory::getAdmins()->authorizeAdmin ();
 		
-		
 		$thread = "admin";
 	} else {
 		if (! $vsModule->result ['status'] || ! $vsModule->basicObject->getUser ()){
 			$vsModule->getModuleByClass ( $bw->vars ['public_frontpage'] );
 		}
 		$thread = "public";
+		
+		
+		//pandog: dectect remember me
+		$vsUser->checkCookies();
 	}
 	
 		// Update language for new display

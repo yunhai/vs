@@ -155,4 +155,3 @@ class gallerys extends VSFObject {
 	    return current($list);
 	}
 }
-

@@ -31,8 +31,8 @@ class addon_public extends addon_public_board{
 		return $this->getHtml()->getMenuTop($option);
 	}
 	
-	function getJumotron() {
-	    return $this->getHtml()->getJumotron();
+	function getHeader() {
+	    return $this->getHtml()->getHeader();
 	}
 	
 	function getUserSideBar() {

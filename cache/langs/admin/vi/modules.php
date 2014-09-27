@@ -42,4 +42,5 @@
   'error_title' => 'Error Title',
   'error_intro' => 'Error Intro',
   'develop_get_obj_fail' => 'No object was found',
+  'page_index' => 'Trang',
 )?>

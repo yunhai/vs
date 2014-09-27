@@ -17,9 +17,6 @@ class users extends VSFObject {
 
 	}
 
-
-
-
 	
 	/**
 	*Enter description here ...
@@ -38,4 +35,43 @@ class users extends VSFObject {
 		$this->setCondition("name='$name'");
 		return $this->getOneObjectsByCondition();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//pandog
+	//function for set cookies 1 hour
+	function setCookies($user, $time= 0) {
+	    if(empty($time)) $time = time() + 7776000;
+	    setcookie("user", $user, $time, '/', $_SERVER['HTTP_HOST']);
+	}
+	
+	//function for checking cookies
+	function checkCookies() {
+	    $flag = VSFactory::getUsers()->obj->getId();
+	    if(empty($flag)) {
+    	    if(isset($_COOKIE)) {
+    	        if(isset($_COOKIE['user'])) {
+    	            $obj = $this->getObjectById($_COOKIE['user']);
+    	            if($obj->getId()) {
+        	            VSFactory::getUsers()->basicObject = $obj;
+        	            VSFactory::getUsers()->updateSession();
+        	            VSFactory::getUsers()->obj = VSFactory::getUsers()->basicObject;
+    	            }
+    	        }
+    	    }
+	    }
+	}
+	//pandog
 }

@@ -15,43 +15,62 @@ class skin_global extends skin_board_public{
 	//
 	function vs_global(){
 		global $bw, $vsLang;
+		$year = date('Y');
 		
 		$BWHTML .= <<<EOF
 		
 		<div class="navbar navbar-default navbar-static-top" role="navigation">
+		
 		<div class="container">
-          <div class="col-md-12">
-            <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-earphone"></span>&nbsp;Hotline
-                        <span class='hotline'>{$this->getSettings()->getSystemKey('configs_hotline', '0937256242', 'configs')}</span>
-                    </a>
-                </li>
-                <li class="dropdown">
-                  <a href="#" data-placement="bottom" class='popover-container'
-                    data-toggle="popover" 
-                    data-html="true" 
-                    data-content="{$this->getAddon()->getSupports($option)}">
-                      Hỗ trợ trực tuyến
-                  </a>
-                </li>
-              </ul>
-             
-              <script>
-                  $('.popover-container').popover()
-              </script>
-              {$this->getAddon()->getMenuTop($option)}
-            </div><!--/.nav-collapse -->
+		  <div class='main-body-nav'>
+              <div class="col-md-12 no-padding">
+                <div class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav">
+                    <li>
+                        <a href="javascript:;" style='text-indent: 5px;'>
+                            <span class="glyphicon glyphicon-earphone"></span>&nbsp;Hotline:&nbsp;
+                            <span class='hotline'>{$this->getSettings()->getSystemKey('configs_hotline', '0937256242', 'configs')}</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" data-placement="bottom" class='popover-container'
+                        data-toggle="popover" 
+                        data-html="true" 
+                        data-content="{$this->getAddon()->getSupports($option)}">
+                          {$this->getLang()->getWords('global_support_online_title', 'Hỗ trợ trực tuyến')}
+                      </a>
+                    </li>
+                  </ul>
+                  <script>
+                      $('.popover-container').popover()
+                  </script>
+                  
+                  {$this->getAddon()->getMenuTop($option)}
+                </div><!--/.nav-collapse -->
+              </div>
           </div>
         </div>	
 		</div>
 		
 		<div class="container">
-            {$this->getAddon()->getJumotron()}
+		  <div class='main-body'>
+            {$this->getAddon()->getHeader()}
             
             {$this->SITE_MAIN_CONTENT}
+          </div>  
+        </div>
+        <div class="footer shadow">
+          <div class="container">
+            <p class="text-muted copyright">Copyright @ {$year} by {$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}. All Right Reserved.</p>
+            <p class="text-muted">{$this->getSettings()->getSystemKey('global_company_address', 'A75/6F/14 Bạch Đằng, Phường 2, Quận Tân Bình, TP.HCM', 'global')}.</p>
+            <p class="text-muted">
+                {$this->getLang()->getWords('global_phone_title', 'Phone')}: 
+                {$this->getSettings()->getSystemKey('global_company_phone', '0123456789', 'global')}
+                &nbsp;-&nbsp;
+                {$this->getLang()->getWords('global_email_title', 'Email')}: 
+                {$this->getSettings()->getSystemKey('global_systememail', 'info@vietsol.net', 'global')}
+            </p>
+          </div>
         </div>
 EOF;
 	return $BWHTML;
