@@ -437,6 +437,7 @@ function showDetail($obj, $option = array()) {
                     </div>
                     
                     {$option['breakcrum']}
+					<div class='clear'></div>
                     <!-- Tab panes -->
                 </div>
                 <div class='content icon'>

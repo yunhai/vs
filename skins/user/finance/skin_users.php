@@ -107,15 +107,15 @@ function _registryForm($option = array()){
                       </div>
                       <div class="form-group">
                         <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')} <span class='required'>*</span></label>
-                        <div class="col-md-4">
+                        <div class="col-md-4 select-container">
                             <select class='form-control' name="{$this->modelName}[location]">
         					<foreach="$option['location'] as $location">
         					   <option <if="$this->bw->input[$this->modelName]['location']==$location->getId()">selected='selected'</if> value="{$location->getId()}">{$location->getTitle()}</option>
         					</foreach>
         					</select>
                         </div>
-                        <label class="col-md-2 control-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
-                        <div class="col-md-3">
+                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
+                        <div class="col-md-3  zipcode-input">
                         <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}" name='{$this->modelName}[zipcode]' />
                         </div>
                       </div>
@@ -510,14 +510,14 @@ function _changeInfoForm($option = array()){
                       </div>
                       <div class="form-group">
                         <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')} <span class='required'>*</span></label>
-                        <div class="col-md-3">
+                        <div class="col-md-3  select-container">
                             <select class='form-control' name="{$this->modelName}[location]">
         					<foreach="$option['location'] as $location">
         					   <option <if="$option['obj']->getLocation() == $location->getId()">selected='selected'</if> value="{$location->getId()}">{$location->getTitle()}</option>
         					</foreach>
         					</select>
                         </div>
-                        <label class="col-md-2 control-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
+                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
                         <div class="col-md-3">
                         <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}" name='{$this->modelName}[zipcode]' value='{$option['obj']->getZipcode()}' />
                         </div>

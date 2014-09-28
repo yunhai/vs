@@ -169,8 +169,8 @@ EOF;
                     <div class="col-md-12">
                       <button type="submit" class="pull-right nail-button">{$this->getLang()->getWords('global_login_form_login', 'Đăng nhập')}</button>
                       <div class='remember-me pull-right'>
-                        <input type='checkbox' name='users[rememberme]' class='remember-me-check' value='1' <if=" isset($_COOKIE['remember_me']) ">checked</if> />&nbsp;
-                        <span class='remember-me-title'>{$this->getLang()->getWords('global_login_form_remember_me', 'Nhớ tài khoản')}</span><br/>
+                        <input type='checkbox' name='users[rememberme]' class='remember-me-check' value='1' <if=" isset($_COOKIE['remember_me']) ">checked</if> />
+                        <span class='remember-me-title'> {$this->getLang()->getWords('global_login_form_remember_me', 'Nhớ tài khoản')}</span><br/>
                         <a href='{$bw->base_url}/users/forgot_password'>{$this->getLang()->getWords('global_login_form_forget_password', 'Quên mật khẩu?')}</a>
                       </div>
                     </div>

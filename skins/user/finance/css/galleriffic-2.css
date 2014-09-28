@@ -100,7 +100,7 @@ ul.thumbs li {
 	float: left;
 	list-style: none;
 	width:67px;
-    height:65px;
+    height:70px;
 	overflow:hidden;
 	margin:0px 2px;
 }
@@ -166,7 +166,7 @@ div.pagination span.ellipsis {
 	position:absolute;
 	left:0px;	
 	height:65px;
-	width:32px;
+	width:18px;
 	top:1px;
 }
 .gallery-slide .controls .next{
@@ -174,7 +174,7 @@ div.pagination span.ellipsis {
 	position:absolute;
 	right:0px;
 	height:65px;
-	width:32px;
+	width: 22px;
 	top:1px;
 }
 ul.thumbs li{
@@ -183,4 +183,4 @@ ul.thumbs li{
 ul.thumbs img {
 	border: 0;
 	display: block;
-}
+}  
