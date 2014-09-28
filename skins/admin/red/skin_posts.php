@@ -476,13 +476,6 @@ EOF;
 					</td>
 				</tr>
 				
-				<tr>
-					<td><label>{$this->getLang()->getWords("address",'Địa chỉ')}</label></td>
-					<td>
-						<input name="{$this->modelName}[address]" id="{$this->modelName}_address" type="text" value="{$obj->getAddress()}" style='width:99%' />
-					</td>
-				</tr>
-	
 				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_image_field', 1)">
 				<tr>
 					<td><label>{$this->getLang()->getWords('image','Hình ảnh')}</label>
@@ -591,7 +584,7 @@ EOF;
 				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
 							function(){
 								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-								window.location.hash=hashbase+"/{$bw->input['back']}";
+						//		window.location.hash=hashbase+"/{$bw->input['back']}";
 							}
 				);
 				return false;

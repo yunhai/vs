@@ -101,7 +101,7 @@ class posts_controler extends VSControl_admin {
 	    /****file processing**************/
 	
 	    $bw->input[$this->modelName]['module'] = $bw->input[0];
-	
+	    
 	    if(is_array($bw->input['files'])){
 	        foreach ($bw->input['files'] as $name=> $file) {
 	            $bw->input[$this->modelName][$name]=$file;
@@ -161,9 +161,12 @@ class posts_controler extends VSControl_admin {
 	        }
 	        /////delete some here..........................................
 	    } else {
+	        
 	        $time = date('Y-m-d H:m:s');
 	        $bw->input[$this->modelName]['created_date'] = $time;
-	        $bw->input[$this->modelName]['public_date']  = $time;
+	        
+	        if(empty($bw->input[$this->modelName]['public_date']))
+	            $bw->input[$this->modelName]['public_date']  = $time;
 	        
 	        $bw->input[$this->modelName]['author'] = $_SESSION[APPLICATION_TYPE]['obj']['id'];
 	        $bw->input[$this->modelName]['author_type'] = APPLICATION_TYPE;

@@ -88,19 +88,16 @@ function displaySearch(){
 	function addEditObjProcess(){
 		global $bw;
 		
-		print "<pre>";
-		print_r($bw->input);
-		print "</pre>";exit;
-		$admins->getObjectById ( VSFactory::getAdmins ()->basicObject->getId () );
-		$admins->basicObject->setEmail ( $bw->input ['admins'] ['email'] );
-		$admins->basicObject->setAddress ( $bw->input ['admins'] ['address'] );
-		$admins->basicObject->setPhone ( $bw->input ['admins'] ['phone'] );
-		if ($bw->input ['admins'] ['password']) {
-			$admins->basicObject->setPassword ( md5 ( $bw->input ['admins'] ['password'] ) );
+		if(empty($bw->input ['users'] ['password'])){
+		    unset($bw->input ['users'] ['password']);
 		}
-		$admins->updateObject ();
-		VSFactory::getAdmins ()->basicObject = $admins->basicObject;
-		return $this->admins_info_form ( $this->output = VSFactory::getLangs ()->getWords ( 'admin_update_successfully', "update successfully!" ) );
+		
+		if ($bw->input ['users'] ['password']) {
+			$bw->input ['users'] ['password'] = md5 ( $bw->input ['users'] ['password'] );
+		}
+		
+		$this->model->basicObject->convertToObject($bw->input['users']);
+		$this->model->updateObject();
 	}
 
 	function getHtml(){

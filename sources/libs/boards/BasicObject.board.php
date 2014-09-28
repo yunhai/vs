@@ -90,6 +90,8 @@ class BasicObject {
 		
 		$content = $this->content;
 		if($parser) {
+		    $parser = VSFactory::getPostParser();
+		    
     		$parser = new PostParser ();
     		$parser->pp_do_html = 1;
     		$parser->pp_nl2br = $br;

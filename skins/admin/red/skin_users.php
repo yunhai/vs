@@ -254,6 +254,19 @@ function addEditObjForm($obj, $option = array()) {
 					</td>
 				</tr>
 				<tr>
+					<td style="width: 121px;"><label>{$this->getLang()->getWords('user_type', 'Loại thành viên')}</label></td>
+					<td>
+					<label>
+						<input <if="$obj->getGroupCode()== 1||$obj->getStatus()==null">checked='checked'</if>  name="{$this->modelName}[group_code]" id="{$this->modelName}_status_1" type="radio" value="1" />
+						{$this->getLang()->getWords('normal','phổ thông')}
+					</label>
+					<label>
+						<input <if="$obj->getGroupCode()==2">checked='checked'</if>  name="{$this->modelName}[group_code]" id="{$this->modelName}_status_0" type="radio" value="2" />
+						{$this->getLang()->getWords('vip','Vip')}
+					</label>
+					</td>
+				</tr>
+				<tr>
 					<td style="width: 121px;"><label>{$this->getLang()->getWords('status')}</label></td>
 					<td>
 					<label>
@@ -303,7 +316,7 @@ function addEditObjForm($obj, $option = array()) {
 							<foreach=" $option['location'] as $item ">
 							    <optgroup label="{$item->getTitle()}">
 							    <foreach=" $item->getChildren() as $key => $child ">
-							    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+							    <option value='{$key}' <if="$key == $obj->getLocation()">selected</if>>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
 							    </foreach>
 							    </optgroup>
 							</foreach>
@@ -345,13 +358,13 @@ function addEditObjForm($obj, $option = array()) {
 					jAlert(message);
 					return false;
 				}
-				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
-// 				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
-// 							function(){
-// 								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-// 								//window.location.hash=hashbase+"/{$bw->input['back']}";	
-// 							}
-// 				);
+				//vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
+				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+							function(){
+								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+								window.location.hash=hashbase+"/{$bw->input['back']}";	
+							}
+				);
 				return false;
 		});
 		$(".frm_close").click(function(){

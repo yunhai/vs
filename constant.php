@@ -30,7 +30,7 @@ define ( 'USE_MODULES', 1 );
 // low priority tasks until end of exec
 define ( 'RELOAD_CACHE', 1 );
 define ( 'USE_SHUTDOWN', 1 );
-define("MAX_FILE_SIZE", 100*1024*1024);
+define ( "MAX_FILE_SIZE", 100*1024*1024);
 
 define ( "USER_TYPE_NORMAL", 1);
 define ( "USER_TYPE_VIP", 2);

@@ -301,7 +301,7 @@ class users_controler_public extends VSControl_public {
 	function doLogin(){
 		global $bw, $vsPrint;
 	
-		$this->model->setCondition("name='".strtolower($bw->input['users']['name'])."' and password='".md5(strtolower($bw->input['users']['password']))."'");
+		$this->model->setCondition("name='".strtolower($bw->input['users']['name'])."' and password='".md5(strtolower($bw->input['users']['password']))."' and `status` = 1");
 		$result=$this->model->getObjectsByCondition();
 		
 		if(!count($result)){
