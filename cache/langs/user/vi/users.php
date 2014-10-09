@@ -44,4 +44,6 @@
   'changepassword_form_password_new_confirm' => 'Nhập lại mật khẩu mới',
   'changepassword_form_submit' => 'Gửi',
   'changepassword_form_reset' => 'Làm lại',
+  'group_global_module' => 'global',
+  'username_exist' => 'Tên đăng nhập đã tồn tại',
 )?>

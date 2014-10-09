@@ -47,19 +47,22 @@ $BWHTML .= <<<EOF
             {$this->getAddon()->getHeader()}
             
             {$this->SITE_MAIN_CONTENT}
+            <div class='clear'></div>
           </div>  
         </div>
         <div class="footer shadow">
           <div class="container">
-            <p class="text-muted copyright">Copyright @ {$year} by {$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}. All Right Reserved.</p>
-            <p class="text-muted">{$this->getSettings()->getSystemKey('global_company_address', 'A75/6F/14 Bạch Đằng, Phường 2, Quận Tân Bình, TP.HCM', 'global')}.</p>
-            <p class="text-muted">
-                {$this->getLang()->getWords('global_phone_title', 'Phone')}: 
-                {$this->getSettings()->getSystemKey('global_company_phone', '0123456789', 'global')}
-                &nbsp;-&nbsp;
-                {$this->getLang()->getWords('global_email_title', 'Email')}: 
-                {$this->getSettings()->getSystemKey('global_systememail', 'info@vietsol.net', 'global')}
-            </p>
+            <div class='main-body-footer'>
+                <p class="text-muted copyright">Copyright @ {$year} by {$this->getSettings()->getSystemKey('global_websitename', 'All nail', 'global')}. All Right Reserved.</p>
+                <p class="text-muted">{$this->getSettings()->getSystemKey('global_company_address', 'A75/6F/14 Bạch Đằng, Phường 2, Quận Tân Bình, TP.HCM', 'global')}.</p>
+                <p class="text-muted">
+                    {$this->getLang()->getWords('global_phone_title', 'Phone')}: 
+                    {$this->getSettings()->getSystemKey('global_company_phone', '0123456789', 'global')}
+                    &nbsp;-&nbsp;
+                    {$this->getLang()->getWords('global_email_title', 'Email')}: 
+                    {$this->getSettings()->getSystemKey('global_systememail', 'info@vietsol.net', 'global')}
+                </p>
+            </div>
           </div>
         </div>
 EOF;
@@ -246,40 +249,26 @@ $BWHTML = "";
 //--starthtml--//
 $BWHTML .= <<<EOF
         <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html40/loose.dtd">
-<html>
-<head>
-<title>Redirecting...</title>
-<meta http-equiv='refresh' content='2; url=$Url' />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-$css
-<style type="text/css">
-.title
-{
-color:red;
-}
-.text
-{
-padding:10px;
-color:#009F3C;
-}
-</style>
-</head>
-  <body >
-<center>
-<table style="background-color:#6ac3cb" cellpadding="0" cellspacing="0" width="100%" height="100%"> 
-<tr>
-<td width="416px" align="center" valign="middle" style="background:url({$bw->vars ['board_url']}/styles/redirect/direct.jpg) no-repeat center  top;" height="432px">
-<br/><br/><br/><br/>
-<img src="{$bw->vars ['board_url']}/styles/redirect/turtle.gif">
-<br/><br/>
-<p class="text">{$Text}</p>
-    <a href='$Url' title="{$Url}" class="title">( Click here if you do not wish to wait )</a>
- </td>
-</tr>  
-</table> 
-</center>
-</body>
-</html>
+            <html>
+            <head>
+            <title>Redirecting...</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta http-equiv='refresh' content='3; url=$Url' />
+            $css
+            </head>
+              <body >
+            <center>
+            <table cellpadding="0" cellspacing="0" width="100%" height="100%"> 
+            <tr>
+            <td width="416px" align="center" valign="middle">
+            <p class="text">{$Text}</p>
+                <a href='$Url' title="{$Url}" class="title">( Click here if you do not wish to wait )</a>
+             </td>
+            </tr>  
+            </table> 
+            </center>
+            </body>
+            </html>
 EOF;
 //--endhtml--//
 return $BWHTML;

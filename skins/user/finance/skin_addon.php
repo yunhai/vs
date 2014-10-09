@@ -81,7 +81,7 @@ EOF;
                 </form>
             </div>
             
-            <div class="col-md-7 carousel top-banner slide" data-type="multi" data-interval="3000" >
+            <div class="col-md-7 carousel top-banner slide" data-type="multi" data-interval="3000">
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
                     <foreach="$option['news'] as $obj ">
@@ -125,16 +125,45 @@ EOF;
          
         $vsStd->requireFile(CORE_PATH."banners/banners.php");
         $model = new banners();
-    
+        $this->index = 0;
         $option['banner'] = $model->getByPosition('BANNER_RIGHT');
         $BWHTML .= <<<EOF
 		<div class='sidebar'>
 		    <div class='header'>
 	           {$this->getLang()->getWords('global_sidebar_ad', 'Quảng cáo')}
 		    </div>
-          	<foreach="$option['banner'] as $obj ">
-	           {$obj->createImageCache($obj->getImage(),195, 132, 1)}
-          	</foreach>
+		    <div class="carousel2 vertical slide" data-type="multi" data-interval="3000">
+		      <div class="carousel-inner">
+          	     <foreach="$option['banner'] as $obj ">
+                  	   <div class="item <if=" $this->index++ == 0">active</if>">
+        	           {$obj->createImageCache($obj->getImage(),195, 132, 1)}
+        	           </div>
+              	</foreach>
+               </div>
+           </div>
+           <script>
+                $('.carousel2[data-type="multi"] .item').each(function(){
+                  var next = $(this).next();
+                  if (!next.length) {
+                    next = $(this).siblings(':first');
+                  }
+                  next.children(':first-child').clone().appendTo($(this));
+                  
+                  for (var i=0; i<2; i++) {
+                    next=next.next();
+                    if (!next.length) {
+                    	next = $(this).siblings(':first');
+                  	}
+                    
+                    next.children(':first-child').clone().appendTo($(this));
+                  }
+                });
+                                              
+                $('.carousel2').carousel({
+                  interval: 5000,
+                  wrap: true
+                });
+            </script>
          </div>
 EOF;
       	 return $BWHTML;

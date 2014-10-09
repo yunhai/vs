@@ -225,7 +225,7 @@ $BWHTML .= <<<EOF
 <td>
 <select name="menuCate" id="menuCate">
                     <option> Chọn danh mục </option>
-                    {$this->__foreach_loop__id_54153bb6663d5($form,$message,$menu)}
+                    {$this->__foreach_loop__id_54313a57a902c($form,$message,$menu)}
                 </select>
 </td >
 </tr>
@@ -273,7 +273,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153bb6663d5($form=array(),$message="",$menu="")
+function __foreach_loop__id_54313a57a902c($form=array(),$message="",$menu="")
 {
 global  $vsMenu,$bw;
     $BWHTML = '';
@@ -787,15 +787,26 @@ $BWHTML .= <<<EOF
 <td>{$this->getLang()->getWords('obj_image_image', "Image")}</td>
 <td>
 <input size="27" type="file" name="menuImage" id="menuImage"/>
-( Kích thước :{$this->getSettings()->getSystemKey($option['cate']."_cat_image_size",'67x67',$option['cate'])})
+({$this->getLang()->getWords("{$option['cate']}_image_caption", 'Kích thước: 128 : 130 (width:height, px )')})
 </td >
 </tr>
+
+EOF;
+if( $category->getFileId() ) {
+$BWHTML .= <<<EOF
+
 <tr>
 <td>&nbsp;</td>
 <td>
 {$category->createImageCache($category->getFileId(),30,30)}
 </td>
 </tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
 
 EOF;
 }

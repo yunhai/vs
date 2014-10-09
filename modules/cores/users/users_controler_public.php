@@ -140,10 +140,10 @@ class users_controler_public extends VSControl_public {
 			
 			$model = new users();
 			
-			$model->setCondition("`name`='".strtolower($bw->input['users']['name'])."'");
+			$model->setCondition("`name`='".strtolower($bw->input['users']['name'])."' OR email = '".$bw->input['users']['email']."'");
 			$model->getOneObjectsByCondition();
 			if($model->basicObject->getId()){
-				$option['error']= VSFactory::getLangs()->getWords('username_exist','Tên đăng nhập đã tồn tại');
+				$option['error']= VSFactory::getLangs()->getWords('username_email_exist','Tên đăng nhập hoặc email đã tồn tại');
 				return $this->output= $this->registry($option);
 			}
 
@@ -151,18 +151,11 @@ class users_controler_public extends VSControl_public {
 			
 			$bw->input['users']['name']=strtolower($bw->input['users']['name']);
 			$bw->input['users']['email']=strtolower($bw->input['users']['email']);
-			
+			$bw->input['users']['joinDate']=date('Y-m-d H:i:s');
+	
 			$this->model->basicObject->convertToObject($bw->input['users']);
 			$this->model->basicObject->setPassword(md5($bw->input['users']['password']));
 
-			$flag = $this->model->insertObject();
-			if($flag) {
-			    $id = $this->model->basicObject->getId();
-			    $query = "UPDATE `nail`.`vsf_user` SET `joinDate` = NOW() WHERE `vsf_user`.`id` = {$id};";
-			    
-			    $this->model->executeNoneQuery($query);
-			}
-			
 			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('registry_successfully','Đăng ký thành công'),'');
 		}else{
 			$option['error']=VSFactory::getLangs()->getWords('captcha_not_match','Mã bảo mật không đúng');

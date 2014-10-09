@@ -12,16 +12,15 @@ function showDefault($obj="",$option=array()) {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <ul class="nav nav-tabs shadow" role="tablist">
-                {$this->__foreach_loop__id_542438a4c54b4($obj,$option)}
+                {$this->__foreach_loop__id_543133c6299aa($obj,$option)}
             </ul>
             
-            <div class='content shadow'>
-                <div class='sub-header'>
+            <div class='content shadow content-special'>
+                <div class='sub-header margin-bottom-15'>
                     <span>{$this->getLang()->getWords('contact_header', 'Thông tin liên hệ')}</span>
                 </div>
-                
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_542438a4c5686($obj,$option)}
+                    {$this->__foreach_loop__id_543133c629a99($obj,$option)}
                 </div>
                 <div class='clear'></div>
             </div>
@@ -77,7 +76,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_542438a4c54b4($obj="",$option=array())
+function __foreach_loop__id_543133c6299aa($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -113,7 +112,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_542438a4c5686($obj="",$option=array())
+function __foreach_loop__id_543133c629a99($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -140,14 +139,14 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                <div class='col-md-6 left info'>
+                                <div class='col-md-6 left info no-padding-left'>
                                     
 EOF;
 if( !empty($obj) ) {
 $BWHTML .= <<<EOF
 
                                     <div class="title">{$obj->getTitle()}</div>
-                                    <div class="info">{$obj->getContent()}</div>
+                                    <div class="info page-content">{$obj->getContent()}</div>
                                     
 EOF;
 }
@@ -156,7 +155,7 @@ $BWHTML .= <<<EOF
 
                                     <div class='form-container'>{$this->getContactForm($option, $cat)}</div>
                                 </div>
-                                <div class='col-md-6 map'>
+                                <div class='col-md-6 map no-padding-right'>
                            <div id='map_canvas'></div>
                                 </div>
                                 <div class="clear"></div>
@@ -181,25 +180,25 @@ function getContactForm($option=array(),$category=array()) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        
+        <form class="form-horizontal align-left contact-form" role="form" method='post' action='{$bw->base_url}contacts/submit/{$category->getSlugId()}'>
+              
 EOF;
 if($option['error']) {
 $BWHTML .= <<<EOF
 
-      <div class="alert alert-danger fade in" role="alert">
-                  <button type="button" class="close" data-dismiss="alert">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                  <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                  <p>{$option['error']}</p>
-              </div>
-  
+          <div class="alert alert-danger fade in" role="alert">
+                      <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                      <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
+                      <p>{$option['error']}</p>
+                  </div>
+      
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
-  <form class="form-horizontal" role="form" method='post' action='{$bw->base_url}contacts/submit/{$category->getSlugId()}'>
               <div class="form-group">
                 <label class="col-md-3 control-label">
                     {$this->getLang()->getWords('contact_form_fullname', 'Họ tên')}
@@ -218,7 +217,10 @@ $BWHTML .= <<<EOF
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}</label>
+                <label class="col-md-3 control-label">
+                    {$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}
+                    <span class='required'>*</span>
+                </label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('contact_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]' value='{$option['obj']->getPhone()}'>
                 </div>
@@ -236,7 +238,10 @@ $BWHTML .= <<<EOF
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-3 control-label">{$this->getLang()->getWords('contact_form_detail', 'Nội dung')} <span class='required'>*</span></label>
+                <label class="col-md-3 control-label">
+                    {$this->getLang()->getWords('contact_form_detail', 'Nội dung')} 
+                    <span class='required'>*</span>
+                </label>
                 <div class="col-md-9">
                   <textarea class="form-control" rows="3" name='{$this->modelName}[content]'>{$option['obj']->getContent()}</textarea>
                 </div>
@@ -254,7 +259,7 @@ $BWHTML .= <<<EOF
                 <div class="col-md-offset-3 col-md-9">
                   <input type="submit" class="btn btn-default nail-button" name='btnSubmit' value='{$this->getLang()->getWords('contact_form_submit', 'Gửi')}' />
                   <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('contact_form_reset', 'Làm lại')}</button>  
-                  <lable class='pull-right'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                  <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
                   <div class='clear'></div>
                 </div>
               </div>
@@ -278,7 +283,7 @@ function sendContactSuccess($obj="",$option=array()) {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <ul class="nav nav-tabs shadow" role="tablist">
-                {$this->__foreach_loop__id_542438a4c5f82($obj,$option)}
+                {$this->__foreach_loop__id_543133c629f70($obj,$option)}
             </ul>
             
             <div class='content shadow'>
@@ -287,7 +292,7 @@ $BWHTML .= <<<EOF
                 </div>
                 
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_542438a4c6148($obj,$option)}
+                    {$this->__foreach_loop__id_543133c62a102($obj,$option)}
                 </div>
                 <div class='clear'></div>
             </div>
@@ -334,7 +339,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_542438a4c5f82($obj="",$option=array())
+function __foreach_loop__id_543133c629f70($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -370,7 +375,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_542438a4c6148($obj="",$option=array())
+function __foreach_loop__id_543133c62a102($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

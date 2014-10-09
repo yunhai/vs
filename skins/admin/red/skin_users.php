@@ -242,7 +242,7 @@ function addEditObjForm($obj, $option = array()) {
 			<table class="obj_add_edit">
 				<tbody>
 				<tr>
-					<td style="width: 111px;"><label>{$this->getLang()->getWords('name', 'số phone')}</label></td>
+					<td style="width: 111px;"><label>{$this->getLang()->getWords('username', 'số phone')}</label></td>
 					<td>
 					<input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
 					</td>
@@ -280,7 +280,7 @@ function addEditObjForm($obj, $option = array()) {
 					</td>
 				</tr>
 				<tr>
-					<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
+					<td><label>{$this->getLang()->getWords("storename", 'Tên tiệm')}</label></td>
 					<td>
 						<input name="{$this->modelName}[fulname]" type="textbox" value="{$obj->getFullname()}" />
 					</td>

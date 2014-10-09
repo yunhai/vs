@@ -75,7 +75,6 @@ function showDefault($option = array()) {
                 <script>
                     $('a[data-toggle="tab"]').on('click', function (e) {
                         window.location.href = $(e.target).attr("href");
-                        console.log($(e.target).attr("href"));
                     });
                 </script>
     		</div>
@@ -117,31 +116,48 @@ function showForm($option = array()) {
                         <div class="tab-pane <if=" !empty($option[$key]) ">active</if>" id="tab{$key}" ref="{$key}">
                             <if=" !empty($option[$key]) ">
                                 <div class='faq_form_intro'>
-                                    {$this->getLang()->getWords('faq_form_intro', 'Mục này được thực hiện nhằm tạo cơ hội cho Quý khách, có thể gửi những câu hỏi thắc mắc, trao đổi, hợp tác.. về cho chúng tôi. Để gửi câu hỏi, xin vui lòng nhập vào mẫu bên dưới, chúng tôi sẽ trả lời và cập nhật câu trả lời lên website trong thời gian sớm. nhất.')}
+                                    {$this->getLang()->getWords('faq_form_intro', 'Mục này được thực hiện nhằm tạo cơ hội cho Quý khách, có thể gửi những câu hỏi thắc mắc, trao đổi, hợp tác.. về cho chúng tôi. Để gửi câu hỏi, xin vui lòng nhập vào mẫu bên dưới, chúng tôi sẽ trả lời và cập nhật câu trả lời lên website trong thời gian sớm nhất.')}
                                 </div>
-                                <form class="form-horizontal nail-form" role="form" method='post' action='{$this->bw->base_url}faq/submit/{$cat->getSlugId()}'>
+                                <form class="form-horizontal nail-form align-left faq-form" role="form" method='post' action='{$this->bw->base_url}faq/submit/{$cat->getSlugId()}'>
+                                  <if="$option['error']">
+                        		  <div class="alert alert-danger fade in" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                      </button>
+                                      <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
+                                      <p>{$option['error']}</p>
+                                  </div>
+                    		     </if>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                         {$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}
+                                        (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                       <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]'>
                                     </div>
                                   </div>  
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}</label>
-                                    <div class="col-md-6">
+                                    <label class="col-md-3 control-label">
+                                    Email (<span class='required'>*</span>)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    </label>
+                                    <div class="col-md-5">
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label">
+                                        {$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}
+                                        &nbsp;&nbsp;:
+                                    </label>
+                                    <div class="col-md-5">
                                       <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]'>
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Email</label>
-                                    <div class="col-md-6">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
-                                    </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">{$this->getLang()->getWords('faq_form_question', 'Nội dung cần hỏi')} (<span class='required'>*</span>)</label>
+                                    <label class="col-md-3 control-label">{$this->getLang()->getWords('faq_form_question', 'Nội dung cần hỏi')} (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
                                     <div class="col-md-9">
                                       <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'></textarea>
                                     </div>
@@ -151,7 +167,7 @@ function showForm($option = array()) {
                                     <div class="col-md-9">
                                       <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('faq_form_submit', 'Gửi')}</button>
                                       <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('faq_form_reset', 'Làm lại')}</button>  
-                                      <lable class='pull-right'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                                      <lable class='form-required-note'>(<span class='required'>*</span>)&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
                                       <div class='clear'></div>
                                     </div>
                                   </div>

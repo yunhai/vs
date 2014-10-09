@@ -192,11 +192,6 @@ class posts_controler extends VSControl_admin {
 	        $message=VSFactory::getLangs()->getWords('insert_success');
 	    }
 	    
-	    global $DB;
-	    print "<pre>";
-	    print_r($DB->obj);
-	    print "</pre>";
-	    
 	    /**add tags process***/
 	    require_once CORE_PATH.'tags/tags.php';
 	    $tags=new tags();

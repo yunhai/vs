@@ -120,9 +120,9 @@ class faq_controler_public extends pages_controler_public {
 	        $vsPrint->boink_it($bw->base_url);
 	    }
 	    
-	    $redirect = $bw->base_url.'faq';
-	    if(empty($catId)) {
-	        $redirect = $bw->base_url.'faq/category/'.$category->getSlugId();
+	    $redirect = 'faq';
+	    if(!empty($catId)) {
+	        $redirect = 'faq/category/'.$category->getSlugId();
 	    }
 	     
 	    $option['category'] = $category;
@@ -141,7 +141,7 @@ class faq_controler_public extends pages_controler_public {
 	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
 	    $this->model->insertObject();
 	    
-	    $vsPrint->boink_it($redirect);
+	    $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('post_faq_successfully', 'Cám ơn quý khách đã gửi câu hỏi cho chúng tôi, chúng tôi sẽ trả lời trong thời gian sớm nhất có thể.'), $redirect);
 	}
 	
     protected  function  onDeleteObject($obj){

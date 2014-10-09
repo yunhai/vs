@@ -586,15 +586,17 @@ EOF;
 							<td>{$this->getLang()->getWords('obj_image_image', "Image")}</td>
 							<td>
 								<input size="27" type="file" name="menuImage" id="menuImage"/>
-								( Kích thước :{$this->getSettings()->getSystemKey($option['cate']."_cat_image_size",'67x67',$option['cate'])})
+								({$this->getLang()->getWords("{$option['cate']}_image_caption", 'Kích thước: 128 : 130 (width:height, px )')})
 							</td >
 						</tr>
+						<if=" $category->getFileId() ">
 						<tr>
 							<td>&nbsp;</td>
 							<td>
 								{$category->createImageCache($category->getFileId(),30,30)}
 							</td>
 						</tr>
+						</if>
 						</if>
 						
 				

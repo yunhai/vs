@@ -64,4 +64,5 @@
   'news_EditCategoryFormButton_Edit' => 'Cập nhật',
   'develop_get_obj_fail' => 'No object was found',
   'err_category_delete_unempty' => 'Here are several category cannot be deleted due to being unempty! Please delete its children first.',
+  'locations_image_caption' => 'Kích thước: 128 : 130 (width:height, px )',
 )?>

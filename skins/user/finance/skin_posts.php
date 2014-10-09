@@ -276,7 +276,7 @@ function showForm($option = array()) {
                                         <div class="col-md-9">
                                           <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('form_submit', 'Gửi')}</button>
                                           <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('form_reset', 'Làm lại')}</button>  
-                                          <lable class='pull-right'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
                                           <div class='clear'></div>  
                                         </div>
                                       </div>

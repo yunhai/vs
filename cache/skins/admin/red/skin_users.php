@@ -124,7 +124,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a442c087($objItems,$option)}
+{$this->__foreach_loop__id_5431047b73ff3($objItems,$option)}
 
 EOF;
 }
@@ -314,7 +314,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a442c087($objItems=array(),$option=array())
+function __foreach_loop__id_5431047b73ff3($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -375,7 +375,7 @@ $BWHTML .= <<<EOF
 <table class="obj_add_edit">
 <tbody>
 <tr>
-<td style="width: 111px;"><label>{$this->getLang()->getWords('name', 'số phone')}</label></td>
+<td style="width: 111px;"><label>{$this->getLang()->getWords('username', 'số phone')}</label></td>
 <td>
 <input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
 </td>
@@ -384,6 +384,37 @@ $BWHTML .= <<<EOF
 <td style="width: 111px;"><label>{$this->getLang()->getWords('password')}</label></td>
 <td>
    <input name="{$this->modelName}[password]" id="{$this->modelName}_password" type="password" style='width:150px' />
+</td>
+</tr>
+<tr>
+<td style="width: 121px;"><label>{$this->getLang()->getWords('user_type', 'Loại thành viên')}</label></td>
+<td>
+<label>
+<input 
+EOF;
+if($obj->getGroupCode()== 1||$obj->getStatus()==null) {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+  name="{$this->modelName}[group_code]" id="{$this->modelName}_status_1" type="radio" value="1" />
+{$this->getLang()->getWords('normal','phổ thông')}
+</label>
+<label>
+<input 
+EOF;
+if($obj->getGroupCode()==2) {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+  name="{$this->modelName}[group_code]" id="{$this->modelName}_status_0" type="radio" value="2" />
+{$this->getLang()->getWords('vip','Vip')}
+</label>
 </td>
 </tr>
 <tr>
@@ -418,7 +449,7 @@ $BWHTML .= <<<EOF
 </td>
 </tr>
 <tr>
-<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
+<td><label>{$this->getLang()->getWords("storename", 'Tên tiệm')}</label></td>
 <td>
 <input name="{$this->modelName}[fulname]" type="textbox" value="{$obj->getFullname()}" />
 </td>
@@ -451,7 +482,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
 <select name="{$this->modelName}[location]" style='width: 150px;'>
-{$this->__foreach_loop__id_54153a442c82c($obj,$option)}
+{$this->__foreach_loop__id_5431047b749b7($obj,$option)}
 </select>
 </td>
 </tr>
@@ -488,13 +519,13 @@ if(flag){
 jAlert(message);
 return false;
 }
-vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
-// vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
-// function(){
-// var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-// //window.location.hash=hashbase+"/{$bw->input['back']}";
-// }
-// );
+//vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}");
+vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+function(){
+var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+window.location.hash=hashbase+"/{$bw->input['back']}";
+}
+);
 return false;
 });
 $(".frm_close").click(function(){
@@ -526,7 +557,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a442c7ad($obj="",$option=array(),$item='')
+function __foreach_loop__id_5431047b748e6($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -538,7 +569,16 @@ function __foreach_loop__id_54153a442c7ad($obj="",$option=array(),$item='')
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-    <option value='{$key}'>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
+    <option value='{$key}' 
+EOF;
+if($key == $obj->getLocation()) {
+$BWHTML .= <<<EOF
+selected
+EOF;
+}
+
+$BWHTML .= <<<EOF
+>&nbsp;&nbsp;&nbsp;{$child->getTitle()}</option>
     
 EOF;
 $vsf_count++;
@@ -551,7 +591,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a442c82c($obj="",$option=array())
+function __foreach_loop__id_5431047b749b7($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -564,7 +604,7 @@ global $bw;
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_54153a442c7ad($obj,$option,$item)}
+    {$this->__foreach_loop__id_5431047b748e6($obj,$option,$item)}
     </optgroup>
 
 EOF;

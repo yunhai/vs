@@ -6,11 +6,7 @@ class skin_pages extends skin_objectadmin {
 function addEditObjForm($obj, $option = array()) {
 		global $bw;
 		
-		$seo = "style='display:none'";
-		if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
-			$seo = "";
-		}
-		
+
 		$info = json_decode($obj->getTitle(), true);
 
 		$BWHTML .= <<<EOF
@@ -72,7 +68,6 @@ function addEditObjForm($obj, $option = array()) {
 						<select  name="{$this->modelName}[catId]" id="vs_cate">
 								{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
 						</select>
-					<br>
 					</td>
 				</tr>
 				</if>
@@ -139,9 +134,9 @@ function addEditObjForm($obj, $option = array()) {
 				</tr>
 				
 				<tr>
-					<td><label>{$this->getLang()->getWords('fullname','Họ tên')}</label></td>
+					<td><label>{$this->getLang()->getWords('phone', 'Điện thoại')}</label></td>
 					<td>
-						<input name="{$this->modelName}[fullname]" id="{$this->modelName}_code" type="text" value="{$info['fullname']}" />
+						<input name="{$this->modelName}[phone]" id="{$this->modelName}_code" type="text" value="{$info['phone']}" />
 					</td>
 				</tr>
 				
@@ -199,7 +194,7 @@ function addEditObjForm($obj, $option = array()) {
 				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
 							function(){
 								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-								//window.location.hash=hashbase+"/{$bw->input['back']}";	
+								window.location.hash=hashbase+"/{$bw->input['back']}";	
 							}
 				);
 				return false;

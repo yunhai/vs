@@ -8,10 +8,10 @@ class GlobalLoad {
 	function addDefaultScript() {
 		global $vsPrint, $bw, $vsSkin;
 		
-		
         $vsPrint->addCurentJavaScriptFile("jquery.min", 1);
         $vsPrint->addCurentJavaScriptFile("bootstrap.min", 1);
 		
+        $vsPrint->addCurentJavaScriptFile("jquery-scrollToTop", 1);
 		$vsPrint->addJavaScriptString ( 'global_var', '
     			var vs = {};
 				var noimage=0;
@@ -24,6 +24,12 @@ class GlobalLoad {
 				var global_website_title = "' . $bw->vars ['global_websitename'] . '";
     		', 1 );
 		
+		$vsPrint->addJavaScriptString ( 'totop', '
+                $(document).ready(function() {
+                    $("body").scrollToTop({skin: "cycle"});
+                });
+		
+    		', 0);
 		$vsSettings = VSFactory::getSettings();
 		if ($vsSettings->getSystemKey ( 'google_analysiss', 1, 'global', 1, 1 ) && $vsSettings->getSystemKey ( 'google_analysis_key', 'UA-42288880-1', 'global', 1, 1 )) {
 			$vsPrint->addJavaScriptString ( 'global_analysis', "
@@ -38,6 +44,9 @@ class GlobalLoad {
 // 		$vsPrint->addCSSFile("bootstrap");
 		$vsPrint->addCSSFile("bootstrap.min");
 		$vsPrint->addCSSFile("default");
+		
+		$vsPrint->addCSSFile("scrollToTop");
+		$vsPrint->addCSSFile("easing");
 	}
 
 	function find($direct, $pattern) {

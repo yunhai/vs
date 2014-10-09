@@ -317,6 +317,7 @@ function uploadImage(){
 			$bw->input['back']="/{$bw->input[0]}/{$this->modelName}_display_tab/";
 		}
 		$bw->input['back'].="&pageIndex=".$bw->input['pageIndex'];
+	
 		return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
 	
@@ -351,6 +352,7 @@ function uploadImage(){
     		    $title[$item] = $bw->input[$this->modelName][$item];
     		    unset($bw->input[$this->modelName][$item]);
     		}
+    		
     		$bw->input[$this->modelName]['title'] = json_encode($title);
 		}
 		

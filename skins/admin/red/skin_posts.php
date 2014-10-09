@@ -424,7 +424,6 @@ EOF;
 					</td>
 				</tr>
 	
-				
 				<tr>
 					<td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
 					<td>
@@ -491,11 +490,11 @@ EOF;
 							<input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
 							{$this->getLang()->getWords('upload','Tải lên từ máy')}:</label>
 						<label>
-							<input type="file" value="" style='width:250px;'  id="image-file" name="image"/>
+							<input type="file" value="" style='width:250px;' id="image-file" name="image"/>
 						</label>
 						<br/>
 						<label>
-							<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
+							<input name="filetype[image]" value="link" type="radio" obj="image-link"/>
 							{$this->getLang()->getWords('download_from','Tải về từ đường dẫn')}:
 						</label>
 						<label>
@@ -510,6 +509,10 @@ EOF;
 								{$obj->createImageEditable($obj->getImage(),100,90)}
 							</if>
 						</if>
+					</div>
+					<div class='clear'></div>
+					<div class='caption'>
+					   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px )')}
 					</div>
 					</td>
 				</tr>
@@ -556,7 +559,6 @@ EOF;
 				</if>
 				<tr style="border:none">
 					<td class="vs-button" colspan="2" >
-			
 						<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
 						<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
 					</td>
@@ -584,7 +586,7 @@ EOF;
 				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
 							function(){
 								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
-						//		window.location.hash=hashbase+"/{$bw->input['back']}";
+								window.location.hash=hashbase+"/{$bw->input['back']}";
 							}
 				);
 				return false;

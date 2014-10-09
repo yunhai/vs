@@ -1,7 +1,7 @@
 <?php
-$INFO['sql_driver_0'] 			=	'mysql';
+$INFO['sql_driver_0'] 	    =	'mysql';
 $INFO['sql_host_0'] 		=	'localhost';
-$INFO['sql_database_0']       =	'nail';
+$INFO['sql_database_0']     =	'nail';
 $INFO['sql_user_0'] 		=	'root';
 $INFO['sql_pass_0'] 		=	'mysql';
 $INFO['sql_tbl_prefix_0']    =	'vsf_';
@@ -19,11 +19,10 @@ $INFO['api_server']	=	'http://api.ihost.vn/';
 // http://getbootstrap.com/javascript/#popovers
 // raovat.vs8.websiteviet.com
 
-// Administration login: raovat
-// Administration password: fdjng(*&3dnfKHD
-
-// Username for MySQL database: raovat
-// Password for MySQL database: sdg453nfgasASF
-
-// http://vsdb.vs8.websiteviet.com/phpmyadmin/
+// Administration login raovat
+// Administration password JHD783%^$bfgh
+// Database
+// Username for MySQL database raovat
+// Password for MySQL database bdnfk(*3nfGe
+// http://vsdb.vs8.websiteviet.com/phpmyadmin
 ?>

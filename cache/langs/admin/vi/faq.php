@@ -52,4 +52,5 @@
   'fullname' => 'Họ tên',
   'email' => 'Email',
   'answer' => 'Trả lời',
+  'phone' => 'Điện thoại',
 )?>

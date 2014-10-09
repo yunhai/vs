@@ -29,4 +29,7 @@
   'global_d_sat' => 'Saturday',
   'global_d_sun' => 'Sunday',
   'global_error_title' => 'Đã có lỗi xảy ra',
+  'P_trang' => 'trang',
+  'develop_get_obj_fail' => 'No object was found',
+  'global_all_required' => 'Tất cả thông tin trên đều bắt buộc nhập',
 )?>

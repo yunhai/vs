@@ -141,7 +141,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_541d228184bc4($objItems,$option)}
+{$this->__foreach_loop__id_5431393a19220($objItems,$option)}
 
 EOF;
 }
@@ -338,7 +338,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541d228184bc4($objItems=array(),$option=array())
+function __foreach_loop__id_5431393a19220($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -714,11 +714,10 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
 <td>
 <select name="{$this->modelName}[catId]" style='width: 200px;'>
-{$this->__foreach_loop__id_541d228185e4a($obj,$option)}
+{$this->__foreach_loop__id_5431393a19fff($obj,$option)}
 </select>
 </td>
 </tr>
-
 <tr>
 <td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
 <td>
@@ -734,7 +733,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
 <select name="{$this->modelName}[location]" style='width: 200px;'>
-{$this->__foreach_loop__id_541d228185fd1($obj,$option)}
+{$this->__foreach_loop__id_5431393a1a18b($obj,$option)}
 </select>
 </td>
 </tr>
@@ -768,12 +767,6 @@ $BWHTML .= <<<EOF
    <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" />
 </td>
 </tr>
-<tr>
-<td><label>{$this->getLang()->getWords("address",'Địa chỉ')}</label></td>
-<td>
-<input name="{$this->modelName}[address]" id="{$this->modelName}_address" type="text" value="{$obj->getAddress()}" style='width:99%' />
-</td>
-</tr>
 
 EOF;
 if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_image_field', 1)) {
@@ -802,11 +795,11 @@ $BWHTML .= <<<EOF
 <input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
 {$this->getLang()->getWords('upload','Tải lên từ máy')}:</label>
 <label>
-<input type="file" value="" style='width:250px;'  id="image-file" name="image"/>
+<input type="file" value="" style='width:250px;' id="image-file" name="image"/>
 </label>
 <br/>
 <label>
-<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
+<input name="filetype[image]" value="link" type="radio" obj="image-link"/>
 {$this->getLang()->getWords('download_from','Tải về từ đường dẫn')}:
 </label>
 <label>
@@ -844,6 +837,10 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+</div>
+<div class='clear'></div>
+<div class='caption'>
+   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px )')}
 </div>
 </td>
 </tr>
@@ -1002,7 +999,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541d228185de0($obj="",$option=array(),$item='')
+function __foreach_loop__id_5431393a19f78($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1027,7 +1024,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541d228185e4a($obj="",$option=array())
+function __foreach_loop__id_5431393a19fff($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1040,7 +1037,7 @@ function __foreach_loop__id_541d228185e4a($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_541d228185de0($obj,$option,$item)}
+    {$this->__foreach_loop__id_5431393a19f78($obj,$option,$item)}
     </optgroup>
 
 EOF;
@@ -1054,7 +1051,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541d228185f46($obj="",$option=array(),$item='')
+function __foreach_loop__id_5431393a1a10d($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1079,7 +1076,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541d228185fd1($obj="",$option=array())
+function __foreach_loop__id_5431393a1a18b($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1092,7 +1089,7 @@ function __foreach_loop__id_541d228185fd1($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_541d228185f46($obj,$option,$item)}
+    {$this->__foreach_loop__id_5431393a1a10d($obj,$option,$item)}
     </optgroup>
 
 EOF;

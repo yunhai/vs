@@ -35,4 +35,6 @@
   'visible' => 'Hiện',
   'accept' => 'Accept',
   'Cancel' => 'Cancel',
+  'banner_image_caption_top' => 'Kích thước cho top banner: 280 : 150 (width:height, px )',
+  'banner_image_caption_right' => 'Kích thước cho right banner: 195 : 132 (width:height, px )',
 )?>

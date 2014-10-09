@@ -1,5 +1,6 @@
 <?php
 $arraySetting = array (
+  'users_paging_limit' => '12',
   'configs_facebook' => '',
   'global_company_email' => 'All nail',
   'global_company_phone' => 'All nail',

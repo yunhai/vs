@@ -32,10 +32,205 @@ class posts_controler_public extends VSControl_public {
             case $this->modelName.'_delete':
                 $this->delete($bw->input [2]);
                 break;
+            case $this->modelName.'_category':
+                    $this->showCategory ( $bw->input [2], $bw->input [3], $bw->input [4]);
+                break;
 	    	default :
-	    	    $this->showCategory ( $bw->input [2], $bw->input [3], $bw->input [4]);
+	    	      $this->showDefault();
 	    	    break;
 	    }
+	}
+	
+	function showDefault($type = 'state', $location = 0, $catId = 0){
+	    global $bw, $vsPrint;
+	
+	    $option = array();
+	
+	    $category = VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
+	    $option['cate'] = $category->getChildren();
+	     
+	    $detailFlag = ($type == 'detail') ? true : false;
+	
+	    $keywords = array('state', 'city', 'detail');
+	    if(!in_array($type, $keywords)) {
+	        $flag = false;
+	        foreach( $option['cate'] as $id1 => $level1) {
+	            if($level1->getSlugId() == $type) {
+	                $flag = true;
+	                $location = 0;
+	                $catId = $type;
+	                $type = 'state';
+	            }
+	             
+	            if($flag) break;
+	
+	            foreach( $level1->children as $level2) {
+	                if($level2->getSlugId() == $type) {
+	                    $flag = true;
+	                    $location = 0;
+	                    $catId = $type;
+	                    $type = 'state';
+	                    $tabid = $id1;
+	                }
+	            }
+	
+	            if($flag) break;
+	        }
+	         
+	        if(empty($flag)) {
+	            global $vsPrint;
+	            $vsPrint->boink_it($bw->base_url);
+	        }
+	    }
+	     
+	    if($type == 'city'|| $type == 'detail') {
+	        foreach( $option['cate'] as $id1 => $level1) {
+	            if($level1->getSlugId() == $catId) {
+	                $tabid = $id1;
+	                break;
+	            }
+	             
+	            $flag = false;
+	            foreach( $level1->children as $level2) {
+	                if($level2->getSlugId() == $catId) {
+	                    $tabid = $id1;
+	                     
+	                    $flag = true;
+	                }
+	            }
+	
+	            if($flag) {
+	                break;
+	            }
+	        }
+	    }
+	     
+	    if(empty($catId)) {
+	        reset($option['cate']);
+	        $tmp = current($option['cate']);
+	         
+	        $catId = $tmp->getSlugId();
+	    }
+	     
+	     
+	    $option['category-id'] = $idcate = $this->getIdFromUrl($catId);
+	    if(empty($tabid)) {
+	        $tabid = $idcate;
+	    }
+	
+	    $category=VSFactory::getMenus()->getCategoryById($idcate);
+	    if(!$category){
+	        $vsPrint->boink_it($bw->base_url);
+	    }
+	     
+	    if($type == 'state') {
+	        $index = 3;
+	        $option['location'] = $this->_formatState($this->_stateList($catId));
+	    } elseif($type == 'city') {
+	        if($location) {
+	            $index = 5;
+	            $id = $this->getIdFromUrl($location);
+	             
+	            $locationids = array();
+	            $option['location'] = $this->_cityList($id, $catId, $locationids, $cityObject, $stateObj);
+	
+	            $locationids = implode(',', $locationids);
+	        }
+	    } elseif($type == 'detail') {
+	        if($location) {
+	            $index = 5;
+	             
+	            $locationids = $this->getIdFromUrl($location);
+	             
+	            $option['city-obj'] = VSFactory::getMenus()->getCategoryById($locationids);
+	            $option['state-obj'] = VSFactory::getMenus()->getCategoryById($option['city-obj']->getParentId());
+	        }
+	    }
+	     
+	    $size = VSFactory::getSettings()->getSystemKey($bw->input[0].'_paging_limit', 24);
+	     
+	    $ids=VSFactory::getMenus()->getChildrenIdInTree($category->getId());
+	     
+	    $condition = "status = 2 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
+	    if($locationids) {
+	        $condition .= ' and location IN ('.$locationids.') ';
+	    }
+	     
+	    $this->model->setCondition($condition);
+	
+	    $this->model->setLimit(array(0, 6));
+	    $this->model->setOrder("`status` desc, public_date desc");
+	
+	    $vip = $this->model->getObjectsByCondition();
+	    
+	    $count = (10 - count($vip) < 0) ? 0 : (10 - count($vip));
+	    $condition = "status = 1 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
+	    if($locationids) {
+	        $condition .= ' and location IN ('.$locationids.') ';
+	    }
+	    
+	    $this->model->setCondition($condition);
+	    
+	    $this->model->setLimit(array(0, $count));
+	    $this->model->setOrder("`status` desc, public_date desc");
+	    
+	    $normal = $this->model->getObjectsByCondition();
+	    
+	    $option[$tabid]['pageList'] = $vip;
+	    foreach( $normal as $key => $item) {
+	        $option[$tabid]['pageList'][$key] = $item;
+	    }
+
+	    foreach( $option[$tabid]['pageList'] as $key => $item ) {
+	        $tmp = $item->getLocation();
+	        if(empty($tmp)) continue;
+	         
+	        $tmp = VSFactory::getMenus()->getCategoryById($tmp);
+	        $formatted_location = $tmp->getTitle() .'. ';
+	         
+	        $tmp = VSFactory::getMenus()->getCategoryById($tmp->getParentId());
+	         
+	        if($tmp->getId() == 544) continue;
+	        $formatted_location .= $tmp->getTitle();
+	         
+	        $option[$tabid]['pageList'][$key]->formatted_location = $formatted_location;
+	    }
+	     
+	    $vsPrint->mainTitle = $vsPrint->pageTitle = $category->getTitle();
+	
+	    $option['current'] = $tabid;
+	     
+	    $tmp = VSFactory::getMenus()->extractNodeInTree($tabid, $option['cate']);
+	
+	    if(count($tmp['category']->getChildren())){
+	        $option['sub-category'] = $tmp['category']->getChildren();
+	    } else {
+	        $tmp = VSFactory::getMenus()->getCategoryById($tmp['category']->getId());
+	         
+	        $tmp = VSFactory::getMenus()->extractNodeInTree($tmp->getParentId(), $option['cate']);
+	        if($tmp['category'])
+	            $option['sub-category'] = $tmp['category']->getChildren();
+	    }
+	
+	    $option['detail-flag'] = $detailFlag;
+	
+	    $option['category-type'] = $type;
+	     
+	    if(!$detailFlag && $type == 'city') {
+	        $this->model->setFieldsString('location, COUNT(*) as title');
+	        $this->model->setCondition($condition);
+	        $this->model->setGroupby('location');
+	        $tmp = $this->model->getObjectsByCondition('getLocation');
+	
+	        $cout = array();
+	        foreach($tmp as $k => $item) {
+	            $cout[$k] = $item->getTitle();
+	        }
+	         
+	        $option['location'] = $this->_formatCity($option['location'], $cout);
+	    }
+	
+	    return $this->output = $this->getHtml()->showDefault($option);
 	}
 	
 	function showCategory($type = 'state', $location = 0, $catId = 0){
@@ -192,7 +387,8 @@ class posts_controler_public extends VSControl_public {
 	        $tmp = VSFactory::getMenus()->getCategoryById($tmp['category']->getId());
 	        
 	        $tmp = VSFactory::getMenus()->extractNodeInTree($tmp->getParentId(), $option['cate']);
-	        $option['sub-category'] = $tmp['category']->getChildren();
+	        if($tmp['category'])
+	           $option['sub-category'] = $tmp['category']->getChildren();
 	    }
 	   
 	    $option['detail-flag'] = $detailFlag;

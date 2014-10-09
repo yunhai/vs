@@ -44,4 +44,9 @@
   'content' => 'Nội dung',
   'error_password_confirm' => 'Password not valid',
   'error_password' => 'Mật khẩu ít nhất 6 ký tự',
+  'admin_no_username' => 'Tài khoản không tồn tại!',
+  'admins_title_system' => 'Hệ thống',
+  'admins_title_system_manager' => 'Quản trị website',
+  'admins_forget_password' => 'Quên mật khẩu',
+  'admins_logInTitle' => 'Login',
 )?>

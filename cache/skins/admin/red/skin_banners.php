@@ -102,7 +102,7 @@ EOF;
 
 $BWHTML .= <<<EOF
  value="-1">{$this->getLang()->getWords('all')}</option>
-{$this->__foreach_loop__id_54153a2e9f049($option)}
+{$this->__foreach_loop__id_54313651b4111($option)}
 </select>
 </label>
 
@@ -136,7 +136,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2e9f049($option=array())
+function __foreach_loop__id_54313651b4111($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -285,7 +285,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("position")}</label></td>
 <td>
 <select name="{$this->modelName}[position]" id="{$this->modelName}_position">
-{$this->__foreach_loop__id_54153a2e9f5ab($obj,$option)}
+{$this->__foreach_loop__id_54313651b4638($obj,$option)}
 </select>
 </td>
 </tr>
@@ -365,6 +365,11 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+</div>
+<div class='clear'></div>
+<div class='caption'>
+   {$this->getLang()->getWords('banner_image_caption_top', 'Kích thước cho top banner: 280 : 150 (width:height, px )')}<br/>
+   {$this->getLang()->getWords('banner_image_caption_right', 'Kích thước cho right banner: 195 : 132 (width:height, px )')}
 </div>
 </td>
 </tr>
@@ -469,7 +474,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2e9f5ab($obj="",$option=array())
+function __foreach_loop__id_54313651b4638($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

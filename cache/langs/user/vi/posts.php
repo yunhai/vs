@@ -35,4 +35,5 @@
   'map-info' => 'Bản đồ',
   'posts_empty_me' => 'Quý khách chưa có bài đăng.',
   'post_account_linkheader' => 'Quản lý tài khoản',
+  'P_trang' => 'trang',
 )?>
