@@ -91,7 +91,9 @@ function getContactForm($option = array(), $category = array()) {
                         <span aria-hidden="true">×</span>
                       </button>
                       <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                      <p>{$option['error']}</p>
+                      <foreach=" $option['error'] as $error ">
+                      <p>{$error}</p>
+                      </foreach>
                   </div>
     		  </if>
               <div class="form-group">

@@ -9,7 +9,6 @@ function registry($option){
 		
 		$BWHTML .= <<<EOF
 		
-		
 		<div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
                 <foreach=" $option['cate'] as $key=>$cat">
@@ -56,11 +55,13 @@ function _registryForm($option = array()){
                             <span aria-hidden="true">×</span>
                           </button>
                           <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                          <p>{$option['error']}</p>
+                          <foreach=" $option['error'] as $error ">
+                          <p>{$error}</p>
+                          </foreach>
                       </div>
         		     </if>
                     
-                      <div class="form-group">
+                     <div class="form-group">
                         <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_phone', 'Số phone')}</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('registry_form_phone_placeholder', 'Số phone tiệm/thợ/công ty/nhà hàng/cá nhân')}" name='{$this->modelName}[name]' value='{$this->bw->input[$this->modelName]['name']}'>
@@ -332,7 +333,7 @@ function _forgetPasswordForm($option = array()){
                         <div class="col-md-offset-2 col-md-10">
                           <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                           <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>  
-                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                           <div class='clear'></div>
                         </div>
                       </div>   
@@ -426,7 +427,7 @@ function _changePasswordForm($option = array()){
                 <div class="col-md-9">
                   <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                   <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>
-                  <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                  <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                   <div class='clear'></div>
                 </div>
               </div>
@@ -486,7 +487,9 @@ function _changeInfoForm($option = array()){
                                 <span aria-hidden="true">×</span>
                               </button>
                               <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                              <p>{$option['error']}</p>
+                              <foreach=" $option['error'] as $error ">
+                              <p>{$error}</p>
+                              </foreach>
                           </div>
             		  </if>
                       <div class="form-group">
@@ -496,31 +499,31 @@ function _changeInfoForm($option = array()){
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_name', 'Tên')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_name', 'Tên')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_name_placeholder', 'Tên tiệm/thợ/công ty/nhà hàng/cá nhân')}" name='{$this->modelName}[fullname]'  value='{$option['obj']->getFullname()}'/>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_website', 'Website')}" name='{$this->modelName}[website]'  value='{$option['obj']->getWebsite()}' />
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]' value='{$option['obj']->getAddress()}' />
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_city', 'Thành phố')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_city', 'Thành phố')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_city', 'Thành phố')}" name='{$this->modelName}[city]' value='{$option['obj']->getCity()}'/>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')}</label>
                         <div class="col-md-3  select-container">
         					<select class='form-control' name="{$this->modelName}[location]">
 							<foreach=" $option['location'] as $item ">
@@ -533,7 +536,7 @@ function _changeInfoForm($option = array()){
 						</select>
         					
                         </div>
-                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
+                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}</label>
                         <div class="col-md-3">
                         <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}" name='{$this->modelName}[zipcode]' value='{$option['obj']->getZipcode()}' />
                         </div>
@@ -549,7 +552,7 @@ function _changeInfoForm($option = array()){
                         <div class="col-md-9">
                           <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                           <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>
-                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                          <lable class='form-required-note' style='margin-left: 10px;'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                           <div class='clear'></div>
                         </div>
                       </div>
@@ -567,11 +570,11 @@ function _accountLink() {
                 <span>{$this->getLang()->getWords('user_update_header', 'Quản lý tài khoản')}</span>
             </div>
             <div class='account-link-detail'>
-               <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
+               <a href='{$bw->base_url}users/update' <if="$bw->input['action'] == 'users_update'">class='active'</if> title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
                     {$this->getLang()->getWords('update-store', 'Cập nhật tiệm (Tài khoản)')} 
                </a>
                
-               <a href='{$bw->base_url}users/change_password' title='{$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}'>
+               <a href='{$bw->base_url}users/change_password' <if="$bw->input['action'] == 'users_change_password'">class='active'</if> title='{$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}'>
                     {$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}
                <a>
                

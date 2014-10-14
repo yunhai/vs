@@ -110,7 +110,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_541c3ad2919c9($objItems,$option)}
+{$this->__foreach_loop__id_543d24983ca02($objItems,$option)}
 
 EOF;
 }
@@ -331,7 +331,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541c3ad2919c9($objItems=array(),$option=array())
+function __foreach_loop__id_543d24983ca02($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -618,7 +618,7 @@ $BWHTML .= <<<EOF
 
 <tr>
 <td colspan="2">
-{$this->__foreach_loop__id_541c3ad2921dc($obj,$option)}
+{$this->__foreach_loop__id_543d24983d345($obj,$option)}
 </td>
 </tr>
 
@@ -711,7 +711,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_541c3ad2921dc($obj="",$option=array())
+function __foreach_loop__id_543d24983d345($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

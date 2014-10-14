@@ -24,8 +24,6 @@ class Post extends BasicObject {
 		    isset ( $this->$key ) ? ($dbobj [$key] = $this->$key) : '';
 		}
 		
-		
-		
 		return $dbobj;
 	}
 
@@ -206,6 +204,7 @@ class Post extends BasicObject {
 	     
 	    $tmp = explode(' ', $this->public_date);
 	    if($vn) {
+	        if( empty($tmp[0]) ) return "";
 	        list($year, $month, $day) = explode('-', $tmp[0]);
 	        return "{$day}/{$month}/{$year}";
         }
@@ -216,11 +215,18 @@ class Post extends BasicObject {
 	    return $this->author;
 	}
 	
-	public function getEndDate($full = false) {
+	public function getEndDate($full = false, $vn = true) {
 	    if($full)
 	       return $this->end_date;
 	    
 	    $tmp = explode(' ', $this->end_date);
+	    if($vn) {
+	        if( empty($tmp[0]) ) return "";
+	        
+	        list($year, $month, $day) = explode('-', $tmp[0]);
+	        return "{$day}/{$month}/{$year}";
+        }
+        
 	    return $tmp[0];
 	}
 	
@@ -235,6 +241,11 @@ class Post extends BasicObject {
 	public function setEndDate($date) {
 	    return $this->end_date = $date;
 	}	
+	
+	public function replace($input = '', $find = '', $replace = '') {
+	    return str_replace($find, $replace, $input);
+	}
+	
 	var $id;
 	var $title;
 	var $info;

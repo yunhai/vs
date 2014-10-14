@@ -49,4 +49,5 @@
   'admins_title_system_manager' => 'Quản trị website',
   'admins_forget_password' => 'Quên mật khẩu',
   'admins_logInTitle' => 'Login',
+  'admin_wrong_password' => 'Mật khẩu không đúng!',
 )?>

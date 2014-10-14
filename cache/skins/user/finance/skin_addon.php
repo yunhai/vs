@@ -16,19 +16,30 @@ if(VSFactory::getUsers()->basicObject->getId()){
            unset($option['menu'][$key]);
        $this->flag = true;
    } 
+   
+   
+   $category = VSFactory::getMenus()->getCategoryGroup('posts');
+   $tmp = $category->getChildren();
+    
+   $url = 'javascript:;';
+   if(!empty($tmp)) {
+       $first = current($tmp);
+        
+       $url = $bw->base_url.'posts/me/'.$first->getSlugId();
+   }
 }
 
 //--starthtml--//
 $BWHTML .= <<<EOF
         <ul class="nav navbar-nav navbar-right">
-            {$this->__foreach_loop__id_543124d481b15($option)}
+            {$this->__foreach_loop__id_543d24ba7f9bd($option)}
             
 EOF;
 if( $this->flag ) {
 $BWHTML .= <<<EOF
 
                 <li class='current-user'>
-                    <a href="javascript:;">
+                    <a href="{$url}">
                         Chào <span class='username'>{$this->getUser()->basicObject->getFullName()}</span> 
                     </a>
                 </li>
@@ -52,7 +63,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d481b15($option=array())
+function __foreach_loop__id_543d24ba7f9bd($option=array())
 {
 global $bw,$vsLang;
     $BWHTML = '';
@@ -134,7 +145,7 @@ $BWHTML .= <<<EOF
             <div class="col-md-7 carousel top-banner slide" data-type="multi" data-interval="3000">
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
-                    {$this->__foreach_loop__id_543124d481ddc($option)}
+                    {$this->__foreach_loop__id_543d24ba7fcca($option)}
                   </div>
             </div>
             <div class='clear'></div>
@@ -170,7 +181,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d481ddc($option=array())
+function __foreach_loop__id_543d24ba7fcca($option=array())
 {
     global $bw, $vsStd, $vsLang;
     $BWHTML = '';
@@ -219,7 +230,7 @@ $BWHTML .= <<<EOF
     </div>
     <div class="carousel2 vertical slide" data-type="multi" data-interval="3000">
       <div class="carousel-inner">
-               {$this->__foreach_loop__id_543124d481fa0($option)}
+               {$this->__foreach_loop__id_543d24ba7ff26($option)}
                </div>
            </div>
            <script>
@@ -254,7 +265,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d481fa0($option="")
+function __foreach_loop__id_543d24ba7ff26($option="")
 {
         global $vsStd;
     $BWHTML = '';
@@ -346,7 +357,7 @@ function getSupport($option=array()) {    global $bw;
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class='support-portlet'>
-{$this->__foreach_loop__id_543124d482268($option)}
+{$this->__foreach_loop__id_543d24ba80274($option)}
 </div>
 EOF;
 //--endhtml--//
@@ -356,7 +367,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482268($option=array())
+function __foreach_loop__id_543d24ba80274($option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -440,7 +451,7 @@ $vsLang = VSFactory::getLangs();
 //--starthtml--//
 $BWHTML .= <<<EOF
         <ul>
-{$this->__foreach_loop__id_543124d482405($option)}
+{$this->__foreach_loop__id_543d24ba80493($option)}
 </ul>
 EOF;
 //--endhtml--//
@@ -450,7 +461,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482405($option=array())
+function __foreach_loop__id_543d24ba80493($option=array())
 {
 global $bw,$vsLang;
     $BWHTML = '';
@@ -516,7 +527,7 @@ $BWHTML .= <<<EOF
         <div class="sitebar_item cate_sitebar">
 <div class="title_box "><h3>Hoa tươi </h3></div>
 <ul id="menu">
-{$this->__foreach_loop__id_543124d4826b1($option)}
+{$this->__foreach_loop__id_543d24ba807c4($option)}
 </ul>
 <div class="sitebar_bott"></div>
 </div>
@@ -528,7 +539,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482631($option=array(),$cate='')
+function __foreach_loop__id_543d24ba8072e($option=array(),$cate='')
 {
 ;
     $BWHTML = '';
@@ -553,7 +564,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d4826b1($option=array())
+function __foreach_loop__id_543d24ba807c4($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -572,7 +583,7 @@ if($cate->children) {
 $BWHTML .= <<<EOF
 
 <ul>
-{$this->__foreach_loop__id_543124d482631($option,$cate)}
+{$this->__foreach_loop__id_543d24ba8072e($option,$cate)}
 </ul>
 
 EOF;
@@ -599,7 +610,7 @@ $option ['category'] = VSFactory::getMenus ()->getCategoryGroup ( 'services' )->
 $BWHTML .= <<<EOF
         <div class="service_home">
     <div class="wrap_service_home">
-        {$this->__foreach_loop__id_543124d48284c($option)}
+        {$this->__foreach_loop__id_543d24ba809a1($option)}
             <div class="ser_bott"></div>
         </div>
     </div>
@@ -611,7 +622,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d48284c($option=array())
+function __foreach_loop__id_543d24ba809a1($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -646,7 +657,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Tin tức</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_543124d48297f($option)}
+                {$this->__foreach_loop__id_543d24ba80b10($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -658,7 +669,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d48297f($option=array())
+function __foreach_loop__id_543d24ba80b10($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -690,7 +701,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Hỗ trợ khách hàng</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_543124d482ab5($option)}
+                {$this->__foreach_loop__id_543d24ba80c7a($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -702,7 +713,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482ab5($option=array())
+function __foreach_loop__id_543d24ba80c7a($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -734,7 +745,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar cate_sitebar">
             <div class="title">Dịch vụ</div>
                 <ul id="menu">
-                {$this->__foreach_loop__id_543124d482bd9($option)}
+                {$this->__foreach_loop__id_543d24ba80deb($option)}
                 </ul>
             </div>
            <div class="clear"></div>
@@ -746,7 +757,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482bd9($option=array())
+function __foreach_loop__id_543d24ba80deb($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -778,7 +789,7 @@ $BWHTML .= <<<EOF
         <div class="news_sitebar ">
             <div class="title">Những bài viết gần đây</div>
                 
-                {$this->__foreach_loop__id_543124d482d36($option)}
+                {$this->__foreach_loop__id_543d24ba80f7d($option)}
                 <a class="viewall" href="{$bw->base_url}posts">Xem tất cả...</a>
                 <div class="clear"></div>
                 
@@ -791,7 +802,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482d36($option=array())
+function __foreach_loop__id_543d24ba80f7d($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -830,7 +841,7 @@ $BWHTML .= <<<EOF
         <div class="box_item">
             <div class="title">Những bài viết gần đây</div>
                 
-                {$this->__foreach_loop__id_543124d482e9f($option)}
+                {$this->__foreach_loop__id_543d24ba81129($option)}
                 <a href="{$bw->base_url}posts" class="viewall">Xem tất cả...</a>
                 <div class="clear"></div>
             </div>
@@ -842,7 +853,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d482e9f($option=array())
+function __foreach_loop__id_543d24ba81129($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -903,7 +914,7 @@ $option['project']=Object::getObjModule('pages', 'projects', '=2', '3', '');
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="title_block2">Hình ảnh dự án</div>
-            {$this->__foreach_loop__id_543124d483073($option)}
+            {$this->__foreach_loop__id_543d24ba81335($option)}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -912,7 +923,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d483073($option=array())
+function __foreach_loop__id_543d24ba81335($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -950,7 +961,7 @@ $option['ads']=Object::getObjModule('banners', 'banners', '>0', '', '');
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class="ads_sitebar">
-              {$this->__foreach_loop__id_543124d48319e($option)}
+              {$this->__foreach_loop__id_543d24ba81491($option)}
                 
              </div>
 EOF;
@@ -961,7 +972,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d48319e($option=array())
+function __foreach_loop__id_543d24ba81491($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -1063,7 +1074,7 @@ $BWHTML .= <<<EOF
         <div class="sitebar_item partner_sitebar">
 <div class="title_box "><h3>Khách hàng</h3></div>
 <div class="clear"></div>
-{$this->__foreach_loop__id_543124d4833e5($option)}
+{$this->__foreach_loop__id_543d24ba8176a($option)}
 <div class="sitebar_bott"></div>
 </div>
 EOF;
@@ -1074,7 +1085,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543124d4833e5($option=array())
+function __foreach_loop__id_543d24ba8176a($option=array())
 {
 global $bw;
     $BWHTML = '';

@@ -163,9 +163,12 @@ function showForm($option = array()) {
                                             <span aria-hidden="true">×</span>
                                           </button>
                                           <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                                          <p>{$option['error']}</p>
+                                          <foreach="$option['error'] as $error">
+                                          <p>{$error}</p>
+                                          </foreach>
                                       </div>
                         		    </if>
+                        		    
                                     <form id="fileupload" class="form-horizontal post-form nail-form" role="form" action='{$this->bw->base_url}posts/submit/{$cat->getSlugId()}' method="POST" enctype="multipart/form-data">
                                       <input type="hidden" value="{$option['obj']->getId()}" name='{$this->modelName}[id]' />
                                       <div class="form-group">
@@ -202,6 +205,7 @@ function showForm($option = array()) {
                                                         <span>{$this->getLang()->getWords('post_form_file_chose', 'Chọn tệp')} ...</span>
                                                         <input type="file" name="file[]" multiple>
                                                     </span>
+                                                    <span>{$this->getLang()->getWords('post_form_file_size', 'Kích thước: 126 : 128 (width:height)')}</span>
                                                 </div>
                                             </div>
                                             <div class="fileupload-buttonbar">
@@ -212,6 +216,7 @@ function showForm($option = array()) {
                                                         <span>{$this->getLang()->getWords('form_album', 'Album hình ảnh')}</span>
                                                         <input type="file" name="gallery[]" multiple>
                                                     </span>
+                                                    <span>{$this->getLang()->getWords('post_form_album_size', 'Kích thước: 335 : 360 (width:height)')}</span>
                                                 </div>
                                             </div>
                                             <table role="presentation" class="table table-striped" id='gallery-container'>
@@ -396,10 +401,10 @@ $BWHTML .= <<<EOF
                <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
                     {$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')} 
                </a>
-               <a href='{$bw->base_url}posts/add' title='{$this->getLang()->getWords('post', 'Đăng quảng cáo')}'>
+               <a href='{$bw->base_url}posts/add' <if="$bw->input['action'] == 'posts_add'">class='active'</if> title='{$this->getLang()->getWords('post', 'Đăng quảng cáo')}'>
                     {$this->getLang()->getWords('post', 'Đăng quảng cáo')} 
                </a>
-                <a href='{$bw->base_url}posts/me' title='{$this->getLang()->getWords('my-list', 'Các tin đã đăng')}'>
+                <a href='{$bw->base_url}posts/me' <if="$bw->input['action'] == 'posts_me'">class='active'</if> title='{$this->getLang()->getWords('my-list', 'Các tin đã đăng')}'>
                     {$this->getLang()->getWords('my-list', 'Các tin đã đăng')} 
                </a>
             </div>

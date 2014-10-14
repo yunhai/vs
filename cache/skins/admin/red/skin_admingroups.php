@@ -204,7 +204,7 @@ $BWHTML .= <<<EOF
 <tr>
 <td><label>{$this->getLang()->getWords('permission')}</label></td>
 <td>
-{$this->__foreach_loop__id_54153a2cc9138($obj,$option)}
+{$this->__foreach_loop__id_543d249725a2a($obj,$option)}
 
 EOF;
 }
@@ -278,7 +278,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2cc9068($obj="",$option=array(),$module='',$list='')
+function __foreach_loop__id_543d24972596b($obj="",$option=array(),$module='',$list='')
 {
 ;
     $BWHTML = '';
@@ -312,7 +312,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a2cc9138($obj="",$option=array())
+function __foreach_loop__id_543d249725a2a($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -330,7 +330,7 @@ if(count($list)) {
 $BWHTML .= <<<EOF
 
 <h3>{$this->getLang()->getWords($module)}</h3>
-{$this->__foreach_loop__id_54153a2cc9068($obj,$option,$module,$list)}
+{$this->__foreach_loop__id_543d24972596b($obj,$option,$module,$list)}
 
 EOF;
 }

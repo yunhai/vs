@@ -214,6 +214,10 @@ EOF;
 				             <td>{$contact->getName()}</td>
 						</tr>
 						<tr class="smalltitle">
+				        	<td class='left' width="100">{$this->getLang()->getWords('address')}:</td>
+				             <td>{$contact->getAddress()}</td>
+						</tr>
+						<tr class="smalltitle">
 				        	<td class='left' width="100">{$this->getLang()->getWords('phone')}:</td>
 				             <td>{$contact->getPhone()}</td>
 						</tr>

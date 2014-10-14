@@ -99,6 +99,7 @@ EOF;
 						<div class="clear"></div>
 						<span class="setting_intro">{$item->getIntro()}</span>
 					</td>
+					
 					<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])">
 					<td>
 						<if="$item->getCatId()">
@@ -106,6 +107,7 @@ EOF;
 						</if>
 					</td>
 					</if>
+					 
 					<if="$item->showHTMLForm()">
 					<td>{$item->showHTMLForm()}</td>
 					<else />

@@ -133,7 +133,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a42149a7($objItems,$option)}
+{$this->__foreach_loop__id_543d24ac63495($objItems,$option)}
 
 EOF;
 }
@@ -330,7 +330,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a42149a7($objItems=array(),$option=array())
+function __foreach_loop__id_543d24ac63495($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -629,7 +629,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("type")}</label></td>
 <td>
 <select  name="{$this->modelName}[type]">
-{$this->__foreach_loop__id_54153a421556a($obj,$option)}
+{$this->__foreach_loop__id_543d24ac6438d($obj,$option)}
 </select>
 <br>
 </td>
@@ -830,7 +830,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a421556a($obj="",$option=array())
+function __foreach_loop__id_543d24ac6438d($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

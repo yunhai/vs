@@ -36,4 +36,10 @@
   'posts_empty_me' => 'Quý khách chưa có bài đăng.',
   'post_account_linkheader' => 'Quản lý tài khoản',
   'P_trang' => 'trang',
+  'post_form_file_size' => 'Kích thước: 126 : 128 (width:height, px',
+  'post_form_album_size' => 'Kích thước: 335 : 360 (width:height, px)',
+  'validate_empty_title' => 'Tiêu đề không được để trống',
+  'validate_empty_image' => 'Hình đại diện không được để trông',
+  'validate_empty_intro' => 'Tiêu đề không được để trống',
+  'validate_empty_content' => 'Tiêu đề không được để trống',
 )?>

@@ -9,9 +9,6 @@ class skin_faq extends skin_objectadmin {
 function addEditObjForm($obj="",$option=array()) {global $bw;
 
 $info = json_decode($obj->getTitle(), true);
-print "<pre>";
-print_r($info);
-print "</pre>";
 
 //--starthtml--//
 $BWHTML .= <<<EOF
@@ -481,7 +478,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54310cd485a0c($objItems,$option)}
+{$this->__foreach_loop__id_543d249c89b82($objItems,$option)}
 
 EOF;
 }
@@ -678,7 +675,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54310cd485a0c($objItems=array(),$option=array())
+function __foreach_loop__id_543d249c89b82($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';

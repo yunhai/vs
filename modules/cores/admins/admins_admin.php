@@ -25,29 +25,29 @@ var $fillter=array("dologin","login","logout","forgot_password");
 					'default'=>0,
 			);
 		}
-		$this->tabs[]=array(
-				'id'=>'chang_password',
-				'href'=>"{$bw->base_url}admins/admins_info_form/&ajax=1",
-				'title'=>$this->getLang()->getWords("tab_admin_changpassword",'Thay đổi mật khẩu'),
-				'default'=>0,
-		);
-		if(VSFactory::getSettings()->getSystemKey($bw->input[0]."_admins_group_tab",1,$bw->input[0])){
-			$this->tabs[]=array(
-					'id'=>'group_manager',
-					'href'=>"{$bw->base_url}admins/admingroups_display_tab/&ajax=1",
-					'title'=>$this->getLang()->getWords("tab_admingroup",'Quản lý nhóm'),
-					'default'=>0,
-			);
-		}
+// 		$this->tabs[]=array(
+// 				'id'=>'chang_password',
+// 				'href'=>"{$bw->base_url}admins/admins_info_form/&ajax=1",
+// 				'title'=>$this->getLang()->getWords("tab_admin_changpassword",'Thay đổi mật khẩu'),
+// 				'default'=>0,
+// 		);
+// 		if(VSFactory::getSettings()->getSystemKey($bw->input[0]."_admins_group_tab",1,$bw->input[0])){
+// 			$this->tabs[]=array(
+// 					'id'=>'group_manager',
+// 					'href'=>"{$bw->base_url}admins/admingroups_display_tab/&ajax=1",
+// 					'title'=>$this->getLang()->getWords("tab_admingroup",'Quản lý nhóm'),
+// 					'default'=>0,
+// 			);
+// 		}
 		
-		if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_settings_tab', 1, $bw->input[0] )){
-			$this->tabs[]=array(
-				'id'=>'settings',
-				'href'=>"{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1",
-				'title'=>$this->getLang()->getWords("{$bw->input[0]}_ss","Cấu hình {$bw->input[0]}"),
-				'default'=>0,
-				);
-		}
+// 		if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_settings_tab', 1, $bw->input[0] )){
+// 			$this->tabs[]=array(
+// 				'id'=>'settings',
+// 				'href'=>"{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1",
+// 				'title'=>$this->getLang()->getWords("{$bw->input[0]}_ss","Cấu hình {$bw->input[0]}"),
+// 				'default'=>0,
+// 				);
+// 		}
 		//$cClass=$bw->input[0];
 		if($bw->input [1]){
 			$expl=explode('_',$bw->input [1]);

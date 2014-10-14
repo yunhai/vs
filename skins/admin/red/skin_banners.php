@@ -190,8 +190,8 @@ EOF;
 					</div>
 					<div class='clear'></div>
 					<div class='caption'>
-					   {$this->getLang()->getWords('banner_image_caption_top', 'Kích thước cho top banner: 280 : 150 (width:height, px )')}<br/>
-					   {$this->getLang()->getWords('banner_image_caption_right', 'Kích thước cho right banner: 195 : 132 (width:height, px )')}
+					   {$this->getLang()->getWords('banner_image_caption_top', 'Kích thước cho top banner: 280 : 150 (width:height, px)')}<br/>
+					   {$this->getLang()->getWords('banner_image_caption_right', 'Kích thước cho right banner: 195 : 132 (width:height, px)')}
 					</div>
 					</td>
 				</tr>

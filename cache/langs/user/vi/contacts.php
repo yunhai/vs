@@ -17,4 +17,8 @@
   'posts_state' => 'Bang',
   'posts_cty' => 'Thành phố',
   'contact_thankyou' => 'Contact Thankyou !',
+  'contact_validate_name' => 'Họ tên không được để trống',
+  'faq_validate_phone' => 'Điện thoại không được để trống',
+  'faq_validate_content' => 'Nội dung không được để trống',
+  'contact_validate_capchar' => 'Mã bảo vệ không chính xác',
 )?>

@@ -28,6 +28,7 @@ class VSPublicBoard {
 					
 					if(method_exists($controler,"auto_run")){
 						$bw->input['action']=$action;
+						
 						$controler->auto_run();
 						return $this->setOutput($controler->getOutput());
 					}else die("$cClass::auto_run() not exist!");

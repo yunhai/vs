@@ -10,7 +10,7 @@ class pcontacts_controler_public extends VSControl_public {
 	
 	function auto_run() {
 	    global $bw;
-	
+
 	    switch ($bw->input ['action']) {
 	    	case $this->modelName . '_detail' :
 	    	    $this->showDetail ( $bw->input [2] );
@@ -28,6 +28,33 @@ class pcontacts_controler_public extends VSControl_public {
 	    	    break;
 	    }
 	}
+	
+	function _validate(&$error = array()) {
+	    global $bw, $vsStd;
+	    
+	    $vsStd->requireFile ( ROOT_PATH . "vscaptcha/VsCaptcha.php" );
+	    $image = new VsCaptcha ();
+	    
+	    $target = $bw->input["pcontacts"];
+	    
+	    $empty = array(
+                    "name" => VSFactory::getLangs()->getWords('contact_validate_name', 'Họ tên không được để trống'), 
+                    "phone" => VSFactory::getLangs()->getWords('faq_validate_phone', 'Điện thoại không được để trống'), 
+            	    "content" => VSFactory::getLangs()->getWords('faq_validate_content', 'Nội dung không được để trống')
+	    );
+	    foreach($empty as $key => $message) {
+	       if(empty($target[$key])) {
+	           $error[] = $message;
+	       }
+	    }
+	    
+	   if(!$image->check ( $bw->input['pcontacts']['sec_code'])) {
+           $error[] = VSFactory::getLangs()->getWords('contact_validate_capchar', 'Mã bảo vệ không chính xác');
+       }
+	    
+       return (empty($error));
+	}
+	
 	/*
 	 * Show default action 
 	 */
@@ -70,7 +97,6 @@ class pcontacts_controler_public extends VSControl_public {
 		$contacts = new contacts();
 		
 		if(isset($_POST['btnSubmit'])){
-			$vsStd->requireFile ( ROOT_PATH . "vscaptcha/VsCaptcha.php" );
 			if($_FILES['file']['size']){
 				$files=new files();
 				$id=$files->copyFile($_FILES['file']['tmp_name'],"contacts",$_FILES['file']['name']);
@@ -85,10 +111,11 @@ class pcontacts_controler_public extends VSControl_public {
 		   	$contacts->basicObject->setEmail($bw->input['pcontacts']['email']);
 		   	$contacts->basicObject->setContent($bw->input['pcontacts']['content']);
 		   	$contacts->basicObject->getName($bw->input['pcontacts']['content']);
-		 
-		   	$image = new VsCaptcha ();
-		   	return $this->sendContactSuccess ($obj, $option);
-		  	if ( $image->check ( $bw->input['pcontacts']['sec_code'])) {
+		   	
+// 		   	return $this->sendContactSuccess ($obj, $option);
+		
+		   	$error = array();
+		  	if ( $this->_validate($error)) {
 		    	$contacts->insertObject();
 		    	$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
 		    	$this->email = new Emailer();
@@ -100,21 +127,19 @@ class pcontacts_controler_public extends VSControl_public {
 				$this->email->setSubject($contacts->basicObject->getTitle());
 				$this->email->setBody($contacts->basicObject->getContent());
 				$this->email->sendMail();
-		    	return $this->sendContactSuccess ($contacts->basicObject, $option);
+		    	return $this->sendContactSuccess ($obj, $option);
 		   	}
 		   	
-			if($_POST['return']){
-	    		$vsPrint->boink_it($bw->base_url.$_POST['return']."?error=".VSFactory::getLangs()->getWords('captcha_not_match')."!");
-	    		return;
-		    }
+// 			if($_POST['return']){
+// 	    		$vsPrint->boink_it($bw->base_url.$_POST['return']."?error=".VSFactory::getLangs()->getWords('captcha_not_match')."!");
+// 	    		return;
+// 		    }
 		    
 		    $contacts->basicObject->setTitle($bw->input['pcontacts']['title']);
-		   	$option['error']= VSFactory::getLangs()->getWords('captcha_not_match', 'Mã xác nhận không chính xác')."!";
+		   	$option['error'] = $error;//ds VSFactory::getLangs()->getWords('captcha_not_match', 'Mã xác nhận không chính xác')."!";
 		}
 		
 		$option['obj'] = $contacts->basicObject;
-		
-		
 		
         return $this->output = $this->getHtml()->showDefault($obj, $option);
 	}

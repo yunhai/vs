@@ -16,7 +16,7 @@ $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <div class='col-md-9 no-padding col-md-9-fix'>
                 <ul class="nav nav-tabs" role="tablist">
-                    {$this->__foreach_loop__id_5436947d09112($option)}
+                    {$this->__foreach_loop__id_543d24bb8a5d8($option)}
                 </ul>
                     
                 <div class='content shadow content-special'>
@@ -29,7 +29,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_5436947d0932d($option)}
+                        {$this->__foreach_loop__id_543d24bb8a79e($option)}
                     </div>
                 </div>
                 <script>
@@ -51,7 +51,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5436947d09112($option=array())
+function __foreach_loop__id_543d24bb8a5d8($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -87,7 +87,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5436947d09289($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24bb8a709($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -120,7 +120,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5436947d0932d($option=array())
+function __foreach_loop__id_543d24bb8a79e($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -147,7 +147,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                    {$this->__foreach_loop__id_5436947d09289($option,$key,$cat)}
+                                    {$this->__foreach_loop__id_543d24bb8a709($option,$key,$cat)}
                 
                                     
 EOF;
@@ -212,14 +212,13 @@ $vsf_count++;
 function showForm($option=array()) {        global $bw;
     
         $this->bw = $bw;
-    
         
 //--starthtml--//
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <div class='col-md-9 no-padding col-md-9-fix'>
             <ul class="nav nav-tabs" role="tablist">
-                {$this->__foreach_loop__id_5436947d096e0($option)}
+                {$this->__foreach_loop__id_543d24bb8ab34($option)}
             </ul>
             <div class='content shadow content-special'>
                 <div class='sub-header'>
@@ -231,7 +230,7 @@ $BWHTML .= <<<EOF
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_5436947d097e9($option)}
+                    {$this->__foreach_loop__id_543d24bb8acf2($option)}
                 </div>
             </div>
             <script>
@@ -254,7 +253,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5436947d096e0($option=array())
+function __foreach_loop__id_543d24bb8ab34($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -290,7 +289,32 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5436947d097e9($option=array())
+function __foreach_loop__id_543d24bb8ac46($option=array(),$key='',$cat='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['error'])){
+    foreach(  $option['error'] as $error  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                                      <p>{$error}</p>
+                                      
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_543d24bb8acf2($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -321,38 +345,56 @@ $BWHTML .= <<<EOF
                                     {$this->getLang()->getWords('faq_form_intro', 'Mục này được thực hiện nhằm tạo cơ hội cho Quý khách, có thể gửi những câu hỏi thắc mắc, trao đổi, hợp tác.. về cho chúng tôi. Để gửi câu hỏi, xin vui lòng nhập vào mẫu bên dưới, chúng tôi sẽ trả lời và cập nhật câu trả lời lên website trong thời gian sớm nhất.')}
                                 </div>
                                 <form class="form-horizontal nail-form align-left faq-form" role="form" method='post' action='{$this->bw->base_url}faq/submit/{$cat->getSlugId()}'>
+                                  
+EOF;
+if($option['error']) {
+$BWHTML .= <<<EOF
+
+                          <div class="alert alert-danger fade in" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                      </button>
+                                      <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
+                                      {$this->__foreach_loop__id_543d24bb8ac46($option,$key,$cat)}
+                                  </div>
+                         
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                         {$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}
-                                        (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                        (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]'>
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]' value="{$this->bw->input[$this->modelName]['fullname']}" />
                                     </div>
                                   </div>  
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                     Email (<span class='required'>*</span>)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]'  value="{$this->bw->input[$this->modelName]['email']}" />
                                       
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                         {$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}
-                                        &nbsp;&nbsp;:
+                                        &nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]'>
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]'  value="{$this->bw->input[$this->modelName]['phone']}" />
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">{$this->getLang()->getWords('faq_form_question', 'Nội dung cần hỏi')} (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
                                     <div class="col-md-9">
-                                      <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'></textarea>
+                                      <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'>{$this->bw->input[$this->modelName]['intro']}</textarea>
                                     </div>
                                   </div>
                                   <div class="form-group">

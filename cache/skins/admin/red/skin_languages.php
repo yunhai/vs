@@ -23,7 +23,7 @@ vsf.get('languages/'+act+'/'+langid+'/'+value,id);
 </script>
 <div id="page_tabs">
 <ul id="tabs_nav">
-        {$this->__foreach_loop__id_54153a34d8840($list)}
+        {$this->__foreach_loop__id_543d249f69f8c($list)}
         <li>
         <a href="{$bw->base_url}languages/displayLangForm/&ajax=1">
         <span>{$this->vsLang->getWords('tab_news_lang','Languages')}</span>
@@ -39,7 +39,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d8840($list="")
+function __foreach_loop__id_543d249f69f8c($list="")
 {
 global $bw;
     $BWHTML = '';
@@ -163,7 +163,7 @@ $BWHTML .= <<<EOF
     <td>{$this->vsLang->getWords('lang_symbol','Symbol')}</td>
         <td class="ui-dialog-selectpanel">
        <select size="5" multiple="multiple" id="langSymbol" name="langSymbol">
-       {$this->__foreach_loop__id_54153a34d8ac7($form)}
+       {$this->__foreach_loop__id_543d249f6a279($form)}
 </select>
         </td>
     </tr>
@@ -209,7 +209,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d8ac7($form="")
+function __foreach_loop__id_543d249f6a279($form="")
 {
 global $bw;
     $BWHTML = '';
@@ -257,7 +257,7 @@ $BWHTML .= <<<EOF
                 <th>{$this->vsLang->getWords('lang_option','Option')}</th>
             </tr>
         </thead>
-{$this->__foreach_loop__id_54153a34d8ca2($showval)}
+{$this->__foreach_loop__id_543d249f6a4b5($showval)}
 </table>
 </div>
 EOF;
@@ -268,7 +268,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d8ca2($showval="")
+function __foreach_loop__id_543d249f6a4b5($showval="")
 {
 global $bw;
     $BWHTML = '';
@@ -372,7 +372,7 @@ EOF;
 if($showall['WORD_ITEM']) {
 $BWHTML .= <<<EOF
 
-            {$this->__foreach_loop__id_54153a34d905b($showall)}
+            {$this->__foreach_loop__id_543d249f6a884($showall)}
         
 EOF;
 }
@@ -450,7 +450,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d8fb3($showall="",$module='',$wordlist='')
+function __foreach_loop__id_543d249f6a7c7($showall="",$module='',$wordlist='')
 {
 ;
     $BWHTML = '';
@@ -483,7 +483,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d905b($showall="")
+function __foreach_loop__id_543d249f6a884($showall="")
 {
 global $bw,  $vsUser;
     $BWHTML = '';
@@ -495,7 +495,7 @@ global $bw,  $vsUser;
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-            {$this->__foreach_loop__id_54153a34d8fb3($showall,$module,$wordlist)}
+            {$this->__foreach_loop__id_543d249f6a7c7($showall,$module,$wordlist)}
             
 EOF;
 $vsf_count++;
@@ -540,7 +540,7 @@ vsf.get('languages/additemform/{$bw->input[2]}/','langitemform_{$bw->input[2]}')
             <td>
             <select id="searchlangitem_{$bw->input[2]}_module" value="module">
             <option value="0">All module</option>
-            {$this->__foreach_loop__id_54153a34d93d3($option)}
+            {$this->__foreach_loop__id_543d249f6ab68($option)}
             
             </select>
             </td>
@@ -589,7 +589,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d93d3($option=array())
+function __foreach_loop__id_543d249f6ab68($option=array())
 {
 global $bw ,$langtype;
     $BWHTML = '';
@@ -632,7 +632,7 @@ EOF;
 if(count($showall['VAR_LANG_ITEM'])) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_54153a34d9601($showall)}
+    {$this->__foreach_loop__id_543d249f6ad50($showall)}
 
 EOF;
 }
@@ -649,7 +649,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a34d9601($showall="")
+function __foreach_loop__id_543d249f6ad50($showall="")
 {
 global $bw;
     $BWHTML = '';

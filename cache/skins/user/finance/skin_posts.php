@@ -19,7 +19,7 @@ function showDefault($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs shadow nav-tabs-border0 post-menu" role="tablist">
-                {$this->__foreach_loop__id_54312f077e381($option)}
+                {$this->__foreach_loop__id_543d24c3b49db($option)}
             </ul>
             <div class='border-grey shadow'>
                 <div class='content content-grey 
@@ -33,7 +33,7 @@ EOF;
 $BWHTML .= <<<EOF
 '>
                     <div class='i-panel'>
-                        {$this->__foreach_loop__id_54312f077e4ac($option)}
+                        {$this->__foreach_loop__id_543d24c3b4aea($option)}
                     </div>
                     <div class='location-panel'>
                     
@@ -69,7 +69,7 @@ $BWHTML .= <<<EOF
                 <!-- Tab panes -->
                 <div class='content'>
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_54312f077e73f($option)}
+                        {$this->__foreach_loop__id_543d24c3b4cb9($option)}
                      </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077e381($option=array())
+function __foreach_loop__id_543d24c3b49db($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -124,7 +124,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077e4ac($option=array())
+function __foreach_loop__id_543d24c3b4aea($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -160,7 +160,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077e63d($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24c3b4bfc($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -204,7 +204,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077e73f($option=array())
+function __foreach_loop__id_543d24c3b4cb9($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -231,7 +231,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                    {$this->__foreach_loop__id_54312f077e63d($option,$key,$cat)}
+                                    {$this->__foreach_loop__id_543d24c3b4bfc($option,$key,$cat)}
                                     <div class='clear'></div>
                                     
 EOF;
@@ -282,7 +282,7 @@ function state($option="") {    global $bw;
 //--starthtml--//
 $BWHTML .= <<<EOF
         <table class="table state">
-            {$this->__foreach_loop__id_54312f077ed14($option)}
+            {$this->__foreach_loop__id_543d24c3b5084($option)}
         </table>
 EOF;
 //--endhtml--//
@@ -292,7 +292,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077ec75($option="",$row='')
+function __foreach_loop__id_543d24c3b4ffe($option="",$row='')
 {
 ;
     $BWHTML = '';
@@ -321,7 +321,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077ed14($option="")
+function __foreach_loop__id_543d24c3b5084($option="")
 {
     global $bw;
     $BWHTML = '';
@@ -334,7 +334,7 @@ function __foreach_loop__id_54312f077ed14($option="")
     $BWHTML .= <<<EOF
         
                 <tr>
-                {$this->__foreach_loop__id_54312f077ec75($option,$row)}
+                {$this->__foreach_loop__id_543d24c3b4ffe($option,$row)}
                 </tr>
             
 EOF;
@@ -352,7 +352,7 @@ function city($option="") {    global $bw;
 $BWHTML .= <<<EOF
         <div class='fix-height row'>
             <table class="table table-responsive table-striped">
-                {$this->__foreach_loop__id_54312f077efee($option)}
+                {$this->__foreach_loop__id_543d24c3b52d3($option)}
             </table>
         </div>
 EOF;
@@ -363,7 +363,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077ef10($option="",$row='')
+function __foreach_loop__id_543d24c3b520c($option="",$row='')
 {
 ;
     $BWHTML = '';
@@ -401,7 +401,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077efee($option="")
+function __foreach_loop__id_543d24c3b52d3($option="")
 {
     global $bw;
     $BWHTML = '';
@@ -414,7 +414,7 @@ function __foreach_loop__id_54312f077efee($option="")
     $BWHTML .= <<<EOF
         
                     <tr>
-                    {$this->__foreach_loop__id_54312f077ef10($option,$row)}
+                    {$this->__foreach_loop__id_543d24c3b520c($option,$row)}
                     </tr>
                 
 EOF;
@@ -434,7 +434,7 @@ function showForm($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_54312f077f6ae($option)}
+                {$this->__foreach_loop__id_543d24c3b57a0($option)}
             </ul>
     
             <div class='col-md-10 no-padding col-md-9-fix'>
@@ -444,7 +444,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_54312f077fc27($option)}
+                        {$this->__foreach_loop__id_543d24c3b5c63($option)}
                     </div>
                 </div>
             </div>    
@@ -547,7 +547,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077f6ae($option=array())
+function __foreach_loop__id_543d24c3b57a0($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -583,7 +583,32 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077f864($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24c3b58d7($option=array(),$key='',$cat='')
+{
+;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array($option['error'])){
+    foreach( $option['error'] as $error )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                                          <p>{$error}</p>
+                                          
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_543d24c3b59a8($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -617,7 +642,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077f99b($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24c3b5a9a($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -651,7 +676,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077fae0($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24c3b5b72($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -691,7 +716,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f077fc27($option=array())
+function __foreach_loop__id_543d24c3b5c63($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -728,7 +753,7 @@ $BWHTML .= <<<EOF
                                             <span aria-hidden="true">×</span>
                                           </button>
                                           <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                                          <p>{$option['error']}</p>
+                                          {$this->__foreach_loop__id_543d24c3b58d7($option,$key,$cat)}
                                       </div>
                             
 EOF;
@@ -736,6 +761,7 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+                            
                                     <form id="fileupload" class="form-horizontal post-form nail-form" role="form" action='{$this->bw->base_url}posts/submit/{$cat->getSlugId()}' method="POST" enctype="multipart/form-data">
                                       <input type="hidden" value="{$option['obj']->getId()}" name='{$this->modelName}[id]' />
                                       <div class="form-group">
@@ -744,10 +770,10 @@ $BWHTML .= <<<EOF
                                         </label>
                                         <div class="col-md-9">
                                           <select class='form-control selectpicker' id='state'>
-                                            {$this->__foreach_loop__id_54312f077f864($option,$key,$cat)}
+                                            {$this->__foreach_loop__id_543d24c3b59a8($option,$key,$cat)}
                                           </select>
                                           <select class='form-control' id='city' name='{$this->modelName}[catId]'>
-                                            {$this->__foreach_loop__id_54312f077f99b($option,$key,$cat)}
+                                            {$this->__foreach_loop__id_543d24c3b5a9a($option,$key,$cat)}
                                           </select>
                                         </div>
                                       </div>
@@ -768,6 +794,7 @@ $BWHTML .= <<<EOF
                                                         <span>{$this->getLang()->getWords('post_form_file_chose', 'Chọn tệp')} ...</span>
                                                         <input type="file" name="file[]" multiple>
                                                     </span>
+                                                    <span>{$this->getLang()->getWords('post_form_file_size', 'Kích thước: 126 : 128 (width:height)')}</span>
                                                 </div>
                                             </div>
                                             <div class="fileupload-buttonbar">
@@ -778,6 +805,7 @@ $BWHTML .= <<<EOF
                                                         <span>{$this->getLang()->getWords('form_album', 'Album hình ảnh')}</span>
                                                         <input type="file" name="gallery[]" multiple>
                                                     </span>
+                                                    <span>{$this->getLang()->getWords('post_form_album_size', 'Kích thước: 335 : 360 (width:height)')}</span>
                                                 </div>
                                             </div>
                                             <table role="presentation" class="table table-striped" id='gallery-container'>
@@ -814,7 +842,7 @@ EOF;
 if($option['gallery']) {
 $BWHTML .= <<<EOF
 
-                                                        {$this->__foreach_loop__id_54312f077fae0($option,$key,$cat)}
+                                                        {$this->__foreach_loop__id_543d24c3b5b72($option,$key,$cat)}
                                                     
 EOF;
 }
@@ -878,10 +906,28 @@ $BWHTML .= <<<EOF
                <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
                     {$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')} 
                </a>
-               <a href='{$bw->base_url}posts/add' title='{$this->getLang()->getWords('post', 'Đăng quảng cáo')}'>
+               <a href='{$bw->base_url}posts/add' 
+EOF;
+if($bw->input['action'] == 'posts_add') {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ title='{$this->getLang()->getWords('post', 'Đăng quảng cáo')}'>
                     {$this->getLang()->getWords('post', 'Đăng quảng cáo')} 
                </a>
-                <a href='{$bw->base_url}posts/me' title='{$this->getLang()->getWords('my-list', 'Các tin đã đăng')}'>
+                <a href='{$bw->base_url}posts/me' 
+EOF;
+if($bw->input['action'] == 'posts_me') {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ title='{$this->getLang()->getWords('my-list', 'Các tin đã đăng')}'>
                     {$this->getLang()->getWords('my-list', 'Các tin đã đăng')} 
                </a>
             </div>
@@ -904,7 +950,7 @@ $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <div class='col-md-9 no-padding col-md-9-fix'>
             <ul class="nav nav-tabs shadow nav-tabs-border0 post-menu" role="tablist">
-                {$this->__foreach_loop__id_54312f078031a($obj,$option)}
+                {$this->__foreach_loop__id_543d24c3b6227($obj,$option)}
             </ul>
                 
             <div class='border-grey shadow content-special' style='padding-left: 0 !important;padding-right: 0 !important;'>
@@ -919,7 +965,7 @@ EOF;
 $BWHTML .= <<<EOF
 '>
                     <div class='i-panel'>
-                        {$this->__foreach_loop__id_54312f0780430($obj,$option)}
+                        {$this->__foreach_loop__id_543d24c3b62fd($obj,$option)}
                     </div>
                     
                     {$option['breakcrum']}
@@ -937,7 +983,7 @@ EOF;
 
 $BWHTML .= <<<EOF
 ">
-                        {$this->__foreach_loop__id_54312f078053e($obj,$option)}
+                        {$this->__foreach_loop__id_543d24c3b63b8($obj,$option)}
                     </div>
                 </div>
             </div>
@@ -1005,7 +1051,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f078031a($obj="",$option=array())
+function __foreach_loop__id_543d24c3b6227($obj="",$option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1041,7 +1087,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0780430($obj="",$option=array())
+function __foreach_loop__id_543d24c3b62fd($obj="",$option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1077,7 +1123,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f078053e($obj="",$option=array())
+function __foreach_loop__id_543d24c3b63b8($obj="",$option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1359,7 +1405,7 @@ $BWHTML .= <<<EOF
                     <div id="loading" class="loader"></div>
                     <div id="slideshow" class="slideshow">
                         <div style="display:none;" class="show_popup_img">
-                            {$this->__foreach_loop__id_54312f0780d63($option)}
+                            {$this->__foreach_loop__id_543d24c3b6ad6($option)}
                         </div>
                     </div>
                 </div>
@@ -1367,7 +1413,7 @@ $BWHTML .= <<<EOF
                         
             <div id="thumbs" class="navigation">
                 <ul class="thumbs noscript">
-                    {$this->__foreach_loop__id_54312f0780dfa($option)}
+                    {$this->__foreach_loop__id_543d24c3b6b9c($option)}
                     <div class="clear_left"></div>
                 </ul>
             </div>
@@ -1407,7 +1453,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0780d63($option=array())
+function __foreach_loop__id_543d24c3b6ad6($option=array())
 {
         global $bw, $vsPrint;
     $BWHTML = '';
@@ -1432,7 +1478,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0780dfa($option=array())
+function __foreach_loop__id_543d24c3b6b9c($option=array())
 {
         global $bw, $vsPrint;
     $BWHTML = '';
@@ -1490,7 +1536,7 @@ $BWHTML .= <<<EOF
            {$this->getLang()->getWords('other_post_title', 'Tin cùng khu vực')}
     </div>
     <div class='body'>
-        {$this->__foreach_loop__id_54312f0780f70($option)}
+        {$this->__foreach_loop__id_543d24c3b6db7($option)}
                 <a href='{$this->bw->base_url}posts/category/detail/{$option['location-info']->getSlugId()}/{$option['category-info']->getSlugId ()}' title='{$this->getLang()->getWords('other_post_all', 'Xem tất cả')}'>
                   {$this->getLang()->getWords('other_post_all', 'Xem tất cả')}
                 </a>
@@ -1511,7 +1557,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0780f70($option=array())
+function __foreach_loop__id_543d24c3b6db7($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1550,7 +1596,7 @@ function search($option=array()) {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs shadow" role="tablist">
-                {$this->__foreach_loop__id_54312f078117a($option)}
+                {$this->__foreach_loop__id_543d24c3b6fce($option)}
             </ul>
             <div class='border-grey shadow'>
                 <div class='content content-grey 
@@ -1564,7 +1610,7 @@ EOF;
 $BWHTML .= <<<EOF
 '>
                     <div class='i-panel'>
-                        {$this->__foreach_loop__id_54312f078123d($option)}
+                        {$this->__foreach_loop__id_543d24c3b70a3($option)}
                     </div>
                     <div class='location-panel'>
                     
@@ -1600,7 +1646,7 @@ $BWHTML .= <<<EOF
                 <!-- Tab panes -->
                 <div class='content'>
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_54312f07813f1($option)}
+                        {$this->__foreach_loop__id_543d24c3b72b5($option)}
                      </div>
                 </div>
             </div>
@@ -1619,7 +1665,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f078117a($option=array())
+function __foreach_loop__id_543d24c3b6fce($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1655,7 +1701,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f078123d($option=array())
+function __foreach_loop__id_543d24c3b70a3($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1691,7 +1737,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0781341($option=array(),$key='',$cat='')
+function __foreach_loop__id_543d24c3b71ef($option=array(),$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -1735,7 +1781,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f07813f1($option=array())
+function __foreach_loop__id_543d24c3b72b5($option=array())
 {
         global $bw;
     $BWHTML = '';
@@ -1762,7 +1808,7 @@ EOF;
 if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
-                                    {$this->__foreach_loop__id_54312f0781341($option,$key,$cat)}
+                                    {$this->__foreach_loop__id_543d24c3b71ef($option,$key,$cat)}
                                     <div class='clear'></div>
                                     
 EOF;
@@ -1815,7 +1861,7 @@ function me($option="") {        global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab" role="tablist">
-                {$this->__foreach_loop__id_54312f0781751($option)}
+                {$this->__foreach_loop__id_543d24c3b76a0($option)}
             </ul>
     
             <div class='col-md-9 no-padding col-md-9-fix'>
@@ -1825,7 +1871,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_54312f0781901($option)}
+                        {$this->__foreach_loop__id_543d24c3b7859($option)}
                     </div>
                 </div>
             </div>    
@@ -1845,7 +1891,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0781751($option="")
+function __foreach_loop__id_543d24c3b76a0($option="")
 {
         global $bw;
     $BWHTML = '';
@@ -1881,7 +1927,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f078186d($option="",$key='',$cat='')
+function __foreach_loop__id_543d24c3b77ba($option="",$key='',$cat='')
 {
 ;
     $BWHTML = '';
@@ -1922,7 +1968,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54312f0781901($option="")
+function __foreach_loop__id_543d24c3b7859($option="")
 {
         global $bw;
     $BWHTML = '';
@@ -1950,7 +1996,7 @@ if( !empty($option[$key]) ) {
 $BWHTML .= <<<EOF
 
                                     <table class="table">
-                                        {$this->__foreach_loop__id_54312f078186d($option,$key,$cat)}
+                                        {$this->__foreach_loop__id_543d24c3b77ba($option,$key,$cat)}
                                         
 EOF;
 if( $option[$key]['paging'] || count($option[$key]['pageList']) == 0 ) {

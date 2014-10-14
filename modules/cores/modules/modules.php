@@ -37,7 +37,6 @@ function getEnabledModule($moduleType="admin") {
 		if(!$this->result['status']) {
 			$this->result['message'] = $vsLang->getWords('module_get_class_fail',"There is no item with specified action!");
 		}
-
 	}
 
 	function validateModule($checkexist = false) {

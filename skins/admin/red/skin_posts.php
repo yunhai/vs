@@ -339,6 +339,10 @@ EOF;
 	        $seo = "";
 	    }
 	
+	    $this->disabled = '';
+	    if($obj->getAuthorType() == 'user')
+	        $this->disabled = 'disabled';
+	    
 	    $BWHTML .= <<<EOF
 		<div class="vs_panel" id="vs_panel_{$this->modelName}">
 		<div class="ui-dialog">
@@ -425,9 +429,9 @@ EOF;
 				</tr>
 	
 				<tr>
-					<td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
+					<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
 					<td>
-					   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" />
+					   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" {$this->disabled}/>
 					</td>
 				</tr>
 				
@@ -435,7 +439,7 @@ EOF;
 				<tr>
 					<td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 					<td>
-						<select name="{$this->modelName}[location]" style='width: 200px;'>
+						<select name="{$this->modelName}[location]" style='width: 200px;' {$this->disabled} >
 							<foreach=" $option['location'] as $item ">
 							    <optgroup label="{$item->getTitle()}">
 							    <foreach=" $item->getChildren() as $key => $child ">
@@ -450,28 +454,28 @@ EOF;
 				<tr>
 					<td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
 					<td>
-					   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" />
+					   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" {$this->disabled} />
 					</td>
 				</tr>
 				
 				<tr>
 					<td><label>{$this->getLang()->getWords("phone", 'Điện thoại')}</label></td>
 					<td>
-					   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" />
+					   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" {$this->disabled} />
 					</td>
 				</tr>
 				
 				<tr>
 					<td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
 					<td>
-					   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" />
+					   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" {$this->disabled} />
 					</td>
 				</tr>
 				
 				<tr>
 					<td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
 					<td>
-					   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" />
+					   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" {$this->disabled} />
 					</td>
 				</tr>
 				
@@ -512,7 +516,7 @@ EOF;
 					</div>
 					<div class='clear'></div>
 					<div class='caption'>
-					   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px )')}
+					   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px)')}
 					</div>
 					</td>
 				</tr>
@@ -570,7 +574,7 @@ EOF;
 	
 		</div>
 		<script>
-		$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+		$('.datepicker').datepicker({dateFormat: 'dd/mm/yy'});
 		$("#frm_add_edit_obj").submit(function(){
 				var flag=false;
 				var message="";

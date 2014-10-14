@@ -14,6 +14,17 @@ class skin_addon extends skin_board_public {
 		           unset($option['menu'][$key]);
 		       $this->flag = true;
 		   } 
+		   
+		   
+		   $category = VSFactory::getMenus()->getCategoryGroup('posts');
+		   $tmp = $category->getChildren();
+		    
+		   $url = 'javascript:;';
+		   if(!empty($tmp)) {
+		       $first = current($tmp);
+		        
+		       $url = $bw->base_url.'posts/me/'.$first->getSlugId();
+		   }
 		}
 		
 		$BWHTML .= <<<EOF
@@ -38,7 +49,7 @@ class skin_addon extends skin_board_public {
             </foreach>
             <if=" $this->flag ">
                 <li class='current-user'>
-                    <a href="javascript:;">
+                    <a href="{$url}">
                         Chào <span class='username'>{$this->getUser()->basicObject->getFullName()}</span> 
                     </a>
                 </li>

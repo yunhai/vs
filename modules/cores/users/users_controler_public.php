@@ -20,7 +20,7 @@ class users_controler_public extends VSControl_public {
 				$this->registry($bw->input[2]);
 				break;
 			case $this->modelName.'_do_registry':
-				$this->doRregistry();
+				$this->doRegistry();
 				break;
 			case $this->modelName.'_do_login':
 				$this->doLogin();
@@ -122,22 +122,51 @@ class users_controler_public extends VSControl_public {
 		return $this->output= $this->html->registry($option);
 	}
 	
-	function doRregistry(){
-		global $bw, $vsPrint;
+	function _validateRegistry(&$error = array()) {
+	    global $bw, $vsPrint;
 		
 		require_once ROOT_PATH.'vscaptcha/VsCaptcha.php';
 		$vscaptcha=new VsCaptcha();
 		
-		if($vscaptcha->check($bw->input['users']['security'])){
-			if(($bw->input['users']['password']!=$bw->input['users']['password_confirm'])||!$bw->input['users']['password']){
-				$option['error']= VSFactory::getLangs()->getWords('password_not_available', 'Mật khẩu không hợp lệ');
-				return $this->output= $this->registry($option);
-			}
-			if(strlen($bw->input['users']['name'])<4){
-				$option['error']= VSFactory::getLangs()->getWords('name_not_available','Tên đăng nhập quá ngắn');
-				return $this->output= $this->registry($option);
-			}
-			
+		$target = $bw->input['users'];
+		
+		$empty = array(
+			        'name' => VSFactory::getLangs()->getWords('validate_registry_name_empty', 'Tên đăng nhập không được để trống'),
+                    'fullname' => VSFactory::getLangs()->getWords('validate_registry_fullname_empty', 'Tên tiệm không được để trống'),
+	                'website'  => VSFactory::getLangs()->getWords('validate_registry_website_empty', 'Website không được để trống'),
+	                'address'  => VSFactory::getLangs()->getWords('validate_registry_address_empty', 'Địa chỉ không được để trống'),
+	                'city' => VSFactory::getLangs()->getWords('validate_registry_city_empty', 'Thành phố không được để trống'),
+	                'location' => VSFactory::getLangs()->getWords('validate_registry_location_empty', 'Tiểu bang không được để trống'), 
+	                'zipcode' => VSFactory::getLangs()->getWords('validate_registry_zipcode_empty', 'Zipcode không được để trống'),
+	                'email' => VSFactory::getLangs()->getWords('validate_registry_email_empty', 'Email không được để trống'),
+		                
+		);
+		
+		foreach( $empty as $key => $message) {
+		    if(empty($target[$key])) {
+		        $error[] = $message;
+		    }
+		}
+		
+		if(($target['password']!=$target['password_confirm'])||!$target['password']){
+		    $error[] = VSFactory::getLangs()->getWords('validate_registry_password_not_available', 'Mật khẩu không hợp lệ');
+		}
+		
+		if(strlen($target['name'])<4){
+		    $error[] = VSFactory::getLangs()->getWords('validate_registry_name_not_available','Tên đăng nhập quá ngắn');
+		}
+	
+		if(!$vscaptcha->check($target['security']))
+		  $error[] = VSFactory::getLangs()->getWords('captcha_not_match', 'Mã bảo mật không đúng');
+		
+		return empty($error);
+	}
+	
+	function doRegistry(){
+		global $bw, $vsPrint;
+		
+		$error = array();
+		if($this->_validateRegistry($error)){
 			$model = new users();
 			
 			$model->setCondition("`name`='".strtolower($bw->input['users']['name'])."' OR email = '".$bw->input['users']['email']."'");
@@ -155,11 +184,13 @@ class users_controler_public extends VSControl_public {
 	
 			$this->model->basicObject->convertToObject($bw->input['users']);
 			$this->model->basicObject->setPassword(md5($bw->input['users']['password']));
-
+			
+			$this->model->insertObject();
+		
 			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('registry_successfully','Đăng ký thành công'),'');
-		}else{
-			$option['error']=VSFactory::getLangs()->getWords('captcha_not_match','Mã bảo mật không đúng');
-			return $this->output= $this->registry($option);
+		} else{
+			$option['error'] = $error;
+			return $this->output = $this->registry($option);
 		}
 	}
 	
@@ -255,14 +286,15 @@ class users_controler_public extends VSControl_public {
 		$vsPrint->redirect_screen("Bạn đã cập nhật mật khẩu thành công", '');
 	}
 	
-	function changeInfo(){
+	function changeInfo($option = array()){
 		global $vsPrint;
 		
 		if(!VSFactory::getUsers()->basicObject->getId()){
 			$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('not_login','Bạn chưa đăng nhập'), '');
 		}
 		
-		$option['obj'] = VSFactory::getUsers()->basicObject;
+		if(empty($option['obj']))
+		  $option['obj'] = VSFactory::getUsers()->basicObject;
 
 		$category = VSFactory::getMenus()->getCategoryGroup('posts');
 		$option['cate'] = $category->getChildren();
@@ -274,6 +306,33 @@ class users_controler_public extends VSControl_public {
 		return $this->output= $this->html->changeInfo($option);
 	}
 	
+	
+
+	function _validateUpdateInfo(&$error = array()) {
+	    global $bw;
+	
+	    $target = $bw->input['users'];
+	
+	    $empty = array(
+	                    'fullname' => VSFactory::getLangs()->getWords('validate_registry_fullname_empty', 'Tên tiệm không được để trống'),
+	                    'website'  => VSFactory::getLangs()->getWords('validate_registry_website_empty', 'Website không được để trống'),
+	                    'address'  => VSFactory::getLangs()->getWords('validate_registry_address_empty', 'Địa chỉ không được để trống'),
+	                    'city' => VSFactory::getLangs()->getWords('validate_registry_city_empty', 'Thành phố không được để trống'),
+	                    'location' => VSFactory::getLangs()->getWords('validate_registry_location_empty', 'Tiểu bang không được để trống'),
+	                    'zipcode' => VSFactory::getLangs()->getWords('validate_registry_zipcode_empty', 'Zipcode không được để trống'),
+	                    'email' => VSFactory::getLangs()->getWords('validate_registry_email_empty', 'Email không được để trống'),
+	
+	    );
+	
+	    foreach( $empty as $key => $message) {
+	        if(empty($target[$key])) {
+	            $error[] = $message;
+	        }
+	    }
+	
+	    return empty($error);
+	}
+	
 	function doChangeInfo(){
 		global $bw, $vsPrint;
 		if(!VSFactory::getUsers()->basicObject->getId()){
@@ -281,14 +340,19 @@ class users_controler_public extends VSControl_public {
 		}
 		unset($bw->input['users']['name']);
 		
-		$bw->input['users']['email']=strtolower($bw->input['users']['email']);
-		VSFactory::getUsers()->basicObject->convertToObject($bw->input['users']);
-
-		VSFactory::getUsers()->updateObject();
-		VSFactory::getUsers()->updateSession();
-		$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('chang_info_successfully','Thay đổi thông tin thành công'),'');
+		$error = array();
+		if($this->_validateUpdateInfo($error)) {
+    		$bw->input['users']['email']=strtolower($bw->input['users']['email']);
+    		VSFactory::getUsers()->basicObject->convertToObject($bw->input['users']);
+    
+    		VSFactory::getUsers()->updateObject();
+    		VSFactory::getUsers()->updateSession();
+    		$vsPrint->redirect_screen(VSFactory::getLangs()->getWords('chang_info_successfully','Thay đổi thông tin thành công'),'');
+		}
 		
-		return $this->output= $this->html->changePassword($option);
+		$option['obj'] = VSFactory::getUsers()->basicObject->convertToObject($bw->input['users']);
+		$option['error'] = $error;
+		return $this->output = $this->changeInfo($option);
 	}
 	
 	function doLogin(){

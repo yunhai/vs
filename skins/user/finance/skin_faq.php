@@ -91,7 +91,7 @@ function showForm($option = array()) {
         global $bw;
     
         $this->bw = $bw;
-    
+
         $BWHTML .= <<<EOF
 		<div class='col-md-12 no-padding'>
     		<div class='col-md-9 no-padding col-md-9-fix'>
@@ -125,41 +125,43 @@ function showForm($option = array()) {
                                         <span aria-hidden="true">×</span>
                                       </button>
                                       <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                                      <p>{$option['error']}</p>
+                                      <foreach=" $option['error'] as $error ">
+                                      <p>{$error}</p>
+                                      </foreach>
                                   </div>
                     		     </if>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                         {$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}
-                                        (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                        (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]'>
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_fullname', 'Họ tên')}" name='{$this->modelName}[fullname]' value="{$this->bw->input[$this->modelName]['fullname']}" />
                                     </div>
                                   </div>  
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                     Email (<span class='required'>*</span>)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]' value=''>
+                                      <input type="email" class="form-control" placeholder="Email" name='{$this->modelName}[email]'  value="{$this->bw->input[$this->modelName]['email']}" />
                                       
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">
                                         {$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}
-                                        &nbsp;&nbsp;:
+                                        &nbsp;&nbsp;&nbsp;:
                                     </label>
                                     <div class="col-md-5">
-                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]'>
+                                      <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('faq_form_phone', 'Điện thoại')}" name='{$this->modelName}[phone]'  value="{$this->bw->input[$this->modelName]['phone']}" />
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">{$this->getLang()->getWords('faq_form_question', 'Nội dung cần hỏi')} (<span class='required'>*</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
                                     <div class="col-md-9">
-                                      <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'></textarea>
+                                      <textarea class="form-control" rows="5" name='{$this->modelName}[intro]'>{$this->bw->input[$this->modelName]['intro']}</textarea>
                                     </div>
                                   </div>
                                   <div class="form-group">

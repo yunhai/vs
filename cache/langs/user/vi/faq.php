@@ -18,4 +18,7 @@
   'faq_form_submit' => 'Gửi',
   'faq_form_reset' => 'Làm lại',
   'faq_form_header' => 'Gửi câu hỏi',
+  'faq_validate_email' => 'Email không được để trống',
+  'faq_validate_intro' => 'Nội dung cần hỏi không được để trống',
+  'faq_validate_fullname' => 'Họ tên không được để trống',
 )?>

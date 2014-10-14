@@ -124,7 +124,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_5431047b73ff3($objItems,$option)}
+{$this->__foreach_loop__id_543d24ae27638($objItems,$option)}
 
 EOF;
 }
@@ -314,7 +314,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431047b73ff3($objItems=array(),$option=array())
+function __foreach_loop__id_543d24ae27638($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -377,7 +377,7 @@ $BWHTML .= <<<EOF
 <tr>
 <td style="width: 111px;"><label>{$this->getLang()->getWords('username', 'số phone')}</label></td>
 <td>
-<input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' />
+<input name="{$this->modelName}[name]" id="{$this->modelName}_name" type="textbox" value="{$obj->getName()}" style='width:150px' disabled readonly />
 </td>
 </tr>
 <tr>
@@ -451,7 +451,7 @@ $BWHTML .= <<<EOF
 <tr>
 <td><label>{$this->getLang()->getWords("storename", 'Tên tiệm')}</label></td>
 <td>
-<input name="{$this->modelName}[fulname]" type="textbox" value="{$obj->getFullname()}" />
+<input name="{$this->modelName}[fullname]" type="textbox" value="{$obj->getFullname()}" />
 </td>
 </tr>
 <tr>
@@ -482,7 +482,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
 <select name="{$this->modelName}[location]" style='width: 150px;'>
-{$this->__foreach_loop__id_5431047b749b7($obj,$option)}
+{$this->__foreach_loop__id_543d24ae28284($obj,$option)}
 </select>
 </td>
 </tr>
@@ -557,7 +557,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431047b748e6($obj="",$option=array(),$item='')
+function __foreach_loop__id_543d24ae2812a($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -591,7 +591,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431047b749b7($obj="",$option=array())
+function __foreach_loop__id_543d24ae28284($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -604,7 +604,7 @@ global $bw;
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_5431047b748e6($obj,$option,$item)}
+    {$this->__foreach_loop__id_543d24ae2812a($obj,$option,$item)}
     </optgroup>
 
 EOF;

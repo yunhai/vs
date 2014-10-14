@@ -669,6 +669,26 @@ class posts_controler_public extends VSControl_public {
 	    $this->output = $this->html->showForm($option);
 	}
 	
+	function _validate(&$error = array()) {
+	    global $bw;
+	    
+	    $empty = array(
+	    	        "title" => VSFactory::getLangs()->getWords('validate_empty_title','Tiêu đề không được để trống'),
+	                "file"  => VSFactory::getLangs()->getWords('validate_empty_image','Hình đại diện không được để trống'),
+                    "intro" => VSFactory::getLangs()->getWords('validate_empty_intro','Tiêu đề không được để trống'),
+                    "content" => VSFactory::getLangs()->getWords('validate_empty_content','Tiêu đề không được để trống'),
+	    );
+	    
+	    $target = $bw->input['posts'];
+	    foreach($empty as $key => $message) {
+	        if(empty($target[$key]))
+	           $error[] = $message;
+	    }
+	    
+	    return (empty($error));
+	}
+	
+	
 	function submitForm($catId) {
 	    global $bw, $vsPrint;
 	
@@ -689,9 +709,10 @@ class posts_controler_public extends VSControl_public {
 	        $vsPrint->boink_it($bw->base_url);
 	    }
 	
-	    if(empty($bw->input['file'])) {
-	        $option['error'] = VSFactory::getLangs()->getWords('empty_image','Hình đại diện không hợp lệ');
-	        
+	    $error = array();
+	    if(!$this->_validate($error)){
+	        $option['error'] = $error;
+	         
 	        $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
 	        return $this->showForm($catId, 0, $option);
 	    }
@@ -722,7 +743,8 @@ class posts_controler_public extends VSControl_public {
 	    $id = empty($bw->input['posts']['id']) ? 0 : $bw->input['posts']['id'];
 	    
 	    if(empty($bw->input['posts']['id'])) {
-    	    $bw->input['posts']['created_date'] = date('Y-m-d H:m:s');
+	        $now = date('Y-m-d H:m:s');
+    	    $bw->input['posts']['created_date'] = $now;
     	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
     	    $flag = $this->model->insertObject();
 	    } else {

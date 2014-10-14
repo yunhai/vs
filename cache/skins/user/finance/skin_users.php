@@ -13,7 +13,7 @@ $option['location']=VSFactory::getMenus()->getCategoryGroup("locations")->getChi
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea78a6a($option)}
+                {$this->__foreach_loop__id_543d24c64de33($option)}
             </ul>
             
             <div class='col-md-12 no-padding'>
@@ -23,7 +23,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea78b86($option)}
+                        {$this->__foreach_loop__id_543d24c64df1e($option)}
                     </div>
                 </div>
             </div>    
@@ -37,7 +37,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea78a6a($option="")
+function __foreach_loop__id_543d24c64de33($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -73,7 +73,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea78b86($option="")
+function __foreach_loop__id_543d24c64df1e($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -138,7 +138,7 @@ $BWHTML .= <<<EOF
                             <span aria-hidden="true">×</span>
                           </button>
                           <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                          <p>{$option['error']}</p>
+                          {$this->__foreach_loop__id_543d24c64e241($option)}
                       </div>
              
 EOF;
@@ -147,7 +147,7 @@ EOF;
 $BWHTML .= <<<EOF
 
                     
-                      <div class="form-group">
+                     <div class="form-group">
                         <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_phone', 'Số phone')}</label>
                         <div class="col-md-9">
                           <input type="text" class="form-control" placeholder="{$this->getLang()->getWords('registry_form_phone_placeholder', 'Số phone tiệm/thợ/công ty/nhà hàng/cá nhân')}" name='{$this->modelName}[name]' value='{$this->bw->input[$this->modelName]['name']}'>
@@ -197,7 +197,7 @@ $BWHTML .= <<<EOF
                         <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')}</label>
                         <div class="col-md-4 select-container">
         <select class='form-control' name="{$this->modelName}[location]">
-{$this->__foreach_loop__id_543156ea79191($option)}
+{$this->__foreach_loop__id_543d24c64e3e1($option)}
 </select>
                         </div>
                         <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}</label>
@@ -245,7 +245,32 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea790af($option=array(),$item='')
+function __foreach_loop__id_543d24c64e241($option=array())
+{
+    global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['error'])){
+    foreach(  $option['error'] as $error  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                          <p>{$error}</p>
+                          
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_543d24c64e318($option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -279,7 +304,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea79191($option=array())
+function __foreach_loop__id_543d24c64e3e1($option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -292,7 +317,7 @@ function __foreach_loop__id_543156ea79191($option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_543156ea790af($option,$item)}
+    {$this->__foreach_loop__id_543d24c64e318($option,$item)}
     </optgroup>
 
 EOF;
@@ -311,7 +336,7 @@ function renewPassword($option="") {    global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea794d8($option)}
+                {$this->__foreach_loop__id_543d24c64e652($option)}
             </ul>
             
             <div class='col-md-12 no-padding'>
@@ -321,7 +346,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea795da($option)}
+                        {$this->__foreach_loop__id_543d24c64e73b($option)}
                     </div>
                 </div>
             </div>    
@@ -335,7 +360,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea794d8($option="")
+function __foreach_loop__id_543d24c64e652($option="")
 {
     global $bw;
     $BWHTML = '';
@@ -371,7 +396,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea795da($option="")
+function __foreach_loop__id_543d24c64e73b($option="")
 {
     global $bw;
     $BWHTML = '';
@@ -498,7 +523,7 @@ function forgotPassword($option="") {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea79b0b($option)}
+                {$this->__foreach_loop__id_543d24c64ea9b($option)}
             </ul>
             
             <div class='col-md-12 no-padding'>
@@ -508,7 +533,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea79c1c($option)}
+                        {$this->__foreach_loop__id_543d24c64eb5e($option)}
                     </div>
                 </div>
             </div>    
@@ -522,7 +547,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea79b0b($option="")
+function __foreach_loop__id_543d24c64ea9b($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -558,7 +583,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea79c1c($option="")
+function __foreach_loop__id_543d24c64eb5e($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -657,7 +682,7 @@ $BWHTML .= <<<EOF
                         <div class="col-md-offset-2 col-md-10">
                           <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                           <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>  
-                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                           <div class='clear'></div>
                         </div>
                       </div>   
@@ -681,7 +706,7 @@ function changePassword($option="") {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea7a09b($option)}
+                {$this->__foreach_loop__id_543d24c64ee73($option)}
             </ul>
     
             <div class='col-md-9 no-padding col-md-9-fix'>
@@ -691,7 +716,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea7a199($option)}
+                        {$this->__foreach_loop__id_543d24c64ef40($option)}
                     </div>
                 </div>
             </div>    
@@ -706,7 +731,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7a09b($option="")
+function __foreach_loop__id_543d24c64ee73($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -742,7 +767,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7a199($option="")
+function __foreach_loop__id_543d24c64ef40($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -842,7 +867,7 @@ $BWHTML .= <<<EOF
                 <div class="col-md-9">
                   <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                   <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>
-                  <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                  <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                   <div class='clear'></div>
                 </div>
               </div>
@@ -863,7 +888,7 @@ $this->bw = $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea7a652($option)}
+                {$this->__foreach_loop__id_543d24c64f25b($option)}
             </ul>
     
             <div class='col-md-9 no-padding col-md-9-fix'>
@@ -873,7 +898,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea7a72e($option)}
+                        {$this->__foreach_loop__id_543d24c64f328($option)}
                     </div>
                 </div>
             </div>    
@@ -888,7 +913,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7a652($option="")
+function __foreach_loop__id_543d24c64f25b($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -924,7 +949,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7a72e($option="")
+function __foreach_loop__id_543d24c64f328($option="")
 {
 global $bw;
     $BWHTML = '';
@@ -984,7 +1009,7 @@ $BWHTML .= <<<EOF
                                 <span aria-hidden="true">×</span>
                               </button>
                               <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                              <p>{$option['error']}</p>
+                              {$this->__foreach_loop__id_543d24c64f5ea($option)}
                           </div>
               
 EOF;
@@ -999,38 +1024,38 @@ $BWHTML .= <<<EOF
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_name', 'Tên')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_name', 'Tên')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_name_placeholder', 'Tên tiệm/thợ/công ty/nhà hàng/cá nhân')}" name='{$this->modelName}[fullname]'  value='{$option['obj']->getFullname()}'/>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_website', 'Website')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_website', 'Website')}" name='{$this->modelName}[website]'  value='{$option['obj']->getWebsite()}' />
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_address', 'Địa chỉ')}" name='{$this->modelName}[address]' value='{$option['obj']->getAddress()}' />
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_city', 'Thành phố')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_city', 'Thành phố')}</label>
                         <div class="col-md-9">
                           <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_city', 'Thành phố')}" name='{$this->modelName}[city]' value='{$option['obj']->getCity()}'/>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')} <span class='required'>*</span></label>
+                        <label class="col-md-3 control-label">{$this->getLang()->getWords('registry_form_state', 'Tiểu bang')}</label>
                         <div class="col-md-3  select-container">
         <select class='form-control' name="{$this->modelName}[location]">
-{$this->__foreach_loop__id_543156ea7acb5($option)}
+{$this->__foreach_loop__id_543d24c64f79f($option)}
 </select>
         
                         </div>
-                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')} <span class='required'>*</span></label>
+                        <label class="col-md-2 control-label zipcode-label">{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}</label>
                         <div class="col-md-3">
                         <input class="form-control" type="text" placeholder="{$this->getLang()->getWords('registry_form_zipcode', 'Zipcode')}" name='{$this->modelName}[zipcode]' value='{$option['obj']->getZipcode()}' />
                         </div>
@@ -1046,7 +1071,7 @@ $BWHTML .= <<<EOF
                         <div class="col-md-9">
                           <button type="submit" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_submit', 'Gửi')}</button>
                           <button type="reset" class="btn btn-default nail-button">{$this->getLang()->getWords('registry_form_reset', 'Làm lại')}</button>
-                          <lable class='form-required-note'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_require', 'Thông tin bắt buộc')}
+                          <lable class='form-required-note' style='margin-left: 10px;'><span class='required'>*</span>&nbsp;{$this->getLang()->getWords('global_all_required', 'Tất cả thông tin đều bắt buộc')}
                           <div class='clear'></div>
                         </div>
                       </div>
@@ -1059,7 +1084,32 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7abe3($option=array(),$item='')
+function __foreach_loop__id_543d24c64f5ea($option=array())
+{
+    global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['error'])){
+    foreach(  $option['error'] as $error  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                              <p>{$error}</p>
+                              
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
+
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_543d24c64f6db($option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1093,7 +1143,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7acb5($option=array())
+function __foreach_loop__id_543d24c64f79f($option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1106,7 +1156,7 @@ function __foreach_loop__id_543156ea7acb5($option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_543156ea7abe3($option,$item)}
+    {$this->__foreach_loop__id_543d24c64f6db($option,$item)}
     </optgroup>
 
 EOF;
@@ -1128,11 +1178,29 @@ $BWHTML .= <<<EOF
                 <span>{$this->getLang()->getWords('user_update_header', 'Quản lý tài khoản')}</span>
             </div>
             <div class='account-link-detail'>
-               <a href='{$bw->base_url}users/update' title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
+               <a href='{$bw->base_url}users/update' 
+EOF;
+if($bw->input['action'] == 'users_update') {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ title='{$this->getLang()->getWords('update-store', 'Cập nhật tiêm (Tài khoản)')}'>
                     {$this->getLang()->getWords('update-store', 'Cập nhật tiệm (Tài khoản)')} 
                </a>
                
-               <a href='{$bw->base_url}users/change_password' title='{$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}'>
+               <a href='{$bw->base_url}users/change_password' 
+EOF;
+if($bw->input['action'] == 'users_change_password') {
+$BWHTML .= <<<EOF
+class='active'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+ title='{$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}'>
                     {$this->getLang()->getWords('change_password', 'Cập nhật mật khẩu')}
                <a>
                
@@ -1158,7 +1226,7 @@ function doForgotPassword($option=array()) {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
             <ul class="nav nav-tabs main-tab shadow" role="tablist">
-                {$this->__foreach_loop__id_543156ea7b0c5($option)}
+                {$this->__foreach_loop__id_543d24c64fabf($option)}
             </ul>
             
             <div class='col-md-12 no-padding'>
@@ -1168,7 +1236,7 @@ $BWHTML .= <<<EOF
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        {$this->__foreach_loop__id_543156ea7b204($option)}
+                        {$this->__foreach_loop__id_543d24c64fba6($option)}
                     </div>
                 </div>
             </div>    
@@ -1182,7 +1250,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7b0c5($option=array())
+function __foreach_loop__id_543d24c64fabf($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -1218,7 +1286,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543156ea7b204($option=array())
+function __foreach_loop__id_543d24c64fba6($option=array())
 {
 global $bw;
     $BWHTML = '';

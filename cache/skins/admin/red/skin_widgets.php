@@ -26,7 +26,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a45bba75($objItems,$option)}
+{$this->__foreach_loop__id_543d24b031349($objItems,$option)}
 
 EOF;
 }
@@ -255,7 +255,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a45bb902($objItems=array(),$option=array(),$blockname='',$block='')
+function __foreach_loop__id_543d24b0311bf($objItems=array(),$option=array(),$blockname='',$block='')
 {
 ;
     $BWHTML = '';
@@ -316,7 +316,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a45bba75($objItems=array(),$option=array())
+function __foreach_loop__id_543d24b031349($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -331,7 +331,7 @@ global $bw;
 <div class="admin_block_widget">
 <h2 class="block_name">$blockname</h2>
 <ul class="widget_list">
-{$this->__foreach_loop__id_54153a45bb902($objItems,$option,$blockname,$block)}
+{$this->__foreach_loop__id_543d24b0311bf($objItems,$option,$blockname,$block)}
 </ul>
 </div>
 
@@ -445,7 +445,7 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("type",'Kiểu')}</label></td>
 <td>
 <select name="{$this->modelName}[instant]" id="">
-{$this->__foreach_loop__id_54153a45bbee9($obj,$option)}
+{$this->__foreach_loop__id_543d24b031817($obj,$option)}
 </select>
 </td>
 </tr>
@@ -533,7 +533,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a45bbee9($obj="",$option=array())
+function __foreach_loop__id_543d24b031817($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

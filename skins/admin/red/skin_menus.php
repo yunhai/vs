@@ -586,7 +586,7 @@ EOF;
 							<td>{$this->getLang()->getWords('obj_image_image', "Image")}</td>
 							<td>
 								<input size="27" type="file" name="menuImage" id="menuImage"/>
-								({$this->getLang()->getWords("{$option['cate']}_image_caption", 'Kích thước: 128 : 130 (width:height, px )')})
+								{$this->getLang()->getWords("{$option['cate']}_image_caption", 'Kích thước: 128 : 130 (width:height, px)')}
 							</td >
 						</tr>
 						<if=" $category->getFileId() ">

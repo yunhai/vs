@@ -160,7 +160,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a311a480($objItems,$option)}
+{$this->__foreach_loop__id_543a199493cd9($objItems,$option)}
 
 EOF;
 }
@@ -208,7 +208,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a311a480($objItems=array(),$option=array())
+function __foreach_loop__id_543a199493cd9($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -282,6 +282,10 @@ $BWHTML .= <<<EOF
 <tr class="smalltitle">
         <td class='left' width="100">{$this->getLang()->getWords('name')}:</td>
              <td>{$contact->getName()}</td>
+</tr>
+<tr class="smalltitle">
+        <td class='left' width="100">{$this->getLang()->getWords('address')}:</td>
+             <td>{$contact->getAddress()}</td>
 </tr>
 <tr class="smalltitle">
         <td class='left' width="100">{$this->getLang()->getWords('phone')}:</td>

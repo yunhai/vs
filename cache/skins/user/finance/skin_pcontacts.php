@@ -12,7 +12,7 @@ function showDefault($obj="",$option=array()) {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <ul class="nav nav-tabs shadow" role="tablist">
-                {$this->__foreach_loop__id_543133c6299aa($obj,$option)}
+                {$this->__foreach_loop__id_543d24c2365c0($obj,$option)}
             </ul>
             
             <div class='content shadow content-special'>
@@ -20,7 +20,7 @@ $BWHTML .= <<<EOF
                     <span>{$this->getLang()->getWords('contact_header', 'Thông tin liên hệ')}</span>
                 </div>
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_543133c629a99($obj,$option)}
+                    {$this->__foreach_loop__id_543d24c2366c1($obj,$option)}
                 </div>
                 <div class='clear'></div>
             </div>
@@ -76,7 +76,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543133c6299aa($obj="",$option=array())
+function __foreach_loop__id_543d24c2365c0($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -112,7 +112,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543133c629a99($obj="",$option=array())
+function __foreach_loop__id_543d24c2366c1($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -191,7 +191,7 @@ $BWHTML .= <<<EOF
                         <span aria-hidden="true">×</span>
                       </button>
                       <h4>{$this->getLang()->getWords('global_error_title', 'Đã có lỗi xảy ra')}</h4>
-                      <p>{$option['error']}</p>
+                      {$this->__foreach_loop__id_543d24c2369be($option,$category)}
                   </div>
       
 EOF;
@@ -274,6 +274,30 @@ EOF;
 //--endhtml--//
 return $BWHTML;
 }
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_543d24c2369be($option=array(),$category=array())
+{
+global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array( $option['error'])){
+    foreach(  $option['error'] as $error  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+                      <p>{$error}</p>
+                      
+EOF;
+$vsf_count++;
+    }
+    }
+    return $BWHTML;
+}
 //===========================================================================
 // <vsf:sendContactSuccess:desc::trigger:>
 //===========================================================================
@@ -283,7 +307,7 @@ function sendContactSuccess($obj="",$option=array()) {global $bw;
 $BWHTML .= <<<EOF
         <div class='col-md-12 no-padding'>
     <ul class="nav nav-tabs shadow" role="tablist">
-                {$this->__foreach_loop__id_543133c629f70($obj,$option)}
+                {$this->__foreach_loop__id_543d24c236c5e($obj,$option)}
             </ul>
             
             <div class='content shadow'>
@@ -292,7 +316,7 @@ $BWHTML .= <<<EOF
                 </div>
                 
                 <div class="tab-content">
-                    {$this->__foreach_loop__id_543133c62a102($obj,$option)}
+                    {$this->__foreach_loop__id_543d24c236d26($obj,$option)}
                 </div>
                 <div class='clear'></div>
             </div>
@@ -339,7 +363,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543133c629f70($obj="",$option=array())
+function __foreach_loop__id_543d24c236c5e($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -375,7 +399,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_543133c62a102($obj="",$option=array())
+function __foreach_loop__id_543d24c236d26($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';

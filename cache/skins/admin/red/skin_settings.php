@@ -20,7 +20,7 @@ $BWHTML .= <<<EOF
 {$this->getLang()->getWords("modules",'Modules')}
 <select name='search[catName]'>
 <option value="-1">{$this->getLang()->getWords("all",'Tất cả')}</option>
-{$this->__foreach_loop__id_54153a3f589e5($option)}
+{$this->__foreach_loop__id_543d24a9e0340($option)}
 </select>
 </label>
 <input type="hidden" id="sorder" value="{$option['s_order']}" name="search[s_order]"/>
@@ -48,7 +48,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3f589e5($option=array())
+function __foreach_loop__id_543d24a9e0340($option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -136,7 +136,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a3f58ea8($objItems,$option)}
+{$this->__foreach_loop__id_543d24a9e0902($objItems,$option)}
 
 EOF;
 }
@@ -374,7 +374,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3f58ea8($objItems=array(),$option=array())
+function __foreach_loop__id_543d24a9e0902($objItems=array(),$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -451,6 +451,7 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+ 
 
 EOF;
 if($item->showHTMLForm()) {

@@ -73,11 +73,11 @@ class posts_controler extends VSControl_admin {
 	        $user = $model->getObjectById($this->model->basicObject->getAuthor());
 	         
 	        $date = date('Y-m-d H:m:s');
-	        if($this->model->basicObject->getPublicDate() == '0000-00-00') {
+	        if($this->model->basicObject->getPublicDate(false, false) == '0000-00-00') {
 	            $this->model->basicObject->setPublicDate($date);
 	        }
 	        
-	        if($this->model->basicObject->getEndDate() == '0000-00-00') {
+	        if($this->model->basicObject->getEndDate(false, false) == '0000-00-00') {
 	            $duration = $user->getGroupCode() == USER_TYPE_VIP ? 'vip_post_duration' : 'normal_post_duration';
 	            
 	            $duration = VSFactory::getSettings()->getSystemKey($duration, 1);
@@ -94,6 +94,14 @@ class posts_controler extends VSControl_admin {
 	    }
 	    
 	    return $this->output = $this->html->addEditObjForm ( $obj, $option );
+	}
+	
+	public function convertDate($input, $split = '/'){
+	     list($day, $month, $year) = explode($split, $input);
+	
+	     $month = sprintf('%02d', $month);
+	     $day = sprintf('%02d', $day);
+	     return "{$year}-{$month}-{$day}";
 	}
 	
 	function addEditObjProcess() {
@@ -161,12 +169,11 @@ class posts_controler extends VSControl_admin {
 	        }
 	        /////delete some here..........................................
 	    } else {
-	        
 	        $time = date('Y-m-d H:m:s');
 	        $bw->input[$this->modelName]['created_date'] = $time;
 	        
 	        if(empty($bw->input[$this->modelName]['public_date']))
-	            $bw->input[$this->modelName]['public_date']  = $time;
+	            $bw->input[$this->modelName]['public_date'] = $time;
 	        
 	        $bw->input[$this->modelName]['author'] = $_SESSION[APPLICATION_TYPE]['obj']['id'];
 	        $bw->input[$this->modelName]['author_type'] = APPLICATION_TYPE;
@@ -178,6 +185,10 @@ class posts_controler extends VSControl_admin {
 	    
 	    $bw->input[$this->modelName]['mUrl']=$bw->input[$this->modelName]['mUrl']?$bw->input[$this->modelName]['mUrl']:$bw->input[$this->modelName]['slug'];
 	
+	    $bw->input[$this->modelName]['public_date'] = $this->convertDate($bw->input[$this->modelName]['public_date']);
+	    $bw->input[$this->modelName]['end_date'] = $this->convertDate($bw->input[$this->modelName]['end_date']);
+	    
+	  
 	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
 	    if(!$this->model->basicObject->getCatId()){
 	        if($this->model->getCategoryField()){

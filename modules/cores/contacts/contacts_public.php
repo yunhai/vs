@@ -16,7 +16,7 @@ require_once LIBS_PATH.'boards/VSPublicBoard.php';
 class contacts_public extends VSPublicBoard{
 	function auto_run(){
 		global $bw;
-		parent::auto_run($bw->input[0],"pcontacts");
+		parent::auto_run($bw->input[0], "pcontacts");
 	}
 }
 ?>

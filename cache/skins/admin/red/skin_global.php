@@ -223,7 +223,7 @@ $BWHTML .= <<<EOF
 </ul>
 <ul class="right">
 <li><a href="{$bw->vars['board_url']}" class="back_home" target="_blank"/><span class="icon-wrapper"><img class="icon-wrapper-vs vs-icon-home" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span><span>{$vsLang->getWords("global_title_home",'Xem trang chủ')}</span></a></li>
-<li><a href="{$bw->base_url}admin/logout" class="logout"/><span class="icon-wrapper"><img class="icon-wrapper-vs vs-icon-logout" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span><span>{$vsLang->getWords("global_logout",'Thoát')}</span></a></li>
+<li><a href="{$bw->base_url}admins/logout" class="logout"/><span class="icon-wrapper"><img class="icon-wrapper-vs vs-icon-logout" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span><span>{$vsLang->getWords("global_logout",'Thoát')}</span></a></li>
 <!--<li>{$this->getAddon()->getLangList()}</li>-->
 </ul>
 <div class="clear"></div>
@@ -237,7 +237,7 @@ EOF;
 if( $this->getAddon()->getMenuTop() ) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a338dfa9()}
+{$this->__foreach_loop__id_543d249dd875b()}
 
 EOF;
 }
@@ -295,7 +295,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a338dfa9()
+function __foreach_loop__id_543d249dd875b()
 {
 global $bw,  $vsUser;
     $BWHTML = '';

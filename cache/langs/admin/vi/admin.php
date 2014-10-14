@@ -9,4 +9,6 @@
   'admins_password' => 'Mật khẩu',
   'admins_forget_password' => 'Quên mật khẩu',
   'admins_logInTitle' => 'Login',
+  'admins_welcome' => 'Chào mừng',
+  'admins_login_last' => 'Hoạt động cuối',
 )?>

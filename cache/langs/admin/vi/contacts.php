@@ -44,4 +44,10 @@
   'obj_back' => 'Trở lại',
   'contacts_replyForm_Send' => 'Send Reply',
   'album' => 'Album hình ảnh',
+  'admins_title_system' => 'Hệ thống',
+  'admins_title_system_manager' => 'Quản trị website',
+  'admins_userName' => 'Tên đăng nhập',
+  'admins_password' => 'Mật khẩu',
+  'admins_forget_password' => 'Quên mật khẩu',
+  'admins_logInTitle' => 'Login',
 )?>

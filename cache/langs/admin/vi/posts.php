@@ -43,4 +43,6 @@
   'vip_type' => 'Vip',
   'posts_category' => 'Danh mục',
   'fullname' => 'Họ tên',
+  'posts_image_caption' => 'Kích thước: 126 : 128 (width:height, px )',
+  'name' => 'name',
 )?>

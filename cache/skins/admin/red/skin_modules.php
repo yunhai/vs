@@ -158,7 +158,7 @@ $BWHTML .= <<<EOF
 <td>
 <select name="{$this->modelName}[parent]">
 <option value="0">Select parent</option>
-{$this->__foreach_loop__id_54153a364699e($obj,$option)}
+{$this->__foreach_loop__id_543d24a2324ff($obj,$option)}
 </select>
 </td>
 </tr>
@@ -255,7 +255,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a364699e($obj="",$option=array())
+function __foreach_loop__id_543d24a2324ff($obj="",$option=array())
 {
 global $bw;
     $BWHTML = '';
@@ -441,7 +441,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a3647416($objItems,$option)}
+{$this->__foreach_loop__id_543d24a232b31($objItems,$option)}
 
 EOF;
 }
@@ -614,7 +614,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3647416($objItems=array(),$option=array())
+function __foreach_loop__id_543d24a232b31($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -833,7 +833,7 @@ $BWHTML .= <<<EOF
 
 <div class="core">
 <h3>Skin_user</h3>
-{$this->__foreach_loop__id_54153a364835e($option)}
+{$this->__foreach_loop__id_543d24a233464($option)}
 </div>
 
 EOF;
@@ -848,7 +848,7 @@ $BWHTML .= <<<EOF
 
 <div class="core">
 <h3>Skin_admin</h3>
-{$this->__foreach_loop__id_54153a364846f($option)}
+{$this->__foreach_loop__id_543d24a2334f6($option)}
 </div>
 
 EOF;
@@ -863,7 +863,7 @@ $BWHTML .= <<<EOF
 
 <div class="core">
 <h3>Database</h3>
-{$this->__foreach_loop__id_54153a3648559($option)}
+{$this->__foreach_loop__id_543d24a23359b($option)}
 </div>
 
 EOF;
@@ -872,7 +872,7 @@ EOF;
 $BWHTML .= <<<EOF
 
 <div class="core" style="display:none;">
-{$this->__foreach_loop__id_54153a364862f($option)}
+{$this->__foreach_loop__id_543d24a233620($option)}
 </div>
 <input type="hidden" name="namemodule" value="{$option['module']['class']}">
 
@@ -928,7 +928,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a364835e($option=array())
+function __foreach_loop__id_543d24a233464($option=array())
 {
       global  $bw;
     $BWHTML = '';
@@ -953,7 +953,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a364846f($option=array())
+function __foreach_loop__id_543d24a2334f6($option=array())
 {
       global  $bw;
     $BWHTML = '';
@@ -978,7 +978,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a3648559($option=array())
+function __foreach_loop__id_543d24a23359b($option=array())
 {
       global  $bw;
     $BWHTML = '';
@@ -1003,7 +1003,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a364862f($option=array())
+function __foreach_loop__id_543d24a233620($option=array())
 {
       global  $bw;
     $BWHTML = '';

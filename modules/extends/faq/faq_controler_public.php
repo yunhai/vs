@@ -74,7 +74,7 @@ class faq_controler_public extends pages_controler_public {
 		return $this->output = $this->getHtml()->showDefault($option);
 	}
 	
-	function showForm($catId) {
+	function showForm($catId, $error = array()) {
 	    global $vsPrint,$bw;
 	
 	    $category = VSFactory::getMenus()->getCategoryGroup($bw->input[0]);
@@ -96,10 +96,34 @@ class faq_controler_public extends pages_controler_public {
 	    
 	    $option['category'] = $category;
 	    
-        $option[$idcate] = true;	    
+        $option[$idcate] = true;
+        
+        if(!empty($error)) {
+            $option['error'] = $error;
+        }
 	    $this->output = $this->html->showForm($option);
 	}
 
+	function _validate(&$error = array()){
+	    global $bw;
+	 
+	    $target = $bw->input['pages'];
+	    
+	    if(empty($target['fullname'])) {
+	        $error[] = VSFactory::getLangs()->getWords('faq_validate_fullname', 'Họ tên không được để trống');
+	    }
+	    
+	    if(empty($target['email'])) {
+	        $error[] = VSFactory::getLangs()->getWords('faq_validate_email', 'Email không được để trống');
+	    }
+	    
+	    if(empty($target['intro'])) {
+	        $error[] = VSFactory::getLangs()->getWords('faq_validate_intro', 'Nội dung cần hỏi không được để trống');
+	    }
+	    
+	    return (empty($error));
+	}
+	
 	function submitForm($catId) {
 	    global $bw, $vsPrint;
 	     
@@ -127,21 +151,29 @@ class faq_controler_public extends pages_controler_public {
 	     
 	    $option['category'] = $category;
 	    
-	    $title = array();
-	    $ignore = array('fullname', 'phone', 'email');
-	    foreach($ignore as $item) {
-	        $title[$item] = $bw->input[$this->modelName][$item];
-	        unset($bw->input[$this->modelName][$item]);
+// 	    $input = $bw->input[$this->modelName];
+	    
+	    $error = array();
+	    if($this->_validate($error)){
+	        $title = array();
+	        $ignore = array('fullname', 'phone', 'email');
+	        foreach($ignore as $item) {
+	            $title[$item] = $bw->input[$this->modelName][$item];
+	            unset($bw->input[$this->modelName][$item]);
+	        }
+	         
+	        $bw->input[$this->modelName]['title'] = json_encode($title);
+	         
+	        $bw->input[$this->modelName]['catId'] = $idcate;
+	         
+	        $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
+	        
+	        $this->model->insertObject();
+	        $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('post_faq_successfully', 'Cám ơn quý khách đã gửi câu hỏi cho chúng tôi, chúng tôi sẽ trả lời trong thời gian sớm nhất có thể.'), $redirect);
 	    }
-	    
-	    $bw->input[$this->modelName]['title'] = json_encode($title);
-	    
-	    $bw->input[$this->modelName]['catId'] = $idcate;
-	    
-	    $this->model->basicObject->convertToObject($bw->input[$this->modelName]);
-	    $this->model->insertObject();
-	    
-	    $vsPrint->redirect_screen(VSFactory::getLangs()->getWords('post_faq_successfully', 'Cám ơn quý khách đã gửi câu hỏi cho chúng tôi, chúng tôi sẽ trả lời trong thời gian sớm nhất có thể.'), $redirect);
+
+// 	    $bw->input[$this->modelName] = $input;
+	    $this->showForm($catId, $error);
 	}
 	
     protected  function  onDeleteObject($obj){

@@ -169,7 +169,7 @@ EOF;
 if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_54153a32a07ce($objItems,$option)}
+{$this->__foreach_loop__id_543d249d0e08a($objItems,$option)}
 
 EOF;
 }
@@ -357,7 +357,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_54153a32a07ce($objItems=array(),$option=array())
+function __foreach_loop__id_543d249d0e08a($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';

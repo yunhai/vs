@@ -141,7 +141,7 @@ EOF;
 if($objItems) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_5431393a19220($objItems,$option)}
+{$this->__foreach_loop__id_543d28b465912($objItems,$option)}
 
 EOF;
 }
@@ -338,7 +338,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431393a19220($objItems=array(),$option=array())
+function __foreach_loop__id_543d28b465912($objItems=array(),$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -598,6 +598,10 @@ function addEditObjForm($obj="",$option=array()) {    global $bw;
     if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
         $seo = "";
     }
+    $this->disabled = '';
+    if($obj->getAuthorType() == 'user')
+        $this->disabled = 'disabled';
+    
     
 //--starthtml--//
 $BWHTML .= <<<EOF
@@ -714,14 +718,14 @@ $BWHTML .= <<<EOF
 <td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
 <td>
 <select name="{$this->modelName}[catId]" style='width: 200px;'>
-{$this->__foreach_loop__id_5431393a19fff($obj,$option)}
+{$this->__foreach_loop__id_543d28b46676b($obj,$option)}
 </select>
 </td>
 </tr>
 <tr>
-<td><label>{$this->getLang()->getWords("fullname", 'Tên')}</label></td>
+<td><label>{$this->getLang()->getWords("name", 'Tên')}</label></td>
 <td>
-   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" />
+   <input name="{$this->modelName}[name]" type="text" value="{$obj->getName()}" {$this->disabled}/>
 </td>
 </tr>
 
@@ -732,8 +736,8 @@ $BWHTML .= <<<EOF
 <tr>
 <td><label>{$this->getLang()->getWords("location", 'Địa điểm')}</label></td>
 <td>
-<select name="{$this->modelName}[location]" style='width: 200px;'>
-{$this->__foreach_loop__id_5431393a1a18b($obj,$option)}
+<select name="{$this->modelName}[location]" style='width: 200px;' {$this->disabled} >
+{$this->__foreach_loop__id_543d28b466933($obj,$option)}
 </select>
 </td>
 </tr>
@@ -746,25 +750,25 @@ $BWHTML .= <<<EOF
 <tr>
 <td><label>{$this->getLang()->getWords("address", 'Địa chỉ')}</label></td>
 <td>
-   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" />
+   <input name="{$this->modelName}[address]" type="text" value="{$obj->getAddress()}" {$this->disabled} />
 </td>
 </tr>
 <tr>
 <td><label>{$this->getLang()->getWords("phone", 'Điện thoại')}</label></td>
 <td>
-   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" />
+   <input name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" {$this->disabled} />
 </td>
 </tr>
 <tr>
 <td><label>{$this->getLang()->getWords("website", 'Website')}</label></td>
 <td>
-   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" />
+   <input name="{$this->modelName}[website]" type="text" value="{$obj->getWebsite()}" {$this->disabled} />
 </td>
 </tr>
 <tr>
 <td><label>{$this->getLang()->getWords("email", 'Email')}</label></td>
 <td>
-   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" />
+   <input name="{$this->modelName}[email]" type="text" value="{$obj->getEmail()}" {$this->disabled} />
 </td>
 </tr>
 
@@ -840,7 +844,7 @@ $BWHTML .= <<<EOF
 </div>
 <div class='clear'></div>
 <div class='caption'>
-   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px )')}
+   {$this->getLang()->getWords("{$bw->input[0]}_image_caption", 'Kích thước: 126 : 128 (width:height, px)')}
 </div>
 </td>
 </tr>
@@ -949,7 +953,7 @@ $BWHTML .= <<<EOF
 
 </div>
 <script>
-$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+$('.datepicker').datepicker({dateFormat: 'dd/mm/yy'});
 $("#frm_add_edit_obj").submit(function(){
 var flag=false;
 var message="";
@@ -999,7 +1003,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431393a19f78($obj="",$option=array(),$item='')
+function __foreach_loop__id_543d28b4666e6($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1024,7 +1028,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431393a19fff($obj="",$option=array())
+function __foreach_loop__id_543d28b46676b($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1037,7 +1041,7 @@ function __foreach_loop__id_5431393a19fff($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_5431393a19f78($obj,$option,$item)}
+    {$this->__foreach_loop__id_543d28b4666e6($obj,$option,$item)}
     </optgroup>
 
 EOF;
@@ -1051,7 +1055,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431393a1a10d($obj="",$option=array(),$item='')
+function __foreach_loop__id_543d28b46688c($obj="",$option=array(),$item='')
 {
 ;
     $BWHTML = '';
@@ -1076,7 +1080,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_5431393a1a18b($obj="",$option=array())
+function __foreach_loop__id_543d28b466933($obj="",$option=array())
 {
     global $bw;
     $BWHTML = '';
@@ -1089,7 +1093,7 @@ function __foreach_loop__id_5431393a1a18b($obj="",$option=array())
     $BWHTML .= <<<EOF
         
     <optgroup label="{$item->getTitle()}">
-    {$this->__foreach_loop__id_5431393a1a10d($obj,$option,$item)}
+    {$this->__foreach_loop__id_543d28b46688c($obj,$option,$item)}
     </optgroup>
 
 EOF;

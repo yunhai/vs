@@ -149,4 +149,5 @@
   'global_file_not_exist' => 'The file <b>%s</b> does not exist!',
   'tab_user' => 'user',
   'users_location' => 'location',
+  'address' => 'Địa chỉ',
 )?>

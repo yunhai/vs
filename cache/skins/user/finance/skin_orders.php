@@ -25,7 +25,7 @@ $BWHTML .= <<<EOF
 <th class="col4">Đơn giá</th>
 <th class="col4">Tổng cộng</th>
 </tr>
-{$this->__foreach_loop__id_540c42c811daf($message)}
+{$this->__foreach_loop__id_543d24c0e4320($message)}
 <tr class="table_last">
 <td colspan="3" align="right">Thành tiền </td>
 <td style="font-weight:bold"> {$this->numberFormat($this->total,0)} {$this->getLang()->getWords('currency','VNĐ')} </td>
@@ -138,7 +138,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540c42c811daf($message="")
+function __foreach_loop__id_543d24c0e4320($message="")
 {
 global $bw,$vsFile,$vsLang,$vsPrint;
     $BWHTML = '';
@@ -547,7 +547,7 @@ background:#f7f7f7;">
                 <th style="padding:16px 0px 12px 11px;text-align:left;border:1px solid #dbd9d9;width:121px;text-align:center;">Đơn giá</th>
                 <th style="padding:16px 0px 12px 11px;text-align:left;border:1px solid #dbd9d9;width:121px;text-align:center;">Thành tiền</th>
             </tr>
-{$this->__foreach_loop__id_540c42c81497d($option,$tyle,$obj)}
+{$this->__foreach_loop__id_543d24c0e630a($option,$tyle,$obj)}
             <tr style="border-bottom:none;background:#f7f7f7;">
             <td colspan="3" style="text-align: right; font-weight: bold; padding:15px 10px 15px 15px;border:1px solid #dbd9d9;">
                     Tổng tiền
@@ -568,7 +568,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_540c42c81497d($option="",$tyle="",$obj=array())
+function __foreach_loop__id_543d24c0e630a($option="",$tyle="",$obj=array())
 {
 global $vsPrint,$bw,$vsUser;
     $BWHTML = '';
