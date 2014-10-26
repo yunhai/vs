@@ -674,7 +674,6 @@ class posts_controler_public extends VSControl_public {
 	    
 	    $empty = array(
 	    	        "title" => VSFactory::getLangs()->getWords('validate_empty_title','Tiêu đề không được để trống'),
-	                "file"  => VSFactory::getLangs()->getWords('validate_empty_image','Hình đại diện không được để trống'),
                     "intro" => VSFactory::getLangs()->getWords('validate_empty_intro','Tiêu đề không được để trống'),
                     "content" => VSFactory::getLangs()->getWords('validate_empty_content','Tiêu đề không được để trống'),
 	    );
@@ -683,6 +682,10 @@ class posts_controler_public extends VSControl_public {
 	    foreach($empty as $key => $message) {
 	        if(empty($target[$key]))
 	           $error[] = $message;
+	    }
+	    
+	    if(empty($bw->input['file'])) {
+	        $error[] = VSFactory::getLangs()->getWords('validate_empty_image','Hình đại diện không được để trống');
 	    }
 	    
 	    return (empty($error));
