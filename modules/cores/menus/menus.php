@@ -284,10 +284,10 @@ class menus extends VSFObject {
 	function getAllMenu($user = 'admin') {
 		global $bw;
 		
-		$query = array ('select' => '*', 'from' => $this->objsource, 'order' => 'menuLevel DESC, menuIndex' );
+		$query = array ('select' => '*', 'from' => $this->objsource, 'order' => 'menuLevel DESC, menuIndex');
 		
 		if (APPLICATION_TYPE == 'user' || $user == 'user') {
-			$query ['where'] = "menuIsAdmin<>1 AND menuStatus=1";
+			$query ['where'] = "menuIsAdmin<>1 AND menuStatus=1 AND menuUrl <>'locations'";
 			$arrayTreeMenu = array ();
 			$arrayMenu = array ();
 			$arrayTreeCategory = array ();
@@ -304,10 +304,12 @@ class menus extends VSFObject {
 				unset ( $arrayCategory );
 				return;
 			}
+		} else {
+		    $query ['where'] = "menuUrl <>'locations'";
 		}
 		VSFactory::createConnectionDB ()->simple_construct ( $query );
 		VSFactory::createConnectionDB ()->simple_exec ();
-		
+
 		while ( $obj = VSFactory::createConnectionDB ()->fetch_row () ) {
 			$createMenu = new Menu ();
 			$createMenu->convertToObject ( $obj );
@@ -439,12 +441,19 @@ class menus extends VSFObject {
 		
 		foreach ( $oMenus as $oMenu ) {
 			$selected = "";
+			
+			$extend = '';
+			if($oMenu->getUrl() == 'locations') {
+			    $extend = "&nbsp;[{$oMenu->getValue()}]&nbsp;";
+			}
+			
 			if (isset ( $option ['selected'] ) && $oMenu->id == $option ['selected'])
 				$selected = "selected='selected' ";
+			
 			if ($option ['index'])
-				$html .= '<option ' . $selected . 'value="' . $oMenu->id . '" class="parent' . $pr . '" >' . $option ['listStyle'] . ' ' . $oMenu->title . ' (' . $oMenu->getIndex () . ' - ' . $oMenu->id . ')</option>';
+				$html .= '<option ' . $selected . 'value="' . $oMenu->id . '" class="parent' . $pr . '" >' . $option ['listStyle'] . ' ' . $oMenu->title . $extend .' (' . $oMenu->getIndex () . ' - ' . $oMenu->id . ')</option>';
 			else
-				$html .= '<option ' . $selected . 'value="' . $oMenu->id . '" class="parent' . $pr . '" >' . $option ['listStyle'] . ' ' . $oMenu->title . ' (' . $oMenu->getIndex () . ' - ' . $oMenu->id . ')</option>';
+				$html .= '<option ' . $selected . 'value="' . $oMenu->id . '" class="parent' . $pr . '" >' . $option ['listStyle'] . ' ' . $oMenu->title . $extend . ' (' . $oMenu->getIndex () . ' - ' . $oMenu->id . ')</option>';
 			
 			if (is_array ( $oMenu->getChildren () )) {
 				$count ++;
@@ -467,6 +476,12 @@ class menus extends VSFObject {
 		if ($option ['rootId'])
 			$rootId = $option ['rootId'];
 			
+		$rootLabel = '<option value="' . $rootId . '">' . VSFactory::getLangs ()->getWords ( 'menus_option_root', "Root" ) . '</option>';
+		if(!empty($option['withoutRoot'])){
+		    $rootLabel = '';
+		}
+		
+		
 			// Build select tag
 		$html = '<select id="' . $option ['id'] . '" style="width:100%;height:370px"';
 		$html .= $option ['size'] ? ' size="' . $option ['size'] . '"' : '';
@@ -474,7 +489,7 @@ class menus extends VSFObject {
 		$html .= $option ['multiple'] ? ' multiple' : '';
 		$html .= $option ['name'] ? ' name="' . $option ['name'] . '"' : '';
 		$html .= $option ['onclick'] ? ' onclick="' . $option ['onclick'] . '()"' : '';
-		$html .= '><option value="' . $rootId . '">' . VSFactory::getLangs ()->getWords ( 'menus_option_root', "Root" ) . '</option>';
+		$html .= '>'.$rootLabel;
 		isset ( $option ['index'] ) ? "" : $option ['index'] = 1;
 		$this->buildOptionMenuTree ( $objs, &$html, $option );
 		$html .= "</select>";
@@ -552,8 +567,6 @@ class menus extends VSFObject {
 
 	function buildCacheMenu() {
 		// Only build cache for user menus
-		
-		
 		$arrayTreeMenu = $this->filterMenu ( array ('status', 'isAdmin' => array (true, array (0, - 1 ) ) ), $this->arrayTreeMenu );
 		$arrayMenu = $this->filterMenu ( array ('status', 'isAdmin' => array (true, array (0, - 1 ) ) ), $this->arrayMenu );
 		$arrayTreeCategory = $this->filterMenu ( array ('status', 'isAdmin' => array (true, array (0, - 1 ) ) ), $this->arrayTreeCategory );
@@ -707,5 +720,52 @@ EOF;
 		}
 		return NULL;
 	}
+	
+	
+	function getState($id = 0, $aliveOnly = true) {
+        $condition = "menuUrl = 'locations' AND menuLevel = 2 AND langId = 1";
+	        	
+        if($id) {
+            $condition .= " AND menuId = {$id}";
+        }
+        
+        if($aliveOnly) {
+            $condition .= " AND menuStatus > 0";
+        }
+        
+        $this->setOrder('menuIndex');
+        $this->setCondition($condition);
+        
+        return $this->getObjectsByCondition();
+	}
+	
+	function getCity($state = 0, $id = 0, $aliveOnly = true) {
+	    $condition = "menuUrl = 'locations' AND menuLevel = 3 AND langId = 1";
+	
+	    if($state) {
+	        $condition .= " AND parentId = {$state}";
+	    }
+	    
+	    if($id) {
+	        $condition .= " AND menuId = {$id}";
+	    }
+	    
+	    
+	    if($aliveOnly) {
+	        $condition .= " AND menuStatus > 0";
+	    }
+	    
+	    $this->setOrder('menuIndex');
+	    $this->setCondition($condition);
+	    
+	    return $this->getObjectsByCondition();
+	}
+	
+	function getLocationRoot() {
+	    $condition = "menuUrl = 'locations' AND menuLevel = 1 AND langId = 1";
+	
+	    $this->setCondition($condition);
+	     
+	    return $this->getOneObjectsByCondition();
+	}
 }
-?>

@@ -19,14 +19,32 @@ class pages_admin extends VSAdminBoard {
     				'default'=>0,
     		);
 		}
-	   if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_category_list', 0, $bw->input[0] )){
-			$this->tabs[]=array(
-				'id'=>'categorys_pages',
-				'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1",
-				'title'=>$this->getLang()->getWords("{$bw->input[0]}_category_tab","Danh mục"),
-				'default'=>0,
-				);
-	   }
+		
+	    
+	    
+	    if($bw->input['module'] == 'locations') {
+            $this->tabs[]=array(
+                            'id'=>'categorys_pages',
+                            'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1&type=state",
+                            'title'=>$this->getLang()->getWords("{$bw->input[0]}_category_tab_state", "Bang"),
+                            'default'=>0,
+            );
+	        $this->tabs[]=array(
+	                        'id'=>'categorys_pages_city',
+	                        'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1&type=city",
+	                        'title'=>$this->getLang()->getWords("{$bw->input[0]}_category_tab_city", "Thành phố"),
+	                        'default'=>0,
+	        );
+	    } else {
+	        if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_category_list', 0, $bw->input[0] )){
+	            $this->tabs[]=array(
+	                            'id'=>'categorys_pages',
+	                            'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1",
+	                            'title'=>$this->getLang()->getWords("{$bw->input[0]}_category_tab","Danh mục"),
+	                            'default'=>0,
+	            );
+	        }
+	    }
 	   
 	   parent::auto_run();
 	}

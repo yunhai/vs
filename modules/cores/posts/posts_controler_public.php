@@ -1,4 +1,5 @@
 <?php
+
 require_once CORE_PATH.'posts/posts.php';
 class posts_controler_public extends VSControl_public {
 	function __construct($modelName){
@@ -164,7 +165,7 @@ class posts_controler_public extends VSControl_public {
 	    $vip = $this->model->getObjectsByCondition();
 	    
 	    $count = (10 - count($vip) < 0) ? 0 : (10 - count($vip));
-	    $condition = "status = 1 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
+	    $condition = "1 or status = 1 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
 	    if($locationids) {
 	        $condition .= ' and location IN ('.$locationids.') ';
 	    }
@@ -229,7 +230,7 @@ class posts_controler_public extends VSControl_public {
 	         
 	        $option['location'] = $this->_formatCity($option['location'], $cout);
 	    }
-	
+	  
 	    return $this->output = $this->getHtml()->showDefault($option);
 	}
 	
@@ -296,7 +297,9 @@ class posts_controler_public extends VSControl_public {
 	            }
 	        }
 	    } 
-	    
+	print "<pre>";
+print_r($location);
+print "</pre>";    
 	    if(empty($catId)) {
 	        reset($option['cate']);
 	        $tmp = current($option['cate']);
@@ -349,7 +352,7 @@ class posts_controler_public extends VSControl_public {
 	    
 	    $ids=VSFactory::getMenus()->getChildrenIdInTree($category->getId());
 	    
-	    $condition = "status > 0 and status < 99 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
+	    $condition = "1 or status > 0 and status < 99 and catId in ({$ids}) and DATE_FORMAT(public_date, '%Y-%m-%d') <= CURDATE() and DATE_FORMAT(end_date, '%Y-%m-%d') >= CURDATE()";
 	    if($locationids) {
 	        $condition .= ' and location IN ('.$locationids.') ';
 	    }
@@ -365,13 +368,16 @@ class posts_controler_public extends VSControl_public {
 	        if(empty($tmp)) continue;
 	        
 	        $tmp = VSFactory::getMenus()->getCategoryById($tmp);
-	        $formatted_location = $tmp->getTitle() .'. ';
 	        
-	        $tmp = VSFactory::getMenus()->getCategoryById($tmp->getParentId());
-	        
-	        if($tmp->getId() == 544) continue;
-	        $formatted_location .= $tmp->getTitle();
-	        
+	        $formatted_location = '';
+	        if(!empty($tmp)) {
+    	        $formatted_location = $tmp->getTitle() .'. ';
+    	        
+    	        $tmp = VSFactory::getMenus()->getCategoryById($tmp->getParentId());
+    	        
+    	        if($tmp->getId() == 544) continue;
+    	        $formatted_location .= $tmp->getTitle();
+	        }
 	        $option[$tabid]['pageList'][$key]->formatted_location = $formatted_location;
 	    }	    
 	    
@@ -499,27 +505,20 @@ class posts_controler_public extends VSControl_public {
 	}
 	
 	function _cityList($state = 0, $category = '', &$callback = array()) {
-	    $tmp = VSFactory::getMenus()->getCategoryGroup('locations')->getChildren();
-	
-	    $location = array(); 
+	    $tmp = VSFactory::getMenus()->getCity($state);
+	    $location = array();
 	    foreach($tmp as $id => $level1) {
-	        if($id != $state) continue;
-	        
+	        $location[$level1->getTitle()] = array('title' => $level1->getTitle(), 'url'=> $level1->getCatUrl('posts/category/city/').'/'.$category);
 	        $callback[$id] = $id;
-	        foreach($level1->children as $id2 => $level2) {
-	           $location[$level2->getTitle()] = array('id' => $level2->getId(), 'title' => $level2->getTitle(), 'url'=> $level2->getCatUrl('posts/category/detail/').'/'.$category);
-	           
-	           $callback[$id2] = $id2;
-	        }
 	    }
-	   
+	    
 	    ksort($location);
-	     
+	    
 	    return $location;
 	}
 	
 	function _stateList($category = '', &$callback = array()) {
-	    $tmp = VSFactory::getMenus()->getCategoryGroup('locations')->getChildren();
+	    $tmp = VSFactory::getMenus()->getState();
 
 	    $location = array(); 
 	    foreach($tmp as $id => $level1) {

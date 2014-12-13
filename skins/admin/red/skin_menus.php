@@ -374,7 +374,6 @@ EOF;
 				</table>
 			</div>
 			<script type="text/javascript">
-                                       
 					function setValue_category{$categoryGroup->getUrl()}() {
 						var currentId = '';
 						var parentId = '';
@@ -675,5 +674,301 @@ EOF;
 			</script>
 EOF;
 	}
+
+
+
+
+	function MainState($categoryForm = "", $categoryTable = "", $str="") {
+	    global  $bw;
+	
+	    $BWHTML = "";
+	    $BWHTML .= <<<EOF
+			<div id='categoryTabContainer{$str}'>
+				<div class="left-cell" id="category-table{$str}">{$categoryTable}</div>
+				<div class="right-cell" id="category-form{$str}">{$categoryForm}</div>
+				<div class="clear"></div>
+			</div>
+EOF;
+	}
+
+	
+	
+	function locationList($data, $categoryGroup, $type='state', $option = array()) {
+	    global  $bw;
+	    $vsSettings = $this->vsSettings = VSFactory::getSettings();
+	    $BWHTML = "";
+	    $BWHTML .= <<<EOF
+			<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+				<div class="ui-dialog-buttonpanel">
+				    <if="$type == 'city'">
+				    <select id='city-stateList' name='stateId' style='width: 255px;'>
+		            	<foreach=" $option['stateList'] as $id => $item ">
+        	                <option value="{$item->getId()}" <if="$item->getId() == $option['currentState']->getId() ">selected</if>>{$item->getTitle()}</option>
+    	                </foreach>
+	                </select> 
+	                </if>
+				    <if="$this->vsSettings->getSystemKey($categoryGroup->getUrl().'_edit_category', 1, $categoryGroup->getUrl())">
+					    <a href="#" onclick="deleteCategory{$categoryGroup->getUrl()}{$type}(); return false;" data-title="{$this->getLang()->getWords('global_action_delete',"XÃ³a")}" title="{$this->getLang()->getWords('global_action_delete',"XÃ³a")}">
+	                		<img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper icon-wrapper-vs btnDelete"/>
+		                </a>
+		            </if>
+		            <if="$this->vsSettings->getSystemKey($categoryGroup->getUrl().'_delete_category', 1, $categoryGroup->getUrl())">
+				        <a href="#" onclick="editCategory{$categoryGroup->getUrl()}{$type}(); return false;" data-title="{$this->getLang()->getWords('global_action_edit',"Sá»­a")}">
+                			<img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper icon-wrapper-vs btnEdit"/>
+                		</a>
+					</if>
+				</div>
+				<div id="category-message{$categoryGroup->getUrl()}" class="message">
+					{$data['message']}
+				</div>
+				<div id='{$type}-list-html'>
+				<table width="100%" class="ui-dialog-content ui-widget-content" cellpadding="0" cellspacing="0">
+				    <tr>
+				        <td>
+							{$data['html']}
+				        </td>
+				    </tr>
+				</table>
+				</div>
+			</div>
+			<script type="text/javascript">
+			        $(document).ready(function(){
+			             $('#city-stateList').change(function(){
+			                 var id = $(this).val(); 
+			                 vsf.get('menus/list-city/{$categoryGroup->getUrl()}/'+id,'{$type}-list-html');
+	                     }); 
+			        } );
+			
+					function deleteCategory{$categoryGroup->getUrl()}{$type}() {
+						var currentId = '';
+						$("#menus-category{$categoryGroup->getUrl()}{$type} option:selected").each(function () {
+							 currentId += $(this).val() + ',';
+				
+						});
+						currentId = currentId.substr(0, currentId.length-1);
+	
+						if(!currentId){
+							 vsf.alert('{$this->getLang()->getWords('err_chosen_location', 'Hãy chọn thông tin muốn xóa')}');
+							return false;
+						}else{
+	                       	jConfirm(
+									'{$this->getLang()->getWords("category_confirm_delete","Bạn có chắc chắn xóa không?")}',
+						 			'Hộp thông báo',
+						 			function(r){
+						 			if(r){
+						 				vsf.get('menus/delete-category/{$categoryGroup->getUrl()}/'+currentId+'/{$type}','categoryTabContainer{$categoryGroup->getUrl()}{$type}');
+						 			}
+					 			});
+	                    }
+	                }
+	
+			
+					function editCategory{$categoryGroup->getUrl()}{$type}() {
+						temp = $("#menus-category{$categoryGroup->getUrl()}{$type} option:selected");
+						currentId = $(temp[0]).val();
+						
+						if(currentId==0) {
+							$('#category-message{$categoryGroup->getUrl()}').html('{$this->getLang()->getWords('err_chosen_category', 'Hãy chọn thông tin cần chỉnh sửa!')}');
+							$('#menus-category{$categoryGroup->getUrl()}').addClass('ui-state-error');
+							return false;
+						}
+						
+						vsf.get('menus/edit-category/{$categoryGroup->getUrl()}/'+currentId+'/{$type}','category-form{$categoryGroup->getUrl()}{$type}');
+						return false;
+					}
+	
+					
+					 function setValue_category{$categoryGroup->getUrl()}() {
+                		return;
+                	}
+				</script>
+EOF;
+	}
+
+	
+	
+	
+	
+	function addEditLocationForm($category, $option) {
+	    global  $bw,$vsUser;
+	
+	    $vsSettings = $this->vsSettings = VSFactory::getSettings();
+	    if( $this->vsSettings->getSystemKey($option['cate'].'_cat_intro_editor_type', 0, $option['cate'], 1, 1) ){
+	        global $vsStd;
+	        $vsStd->requireFile(JAVASCRIPT_PATH."/tiny_mce/tinyMCE.php");
+	        $editor = new tinyMCE();
+	        $editor->setWidth('400px');
+	        $editor->setHeight('300px');
+	        $editor->setToolbar('narrow');
+	        $editor->setTheme("advanced");
+	        $editor->setInstanceName('categoryDesc');
+	        $editor->setValue($category->getAlt());
+	        $category->setAlt($editor->createHtml());
+	    }
+	    if(!$category->getId()){
+	        $category->status=1;
+	        $category->isDropdown=0;
+	    }else
+	        $switchForm = <<<EOF
+				<button onclick="vsf.get('menus/edit-category/{$option['cate']}//{$option['type']}','category-form{$option['cate']}{$option['type']}');" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords('menu_bt_switch_add',"Thêm")}</span></button>
+EOF;
+	    $checkStatus[$category->status]="checked";
+	    $checkDropdown[$category->isDropdown]="checked";
+	
+	    $BWHTML = "";
+	    $BWHTML .= <<<EOF
+			<form id="add-edit-category-form{$option['cate']}{$option ['type']}" method="post" enctype="multipart/form-data" name='add-edit-category-form{$option['cate']}'>
+    			<input type="hidden" name="categoryGroup" value="{$bw->input[2]}" />
+    			<input type="hidden" name="categoryId" value="{$category->getId()}" id="categoryId"/>
+                <input type="hidden" name="currentId" value="{$category->getId()}" id="currentId{$option ['type']}"/>
+                <input type="hidden" id="category-parent-idold{$option ['type']}" name="categoryParentIdOld" value="{$category->getParentId()}" />
+    			<input type="hidden" id="category-parent-id{$option ['type']}" name="categoryParentId" value="{$category->getParentId()}" />
+    			<input type="hidden" value="{$category->getSlug ()}" name="categorySlug" id="mUrl" data-module="menus" data-id = "{$category->getId()}"/>
+				<input type='hidden' value='{$option['type']}' name='location-type' />
+    			
+    			
+				<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+					<div >
+				    	<span class="ui-dialog-title">{$option['formTitle']}</span>
+				    </div>
+				    <div id="err-category-form-message{$option['cate']}" class="red">{$option['message']}</div>
+				    <table class="obj_add_edit" width="100%">
+				    	<tr>
+				    		<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_title', 1, $option['cate'], 1, 1) ">
+				        	<td>{$this->getLang()->getWords('category_form_header_name','Name')}</td>
+				            <td><input id="category-name{$option['cate']}{$option ['type']}" type="text" name="categoryName" size="36" value="{$category->getTitle()}" /></td>
+				            </if>
+						</tr>
+						<tr>
+				            <if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_status', 0, $option['cate'], 1, 1) ">
+				        	<td>{$this->getLang()->getWords('category_form_header_status','Status')}</td>
+				            <td>
+				            	<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[1]} value="1"/> {$this->getLang()->getWords('global_yes','Yes')}
+				            	<div class="clear"></div>
+				            	<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$this->getLang()->getWords('global_no','No')}
+				            	<div class="clear"></div>
+				            </td>
+				            </if>
+						</tr>
+						
+						<if=" $option['type'] == 'city' ">
+						<tr>
+				        	<td>{$this->getLang()->getWords('category_form_header_state','Bang')}</td>
+				            <td>
+				                <select name='stateId'>
+				            	<foreach=" $option['stateList'] as $id => $item ">
+	            	                <option value="{$item->getId()}" <if="$item->getId() == $category->getParentId()">selected</if>>{$item->getTitle()}</option>
+            	                </foreach>
+            	                </select> 
+				            </td>
+						</tr>
+						</if>
+						
+						
+						<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_value', 0, $option['cate'], 1, 1) ">
+						<tr>
+				        	<td>{$this->getLang()->getWords("category_{$option['cate']}_value_{$option ['type']}", 'Abbr / Zipcode')}</td>
+				            <td><input id="category-value{$option['cate']}{$option ['type']}" type="text" name="categoryValue" size="36" value="{$category->getIsLink()}" /></td>
+	
+						</tr>
+						</if>
+						<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_desc', 0, $option['cate'], 1, 1) ">
+						<tr>
+						    <td>{$this->getLang()->getWords('category_form_desc','Mô tả')}</td>
+						    <if="$option['cate']=='products'">
+						    <td><textarea style="width:300px;height:100px" name="categoryDesc1">{$category->getDesc()}</textarea></td>
+						    <else />
+				            <td><input type="text" name="categoryDesc1" size="34" value="{$category->getDesc()}" /></td>
+				            </if>
+						</tr>
+						</if>
+						<tr>
+							<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_intro', 0, $option['cate'], 1, 1) ">
+				        	<td>{$this->getLang()->getWords('category_form_header_desc','Description')}</td>
+				            <td>
+				            <if="$this->vsSettings->getSystemKey($option['cate'].'_cat_intro_editor_type', 0, $option['cate'], 1, 1)">
+				            {$category->getAlt()}
+				            <else />
+				            <textarea id="category-desc" style="width:294px;" name="categoryDesc">{$category->getAlt()}</textarea>
+				            </if>
+				            </td>
+				            </if>
+                         </tr>
+             
+						<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_index', 1, $option['cate'], 1, 1) ">
+						<tr>
+						    <td>{$this->getLang()->getWords('category_form_header_index','Index')}</td>
+				            <td><input type="text" name="categoryIndex" size="10" value="{$category->getIndex()}" /></td>
+						</tr>
+						</if>
+	
+	
+						<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_file', 0, $option['cate'], 1, 1) ">
+						<tr>
+							<td>{$this->getLang()->getWords('obj_image_image', "Image")}</td>
+							<td>
+								<input size="27" type="file" name="menuImage" id="menuImage"/>
+								{$this->getLang()->getWords("{$option['cate']}_image_caption", 'Kích thước: 128 : 130 (width:height, px)')}
+							</td >
+						</tr>
+						<if=" $category->getFileId() ">
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+								{$category->createImageCache($category->getFileId(),30,30)}
+							</td>
+						</tr>
+						</if>
+						</if>
+	
+	
+						<if=" $this->vsSettings->getSystemKey($option['cate'].'_cat_document', 0, $option['cate'], 1, 1) ">
+						<tr>
+							<td>{$this->getLang()->getWords('obj_image_document', "docuemnt")}</td>
+							<td>
+								<input size="27" type="file" name="menuDocument" id="menuDocument"/>
+	
+							</td >
+						</tr>
+						</if>
+	
+	
+						<if="$category->getBackup()">
+						<tr>
+						    <td> {$this->getLang()->getWords('menu_form_backup',"Retore Link")}</td>
+						    <td>
+						        <input type="checkbox" class="checkbox" id="menuRetore" name="menuRetore" value="1" />
+						        &nbsp; <b>Current link</b>: {$category->getUrl()}
+						    </td>
+						    <td  colspan="2">
+						      <b>Real link</b>: <span style="color:red">{$category->getBackup()}</span>
+						    </td>
+					    </tr>
+					    </if>
+				        <tr>
+				        	<td class="ui-dialog-buttonpanel" colspan="3" align="center">
+				        		<input type="button" class="ui-state-default ui-corner-all" onclick="submitCatForm{$option['cate']}{$option ['type']}()" value="{$option['formSubmit']}" />
+				        		{$switchForm}
+			        		</td>
+						</tr>
+				    </table>
+				</div>
+			</form>
+		
+			<script type="text/javascript">
+	
+	
+				function submitCatForm{$option['cate']}{$option ['type']}() {
+					if(!$('#category-name{$option['cate']}{$option ['type']}').val()) {
+						str = '* {$this->getLang()->getWords('err_category_name_blank','Please enter the category name!')}<br />';
+						$('#err-category-form-message{$option['cate']}').html(str);
+						$('#category-name{$option['cate']}{$option ['type']}').addClass('ui-state-error');
+						return false;
+					}
+
+   					   vsf.uploadFile("add-edit-category-form{$option['cate']}{$option ['type']}", "{$bw->input[0]}", "add-edit-category", "categoryTabContainer{$option['cate']}{$option ['type']}", "{$option['cate']}_category");
+				}
+			</script>
+EOF;
+	}
 }
-?>

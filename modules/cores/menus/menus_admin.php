@@ -51,6 +51,11 @@ class menus_admin extends VSControl {
 		// -------------------------------------------
 		
 		switch ($bw->input [1]) {
+		    case 'list-city':
+		        $bw->input['type'] = 'city';
+		        $this->output = $this->_getCityList($bw->input [3], true);
+		        break;  
+		        
 			case 'edit-category' :
 				$option ['cate'] = $bw->input [2];
 				$this->setOutput ( $this->addEditCategoryForm ( $bw->input [3], $option ) );
@@ -103,15 +108,86 @@ class menus_admin extends VSControl {
 			case 'display-dialog' :
 				$this->displayDialog ();
 				break;
-				case "menus_checkPermalink":
-					$this->checkPermalink();
-					break;
+				
+			case "menus_checkPermalink":
+			    $this->checkPermalink();
+				break;
+					
+			case 'import':
+			    $this->import();
+			    break;	    
+					
 			default :
 				$this->loadDefault ();
 				break;
 		}
 	}
 
+	function import() {
+	    ini_set('max_execution_time', 300);
+	    ini_set("memory_limit", "512M");
+	    
+	    $content = file_get_contents('zips.json.txt');
+	    
+	    
+	    $this->module->setCondition("menuUrl = 'locations' AND menuLevel = 2 AND langId = 1 AND parentId <> 14");
+	    $tmp = $this->module->getObjectsByCondition('getIsLink');
+	    
+	    $states = array();
+	    foreach($tmp as $code => $obj) {
+	        $states[$code] = $obj->getId();
+	    }
+	    print "<pre>";
+	    print_r(count(json_decode($content, true)));
+	    print "</pre>";
+	   
+	    $empty = array();
+	    foreach( json_decode($content, true) as $item ) {
+	        if(empty($item['city'])) {
+	            $empty[] = $item['zip'];
+	            continue;
+	        }
+	        
+    	    $data['langId'] = 1;
+    	    $data['menuTitle'] = $item['city'];
+    	    $data['menuUrl'] = 'locations';
+    	    $data['menuIndex'] = 0;
+    	    $data['menuStatus'] = 1;
+    	    $data['menuAlt'] = null;
+    	    $data['parentId'] = $states[$item['state']];
+    	    
+    	    $data['menuIsLink'] = $item['zip'];
+    	    $data['menuIsDropDown'] = 0;
+    	    $data['menuType'] = 0;
+    	    $data['menuLevel'] = 3;
+    	    
+    	    $data['menuPosition'] = '@00000';
+    	    $data['menuIsAdmin'] = -1;
+    	    
+    	    $data['menuCate'] = NULL;
+    	    
+    	    $this->module->basicObject = new Menu();
+    	    $this->module->basicObject->convertToObject($data);
+    	    $this->module->insertObject();
+	    }
+	    print "<pre>1: ";
+	    print_r(count($empty));
+	    print "</pre>";
+	    
+// 	    print "<pre>";
+// 	    print_r(count($states));
+// 	    print "</pre>";
+// 	    print "<pre>";
+// 	    print_r($states);
+// 	    print "</pre>";exit;
+	    global $DB;
+	    print "<pre>2: ";
+	    print_r($DB);
+	    print "</pre>";
+	    exit;
+	}
+	
+	
 	function checkPermalink(){
 		global $bw,$vsPrint;
 	
@@ -137,6 +213,12 @@ class menus_admin extends VSControl {
 
 	function deleteCategory($categoryIds) {
 		global $bw;
+		
+		if($bw->input[2] == 'locations') {
+		    return $this->deleteLocation($categoryIds);
+		}
+		
+		
 		
 		$flag = true;
 		
@@ -176,11 +258,17 @@ class menus_admin extends VSControl {
 		$categoryGroup = $this->module->getCategoryGroup ( $bw->input [2] );
 		
 		$message = $this->module->result ['message'] . $errorMessage . "<br />";
+		
 		$this->output = $this->getCategoryBox ( $categoryGroup, $message );
 	}
 
 	function addEditCategoryProcess() {
 		global $bw;
+
+		if(!empty($bw->input['location-type']))
+		    return $this->addEditLocationProcess();
+		
+		
 		$vsSettings = VSFactory::getSettings ();
 		$categoryObj = new Menu ();
 		
@@ -310,7 +398,15 @@ class menus_admin extends VSControl {
 	}
 
 	function addEditCategoryForm($categoryId = 0, $option = array()) {
-		global $vsLang;
+		global $vsLang, $bw;
+		
+		if($bw->input['2'] == 'locations') {
+		    
+		    $bw->input['type'] = $bw->input[4];
+		    
+		    return $this->addEditLocationForm($categoryId, $option);
+		}
+		
 		$vsLang = VSFactory::getLangs ();
 		$categoryObj = new Menu ();
 		
@@ -329,35 +425,278 @@ class menus_admin extends VSControl {
 	}
 
 	function getCategoryBox($categoryGroup, $message = "", $option = array()) {
+		global $bw;
+		
 		$data ['message'] = $message;
 		$option = array ('listStyle' => "| - -", 'id' => 'menus-category' . $categoryGroup->getUrl (), 'size' => 18, 'multiple' => true, 'onclick' => "setValue_category{$categoryGroup->getUrl()}" );
 		$data ['html'] = $this->module->displaySelectBox ( $categoryGroup->getChildren (), $option );
 		return $this->html->categoryList ( $data, $categoryGroup );
 	}
 
-	function getSimpleListCatHtml($categoryGroup, $message = "", $option = array()) {
-		$data ['message'] = $message;
-		$option = array ('listStyle' => "| - -", 'id' => 'menus-category' . $categoryGroup->getUrl (), 'size' => 18, 'multiple' => true, 'onclick' => "setValue_category{$categoryGroup->getUrl()}" );
-		$data ['html'] = $this->module->displaySelectBox ( $categoryGroup->getChildren (), $option );
-		return $this->html->getSimpleListCatHtml ( $data, $categoryGroup );
-	}
 
 	function buildCategoryTab() {
 		global $bw;
 		$option = array ();
 		$option ['cate'] = $bw->input [2];
+	
 		
-		$categoryGroup = $this->module->getCategoryGroup ( $bw->input [2] );
-		
-		if($bw->input [2] == 'locations')
-	       usort( $categoryGroup->children, array("Menu", "locationSort") );
-		
-		$categoryTable = $this->getCategoryBox ( $categoryGroup );
-		$categoryForm = $this->addEditCategoryForm ( 0, $option );
-		
-		$this->output = $this->html->MainCategories ( $categoryForm, $categoryTable, $bw->input [2] );
+		if($bw->input [2] == 'locations') {
+		    return $this->_buildLocationTab();
+		}
+		else {
+            $categoryGroup = $this->module->getCategoryGroup ( $bw->input [2] );
+		    
+		    $categoryTable = $this->getCategoryBox ( $categoryGroup );
+		    $categoryForm = $this->addEditCategoryForm ( 0, $option );
+		    
+		    return $this->output = $this->html->MainCategories ( $categoryForm, $categoryTable, $bw->input [2] );
+		}
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function _buildLocationTab($id = '') {
+	    global $bw;
+
+	    if(!empty($bw->input['location-type']))
+	        $bw->input['type'] = $bw->input['location-type'];
+	    
+	    if($bw->input['type'] == 'state') {
+	        return $this->output = $this->_buildStateTab();
+	    }
+	    
+	    if($bw->input['type'] == 'city') {
+	        return $this->output = $this->_buildCityTab($id);
+	    }
+	}
+	
+	function _buildCityTab($stateId = 0) {
+	    global $bw;
+
+	    $state = $this->module->getState(0, false);
+	    $root = empty($state[$stateId]) ? 0 : $state[$stateId];
+	    
+	    usort( $state, array("Menu", "locationSort") );
+	    if(empty($root)) {
+	        reset($state);
+	        $root = current($state);
+	        $stateId = $root->getId();
+	    } 
+	    
+	    $root->children = $this->_getCityList($stateId, false);
+	    
+	    $option = array ();
+	    $option ['cate'] = $bw->input [2];
+	    $option['stateList'] = $state;
+	    $option['currentState'] = $root;
+	    
+	    $categoryTable = $this->getLocationBox ( $root, '', $option );
+	    $categoryForm = $this->addEditLocationForm ( 0, $option );
+	     
+	    $str = $bw->input['2'].$bw->input['type'];
+	    return $this->output = $this->html->MainState ( $categoryForm, $categoryTable, $str);
+	}
+	
+	function _getCityList($state = '', $html = false) {
+	    $city = $this->module->getCity($state, 0, false);
+	    usort( $city, array("Menu", "locationSort") );
+	    
+	    if($html) {
+	        global $bw;
+	        $root = new Menu();
+	        $root->setUrl($bw->input[2]);
+	        $root->children = $city;
+	        
+	        $option['coreOnly'] = true;
+	        return $this->getLocationBox ( $root, '', $option );
+	    }
+	    
+	    return $city;
+	}
+	
+	function _buildStateTab() {
+	    global $bw;
+	    
+	    $root = $this->module->getLocationRoot();
+	     
+	    $state = $this->module->getState(0, false);
+	    usort( $state, array("Menu", "locationSort") );
+	     
+	    $root->children = $state;
+	    
+	    $option = array ();
+	    $option ['cate'] = $bw->input [2];;
+	     
+	    $categoryTable = $this->getLocationBox ( $root );
+	    $categoryForm = $this->addEditLocationForm ( 0, $option );
+	    
+	    $str = $bw->input['2'].$bw->input['type'];
+	    return $this->output = $this->html->MainState ( $categoryForm, $categoryTable, $str);
+	}
+	
+	function addEditLocationForm($categoryId = 0, $option = array()) {
+	    global $vsLang, $bw;
+	    $vsLang = VSFactory::getLangs ();
+	    $categoryObj = new Menu ();
+
+	    $option ['formTitle'] = $vsLang->getWords ( 'location_add', 'Thêm Thông tin' );
+	    $option ['formSubmit'] = $vsLang->getWords ( 'news_EditCategoryFormButton_Add', 'Lưu' );
+	    $option ['parentId'] = 'parentId = $("#category-table-list option:selected").val();';
+	
+	    $option ['type'] = $bw->input['type'];
+	    
+	    if ($categoryId && $categoryId > 0) {
+	        $arrayCheck = array ('', 'checked' );
+	        $option ['formTitle'] = $vsLang->getWords ( 'news_EditCategoryFormTilte_Edit', 'Chỉnh sửa thông tin' );
+	        $option ['formSubmit'] = $vsLang->getWords ( 'news_EditCategoryFormButton_Edit', 'Cập nhật' );
+	        
+	        $categoryObj = $this->module->getObjectById($categoryId);
+	    }
+	   
+	    if($option ['type'] == 'city') {
+	        $state = $this->module->getState(0, false);
+	        usort( $state, array("Menu", "locationSort") );
+	        $option['stateList'] = $state;
+	    }
+	    
+	    return $this->html->addEditLocationForm ( $categoryObj, $option );
+	}
+	
+	function getLocationBox($categoryGroup, $message = "", $option = array()) {
+	    global $bw;
+	    
+	    $type = $bw->input ['type'];
+	    $data ['message'] = $message;
+	    $opt = array ('listStyle' => "| - -", 'id' => 'menus-category' . $categoryGroup->getUrl ().$type, 'size' => 18, 'multiple' => true, 'onclick' => "setValue_category{$categoryGroup->getUrl()}" );
+	    
+	    if($type == 'city') {
+	        $opt['withoutRoot'] = true;
+	    }
+	    
+	    $data ['html'] = $this->module->displaySelectBox ( $categoryGroup->getChildren (), $opt );
+	    
+	    if(!empty($option['coreOnly']) && $option['coreOnly']) {
+	        return $data ['html'];
+	    }
+	    
+	    return $this->html->locationList ( $data, $categoryGroup, $type, $option);
+	}
+	
+	function deleteLocation($categoryIds) {
+	    global $bw;
+	    $bw->input['type'] = $bw->input[4];
+	    
+	    $stateId = 0;
+	    if($bw->input['type'] == 'city') {
+	        $tmp = explode(",", $categoryIds);
+	        $root = $this->module->getObjectById( $tmp[0] );
+
+	        $stateId = empty($root) ? 0 : $root->getParentId();
+	    }
+	    
+	    $this->module->deleteCategoryById ( $categoryIds );
+	    
+	    unset($bw->input[3]);
+	    unset($bw->input[4]);
+	    
+	    $this->output = $this->_buildLocationTab($stateId);
+	}
+	
+	function addEditLocationProcess() {
+	    global $bw;
+
+	    $vsSettings = VSFactory::getSettings ();
+	    $categoryObj = new Menu ();
+	
+	    $categoryObj->setTitle ( $bw->input ['categoryName'] );
+	    $categoryObj->setUrl ( $bw->input ['categoryGroup'] );
+	    $categoryObj->setType ( 0 );
+	    $categoryObj->setMTitle ( $bw->input ['menuMtTitle'] );
+	    $categoryObj->setMIntro ( $bw->input ['menuMtDesc'] );
+	    $categoryObj->setMKeyword ( $bw->input ['menuMtKeyWord'] );
+	
+	    if (isset($bw->input ['menuSlug'])) {
+	        $categoryObj->setSlug ( str_replace(array("/","\\"," "), "-",  $bw->input ['menuSlug'] ));
+	    }else{
+	        VSFactory::getTextCode()->removeAccent($bw->input ['categoryName'],"-");
+	    }
+	
+	    if ($bw->input ['categoryTemplate']) {
+	        $categoryObj->setTemplate ( $bw->input ['categoryTemplate'] );
+	    }
+	    isset ( $bw->input ['categoryDesc'] ) ? $categoryObj->setAlt ( $bw->input ['categoryDesc'] ) : '';
+	    isset ( $bw->input ['categoryIsVisible'] ) ? $bw->input ['categoryIsVisible'] = $bw->input ['categoryIsVisible'] : $bw->input ['categoryIsVisible'] = 1;
+	    $categoryObj->setStatus ( $bw->input ['categoryIsVisible'] );
+	
+	    if ($vsSettings->getSystemKey ( $bw->input ['categoryGroup'] . '_status', 1 ) == 0)
+	        $categoryObj->setStatus ( 1 );
+	
+	    if ($vsSettings->getSystemKey ( $bw->input ['categoryGroup'] . '_value', 1 ))
+	        $categoryObj->setIsLink ( $bw->input ['categoryValue'] );
+	
+	    $categoryObj->setIsDropdown ( $bw->input ['categoryIsDropdown'] );
+	    $categoryObj->setIndex ( $bw->input ['categoryIndex'] );
+	    $categoryObj->setIsAdmin ( - 1 );
+	
+	    if($bw->input['delimg']){
+	        VSFactory::getFiles()->deleteFile($bw->input['delimg']);
+	        $categoryObj->setFileId(0);
+	    }
+	
+	    if ($bw->input ['files'] ['menuImage'])
+	        $categoryObj->setFileId ( $bw->input ['files'] ['menuImage'] );
+	
+	    
+	    if($bw->input['location-type'] == 'state') {
+	        $root = $this->module->getLocationRoot();
+	      
+	        $categoryObj->setParentId ( $root->getId () );
+	        $categoryObj->setLevel ( $root->getLevel () + 1);
+	    } else if($bw->input['location-type'] == 'city') {
+            $root = $this->module->getObjectById( $bw->input ['stateId'] );
+             
+            $categoryObj->setParentId ( $root->getId () );
+            $categoryObj->setLevel ( $root->getLevel () + 1);
+	    }
+	    
+	    if ($bw->input ['categoryId']) {
+	        $categoryObj->setId ( $bw->input ['categoryId'] );
+	        $this->module->basicObject = $categoryObj;
+	        	
+	        $this->module->updateMenu ();
+	    } else {
+	        $this->module->basicObject = $categoryObj;
+	        $this->module->insertMenu ();
+	    }
+	    $bw->input [2] = $bw->input ['categoryGroup'];
+
+	    $stateId = empty($bw->input ['stateId']) ? 0 : $bw->input ['stateId'];
+
+	    $this->_buildLocationTab ($stateId);
+	}
+	
+	
+	
+	
+	
 	function displayMenuList() {
 		global $bw;
 		$vsMenu = VSFactory::getMenus ();
@@ -576,6 +915,13 @@ class menus_admin extends VSControl {
 		
 		// done!
 		return $results;
+	}
+	
+	function getSimpleListCatHtml($categoryGroup, $message = "", $option = array()) {
+	    $data ['message'] = $message;
+	    $option = array ('listStyle' => "| - -", 'id' => 'menus-category' . $categoryGroup->getUrl (), 'size' => 18, 'multiple' => true, 'onclick' => "setValue_category{$categoryGroup->getUrl()}" );
+	    $data ['html'] = $this->module->displaySelectBox ( $categoryGroup->getChildren (), $option );
+	    return $this->html->getSimpleListCatHtml ( $data, $categoryGroup );
 	}
 }
 ?>
