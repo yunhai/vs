@@ -1,0 +1,6 @@
+<?php
+$lang = array (
+  'pageTitle' => 'news',
+  'main_title' => 'news',
+);
+?>

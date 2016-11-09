@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'agreement',
+  'main_title' => 'agreement',
+  'group_global_module' => 'global',
+);
+?>

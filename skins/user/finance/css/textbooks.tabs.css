@@ -1,0 +1,43 @@
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    .tabs-hide {
+        display: none;
+    }
+}
+
+/* Hide useless elements in print layouts... */
+@media print {
+    .tabs-nav {
+        display: none;
+    }
+}
+
+/* Skin */
+.tabs-nav span.sort{
+	float:left;
+	color:#fff;
+	padding-top:11px;
+	margin-right:18px;
+	
+}
+.tabs-nav {
+    list-style: none;
+	height:34px;
+}
+.tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
+    display: block;
+    clear: both;
+    content: " ";
+}
+.tabs-nav li {
+    float: left;
+	height:34px;
+	line-height:38px;
+	color:#fff;
+	font-weight:bold;
+	margin-right:18px;
+}
+
+.tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
+    cursor: pointer;
+}

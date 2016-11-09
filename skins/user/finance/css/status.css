@@ -1,0 +1,291 @@
+#profile_left{
+	float:left;
+	width:687px;
+}
+.profile_left_top{
+	background:#e5f6f9;
+	width:648px;
+	padding:19px;
+	margin-bottom:20px;
+}
+.profile_avatar{
+	float:left;
+	width:85px;
+	height:77px;
+	background:#fff;
+	border:1px solid #becace;
+	padding:3px;
+	margin-right:10px;
+	margin-bottom:7px;
+}
+.profile_avatar img{
+	width:85px;
+	height:77px;
+}
+p.profile_nick span{
+	color:#0082e6;
+	font-weight:bold;
+	font-size:16px;
+	margin-right:5px;
+}
+.profile_left_top textarea{
+	background:url(../images/status_update.jpg) no-repeat;
+	width:640px;
+	padding:15px 4px 5px 4px ;
+	border:none;
+	height:31px;
+	margin-bottom:15px;
+}
+.profile_left_top input{
+	float:right;
+	background:url(../images/status_btn.jpg) no-repeat;
+	border:none;
+	color:#fff;
+	width:54px;
+	height:22px;
+}
+.clock_sub{
+	float:right;
+	width:33px;
+	background:url(../images/clock_sub.png) no-repeat;
+	height:22px;
+	text-indent:10000px;
+	border: solid 1px #e5f6f9;
+	padding-bottom: 1px;
+}
+
+#status_privacy_container{
+	display:none;
+	position:absolute; 
+	width: 75px; 
+	top: 23px; 
+	left: -42px; 
+	border: #666 1px solid;
+}
+
+#status_privacy_container span{
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+#shareprivacy{
+	position: relative; 
+	float:right;
+	margin-right: 10px;
+}
+
+
+.clock_sub.active1{
+	border:1px solid #666;
+	border-bottom:none;
+	padding-bottom:1px;
+}
+
+.update_item{
+	border-bottom:1px solid #e9e9e9;
+	width:653px;
+	padding:12px 15px;
+}
+.update_avatar{
+	float:left;
+	width:50px;
+	height:50px;
+}
+.update_avatar img{
+	width:50px;
+	height:50px;	
+}
+.update_comment{
+	float:right;
+	width:593px;
+}
+.update_comment p a{
+	color:#0045e1;
+}
+.tab_comment_item,.tab_comment_form{
+	background:url(../images/update_comment_bg.png) no-repeat top left;
+	padding-top:6px;
+	width:594px;
+}
+.tab_comment_item_center,.tab_comment_item_center_sub{
+	background:#eceff5;
+	padding:6px 100px 6px 6px;
+	position:relative;
+	width:488px;
+	border-bottom:1px solid #fff;
+}
+.avatar_comment{
+	float:left;
+	width:28px;
+	height:28px;
+}
+.avatar_comment img{
+	width:28px;
+	height:28px;
+}
+.comment_info{
+	float:right;
+	width:454px;
+}
+a.nick_comment{
+	font-weight:bold;
+	color:#0045e1;
+	float:left;
+	margin-right:5px;
+}
+p.tab_comment_date{
+	color:#928d8d;
+	margin-top:3px;
+}
+a.tab_comment_edit,a.tab_comment_del{
+	position:absolute;
+	right:45px;
+	top:6px;
+}
+a.tab_comment_del{
+	right:20px;
+}
+.tab_comment_form form,.tab_comment_form_sub form{
+	width:583px;
+	background:#eceff5;
+	border-bottom:1px solid #fff;
+	padding:5px;
+}
+.tab_comment_form form input,.tab_comment_form_sub form input{
+	width:581px;
+	border:1px solid #dbdbdb;
+	height:26px;
+	line-height:26px;
+	background:#fff;
+	text-indent:8px;
+	color:#707070;
+}
+.tab_comment_form form input.tab_comment_submit,.tab_comment_form_sub form input.tab_comment_submit{
+	float:right;
+	width:67px;
+	border:none;
+	color:#fff;
+	height:20px;
+	text-indent:0px;
+	background:#0493bc;
+	font-size:11px;
+	padding-bottom:2px;
+	margin-top:5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tab_comment_form form a,.tab_comment_form_sub form a{
+	float:left;
+	color:#0045e1;
+	padding-top:10px;
+	text-indent:10px;
+}
+.tab_comment_item_sub,.tab_comment_form_sub{
+	width:554px;
+	margin-left:40px;
+	background:url(../images/update_comment_bg1.jpg) no-repeat top left;
+	padding-top:6px;
+}
+.tab_comment_form_sub{
+	margin-left: 0px !important;
+}
+.tab_comment_form_sub_nobackground{
+	background: none;
+	padding-top:0px;
+}
+.tab_comment_item_center_sub{
+	background:#f4f4f4;
+	width:448px;
+}
+.comment_info_sub{
+	float:right;
+	width:410px;
+}
+.tab_comment_form_sub form{
+	width:544px;
+	background:#f4f4f4;
+}
+.tab_comment_form_sub form input{
+	width:541px;
+}
+/*==================================================== PROFILE RIGHT ===================================*/
+#profile_right{
+	float:right;
+	width:300px;
+}
+.profile_right_friends{
+	border:1px solid #048daf;
+	width:298px;
+	background:#fff;
+	margin-bottom:12px;
+	padding-bottom:12px;
+}
+.profile_right_friends p{
+	float:left;
+	width:130px;
+	padding-top:15px;
+	padding-left:18px;
+}
+.profile_right_friends_title{
+	background:url(../images/profile_right_tab.jpg) repeat-x;
+	height:34px;
+	position:relative;
+}
+.profile_right_friends_title p{
+	left:19px;
+	padding:0px;
+	width:auto;
+}
+.profile_right_friends a{
+	float:left;
+	width:50px;
+	padding:12px 12px 0px 12px;
+	text-align:center;
+	color:#008db5;
+	height:67px;
+}
+.profile_right_friends_title p,.profile_right_friends_title a,.profile_right_friends_title img{
+	color:#fff;
+	position:absolute;
+	line-height:34px;
+	top:0px;
+}
+
+.profile_right_friends_title a{
+	right:14px;
+	background:url(../images/See_all_icon.jpg) no-repeat right center;
+	padding:0px 8px 0px 0px;
+	font-weight:bold;
+	width:auto;
+	height:auto;
+}
+.profile_right_friends a span{
+	text-align:center;
+}
+.profile_right_friends a img{
+	width:50px;
+	height:50px;
+	margin-bottom:3px;
+}
+.profile_right_friends_title img{
+	right:14px;
+	top:7px;
+}
+/*======================================== FRIEND TAB ===================================*/
+
+.fienditem{
+	border-bottom: 1px solid #E9E9E9;
+    padding: 12px 15px;
+    width: 653px;
+}
+
+.friendinfo{
+	float: left;
+	width: 500px;
+}
+
+.friendoption{
+	float:right;
+}
+

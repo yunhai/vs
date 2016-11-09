@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'events',
+  'main_title' => 'events',
+  'group_global_module' => 'global',
+  'read_more' => 'Continue Reading [+]',
+  'other_events' => 'Other events',
+);
+?>

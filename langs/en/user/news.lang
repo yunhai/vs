@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'news',
+  'main_title' => 'news',
+  'group_global_module' => 'global',
+  'read_more' => 'Continue Reading [+]',
+  'other_news' => 'Other news',
+);
+?>

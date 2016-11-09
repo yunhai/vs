@@ -1,0 +1,13 @@
+<?php
+$lang = array (
+  'pageTitle' => 'admins',
+  'main_title' => 'admins',
+  'admins_userName' => 'Username',
+  'admins_userNameTitle' => 'Input your Username',
+  'admins_password' => 'Password',
+  'admins_passwordTitle' => 'Input your password',
+  'admins_rememberPassword' => 'Remember these informations',
+  'admins_logInTitle' => 'Login',
+  'admin_wrong_password' => 'Password is incorrect!',
+);
+?>

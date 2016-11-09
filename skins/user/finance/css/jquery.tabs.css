@@ -1,0 +1,155 @@
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    .tabs-hide {
+        display: none;
+    }
+}
+
+/* Hide useless elements in print layouts... */
+@media print {
+    .tabs-nav {
+        display: none;
+    }
+}
+
+/* Skin */
+.tabs-nav span.sort{
+	float:left;
+	color:#fff;
+	padding-top:11px;
+	margin-right:18px;
+	
+}
+.tabs-nav {
+    list-style: none;
+	height:34px;
+	background:url(../images/tab_bg.jpg) repeat-x;
+	padding-left:30px;
+	border:1px solid #fff;
+	margin-bottom:5px;
+}
+.tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
+    display: block;
+    clear: both;
+    content: " ";
+}
+.tabs-nav li {
+    float: left;
+	height:34px;
+	line-height:38px;
+	color:#fff;
+	font-weight:bold;
+	margin-right:18px;
+}
+
+.tabs-nav a {
+    color: #005067;
+    line-height:34px;
+    white-space: nowrap; /* required in IE 6 */   
+	float:left;
+	display:block;
+	padding-left:5px;
+}
+.tabs-nav a span{
+	cursor:pointer;
+	line-height:38px;
+}
+.tabs-nav .tabs-selected a {
+    color: #005067;
+}
+.tabs-nav .tabs-selected a:link, .tabs-nav .tabs-selected a:visited, .tabs-nav .tabs-disabled a:link, .tabs-nav .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: text;
+	background:url(../images/tab_left.jpg) no-repeat left top;
+}
+.tabs-nav .tabs-selected a:link span, .tabs-nav .tabs-selected a:visited span, .tabs-nav .tabs-disabled a:link span, .tabs-nav .tabs-disabled a:visited span{ /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: text;
+	background:url(../images/tab_right.jpg) no-repeat right top;
+	float:left;
+	padding-left:20px;
+	padding-right:25px;
+}
+.tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
+    cursor: pointer;
+}
+
+#pro_tab{
+	font-size:12px;
+}
+
+
+#profile_tab .tabs-nav {
+    list-style: none;
+	height:29px;
+	background:none;
+	border:none;
+	padding-left:0px;
+	margin-bottom:0px;
+	border-bottom:2px solid #058fb1;
+	font-size:12px;
+}
+#profile_tab .tabs-nav li {
+	height:29px;
+	line-height:29px;
+	color:#fff;
+	font-weight:bold;
+	margin-right:7px;
+}
+#profile_tab .tabs-nav a {
+    color: #005067;
+    line-height:29px;
+    white-space: nowrap; /* required in IE 6 */   
+	float:left;
+	display:block;
+	padding-left:7px;
+}
+
+
+#profile_tab .tabs-nav .tabs-selected a:link,#profile_tab .tabs-nav .tabs-selected a:visited,#profile_tab .tabs-nav .tabs-disabled a:link,#profile_tab .tabs-nav .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+	background:url(../images/tab_left1.jpg) no-repeat left top;
+}
+#profile_tab .tabs-nav .tabs-selected a:link span,#profile_tab .tabs-nav .tabs-selected a:visited span,#profile_tab .tabs-nav .tabs-disabled a:link span, #profile_tab.tabs-nav .tabs-disabled a:visited span{ /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+	background:url(../images/tab_right1.jpg) no-repeat right top;
+	float:left;
+	padding-left:17px;
+	padding-right:24px;
+}
+#profile_tab .tabs-nav .tabs-selected a {
+    color: #fff;
+}
+#profile_tab .tabs-nav a span{
+	line-height:29px;
+}
+/*==============================================================================================*/
+#profile_right_tab{
+	border:1px solid #048daf;
+	width:298px;
+	background:#fff;
+	margin-bottom:12px;
+}
+#profile_right_tab .tabs-nav {
+	background:url(../images/profile_right_tab.jpg) repeat-x;
+	padding-left:0px;
+	height:34px;
+	overflow:hidden;
+	margin-bottom:0px;
+	border:none;
+}
+#profile_right_tab .tabs-nav li {
+	color:#fff;
+	margin-left:5px;
+	margin-right:0px;
+
+}
+#profile_right_tab .tabs-nav a {
+    color: #fff;
+}
+
+#profile_right_tab  .tabs-nav .tabs-selected a:link,#profile_right_tab  .tabs-nav .tabs-selected a:visited,#profile_right_tab  .tabs-nav .tabs-disabled a:link,#profile_right_tab  .tabs-nav .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+	background:url(../images/profile_right_tab_active.jpg) repeat-x left top;
+	color:#048caf;
+}
+#profile_right_tab .tabs-nav .tabs-selected a:link span,#profile_right_tab  .tabs-nav .tabs-selected a:visited span, #profile_right_tab .tabs-nav .tabs-disabled a:link span,#profile_right_tab  .tabs-nav .tabs-disabled a:visited span{ /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+	background:url(../images/profile_right_tab_active.jpg) repeat-x left top;
+	padding-left:20px;
+	padding-right:25px;
+}

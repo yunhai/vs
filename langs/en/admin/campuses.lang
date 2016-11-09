@@ -1,0 +1,24 @@
+<?php
+$lang = array (
+  'pageTitle' => 'campuses',
+  'main_title' => 'campuses',
+  'tab_campus_obj' => 'Campus',
+  'tab_campus_category' => 'Categories',
+  'deleteConfirm_NoItem' => 'You haven\'t choose any items!',
+  'listobj' => 'List of Campus',
+  'add_obj' => 'Add',
+  'pages_addPage' => 'Add',
+  'delete_obj' => 'Delete',
+  'pages_deletePage' => 'Delete',
+  'hide_obj' => 'Hide',
+  'pages_hidePage' => 'Hide',
+  'unhide_obj' => 'Display',
+  'pages_unhidePage' => 'Display',
+  'labelStatus' => 'Status',
+  'labelTitle' => 'Name',
+  'labelAddress' => 'Address',
+  'labelPhone' => 'Phone',
+  'edit_title' => 'Click here to edit',
+  'deleteConfirm' => 'Are you sure to delete these information?',
+);
+?>

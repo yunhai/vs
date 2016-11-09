@@ -1,0 +1,78 @@
+DELIMITER //
+CREATE PROCEDURE searchtextbook (IN _match TEXT, _start INT, _limit INT) 
+BEGIN 
+    DECLARE sId INT;
+	DECLARE sObj INT;
+	
+	DECLARE stuprice DOUBLE;
+	DECLARE sltStatus INT;
+	DECLARE sltDel INT;
+	DECLARE sscore DOUBLE;
+	DECLARE snewscore DOUBLE;  
+	
+    DECLARE sbooktitle VARCHAR(256);
+    DECLARE sbookauthor VARCHAR(256);
+    DECLARE sbookpublisher VARCHAR(128);
+    DECLARE sbookrelease VARCHAR(16);
+    DECLARE sbookimage INT; 
+	
+	DECLARE lastrow INT DEFAULT 0; 
+	
+	DECLARE cur_table CURSOR FOR SELECT * FROM stb_view;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET lastrow = 1; 
+      
+    SET @_match = _match;
+    SET @_start = _start;
+	SET @_limit = _limit;
+	
+	SET @iquery = CONCAT('create VIEW stb_view as 
+							SELECT searchId, searchObj, tuprice, ltStatus, ltDel, bookTitle, bookAuthor, bookPublisher, bookRelease, bookImage, MATCH(searchContent) AGAINST ("', @_match, '" IN BOOLEAN MODE) AS score 
+							FROM 	vsf_search, vsf_textbook, vsf_textbook_user, vsf_listing_textbook
+							WHERE 	searchObj = tubook AND tubook = bookId AND ltTU = tuId AND tuVerify = 0 AND tuStatus = 1 
+									AND MATCH(searchContent) AGAINST ("', @_match, '" IN BOOLEAN MODE) > 0
+							GROUP BY searchObj
+							LIMIT ', @_start, ',', @_limit);
+	
+	PREPARE pandog FROM @iquery;
+	EXECUTE pandog;
+	DEALLOCATE PREPARE pandog; 
+	
+	DROP TEMPORARY TABLE IF EXISTS tmp;
+	CREATE TEMPORARY TABLE tmp(
+			searchId INT UNSIGNED, 
+			searchObj INT UNSIGNED, 
+			
+			tuPrice DOUBLE UNSIGNED,
+			
+			bookTitle VARCHAR(256),
+			bookAuthor VARCHAR(256),
+			bookPublisher VARCHAR(128),
+			bookRelease VARCHAR(16),
+			bookImage INT,
+			
+			score DOUBLE UNSIGNED,
+			newscore DOUBLE UNSIGNED	
+	)ENGINE=MEMORY;  
+	
+	OPEN cur_table; 
+	cursor_loop:LOOP
+		FETCH cur_table INTO sId, sObj, stuprice, sltStatus, sltDel, sbooktitle, sbookauthor, sbookpublisher, sbookrelease, sbookimage, sscore;
+		
+		IF lastrow=1 THEN LEAVE cursor_loop;
+		END IF;
+		SET snewscore = 0;
+		IF sltStatus <> 3 AND sltDel = 0 THEN SET snewscore = sscore;
+		END IF;
+		
+		INSERT INTO tmp VALUES (sId, sObj, stuprice, sbooktitle, sbookauthor, sbookpublisher, sbookrelease, sbookimage, sscore, snewscore);
+	END LOOP cursor_loop;
+	CLOSE cur_table;  
+  
+    DROP VIEW stb_view; 
+    SELECT * FROM tmp ORDER BY newscore DESC;
+    DROP TEMPORARY TABLE IF EXISTS tmp;
+END //
+DELIMITER ;
+
+
+CALL searchtextbook('ruby IN BOOLEAN MODE', 0, 5);

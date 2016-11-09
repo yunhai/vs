@@ -1,0 +1,24 @@
+<?php
+$lang = array (
+  'pageTitle' => 'pages',
+  'main_title' => 'pages',
+  'tab_obj_objes_pages' => 'pages',
+  'pages_deleteConfirm_NoItem' => 'You haven\'t choose any items!',
+  'virtual_list' => 'List of Virtual Module',
+  'pages_virtual_labelStatus' => 'Tên module',
+  'pages_virtual_Parent' => 'Parent',
+  'edit_virtual_module_title' => 'Click here to edit',
+  'delete_virtual_confirm' => 'Are you sure to delete these information?',
+  'bt_add' => 'Add',
+  'pages_addVirtual' => 'Add Virtual Module',
+  'module_list_name' => 'Title',
+  'module_list_desc' => 'Intro',
+  'module_list_pr' => 'Parent',
+  'module_list_use' => 'Base',
+  'module_list_use_admin' => 'Admin',
+  'module_list_use_user' => 'User',
+  'page_virtualModule_empty' => 'This field can not be empty!',
+  'pages_virtual_module_title_header' => 'Virtual Module',
+  'tab_obj_objes_agreement' => 'agreement',
+);
+?>

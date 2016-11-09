@@ -1,0 +1,358 @@
+#register{
+	width:1001px;
+	overflow:hidden;
+	min-height:350px;
+	margin-top: 25px;
+}
+
+#register-form{
+	float:right;
+	width:350px;
+	border: solid 1px #c3c3c3;
+	padding-bottom: 10px;
+}
+
+#register-form h3{
+	font-size:20px;
+	color: #FFFFFF;
+	height: 35px;
+	margin: 0 1px 15px;
+	line-height: 35px;
+	text-indent: 15px;
+	background: url(../images/blue-background.jpg) no-repeat;;
+}
+
+
+#register-form form label{
+	float:left;
+	width:106px;
+	margin-right:7px;
+	color:#003ea6;
+	padding-top:3px;
+	text-align:right;
+}
+#register-form form label.error{
+	height:22px;
+	width:287px;
+	padding-top:3px;
+	text-align:left;
+	margin-left:113px;
+	color: red;
+}
+#register-form form label.checked{
+	display:none !important;
+}
+
+#register-form form input,
+#register-form form select{
+	border:1px solid #dbe0e1;
+	width:220px;
+	float:left;
+	height:22px;
+	margin-bottom:6px;
+}
+#register-form form select.select_campus{
+	width:220px;
+	margin-right:0px;
+}
+#register-form form select.birthday{
+	width:70px;
+	margin: 0px 2px;
+}
+#register-form form input.button{
+	background:url(../images/orange-background.jpg) no-repeat;
+	color:#fff;
+	font-weight:bold;
+	border:none;
+	width:110px;	
+	margin:12px 0px 10px 20px;
+	height: 38px;
+}
+#recoverPassword input.button{
+	float:right;
+	margin: 12px 15px 10px 20px !important;
+}
+#recaptcha_area{
+	margin: auto;
+	margin-top: 10px;
+}
+
+#register-form form span.term{
+	float: left;
+	width: 195px; 
+	font-weight: bold;
+	margin: 10px 0px 0px 5px;
+}
+#register-form form span.term a{
+	color: #000000;
+	text-decoration: underline;
+}
+
+
+#signininfo div.divsearch{
+	padding: 15px 10px 20px;
+	margin-top: 20px;
+	background-color: #EEF6F8;
+}
+
+.type .item{
+	background: url(../images/signup-search-button.jpg) no-repeat;
+	width: 82px;
+	height: 26px;
+	line-height: 26px;	
+	margin-right: 10px;
+	font-weight: bold;
+	cursor: pointer;
+	float:left;
+	text-align: center;
+	height: 36px;
+}
+.type .active{
+	background: url(../images/signup-search-button-active.png) no-repeat;
+	color: #FFF;
+}
+.divsearch input.text{
+	width: 500px;
+	height:20px;
+	padding: 3px;
+	border: solid 1px #c3c3c3;       
+}
+.divsearch input.submit{
+	background: url(../images/signup-search-submit.png) no-repeat;
+	color: #FFF;
+	line-height: 25px;
+	border:none;    
+    width: 57px;
+    height: 25px;
+    margin-left: 5px;
+}
+/* register */
+
+#recover form {
+    float: left;
+    width: 400px;
+    margin-bottom: 10px;
+}
+#recover form h3{
+	color: #048EB5;
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+#recover form label{
+    color: #003EA6;
+    float: left;
+    color: #000;
+    margin: 0 7px 10px 0;
+    padding-top: 3px;
+    width: 350px;
+    font-weight: bold;
+}
+#recover form input{
+   border: 1px solid #DBE0E1;
+    float: left;
+    height: 22px;
+    margin-bottom: 6px;
+    width: 350px;
+}
+#recover form input.input_submit1 {
+    background: url("../images/signup_btn.jpg") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 38px;
+    margin-bottom: 10px;
+    margin-left: 110px;
+    margin-top: 12px;
+    padding-bottom: 16px;
+    text-align: center;
+    width: 156px;
+}
+.coffer{
+	background: url("../images/btn2.jpg") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;    
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    width: 85px;
+    margin-right: 10px;
+    float: left;
+    cursor: pointer;
+}
+
+/*SIGN IN*/
+#signincon{
+	padding-top: 25px;
+	width:1001px;
+	overflow:hidden;
+	min-height:350px;
+}
+
+#signininfo{
+	width: 600px;
+	float:left;      
+}
+
+#signininfo #stitle{
+	font-weight: bold;
+	font-size: 18px;
+}
+#signininfo #first{
+	background: url("../images/sinfo_first.jpg") no-repeat scroll 0 0 transparent;
+}
+#signininfo #second{
+	background: url("../images/sinfo_second.jpg") no-repeat scroll 0 0 transparent;
+}
+#signininfo #third{
+	background: url("../images/sinfo_third.jpg") no-repeat scroll 0 0 transparent;
+}
+
+#signininfo .sinfo{
+ width:600px;
+ height:100px;
+ display:table;
+ #position: relative;
+ overflow:hidden;
+ text-align:center;
+}
+#signininfo .sinfo div{
+ #position: absolute;
+ #top: 50%;
+ display:table-cell;
+ vertical-align:middle;
+}
+#signininfo .sinfo div span{
+ width:490px;
+ margin:auto;
+ display:block;
+ #position: relative;
+ #top: -50%;
+ float:right;
+ text-align: left;
+ font-size: 14px;
+ color:#434343;
+}
+
+
+
+
+
+.signin{
+	width:357px;
+	float: right;
+}
+#signinform{
+	background:url(../images/portlet_white_bg_357.jpg) no-repeat bottom left;
+}
+
+#signinform h3{
+	background:url(../images/portlet_white_bg_357_title.png) no-repeat;
+	font-size:20px;
+	padding-top:8px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-weight: normal;
+	height: 32px;
+	line-height: 32px;
+	text-transform: uppercase;
+}
+#signinform label{
+	float:left;
+	width: 100px;
+	margin-right: 10px;
+	color:#003ea6;
+	padding-top:3px;
+	text-align:right;
+}
+
+#signinform input{
+	border:1px solid #dbe0e1;
+	width:230px;
+	float:left;
+	height:22px;
+	margin-bottom:10px;
+}
+.whitebutton{
+	background:url(../images/sign-in-button.png) no-repeat;
+	border:none;
+	width:156px;
+	text-align:center;
+	height: 29px !important;
+	border: none !important;
+	width: 82px !important;
+}
+#signinform input.whitebutton{
+	float:right;
+	margin-right: 15px;
+}
+#signinform span{
+	float:left;
+	margin-left: 5px;
+	padding-top: 3px;
+}
+
+#signinform label.error{
+	height:22px;
+	width:287px;
+	padding-top:3px;
+	text-align:left;
+	margin-left:110px;
+	color: red;
+}
+#signinform label.checked{
+	display:none !important;
+}
+#signinform a{
+	color: #048EB5;
+	float:left;
+	height: 22px;
+    line-height: 22px;
+    margin-left: 5px;
+}
+#signinform a:hover{
+	text-decoration: underline;
+}
+#signinform #message{
+	background-color: #FFEBEB;
+    border: 1px solid #5A768E;
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    padding: 10px;
+    width: 310px;
+}
+
+
+
+/********************************************/
+.tosignup{
+	margin: 20px 0px 10px;
+	height: 160px;
+	background:url(../images/signup-bg.jpg) no-repeat;
+}
+
+.tosignup span.ftitle{
+	display: block;
+    font-size: 24px;
+    padding-top: 20px;
+    text-align: center;
+}
+.tosignup span.stitle{
+	color: #06bcf0;
+	display: block;
+    font-size: 18px;
+    text-align: center;
+}
+.tosignup a.button{
+	background:url(../images/signup-button.png) no-repeat;
+	font-weight: bold;
+	color: #FFF;
+	padding: 5px 0px;
+	font-size: 20px;
+	height: 38px;
+	width: 110px;
+	display:block;
+	text-align: center;
+	margin: 20px 0 20px 120px;
+}

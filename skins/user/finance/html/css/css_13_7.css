@@ -1,0 +1,146 @@
+#friend_register{
+	width:596px;
+	
+}
+.search_friend{
+	background:#e5f6f9;
+	padding:7px 0px 7px 13px;
+	width:584px;
+	margin-bottom:9px;
+}
+.search_friend p{
+	float:left;
+	font-size:16px;
+	font-weight:bold;
+	color:#373737;
+	margin-right:7px;
+	line-height:25px;
+}
+.search_friend_tt{
+	border:1px solid #c3c3c3;
+	background:#fff;
+	float:left;
+	width:440px;
+	height:17px;
+	padding:3px 0px 3px 8px;
+}
+.search_friend_tt input{
+	font-weight:bold;
+	color:#4a4a4a;
+	line-height:17px;
+	border:none;
+	width:336px;
+}
+.search_friend_tt select{
+	color:#343434;
+	width:100px;
+	border:none;
+}
+.search_friend input.search_friend_btn{
+	background:url(../images/friend_btn1.jpg) no-repeat;
+	color:#fff;
+	font-weight:bold;
+	font-size:14px;
+	width:57px;
+	height:25px;
+	border:none;
+	margin-left:5px;
+}
+.connected_item{
+	border-bottom:1px solid #bfbfbf;
+	padding-bottom:10px;
+	margin-top:11px;
+	font-size:12px;
+	position:relative;
+}
+.connected_img{
+	float:left;
+	width:50px;
+	height:50px;
+	margin-right:11px;
+}
+.connected_info{
+	float:left;
+	width:475px;
+}
+a.connected_nick {
+	color:#0082e6;
+	font-weight:bold;
+}
+.connected_item p{
+	padding-bottom:5px;
+	line-height:20px;
+}
+a.connected_edit,a.connected_del{
+	position:absolute;
+	right:37px;
+	top:3px;
+}
+a.connected_del{
+	right:6px;
+}
+#profile_tab .page{
+	margin-right:0px;
+}
+a.friend_add_fr,a.friend_accept,a.friend_reject{
+	background:url(../images/friend_btn2.jpg) no-repeat;
+	color:#363636;
+	font-size:11px;
+	height:22px;
+	line-height:22px;
+	position:absolute;
+	display:block;
+	right:0px;
+	top:14px;
+	text-align:center;
+	text-indent:7px;
+	width:93px;
+}
+a.friend_accept{
+	background:url(../images/friend_btn3.jpg) no-repeat;
+	width:61px;
+	right:74px;
+}
+a.friend_reject{
+	background:url(../images/friend_btn4.jpg) no-repeat;
+	width:61px;
+	right:0px;
+}
+
+
+#accordion2 dt{
+	position:relative;
+}
+#accordion2 dt a.option_tab{
+	position:absolute;
+	top:0px;
+	height:28px;
+	line-height:29px;
+	display:block;
+	right:80px;
+	background:url(../images/collect_member.jpg) no-repeat 55px 14px;
+	padding-right:20px;
+	z-index:10000;
+	border:1px solid #F6F6F6;
+}
+
+.option_hidden{
+	position:absolute;
+	top:29px;
+	background:#fff;
+	right:41px;
+	border:1px solid #666;
+	width:109px;
+	z-index:100;
+	display:none;
+}
+.option_hidden a{
+	display:block;
+	color:#00C;
+	padding:4px;
+	line-height:normal;
+}
+#accordion2 dt a.option_tab.active,#accordion2 dt a.option_tab:hover{
+	border:1px solid #666;
+	border-bottom:1px solid #F6F6F6;
+}

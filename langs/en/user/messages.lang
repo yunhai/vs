@@ -1,0 +1,26 @@
+<?php
+$lang = array (
+  'pageTitle' => 'messages',
+  'main_title' => 'messages',
+  'message' => 'message(s)',
+  'no_item' => 'No item is chose',
+  'move_title' => 'Move to folder',
+  'form_label' => 'Label',
+  'label_form_submit' => 'Submit',
+  'label_form_cancel' => 'Cancel',
+  'lable_form_title' => 'Add label',
+  'validate_label_require' => 'Provide a label name',
+  'tab_acc' => 'Account',
+  'tab_message' => 'Message',
+  'tab_profile' => 'Profile',
+  'tab_mylisting' => 'My listing',
+  'reply_title' => 'reply this message',
+  'forward_title' => 'forward this message',
+  'delete_title' => 'delete this message',
+  'reply_message' => 'Reply message',
+  'to' => 'To',
+  'Subject' => 'Subject',
+  'validate_title_require' => 'Provide a title',
+  'validate_recipient_require' => 'Provide a recipient',
+);
+?>

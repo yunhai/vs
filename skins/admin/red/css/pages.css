@@ -1,0 +1,27 @@
+@CHARSET "ISO-8859-1";
+
+.left-cell select{
+	width:100%;
+}
+
+.left-cell #menusContiner,
+.left-cell #catContiner{
+	margin-top: 10px;
+}
+
+#menuContinerLabel, #catContinerLabel{
+	background: none repeat scroll 0pt 0pt #ccc; 
+	border: 1px solid #E69700;
+	color: #000; 
+	font-weight: bold; 
+	outline: medium none; 
+	text-indent: 10px;
+	height:20px;
+}
+
+
+#closePageForm, #deleteVirtual{
+	color:red;
+	cursor:pointer;
+	float:right;
+}

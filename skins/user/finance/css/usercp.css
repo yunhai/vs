@@ -1,0 +1,519 @@
+#tabaccount .usercp_listing_menu1,
+#tabprofile .usercp_listing_menu1,
+#tabsetting .usercp_listing_menu1{
+	height:23px;
+	margin:9px 0px 9px 13px;
+	font-size:12px;
+	border-bottom:1px solid #adadad;
+	width:778px;
+	padding-bottom:12px;
+}
+.usercp_listing_menu1 li{
+	float:left;
+	display:inline;
+    padding-left:4px;
+	height:23px;
+
+	line-height:23px;
+	margin-right:11px;
+}
+
+.usercp_listing_menu1 li a{
+	color:#6f6f6f;
+	font-weight:bold;
+	float:left;
+	padding:0px 10px 0px 7px;
+	height:23px;
+
+	line-height:23px;
+}
+
+.usercp_listing_menu1 li:hover a,
+.usercp_listing_menu1 li.active a{
+	color:#fff;
+	background:url(../images/usercp_listing_menu1_right.jpg) no-repeat right top;
+}
+.usercp_listing_menu1 li:hover,
+.usercp_listing_menu1 li.ui-tabs-selected, 
+.usercp_listing_menu1 li.ui-state-active{
+	background:url(../images/usercp_listing_menu1.jpg) no-repeat left top;
+}
+
+#tabaccount .ui-tabs-selected a,
+#tabprofile .ui-tabs-selected a,
+#tabmylisting .ui-tabs-selected a,
+#tabsetting .ui-tabs-selected a{
+    background:url(../images/usercp_listing_menu1_right.jpg) no-repeat right top;
+    color: #FFF;
+}
+/*begin pandog */
+
+#acc-tab{
+	width: 500px;
+	font-size: 12px;
+	padding: 10px 0 0 50px;
+}
+
+#acc-tab label,
+#acc-tab input,
+#acc-tab a{
+	float: left;
+	height: 23px;
+	margin-bottom: 15px;
+}
+#acc-tab input{
+	width: 250px;
+}
+#acc-tab label{
+	width: 70px;
+	margin-bottom: 10px;
+	padding-top: 5px;
+}
+#acc-tab a{
+	margin: 0px;
+	margin-left: 10px;
+}
+a.ainput{
+	background: url("../images/btn1_left.jpg") no-repeat scroll left center transparent;
+    float: left;
+    height: 25px;
+    padding-left: 2px;
+	margin-right: 5px;
+}
+a.ainput span{
+  	background: url("../images/btn1_right.jpg") no-repeat scroll right center transparent;
+    color: #4D4D4D;
+    float: left;
+    font-weight: bold;
+    line-height: 25px;
+    padding: 0 15px 0 10px;
+}
+#changelt select,
+#aboutme-tab select{
+	width: 100%;
+	height: 25px;
+	padding:3px 0px;
+}
+
+#lt_a_container,
+#lc_a_container,
+#changealiascontainer,
+#changeemailcontainer,
+#changenamecontainer,
+#changepasswordcontainer,
+#changelocation{
+	padding: 20px;
+	cursor: progress;
+}
+
+#lt_a_container label.error,
+#lc_a_container label.error,
+#changename label.error,
+#changealiascontainer label.error,
+#changelocation label.error,
+#changeemail label.error{
+	color: red;
+	width: 100%;
+}
+
+#changealiascontainer label.error{
+	display:block;
+	margin-top:5px;
+	position: relative;
+}
+#changename input,
+#changeemail input,
+#changepassword input{
+	margin-left: 10px;
+	margin-bottom: 5px;
+	float:left;
+}
+
+
+#changename label,
+#changeemail label,
+#changelocation label,
+#changepassword label{
+	width: 90px;
+	display: block;
+	float:left;
+	margin-bottom: 10px;
+}
+#changename label{
+	width: 70px;
+	display: block;
+	float:left;
+	margin-bottom: 10px;
+}
+#changeemail label{
+	 width: 30px;
+}
+#changepassword input{
+	width: 125px;
+}
+#changepassword label.error{
+	width: auto;
+	color: #E65;
+	margin-left: 5px;
+}
+
+
+
+/*mylisting*/
+#aboutme-tab{
+	font-size: 12px;
+	width: 390px;
+	margin: 20px 10px 10px 30px;
+}
+
+#aboutme-tab label,
+#aboutme-tab input{
+	float: left;
+	height: 25px;
+	margin-bottom: 5px;
+}
+#aboutme-tab input.gender{
+	width: 20px;
+	height: 25px;
+	line-height: 25px;
+}
+#aboutme-tab .genderdiv label{
+	width: 50px;
+}
+
+#aboutme-tab div#fullname{
+	height: 25px;
+	line-height: 25px;
+	font-weight: bold;
+	cursor: pointer;
+}
+#aboutme-tab input{
+	width: 250px;
+}
+#aboutme-tab label{
+	width: 75px;
+	line-height: 25px;
+}
+#aboutme-tab a{
+	margin: 0px;
+	margin-left: 10px;
+}
+#aboutme-tab textarea{
+	width: 300px;
+	height: 100px;
+	margin-bottom: 10px;
+}
+#aboutme-tab .selectdiv{
+	width:300px;
+	float:left;
+}
+#aboutme-tab .date select{
+	width: 60px;
+}
+#aboutme-tab a{
+	margin: 0px;
+	margin-left: 10px;
+}
+
+#aboutme-tab textarea{
+	width: 300px;
+	height: 100px;
+	margin-bottom: 10px;
+}
+#aboutme-tab div.sndiv{
+	background: none repeat scroll 0 0 #E2E8F6;
+    border: 1px solid #BDC7D8;
+    line-height: 25px;
+    margin: 2px 0;
+    padding: 0 5px;
+    width: 240px;
+}
+
+#aboutme-tab div.sndiv span{
+	font-weight: bold;
+	cursor: pointer;
+}
+#aboutme-tab div.sndiv .snvalue{
+	width: 173px;
+	float:left;
+	display:block;
+}
+#aboutme-tab div.sndiv .sntype{
+	width: 50px;
+	float:left;
+	display:block;
+}
+#aboutme-tab div.sndiv .rmsn{
+	float:right;
+}
+#aboutme-tab div.snitem select{
+	width:75px;
+	float:left;
+	margin-left: 3px;
+}
+#aboutme-tab div.snitem input{
+	width: 173px;
+}
+#languagediv input.lang{
+	width: 300px;
+}
+
+#languagediv .langdiv{
+	width: 290px;
+	font-weight: bold;
+	background: none repeat scroll 0 0 #E2E8F6;
+	border: 1px solid #BDC7D8;
+	padding: 0px 5px;
+	margin: 2px 0px;
+	line-height: 25px;
+}
+
+#languagediv span{
+	cursor: pointer;
+	float: right;
+	font-weight: bold;
+}
+#aboutme-tab div#seperate{
+	margin-bottom: 20px; 
+	border-top: 1px solid #888;
+	padding-top: 20px;
+}
+#aboutme-tab div#seperate span{
+	font-weight: bold;
+}
+#aboutme-tab label#screenname{
+	line-height: normal;
+}
+#profile_changenamecontainer{
+	padding: 20px;
+	cursor: progress;
+}
+
+#profile_changenamecontainer input {
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+#profile_changenamecontainer label {
+    display: block;
+    float: left;
+    margin-bottom: 10px;
+    width: 70px;
+}
+#picture-tab{
+	width: 600px;
+	margin: 15px 0 0 15px;
+}
+#picture-tab #img_container{
+	float:left;
+	display: block;
+	overflow: hidden;
+	width: 180px;
+	height: 180px;
+	padding: 8px;
+	border: 1px solid #becace;
+}
+#picture-tab #main-image-form{
+	width: 375px;
+	float:left;
+	margin: 0px 5px 0px 20px;
+}
+.profile{
+	float:right;
+	width:310px;
+}
+#picture-tab a.profile_btn,
+#aboutme-tab a.profile_btn{
+	background:url(../images/campus_usercp_btn.jpg) no-repeat;
+	width:104px;
+	text-align:center;
+	height:29px;
+	line-height:29px;
+	color:#fff;
+	text-indent:0px;
+	margin-left:0px;
+	margin-right:12px;
+	float: left;
+	font-weight: bold;
+}
+#picture-tab #cpi_form p{
+	float: left;
+    width: 321px;
+    height: 20px;
+}
+#picture-tab #cpi_form input#userImage{
+	margin-bottom: 20px;
+}
+
+#tabprofilecontainer .proTitle{
+	font-size: 14px;
+	font-weight:bold;
+}
+
+#skill-tab, #education-tab, #work-tab{
+	margin: 20px 10px 30px 30px;
+	width: 300px;
+}
+#skill-tab .view{
+	margin-top: 5px;
+	width: 300px;
+	height: 200px;
+	display:block;
+	border: 1px solid #BDC7D8;
+	background: none repeat scroll 0 0 #E2E8F6;
+	cursor: pointer;
+	padding: 0px 5px;
+}
+#skill-detail textarea{
+	width: 300px;
+	height: 200px;
+	margin-bottom: 5px;
+}
+#education-tab{
+	width: 430px;
+}
+#subschool{
+	margin-top: 10px; 
+	border-top: solid 1px #888888; 
+	padding-top: 10px;
+}
+#addschool{
+	margin: 5px 0px 10px;
+}
+.einfo{
+	cursor: pointer;
+}
+.etitle{
+	line-height: 25px;
+	height: 25px;
+	font-weight: bold;
+}
+.einfodiv{
+	width: 300px;
+	float:left;
+}
+.econ, .wcon{
+	padding: 10px;
+	margin: 3px 3px 10px;
+	background: #EEEEFF;
+}
+a.addpro,
+a.addwpro{
+	cursor: pointer;
+    font-weight: bold;
+    margin: 0 2px;
+	float: right;	
+}
+
+#toedu, #topresent{
+	float:left;
+}
+.epoption{
+	margin-top: 10px;
+}
+.pcontainer{
+	margin-top: 10px;
+}
+.pcontainer .pctitle{
+	font-weight: bold;
+}
+.pcontainer .pmcont{
+	margin-top: 10px;
+}
+.projectForm label{
+	width: 60px;
+	float:left;
+	height: 20px;
+	font-weight: bold;
+	line-height: 20px;
+}
+.projectForm input.input{
+	height: 20px;
+	line-height: 20px;
+}
+.projectForm .epto{
+	margin-left: 60px;	
+}
+
+.projectForm input,
+.projectForm textarea{
+	width: 275px;
+	padding: 3px;
+	margin-bottom: 10px;
+}
+.projectForm select.campus{
+	width: 275px;
+	margin-bottom: 10px;
+}
+.projectForm input.epcurrent{
+	width: 20px;
+	margin-right: 5px;
+}
+.projectForm div#eptopresent,
+.projectForm div#epto{
+	width: 200px;
+	display: inline;
+}
+.projectForm span{
+	font-weight: bold;
+}
+.projectForm select{
+	line-height: 25px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.pinfo{
+	width: 350px;
+    float:left;
+}
+.eduproject,
+.workproject{
+	margin: 5px 0px;
+	padding: 5px 3px;
+	background: none repeat scroll 0 0 #E2E8F6;
+	border: 1px solid #BDC7D8; 
+}
+.poption{
+	float: right;
+	text-align: right;
+	width: 40px;
+}
+.poption span{
+	cursor: pointer;
+	font-weight: bold;
+	margin: 0px 2px;
+}
+
+/*education*/
+
+#work-tab{
+	width: 430px;
+}
+/*work*/
+#tabsetting .usercp_listing_menu1 li{
+	cursor: pointer;	
+}
+
+
+#s_profile{
+	width: 778px;
+	margin: auto;
+}
+#s_profile .sitem{
+	margin: 5px 0px 15px;	
+}
+#s_profile .title{
+	font-weight: bold;
+	width: 175px;
+	text-align: right;
+	float: left;
+}
+#s_profile .value{
+	margin-left: 10px;
+	width: 200px;
+	float: left;
+}
+#s_profile .sselect{
+	width: 150px;
+}

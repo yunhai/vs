@@ -1,0 +1,257 @@
+#friend_register{
+	width:596px;
+	
+}
+.remove{
+	cursor: pointer;
+}
+.search_friend{
+	background:#e5f6f9;
+	padding:10px 0px 10px 15px;
+	width:580px;
+	margin:5px 0px;
+}
+.search_friend p{
+	float:left;
+	font-size:16px;
+	font-weight:bold;
+	color:#373737;
+	margin-right:7px;
+	line-height:25px;
+}
+.friend_send_message{
+	background:url(../images/friend_rawbutton.jpg) no-repeat;
+	color:#363636;
+	font-size:11px;
+	height:22px;
+	line-height:22px;
+	display:block;
+	text-align:center;
+	width:93px;
+	cursor: pointer;
+}
+.search_friend_tt{
+	border:1px solid #c3c3c3;
+	background:#fff;
+	float:left;
+	width:440px;
+	height:17px;
+	padding:3px 0px 3px 8px;
+}
+.search_friend_tt input{
+	font-weight:bold;
+	color:#4a4a4a;
+	line-height:17px;
+	border:none;
+	width:336px;
+}
+.search_friend_tt select{
+	color:#343434;
+	width:100px;
+	border:none;
+}
+.search_friend input.search_friend_btn{
+	background:url(../images/friend_btn1.jpg) no-repeat;
+	color:#fff;
+	font-weight:bold;
+	font-size:14px;
+	width:57px;
+	height:25px;
+	border:none;
+	margin-left:5px;
+}
+.connected_item{
+	border-bottom:1px solid #bfbfbf;
+	padding-bottom:10px;
+	margin-top:11px;
+	font-size:12px;
+	position:relative;
+}
+.connected_img{
+	float:left;
+	width:50px;
+	height:50px;
+	margin-right:11px;
+}
+.connected_info{
+	float:left;
+	width:475px;
+}
+.connected_info p a{
+	font-weight: bold;
+}
+a.connected_nick {
+	color:#0082e6;
+	font-weight:bold;
+}
+.connected_item p{
+	padding-bottom:5px;
+	line-height:20px;
+}
+#profile_tab .page{
+	margin-right:0px;
+}
+
+.friend_add_friend{
+	background:url(../images/friend_btn2.jpg) no-repeat;
+	color:#363636;
+	font-size:11px;
+	height:22px;
+	line-height:22px;
+	display:block;
+	text-align:center;
+	text-indent:7px;
+	width:93px;
+	cursor: pointer;
+}
+.accept,
+.reject{
+	color:#363636;
+	font-size:11px;
+	height:22px;
+	line-height:22px;
+	display:block;
+	text-align:center;
+	text-indent:15px;
+	width:61px;
+	float:left;
+	cursor: pointer;
+}
+.accept{
+	background:url(../images/friend_btn3.jpg) no-repeat;
+	margin-right: 5px;
+}
+.reject{
+	background:url(../images/friend_btn4.jpg) no-repeat;
+}
+
+#mainfindfriend .connected_info{
+	width: 430px;
+}
+
+#tabrequests .connected_info{
+	width: 395px;
+}
+.friendoption{
+	float:right;
+	margin: 5px;
+}
+
+#agc_mainaddc{
+	float: right;
+	margin-bottom: 10px;
+}
+
+#addgroupcontainer{
+	margin: 5px 0px;
+}
+
+#agc_addform .friend_add_friend,
+.af2list{
+	border: none;
+}
+
+#agc_addform input,
+.addform input{
+	float:left;
+}
+
+#agc_addform #gname,
+.addform .gname{
+	height: 22px;
+	width: 490px;
+	margin-right: 10px;
+}
+
+#message{
+	margin: 5px 0px;
+}
+
+#invitefriend{
+	margin: 20px 0px;
+}
+#invitefriend div{
+	margin: 10px 0px;
+	font-size: 14px;
+}
+
+#invitefriend span{
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+#invitefriend textarea{
+	width: 350px;
+	height: 100px;
+	display:block;
+}
+
+.refbutton{
+	background:url(../images/friend_btn1.jpg) no-repeat;
+	color:#fff;
+	font-weight:bold;
+	font-size:14px;
+	width:57px;
+	height:25px;
+	border:none;
+	margin:10px 0px 0px 0px;
+}
+
+.ui-icon{
+	margin-right: 5px;
+    margin-top: 8px;
+}
+
+#accordion span.option_tab{
+	display:block;
+	width: 100px;
+	color:#555;
+	text-align: right;
+}
+
+#accordion .optioncon .option_hidden{
+	background:#FFF;	
+	border:2px solid #F6F6F6;
+	border-top:none;
+	width:100px;
+	display:none;
+	position:absolute;
+	top: 30px;
+	right: 0px;
+}
+#accordion .optioncon .option_hidden span{
+	float:none;
+	display:block;
+	color:#555;
+	padding:4px;
+	line-height:normal;
+	cursor:pointer;
+	font-weight: bold;
+}
+.accheader{
+	background: #F6F6F6;
+	height:30px;
+	line-height: 30px;
+	cursor:pointer;
+	margin-bottom: 10px;
+}
+.acccontent{
+	margin-bottom: 5px;
+}
+.accheader .accheader_title{
+	float:left;
+	color:#555;
+}
+.accheader .optioncon{
+	float:right;
+	padding-right: 10px;
+	width: 125px;
+	position:relative;
+}
+
+.accheader span{
+	float: left;
+}
+.accheader span.option_tab{
+	float:right;
+}

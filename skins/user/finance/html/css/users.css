@@ -1,0 +1,37 @@
+
+#form-container{
+	margin: 20px auto;
+	width: 500px;
+	padding: 15px 20px;
+	border: 1px solid #CCC;
+}
+#form-container form{
+	float: none !important;
+	margin: auto;
+}
+#form-container .header{
+	border-bottom: solid 5px #CCC;
+}
+.signup h3{
+	font-size:20px;
+	color:#048eb5;
+	margin-bottom: 5px;
+	text-align: left;
+}
+#form-container h4{
+	color:#048eb5;
+	font-size:15px;
+	margin-bottom:10px;
+}
+.signup span.link{
+	margin-left: 215px;
+	font-size: 17px;
+	margin-bottom: -5px;
+}
+.signup h3 a{
+	color: #666 !important;
+	margin-bottom: -10px;
+}
+.signup h3 a:hover{
+	text-decoration: underline;
+}

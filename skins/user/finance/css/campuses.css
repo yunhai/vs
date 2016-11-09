@@ -1,0 +1,48 @@
+#formContainer .formHeader{
+	height: 25px;
+	display:block;
+	background-color: #C0C0C0;
+}
+
+.formHeader .form_label{
+	float:left;
+	margin-left: 10px;
+	font-weight: bold;
+	margin-top: 8px;
+}
+#close{
+	color: red;
+	font-weight: bold;
+	float:right;
+	margin-right: 10px;
+	margin-top: 5px;
+	font-size: 13px;
+	cursor: pointer;
+}
+#container{
+	padding: 10px;	
+}
+#editForm input{
+	float:left;
+	width: 300px;
+}
+
+#editForm table tr th{
+	width: 60px;
+	text-align: left;
+}
+#editForm table tr{
+	line-height: 25px;
+}
+
+#editForm label.error {
+	color:red;
+	height:22px;
+	padding-top:3px;
+	text-align:left;
+	width:300px;
+	float:left;
+}
+#editForm label.checked {
+	display:none;
+}

@@ -1,0 +1,414 @@
+#campus_user{
+	float:left;
+	width:800px;
+	border:1px solid #aaaaaa;
+	padding-bottom:14px;
+	margin-bottom:11px;
+}
+.campus_user_menu{
+	height:39px;
+	background:url(../images/campus_user_menu.jpg) repeat-x;
+	padding-left:7px !important;
+	overflow:hidden;
+	margin-bottom:14px !important;
+}
+.campus_user_menu a{
+	height:39px;
+	line-height:39px;
+	padding:0px 23px;
+	float:left;
+	color:#161616;
+	font-size:14px;
+	font-weight: normal;
+	opacity: 1 !important;
+}
+.campus_user_menu a:hover,.campus_user_menu a.active{
+	color:#dc5a00 !important;
+	background:url(../images/campus_user_menu_hover.jpg) repeat-x;
+}
+.campus_user_left{
+	float:left;
+	width:160px;
+	margin-left:12px;
+}
+.campus_user_right{
+	float:right;
+	border-left:1px solid #d0d0d0;
+	width:585px;
+	margin-right:10px;
+	padding-left:20px;
+}
+.campus_user_left a{
+	padding-left:28px;
+	color:#0063b6;
+	width:130px;
+	height:28px;
+	line-height:28px;	
+	margin-bottom:7px;
+	display:block;
+}
+a.compose{
+	background:url(../images/new_mes_btn.jpg) no-repeat;
+	height:35px;
+	line-height:35px;
+	width:119px;
+	padding-left:40px;
+	display:block;
+	color:#303030;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+.campus_user_left a.inbox{
+	background: url(../images/campus_message_icon1.png) no-repeat 8px 6px;
+	width:130px;
+	height:28px;
+	line-height:28px;	
+	margin-bottom:7px;
+}
+.campus_user_left a.draft{
+	background:url(../images/campus_message_icon2.jpg) no-repeat 8px 6px;	
+}
+.campus_user_left a.sent{
+	background:url(../images/campus_message_icon3.jpg) no-repeat 6px 5px;	
+}
+.campus_user_left a.trash{
+	background:url(../images/campus_message_icon4.jpg) no-repeat 8px 6px;	
+}
+
+.campus_user_left_folder{
+	background:#f5f5f5;
+	padding:7px 8px 1px 8px;
+	position:relative;
+}
+.campus_user_left_folder a.labeldetail{
+	margin-bottom: 0px;
+}
+
+.campus_user_left_folder a{
+	padding-left:20px;
+}
+.campus_user_left_folder a.folder{
+	background:url(../images/campus_message_icon5.jpg) no-repeat 6px 10px;
+	
+	padding-left:15px;
+}
+.campus_user_left_folder a.folder_add{
+	background:url(../images/campus_message_icon6.jpg) no-repeat 0px 0px;	
+	line-height:18px;
+	font-size:11px;
+	padding-left:20px;
+	color:#000;
+	position:absolute;
+	right:8px;
+	top:10px;
+	width: auto;
+}
+
+.campus_user_left a:hover,
+.campus_user_left a.active{
+	background:#f26c0f;
+	color:#fff;
+	font-weight:bold;
+}
+.campus_user_left a.inbox:hover,
+.campus_user_left a.inboxactive{
+	
+	background:#f26c0f url(../images/campus_message_icon1.png) no-repeat 8px 6px;
+}
+.campus_user_left a.draft:hover,
+.campus_user_left a.draftactive{
+	background:#f26c0f url(../images/campus_message_icon2.png) no-repeat 8px 6px;
+}
+.campus_user_left a.sent:hover,
+.campus_user_left a.sentactive{
+	background:#f26c0f url(../images/campus_message_icon3.png) no-repeat 8px 6px;
+}
+.campus_user_left a.trash:hover,
+.campus_user_left a.trashactive{
+	background:#f26c0f url(../images/campus_message_icon4.png) no-repeat 8px 6px;
+}
+.campus_user_left_folder a:hover{
+	background:none;
+	color:#0063b6;
+	font-weight:normal;
+	text-decoration:underline;
+}
+.campus_user_left_folder a.folder_add:hover{
+	background:url(../images/campus_message_icon6.jpg) no-repeat 0px 0px;	
+}
+.campus_user_left_folder a.folder:hover{
+	background:url(../images/campus_message_icon5.jpg) no-repeat 6px 10px;	
+}
+.campus_user_left a.compose:hover,
+.campus_user_left a.compose.active,
+.campus_user_left a.compose.draftactive{
+ background:#f26c0f url(../images/mail_icon.jpg) 9px 10px no-repeat;
+ color:#fff;
+}
+
+.mess_title{
+	font-size:18px;
+	font-weight:normal;
+	color:#202020;
+	padding:17px 0px;
+}
+.link_nick{
+	position:relative;
+	color:#5f5f5f;
+	padding-bottom:9px;
+	border-bottom:1px solid #737373;
+	margin-bottom:19px;
+}
+.link_nick span{
+	float:left;
+}
+.form{
+	margin-right:5px;
+}
+.link_nick a{
+	float:left;
+	font-weight:bold;
+	color:#0075d8;
+}
+.link_nick a.more_nick{
+	position:absolute;
+	background:url(../images/more_icon.jpg) no-repeat right center;
+	color:#2c2c2c;
+	padding-right:10px;
+	position:absolute;
+	top:0px;
+	right:0px;
+}
+.mess_item{
+	border-bottom:1px solid #d1d1d1;
+	margin:auto;
+	width:584px;
+	padding-bottom:10px;
+	margin-bottom:10px;
+	position:relative;
+}
+.mess_item_img{
+	float:left;
+	width:50px;
+	height:50px;
+}
+.mess_item_info{
+	float:right;
+	width:522px;
+	line-height:18px;
+	overflow:hidden;
+}
+.mess_item_info a{
+	color:#0075d8;
+}
+.mess_item_info span{
+	color:#928d8d;
+}
+.mess_item .option{
+	float: right;
+}
+a.link_reply,a.link_forward,a.link_delete{
+	padding-left:19px;
+	display:block;
+	color:#0075d8;
+	float: left;
+}
+a.link_reply{
+	background:url(../images/icon_reply.png) no-repeat;
+	margin-right: 10px;
+}
+a.link_forward{
+	background:url(../images/icon_forward.png) no-repeat;
+	margin-right: 10px;
+}
+a.link_delete{
+	background:url(../images/icon_delete.jpg) no-repeat;
+}
+.mess_comment{
+	background:#f7f7f7;
+	border:1px solid #d2d2d2;
+	padding:10px 9px;
+	width:562px;
+}
+.mess_comment a.link_reply,.mess_comment a.link_forward{
+	position:inherit;
+	float:left;
+	margin-right:22px;
+}
+.mess_comment textarea{
+	border:1px solid #c4c4c4;
+	height:48px;
+	width:558px;
+	margin:10px 0px;
+}
+a.mess_prev,a.mess_reply{
+	background:url(../images/mess_prev_btn.jpg) no-repeat;
+	width:84px;
+	height:24px;
+	float:left;
+}
+a.mess_reply{
+	background:url(../images/mess_reply_btn.jpg) no-repeat;
+	margin-left:7px;
+}
+.mess_list_title{
+	background:#ededed;
+	border:1px solid #cecece;
+
+	height:30px;
+	line-height:30px;
+	margin-top:14px;
+	width:583px;
+}
+.mess_list_check{
+	margin:9px;
+	float:left;
+}
+.mess_list_title p{
+	float:left;
+	background:url(../images/mess_list_title.jpg) no-repeat;
+	height:30px;
+	text-indent:12px;
+}
+.mess_list_item{
+	border:1px solid #cecece;
+	border-top:none;
+	width:583px;
+}
+.mess_list_item a{
+	border-left:1px solid #cecece;
+	height:31px;
+	line-height:31px;
+	float:left;
+	width:550px;
+	margin-left:1px;
+	color:#030303;
+	overflow:hidden;
+}
+.mess_list_item a p{
+	float:left;
+	cursor:pointer;
+	text-indent:8px;
+}
+.mess_list_item a.active{
+	font-weight:bold;
+}
+p.count_mess{
+	float:left;
+	width:170px;
+	margin-top:17px;
+}
+.mess_list_prev{
+	background:url(../images/mess_list_prev.jpg) no-repeat 0px 3px;
+	padding-left:12px;
+}
+.mess_list_next{
+	background:url(../images/mess_list_next.jpg) no-repeat center right;
+	padding-right:12px;
+	color:#3f3f3f;
+	margin-left:30px;
+}
+.mess_list_prev,.mess_list_next{
+	float:right;
+	color:#3f3f3f;
+}
+.mess_list_prev:hover,.mess_list_next:hover,.mess_list_item a:hover{
+	color:#0183a8;
+}
+a.mess_send{
+	float:left;
+	margin:14px 11px 14px 0px;
+}
+.mess_new label{
+	float:left;
+	width:60px;
+	padding-left:2px;
+	margin-bottom:13px;
+	height:29px;
+	line-height:29px;
+}
+.mess_new input{
+	float:left;
+	background:url(../images/mess_input.jpg) no-repeat;
+	border:none;
+	height:29px;
+	line-height:29px;
+	width:500px;
+	padding:0px 11px;
+	margin-bottom:13px;
+}
+a.mess_attach{
+	float:left;
+	background:url(../images/mess_attach.jpg) no-repeat;
+	padding-left:18px;
+	color:#0076e3;
+	margin:0px 0px 8px 62px;
+	font-size:12px;
+}
+a.mess_insert{
+	float:left;
+	background:url(../images/mess_icon.jpg) no-repeat right center;
+	padding-right:27px;
+	color:#575757;
+	margin:0px 0px 8px 38px;
+	font-size:12px;
+}
+a.mess_link{
+	float:left;
+	background:url(../images/mess_link.jpg) no-repeat right center;
+	padding-right:19px;
+	color:#575757;
+	margin:0px 0px 8px 30px;
+	font-size:12px;
+}
+
+.mess_new label.error{
+	margin-left:60px;
+	color: red;
+	width: 100%;
+}
+
+.paging{
+	float:right;
+	margin-top: 17px;
+}
+
+form#addlabel{
+	width: 300px;
+	margin: 10px;
+}
+form#addlabel label{
+	font-weight: bold;
+	margin-right: 10px;
+}
+#file-uploader{
+	border: 1px solid #D0D0D0; 
+	margin:0px 0px 10px;
+}
+.preview{
+	float:left;
+}
+
+.attfile .option{
+	margin-left: 10px;
+	float:left;
+}
+.attfile{
+	margin: 5px 0px;
+}
+.attfile input.delatt{
+	width: auto;
+	height: auto;
+	margin-bottom: 0px;
+}
+.textdecoreation{
+	text-decoration: underline;
+}
+#addlabel label.error{
+	display: block;
+	color: red;
+	margin: 10px 0px 0px 40px;
+}
+.phide{
+	display:none !important;
+}
