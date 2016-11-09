@@ -4,11 +4,12 @@ function MainPage() {
 global $bw, $vsLang,$vsUser,$vsSettings;
 $BWHTML = "";
 $BWHTML .= <<<EOF
-<script></script>
 <div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
 	<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all-inner">
+		
 		<li class="ui-state-default ui-corner-top">
-        	<a href="{$bw->base_url}admins/displayadmin/&ajax=1">{$vsLang->getWords('tab_admin_users','Admin Users')}</a></li>
+        	<a href="{$bw->base_url}admins/displayadmin/&ajax=1">{$vsLang->getWords('tab_admin_users','Admin Users')}</a>
+        </li>
         <if="$vsUser->checkViewPermission($bw->input[0],'displaygroup') and $vsSettings->getSystemKey($bw->input['module'].'_group_tab', 0, $bw->input['module'])">
     	<li class="ui-state-default ui-corner-top ">
     		<a href="{$bw->base_url}admins/displaygroup/&ajax=1">{$vsLang->getWords('tab_admin_groups','Admin Groups')}</a></li>
@@ -21,9 +22,12 @@ $BWHTML .= <<<EOF
         <li class="ui-state-default ui-corner-top">
         	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">{$vsLang->getWords("tab_{$bw->input[0]}_ss",'Settings')}</a></li>
         </if>
-       <!-- <li class="ui-state-default ui-corner-top">
-			        		<a href="{$bw->base_url}settings/moduleObjTab/config/&ajax=1">{$vsLang->getWords('tab_contact_config','Người dùng cấu hình')}</a>
-			        	</li> -->
+        
+        
+		<li class="ui-state-default ui-corner-top">
+      	<a href="{$bw->base_url}settings/moduleObjTab/configs/&ajax=1">{$vsLang->getWords("tab_configs_setting",'Cấu hình người dùng')}</a>
+     	</li>
+        
 </ul>
 <div class="clear"></div>
 </div>
@@ -56,7 +60,7 @@ $BWHTML .= <<<EOF
 	permModule = str;
 	});
 	</script>
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all" style="width:200px !important; float:right !important">
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all" style="width:250px !important; float:right !important">
 	<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 		<span class="ui-dialog-title">{$vsLang->getWords('module_box_title','Permission List')}
 	</div>
@@ -64,7 +68,7 @@ $BWHTML .= <<<EOF
 	<table  cellpadding="0" cellspacing="0">
 		<tr>
 			<td class="ui-dialog-selectpanel">
-				<select id="adminperm_module" size='15' name="adminperm_module" multiple>{$moduleOption}</select>
+				<select id="adminperm_module" size='15' name="adminperm_module">{$moduleOption}</select>
 			</td>
 		</tr>
 	</table>
@@ -74,7 +78,46 @@ EOF;
 return $BWHTML;
 }
 
-
+function memberList($option=null){
+	global $vsLang;
+	$BWHTML = "";
+	$BWHTML .= <<<EOF
+		<div id='cmemlist' class='ui-state-default ui-corner-all ui-state-focus' style='margin-top: 10px;cursor:pointer; padding: 5px;float:right;'>
+			{$vsLang->getWords('close_memlist','Close')}
+		</div>
+		<script type='text/javascript'>
+			$('#cmemlist').click(function(){
+				$('#memdetail').html('');	
+			});
+		</script>
+		<div class='clear'></div>
+		<table cellpadding="0" cellspacing="1" width="100%">
+	        <thead>
+	            <tr>
+	                <th>{$vsLang->getWords('admin_list_name','Account')}</th>
+	                <th>{$vsLang->getWords('admin_list_joindate','Joined date')}</th>
+	                <th>{$vsLang->getWords('admin_list_lastlogin','Last login')}</th>
+	            </tr>
+	        </thead>
+	        <if="$option['pageList']">
+	        <foreach="$option['pageList'] as $obj">
+		       	<php> 
+		       		$class= 'even';
+					if($obj->stt%2) $class='old';	               
+	           	</php>     
+				<tr class="{$class}">
+					<td>{$obj->getName()}</td>
+					<td>{$obj->getJoinDate(false)}</td>
+					<td>{$obj->getLastLogin(false,'g:i A d/m/Y')}</td>
+				</tr>	
+	        </foreach>
+	        </if>
+	        <tr>
+	        	<td colspan="4" align='right'>{$option['paging']}</td>
+	        </tr>
+	    </table>
+EOF;
+}
 
 
 function AdminPermList($perm = array(), $message = "") {
@@ -93,7 +136,8 @@ $BWHTML .= <<<EOF
 		</div>
 		<table cellpadding="0" cellspacing="0" class="ui-dialog-content ui-widget-content" style="width:100%;">
 			<tr>
-				<th colspan="2">{$perm['perTitle']}</th>
+				<th>{$perm['perTitle']}</th>
+				<th width='15'><input class="checkbox" type="checkbox" name="percheckall" id='percheckall' /></th>
 			</tr>
 			<foreach="$perm['perm'] as $key => $val">
 			<php>
@@ -122,9 +166,16 @@ $BWHTML .= <<<EOF
 	</form>
 </div>			
 	<script type="text/javascript">
+		$('#percheckall').click(function(){
+			var checked_status = $("input[name=percheckall]:checked").length;
+	        $("input[type=checkbox]").each(function(){
+	               this.checked = checked_status;
+	        });
+        });
+        
 		$('#adminpermform').submit(function() {
-		vsf.submitForm($(this),'admins/savepermission/','perm_list');
-		return false;
+			vsf.submitForm($(this),'admins/savepermission/','perm_list');
+			return false;
 		});
 	</script>
 EOF;
@@ -146,7 +197,7 @@ $BWHTML .= <<<EOF
 	permGroup = str;
 	});
 	</script>
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all" style="width:200px !important;">
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all" style="width:250px !important;">
 	<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 		<span class="ui-dialog-title">{$vsLang->getWords('group_box_title','Group Admin List')}
 	</div>
@@ -154,7 +205,7 @@ $BWHTML .= <<<EOF
 <table  cellpadding="0" cellspacing="0" style="width:100%">
 	<tr>
 		<td class="ui-dialog-selectpanel">
-			<select size='15' id="adminperm_group" name="adminperm_group" multiple>	
+			<select size='15' id="adminperm_group" name="adminperm_group">	
 				<if="count($groupOption)">
 					<foreach="$groupOption as $group">
 				         <option value="{$group->getId()}"  >{$group->getName()}</option>
@@ -213,7 +264,7 @@ $BWHTML .= <<<EOF
 <div class="left-cell">
     <div class="ui-accordion ui-helper-reset" id="perm_groupbox">{$groupbox}</div>
 </div>
-<div class="right-cell ui-accordion ui-helper-reset" id="obj-list">
+<div class="right-cell ui-accordion ui-helper-reset" id="obj-list" style='margin-left: 5px;'>
 	<div id="perm_modulebox" style="float:left;">
 		{$modulelist}
 	<p>
@@ -238,12 +289,15 @@ $BWHTML .= <<<EOF
     <div class="ui-accordion ui-helper-reset" id="adminform">{$userform}</div>
     <div class="ui-accordion ui-helper-reset" id="admingroupbox">{$groupbox}</div>
 </div>
-<div class="right-cell ui-accordion ui-helper-reset" id="obj-list">{$usertable}</div>
+<div class="right-cell ui-accordion ui-helper-reset" id="obj-list" style='margin-left: 5px;'>{$usertable}</div>
 <div class="clear"></div>
 EOF;
 //--endhtml--//
 return $BWHTML;
 }
+
+
+
 //------------------------------------------------
 // ADMIN ZONE
 //------------------------------------------------
@@ -291,9 +345,11 @@ $BWHTML .= <<<EOF
                         <div class="account_title_bg"><a href="javascript:" onclick="javascript:vsf.get('admins/editadmin/','adminform'); return false;">{$vsLang->getWords('user_account','TÀI KHOẢN NGƯỜI DÙNG')}</a></div>
                         <div class="floadleft"><img src="{$bw->vars ['img_url']}/right_btn2.jpg"></div>
                     </div>
+                      <if="$vsUser->checkViewPermission($bw->input[0],'addeditadmin')">
 					<div id="adminform" class="register_account">
 					{$userform}
                     </div>
+                    </if>
                     <div id="obj-list" class="account_list">
                    	  {$usertable}
                     </div>
@@ -312,40 +368,65 @@ return $BWHTML;
 }
 
 function objListHtml($option=null) {
-global $bw, $vsLang;
+global $bw, $vsLang, $vsUser;
+
 $BWHTML = "";
 //--starthtml--//
-
 
 $BWHTML .= <<<EOF
 <input type="hidden" name="checkedObj" id="checked-obj" value="" />
 <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-top">
 	<span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{$vsLang->getWords('admin_list','List of admins')}</a></h3>
+        <select id="choise_group" style='border: 1px solid #CCC; margin: 5px;'>
+            <option value="0">Tất cả</option>
+            <foreach="$option['groups'] as $key => $val">
+                <option value="{$key}">{$val->getName()}</option>
+            </foreach>
+        </select>
+<script>
+                $('#choise_group').change(function(){
+                if($(this).val())
+                     vsf.get('admins/display_choise_group/'+$(this).val()+'/','obj-list');
+                });
+                $(document).ready(function(){
+                vsf.jSelect("{$_SESSION['choise_group']}","choise_group")
+                });
+</script>            
 <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
     <div id="err_admin_message" class="red">{$message}</div>
+    
     	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
+    	  		<if="$vsUser->checkViewPermission($bw->input[0],'addformadmin')">
 			    	<li class="ui-state-default ui-corner-top">
 			    		<a id="addPage" title="{$vsLang->getWords('pages_addPage','Add')}" onclick="addPage()" href="javascript:vsf.get('admins/addformadmin/','adminform');">
 							{$vsLang->getWords('pages_addPage','Add')}
 						</a>
 		    		</li>
+		    	</if>
+		    	<if="$vsUser->checkViewPermission($bw->input[0],'deleteadmin')">
 		    		<li class="ui-state-default ui-corner-top">
 			        	<a id="deletePage" title="{$vsLang->getWords('pages_deletePage','Delete')}" onclick="deleteAllAdmin()" href="#">
 							{$vsLang->getWords('pages_deletePage','Delete')}
 						</a>
 					</li>
+				</if>
+				<if="$vsUser->checkViewPermission($bw->input[0],'deleteadmin')">
 			        <li class="ui-state-default ui-corner-top">
 			        	<a onclick="hiddenAllAdmin()" title="{$vsLang->getWords('pages_hidePage','Hide')}" href="#">
 							{$vsLang->getWords('pages_hidePage','Hide')}
 						</a>
 					</li>
+				</if>
+				<if="$vsUser->checkViewPermission($bw->input[0],'deleteadmin')">
 			        <li class="ui-state-default ui-corner-top">
 			        	<a id="displayPage" title="{$vsLang->getWords('pages_unhidePage','Display')}" onclick="showAllAdmin()" href="#">
 							{$vsLang->getWords('pages_unhidePage','Display')}
 						</a>
 					</li>
+				</if>
 		</ul>
-    <table  cellpadding="0" cellspacing="1" width="100%">
+		
+    <table cellpadding="0" cellspacing="1" width="100%">
         <thead>
             <tr>
             	<th width="15"><input type="checkbox" onclick="vsf.checkAll()" name="all" /></th>
@@ -353,7 +434,9 @@ $BWHTML .= <<<EOF
                 <th>{$vsLang->getWords('admin_list_visible','Is Visible?')}</th>
                 <th>{$vsLang->getWords('admin_list_joindate','Joined date')}</th>
                 <th>{$vsLang->getWords('admin_list_lastlogin','Last login')}</th>
+                <if="$vsUser->checkViewPermission($bw->input[0],'addeditadmin')">
                 <th>{$vsLang->getWords('admin_list_option','Option')}</th>
+                </if>
             </tr>
         </thead>
         <if="$option['pageList']">
@@ -371,24 +454,29 @@ $BWHTML .= <<<EOF
 					</if>
 				</td>
 				<td  class="cursor" ">
+				<if="$vsUser->checkViewPermission($bw->input[0],'addeditadmin')">
 					<a title="{$vsLang->getWords('global_a_title_edit',"Edit this information")}" href="javascript:vsf.get('admins/editadmin/{$obj->getId()}/','adminform');">
 	               		{$obj->getName()}
-	               	</a>	
+	               	</a>
+	               	<else />
+	               		{$obj->getName()}
+	             </if>
 	            </td>
 				<td>{$obj->getStatus('image')}</td>
 				<td>{$obj->getJoinDate(false)}</td>
 				<td>{$obj->getLastLogin(false,'g:i A d/m/Y')}</td>
+				 <if="$vsUser->checkViewPermission($bw->input[0],'addeditadmin')">
 				<td>
 					<a title="{$vsLang->getWords('edit_title','Edit this information')}" id="view-obj-bt" href="javascript:vsf.get('admins/editadmin/{$obj->getId()}/','adminform');;" class="ui-state-default ui-corner-all ui-state-focus">
 						{$vsLang->getWords('edit','Edit')}
 					</a>
 				</td>
+				</if>
 			</tr>	
         </foreach>
         </if>
         	<tr>
-        	<td></td><td></td><td></td><td></td><td></td>
-        	<td colspan="2">{$option['paging']}</td>
+        	<td colspan="5">{$option['paging']}</td>
         	</tr>
     </table>
     <div class="clear"></div>
@@ -442,7 +530,9 @@ return $BWHTML;
 function AddEditAdminForm($form = array(), $obj) {
 global $vsLang,$vsUser,$vsSettings;
 $BWHTML = "";
-
+if(!$vsUser->checkViewPermission($bw->input[0],'addeditadmin')){
+return $BWHTML;
+}
 $checked = $obj->getStatus()?'checked ' : '';
 
 $BWHTML .= <<<EOF
@@ -469,17 +559,14 @@ $BWHTML .= <<<EOF
         	<tr>
                 <th>{$vsLang->getWords('admin_form_header_name','Account')}</th>
                 <td><input id="adminName" type="text" name="adminName" value="{$obj->getName()}" /></td>
-            </tr>
-            <tr>
+            </tr><tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_password','Password')}</th>
                 <td><input id="adminPassword" type="password" name="adminPassword" value="" /></td>
             </tr>
-            
             <tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_visible','Is visible')}</th>
                 <td><input class="checkbox" type="checkbox" name="adminStatus" id="adminStatus" value="1"/></td>
             </tr>
-             
             <if="$vsSettings->getSystemKey('admin_index',0, 'admins')">
             <tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_index','Index')}</th>
@@ -491,8 +578,8 @@ $BWHTML .= <<<EOF
                 <th valign="top">{$vsLang->getWords('admin_form_listgroup','Group List')}</th>
                 <td>&nbsp;</td>
             </tr>
-            <if="count($vsUser->obj->getGroups())">
-	            <foreach="$vsUser->obj->getGroups() as $group">
+            <if="count($vsUser->groupadmins->arrayGroup)">
+	            <foreach="$vsUser->groupadmins->arrayGroup as $group">
 	            <tr>
 	                <th valign="top"></th>
 	                <td><input style="margin-right:4px;" class="checkbox" id="group{$group->getId()}" type="checkbox" name="group" value="{$group->getId()}" />{$group->getName()}</td>
@@ -500,6 +587,7 @@ $BWHTML .= <<<EOF
 	            </foreach>
             </if>
             </if>
+            
             <tr>
                 <th>&nbsp;</th>
                 <td class="ui-dialog-buttonpane ui-helper-clearfix"><button class="ui-state-default ui-corner-all" id="addedtiadmin" type="button">{$form['submit']}</button></td>
@@ -570,7 +658,6 @@ $('#addedtiadmin').click(function(){
 	$('#err_admin_message').html('');
 	var groupId = $('#groupId').val();	
 
-	$("#adminform").html('<img src="'+imgurl+'loader.gif"/>');
 	vsf.submitForm($(this).closest("form"),'admins/addeditadmin/','',{
 	sucess:function(data){
 		$("#adminform").html(data);
@@ -579,6 +666,7 @@ $('#addedtiadmin').click(function(){
 	});	
 });
 </script>
+
 <script>
 $(document).ready(function () {
 	var the_LANGFORM	= window.document.getElementById('addeditadmin');
@@ -664,6 +752,12 @@ return $BWHTML;
 function LoginForm($error = "") {
 global $bw, $vsLang, $vsSettings;
 $BWHTML = "";
+$link = "<a href='{$vsSettings->getSystemKey('firefox_link', 'http://www.mozilla.com/', 'global', 1, 1)}' target='_blank'>
+          Firefox 
+        </a>";
+$firefox = sprintf($vsLang->getWords("add_sucess_deleteId", "Quý khách vui lòng sử dùng trình duyệt %s để quản trị website!"), $link);
+		
+	 	
 $BWHTML .= <<<EOF
 <if="$bw->input['ajax']">
         <script>
@@ -721,15 +815,15 @@ If not FireFox. You can download the browser here.')}</span><br />
 			</div>
 			<!--
 			<div class="remember">
-				
-				<span><a href="">{$vsLang->getWords('admins_forgorpass','Forgot Password')}</a></span>
-				
+				<input type="checkbox" />
+				<span>{$vsLang->getWords('admins_rememberPassword','Remember these informations')}</span>
 			</div>
 			-->
 			<div class="submit-cell"><button class="log_me_in" type="submit">{$vsLang->getWords('admins_logInTitle','Login')}</button></div>
 		</form>
 	</div>
 	<div class="clear"></div>
+	<div style="padding-top:35px;"><b>{$firefox}</b></div>
 </div>
 </div>
 <div class="clear"></div>
@@ -825,8 +919,6 @@ return $BWHTML;
 function MainGroup($grouptable = "", $groupform = "") {
 global $bw, $vsLang;
 $BWHTML = "";
-//--starthtml--//
-
 
 $BWHTML .= <<<EOF
 <div class="left-cell" id="groupform">{$groupform}</div>
@@ -850,15 +942,15 @@ $BWHTML .= <<<EOF
         <a href="#">{$vsLang->getWords('group_list','List of groups')}</a>
        
     </h3>
-     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
+    	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
 			    	<li class="ui-state-default ui-corner-top">
 			    		<a id="addPage" title="{$vsLang->getWords('pages_addPage','Add')}" onclick="addPage()" href="javascript:vsf.get('admins/addgroupform/','groupform');">
-							{$vsLang->getWords('pages_addPage','Add')}
+							{$vsLang->getWords('admin_add','Add')}
 						</a>
 		    		</li>
 		    		<li class="ui-state-default ui-corner-top">
 			        	<a id="deletePage" title="{$vsLang->getWords('pages_deletePage','Delete')}" onclick="deleteAllGroup()" href="#">
-							{$vsLang->getWords('pages_deletePage','Delete')}
+							{$vsLang->getWords('admin_delete','Delete')}
 						</a>
 					</li>
 			       
@@ -868,39 +960,46 @@ $BWHTML .= <<<EOF
     	<thead>
         <tr>
         	<th width="15"><input type="checkbox" onclick="checkAll()" onclicktext="checkAll()" name="allgroup" /></th>
-            <th>{$vsLang->getWords('group_header_id','Group ID')}</th>
             <th>{$vsLang->getWords('group_header_name','Name')}</th>
             <th>{$vsLang->getWords('group_header_description','Description')}</th>
-            
+            <th>{$vsLang->getWords('group_header_total','Total user')}</th>
 		</tr>
 		</thead>
         <tbody>
 			<foreach="$grouplist as $key => $group">
 				<php> 
 					$count++;
-					if($count%2)
-	               		$class='old';
-	               else $class= 'even';
+					$class= 'even';
+					if($count%2) $class='old';
            		</php>     
 				<tr class="{$class}">
 					<td>
-						<input type="checkbox" onclicktext="checkObject({$group->getId()});" onclick="checkObject({$group->getId()});" name="obj_group{$group->getId()}" value="{$group->getId()}" class="myCheckbox" />
+						<input type="checkbox" onclicktext="checkObject({$group['groupId']});" onclick="checkObject({$group['groupId']});" name="obj_group{$group['groupId']}" value="{$group['groupId']}" class="myCheckbox" />
 					</td>
-				    <td>{$group->getId()}</td>
 				    <td>
-				    	<a title="{$vsLang->getWords('global_a_title_edit',"Edit this")}" href="javascript:;" onclick="javascript:vsf.get('admins/editgroup/{$group->getId()}/','groupform'); return false;">
-	               			{$group->getName()}
+				    	<a onclick="javascript:vsf.get('admins/editgroup/{$group['groupId']}','groupform'); return false;" title="{$vsLang->getWords('global_a_title_edit',"Edit this")}" href="javascript:;" class='editObj'>
+	               			{$group['groupName']}
 	               		</a>
 	               	</td>
-				    <td>{$group->getIntro()}</td>
-				   
+				    <td>{$group['groupIntro']}</td>
+				    <td>
+	               		{$group['total']} 
+	               		<a class='memdetail editObj' ref='{$group['groupId']}' title='{$vsLang->getWords('group_groupmember_detail_title','Click here to view detail')}'>
+	               			[{$vsLang->getWords('group_groupmember_detail','Detail')}]
+	               		</a>
+	               		
+				    </td>
 				</tr>
-			   
 			</foreach>
-				
         </tbody>
 	</table>
+	<div id='memdetail' style='margin-top: 10px;'></div>
 	<script>
+		$('.memdetail').click(function(){
+			var id = $(this).attr('ref');
+			
+			vsf.get('admins/memdetail/' + id, 'memdetail');
+		});
 				function checkObject() {
 					var checkedString = '';
 					$("input[type=checkbox]").each(function(){

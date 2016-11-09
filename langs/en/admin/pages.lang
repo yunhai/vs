@@ -118,11 +118,9 @@ $lang = array (
   'tab_services_Setting' => 'Support Settings',
   'pages_virtual_Parent' => 'Parent',
   'module_list_pr' => 'Parent',
-  'tab_obj_objes_prices' => 'Bảng giá',
-  'tab_obj_objes_knowledge' => 'Kiến thức',
-  'tab_obj_objes_social' => 'Hoạt động xã hội',
-  'tab_obj_objes_promotions' => 'Khuyến mãi',
-  'tab_obj_objes_projects' => 'Dự án',
+  'tab_obj_objes_activities' => 'Hoạt động',
+  'tab_obj_objes_documents' => 'Tài liệu',
+  'tab_obj_objes_recruitments' => 'Tuyển dụng',
 );
 $userLang = array (
 );

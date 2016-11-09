@@ -1,9 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Thực đơn và ẩm thực',
-  'main_title' => 'Thực đơn và ẩm thực',
-  'cactinkhac2' => 'CÁC TIN KHÁC',
-);
-$userLang = array (
-);
-?>

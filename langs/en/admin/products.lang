@@ -78,19 +78,13 @@ $lang = array (
   'delete_change_cate_bt' => 'Chuyển danh mục',
   'danhmuc_obj_bt' => 'C.Danh mục',
   'productsItem_EditObjTitle' => 'Click đây để chỉnh sửa',
-  'pages_addPageItem_Successful' => 'Thêm sản phẩm mới thành công!',
+  'pages_addPageItem_Successful' => 'Thêm sản phẩm mới thành công&#33;',
   'pages_addPageItem_AddMore' => 'Bạn có thêm sản phẩm khác?',
-  'pages_editPageItem_Successful' => 'Chính sửa nội dung sản phẩm thành công!',
+  'pages_editPageItem_Successful' => 'Chính sửa nội dung sản phẩm thành công&#33;',
   'obj_list_action' => 'Tùy chọn',
   'delete_image' => 'Xóa hình',
-  'tab_obj_objes_accessories' => 'accessories',
-  'obj_title_editadd_opt' => 'Thêm loại',
-  'obj_defualt' => 'Mặc định',
-  'obj_price_old' => 'Giá cũ',
-  'product_opt_title' => 'Danh sách các loại',
-  'obj_list_price' => 'Giá',
-  'obj_list_price_old' => 'Giá cũ',
-  'obj_list_defualt' => 'Giá mặc định',
+  'obj_model' => 'Model',
+  'obj_manu' => 'Nhà sản xuất',
 );
 $userLang = array (
 );

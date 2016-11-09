@@ -4,7 +4,7 @@
  *
  * @package Moxiecode.utils
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -33,7 +33,7 @@ class Moxiecode_LanguagePack {
 		$this->_currentTarget = "";
 		$this->_currentLanguage = "en";
 		$this->_currentDir = "ltr";
-		
+
 		$this->_header["major"] = 0;
 		$this->_header["minor"] = 1;
 		$this->_header["releasedate"] = date("Y-m-d");
@@ -56,7 +56,7 @@ class Moxiecode_LanguagePack {
 
 		// Found XML encoding
 		if (count($matches) > 1)
-			$encoding = strtoupper($matches[1]);
+		$encoding = strtoupper($matches[1]);
 
 		$this->_encoding = $encoding;
 
@@ -70,7 +70,7 @@ class Moxiecode_LanguagePack {
 		xml_parser_set_option($this->_parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
 
 		if (!xml_parse($this->_parser, $data, true))
-			trigger_error(sprintf("Language pack loading failed, XML error: %s at line %d.", xml_error_string(xml_get_error_code($this->_parser)), xml_get_current_line_number($this->_parser)), E_USER_ERROR);
+		trigger_error(sprintf("Language pack loading failed, XML error: %s at line %d.", xml_error_string(xml_get_error_code($this->_parser)), xml_get_current_line_number($this->_parser)), E_USER_ERROR);
 
 		xml_parser_free($this->_parser);
 	}
@@ -81,16 +81,16 @@ class Moxiecode_LanguagePack {
 			$data = '';
 
 			while (!feof($fp))
-				$data .= fread($fp, 8192);
+			$data .= fread($fp, 8192);
 
 			fclose($fp);
 
 			if (ini_get("magic_quotes_gpc"))
-				$data = stripslashes($data);
+			$data = stripslashes($data);
 
 			$this->loadXML($data);
 		} else
-			trigger_error("Could not open XML: ". $file, E_USER_ERROR);
+		trigger_error("Could not open XML: ". $file, E_USER_ERROR);
 	}
 
 	function save($file, $enc="UTF-8") {
@@ -98,7 +98,7 @@ class Moxiecode_LanguagePack {
 			fwrite($fp, $this->toString($enc));
 			fclose($fp);
 		} else
-			trigger_error("Could not open XML for writing: ". $file, E_USER_ERROR);
+		trigger_error("Could not open XML for writing: ". $file, E_USER_ERROR);
 	}
 
 	function getGroups() {
@@ -120,16 +120,16 @@ class Moxiecode_LanguagePack {
 	function set($target, $name, $value, $cdata = 3) {
 		if ($cdata != 3) {
 			if (!isset($this->_cdataArr[$this->_currentLanguage]))
-				$this->_cdataArr[$this->_currentLanguage] = array();
+			$this->_cdataArr[$this->_currentLanguage] = array();
 
 			if (!isset($this->_cdataArr[$this->_currentLanguage][$target]))
-				$this->_cdataArr[$this->_currentLanguage][$target] = array();
+			$this->_cdataArr[$this->_currentLanguage][$target] = array();
 
 			$this->_cdataArr[$this->_currentLanguage][$target][$name] = $cdata;
 		}
 
 		if (!isset($this->_items[$this->_currentLanguage]["data"][$target]))
-			$this->_items[$this->_currentLanguage]["data"][$target] = array();
+		$this->_items[$this->_currentLanguage]["data"][$target] = array();
 
 		$this->_items[$this->_currentLanguage]["data"][$target][$name] = $value;
 	}
@@ -184,7 +184,7 @@ class Moxiecode_LanguagePack {
 		$this->_items[$lang]["dir"] = $dir;
 		$this->_items[$lang]["title"] = $title;
 		$this->_cdataArr[$lang] = $this->_cdataArr[$target];
-		unset($this->_cdataArr[$target]);		
+		unset($this->_cdataArr[$target]);
 	}
 
 	// * * Private methods
@@ -199,12 +199,12 @@ class Moxiecode_LanguagePack {
 				$this->_currentLanguage = $this->_tagAttrs["CODE"];
 				$this->_currentDir = $this->_tagAttrs["DIR"];
 				$this->_items[$this->_currentLanguage] = array("dir" => $this->_currentDir, "title" => $this->_tagAttrs["TITLE"], "data" => array());
-			break;
+				break;
 
 			case "GROUP":
 				$this->_currentTarget = $this->_tagAttrs["TARGET"];
 				$this->_items[$this->_currentLanguage]["data"][$this->_tagAttrs["TARGET"]] = array();
-			break;
+				break;
 		}
 	}
 
@@ -213,33 +213,33 @@ class Moxiecode_LanguagePack {
 		$this->_tagContent = preg_replace("/^#CDATA#/", "", $this->_tagContent);
 
 		if (count($matches) == 0)
-			$this->_tagContent = trim($this->_tagContent);
+		$this->_tagContent = trim($this->_tagContent);
 
 		switch($name) {
 			case "ITEM":
 				if (count($matches) != 0) {
 					if (!isset($this->_cdataArr[$this->_currentLanguage]))
-						$this->_cdataArr[$this->_currentLanguage] = array();
+					$this->_cdataArr[$this->_currentLanguage] = array();
 
 					if (!isset($this->_cdataArr[$this->_currentLanguage][$this->_currentTarget]))
-						$this->_cdataArr[$this->_currentLanguage][$this->_currentTarget] = array();
+					$this->_cdataArr[$this->_currentLanguage][$this->_currentTarget] = array();
 
 					$this->_cdataArr[$this->_currentLanguage][$this->_currentTarget][$this->_tagAttrs["NAME"]] = true;
 				}
 
 				$this->_items[$this->_currentLanguage]["data"][$this->_currentTarget][$this->_tagAttrs["NAME"]] = $this->_tagContent;
-			break;
+				break;
 			case "AUTHOR":
 				$this->_header["author"] = $this->_tagContent;
-			break;
+				break;
 			case "VERSION":
 				$this->_header["minor"] = trim($this->_tagAttrs["MINOR"]);
 				$this->_header["major"] = trim($this->_tagAttrs["MAJOR"]);
 				$this->_header["releasedate"] = trim($this->_tagAttrs["RELEASEDATE"]);
-			break;
+				break;
 			case "DESCRIPTION":
 				$this->_header["description"] = $this->_tagContent;
-			break;
+				break;
 		}
 
 		// Clear memory!
@@ -254,7 +254,7 @@ class Moxiecode_LanguagePack {
 
 	function xmlEncode($str) {
 		if (strtolower($this->_encoding) == "utf-8")
-			return utf8_encode(htmlspecialchars($str, ENT_QUOTES, $this->_encoding));
+		return utf8_encode(htmlspecialchars($str, ENT_QUOTES, $this->_encoding));
 
 		return htmlspecialchars($str, ENT_QUOTES, $this->_encoding);
 	}
@@ -263,7 +263,7 @@ class Moxiecode_LanguagePack {
 		$oldenc = "";
 
 		if ($enc == "")
-			$enc = $this->_encoding;
+		$enc = $this->_encoding;
 		else {
 			$oldenc = $this->_encoding;
 			$this->_encoding = $enc;
@@ -287,7 +287,7 @@ class Moxiecode_LanguagePack {
 					if (isset($this->_cdataArr[$code]) && isset($this->_cdataArr[$code][$target]) && isset($this->_cdataArr[$code][$target][$name]) && $this->_cdataArr[$code][$target][$name]) {
 						$doc .= '			<item name="'. $this->xmlEncode($name) .'"><![CDATA['. $item .']]></item>'. "\n";
 					} else
-						$doc .= '			<item name="'. $this->xmlEncode($name) .'">'. $this->xmlEncode($item) .'</item>'. "\n";
+					$doc .= '			<item name="'. $this->xmlEncode($name) .'">'. $this->xmlEncode($item) .'</item>'. "\n";
 				}
 				$doc .= '		</group>'. "\n";
 			}
@@ -297,7 +297,7 @@ class Moxiecode_LanguagePack {
 		$doc .= '</language-pack>'. "\n";
 
 		if ($oldenc != "")
-			$this->_encoding = $oldenc;
+		$this->_encoding = $oldenc;
 
 		return $doc;
 	}

@@ -306,7 +306,7 @@ EOF;
 
 	function categoryList($data, $categoryGroup) {
 		global $vsLang, $bw, $vsSettings;
-                
+   
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 			<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
@@ -330,7 +330,7 @@ EOF;
 					        <input style="width:50px;margin-bottom:20px" type="button"  class="ui-state-default ui-corner-all" onclick="deleteCategory{$categoryGroup->getUrl()}()" value="{$vsLang->getWords('category_delete_bt',"Delete")}">
 					   	</if>
                                         <if="$vsSettings->getSystemKey($categoryGroup->getUrl().'_arrayImg', 0, $categoryGroup->getUrl())">
-					        <input style="width:50px" type="button"  class="ui-state-default ui-corner-all" onclick="imageCategory{$categoryGroup->getUrl()}()" value="{$vsLang->getWords('category_image_bt',"Image")}">
+					        <input style="width:60px" type="button"  class="ui-state-default ui-corner-all" onclick="imageCategory{$categoryGroup->getUrl()}()" value="{$vsLang->getWords('category_image_bt',"Image")}">
 					</if>
 				        </td>
 
@@ -338,7 +338,9 @@ EOF;
 				</table>
 			</div>
 			<script type="text/javascript">
-                                       
+					$('#menus-category{$categoryGroup->getUrl()}').dblclick(function(){
+						editCategory{$categoryGroup->getUrl()}();
+					});
 					function setValue_category{$categoryGroup->getUrl()}() {
 						var currentId = '';
 						var parentId = '';
@@ -427,7 +429,7 @@ EOF;
                             );
                             return false;
                         }
-                        avascript:vsf.popupGet('gallerys/display-album-tab/category/'+ currentId +'&albumCode=category','album');
+                        vsf.popupGet('gallerys/display-album-tab/category/'+ currentId +'&albumCode=category','album');
 
 						return false;
 					}
@@ -450,7 +452,18 @@ EOF;
 
 	function addEditCategoryForm($category, $option) {
 		global $vsLang, $bw,$vsUser, $vsSettings;
-		
+		if( $vsSettings->getSystemKey($option['cate'].'_cat_intro_editor_type', 0, $option['cate'], 1, 1) ){
+			global $vsStd;
+					$vsStd->requireFile(JAVASCRIPT_PATH."/tiny_mce/tinyMCE.php");
+					$editor = new tinyMCE();
+					$editor->setWidth('500px');
+					$editor->setHeight('300px');
+					$editor->setToolbar('narrow');
+					$editor->setTheme("advanced");
+					$editor->setInstanceName('categoryDesc');
+					$editor->setValue($category->getAlt());
+					$category->setAlt($editor->createHtml());
+		}
 		if(!$category->getId()){
 			$category->status=1;
 			$category->isDropdown=0;
@@ -481,27 +494,36 @@ EOF;
 				            <td><input id="category-name{$option['cate']}" type="text" name="categoryName" size="36" value="{$category->getTitle()}" /></td>
 				            </if>
 				            
-				            <if=" $vsSettings->getSystemKey($option['cate'].'_cat_status', 0, $option['cate'], 1, 1) ">
+				            
+						</tr>
+						<if=" $vsSettings->getSystemKey($option['cate'].'_cat_status', 0, $option['cate'], 1, 1) ">
+						<tr>
 				        	<td>{$vsLang->getWords('category_form_header_status','Status')}</td>
 				            <td>
 				            	<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[1]} value="1"/> {$vsLang->getWords('global_yes','Yes')}
 				            	<div class="clear"></div>
-				            	<!--<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$vsLang->getWords('global_no','No')}
-				            	<div class="clear"></div>-->
+				            	<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$vsLang->getWords('global_no','No')}
+				            	<div class="clear"></div>
+				            	<if=" $vsSettings->getSystemKey($option['cate'].'_cat_status_home', 0, $option['cate'], 1, 1) ">
 				            	<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[2]} value="2"/> {$vsLang->getWords('global_ishome','Trang chủ')}
+				            	</if>
 				            </td>
-				            </if>
 						</tr>
+						</if>
+						<if=" $vsSettings->getSystemKey($option['cate'].'_cat_value', 0, $option['cate'], 1, 1) ">
 						<tr>
-				    		<if=" $vsSettings->getSystemKey($option['cate'].'_cat_value', 0, $option['cate'], 1, 1) ">
 				        	<td>{$vsLang->getWords("category_{$option['cate']}_value",'Value')}</td>
 				            <td><input id="category-value{$option['cate']}" type="text" name="categoryValue" size="36" value="{$category->getIsLink()}" /></td>
-				            </if>
 						</tr>
+						</if>
 						<tr>
 							<if=" $vsSettings->getSystemKey($option['cate'].'_cat_intro', 0, $option['cate'], 1, 1) ">
-				        	<td rowspan="2">{$vsLang->getWords('category_form_header_desc','Description')}</td>
-				            <td rowspan="2"><textarea id="category-desc" style="width:240px;" name="categoryDesc">{$category->getAlt()}</textarea></td>
+				        	<td>{$vsLang->getWords('category_form_header_desc','Description')}</td>
+					        	<if="$vsSettings->getSystemKey($option['cate'].'_cat_intro_editor_type', 0, $option['cate'], 1, 1)">
+					            <td>{$category->getAlt()}</td>
+					            <else />
+					            <td><textarea id="category-desc" style="width:240px;" name="categoryDesc">{$category->getAlt()}</textarea></td>
+					            </if>
 				            </if>
 				            <if=" $vsSettings->getSystemKey($option['cate'].'_cat_dropdown', 0, $option['cate'], 1, 1) ">
 					            <td>{$vsLang->getWords('category_form_header_dropdown','Is dropdown')}</td>
@@ -521,11 +543,15 @@ EOF;
 						<if=" $vsSettings->getSystemKey($option['cate'].'_cat_file', 0, $option['cate'], 1, 1) ">
 						<tr>
 							<td>{$vsLang->getWords('obj_image_image', "Image")}</td>
-							<td>
+							<td colspan="3" >
 								<input size="27" type="file" name="menuImage" id="menuImage"/>
-							</td >
-							<td colspan="2" align="center">
-								{$category->createImageCache($category->getFileId(),30,30)}
+							</td>
+						</tr>
+						<tr>
+							<td>{$vsLang->getWords('obj_image_image_preview', "Preview")}</td>
+							<td colspan="3">
+								{$category->createImageCache($category->getFileId(),250,200)}<br/>
+								{$vsSettings->getSystemKey($option['cate']."_cat_image_size","(Kích thước :100x100px)", $option['cate'])}
 							</td>
 						</tr>
 						</if>
@@ -544,9 +570,10 @@ EOF;
 				        <tr>
 				        	<td class="ui-dialog-buttonpanel" colspan="3" align="center">
 				        		<input type="button"  class="ui-state-default ui-corner-all" onclick="submitCatForm{$option['cate']}()" value="{$option['formSubmit']}" />
+				        		{$switchForm}
 			        		</td>
 			        		<td class="ui-dialog-buttonpanel" align="center">
-								{$switchForm}
+								
 			        		</td>
 						</tr>
 				    </table>

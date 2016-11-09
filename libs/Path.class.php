@@ -34,7 +34,7 @@ class VSFPath {
 		$this->initPath();
 		if(APPLICATION_TYPE!='install')
 			if(!$vsLang->currentLang->getUserDefault() && APPLICATION_TYPE=='user' ) {
-				$bw->input['vs']=  substr($bw->input['vs'], 3);
+				$bw->input['vs'] = str_replace($vsLang->currentLang->getFolderName()."/",'',$bw->input['vs']);
 				$this->initPath();
 			}
 
@@ -71,11 +71,9 @@ class VSFPath {
 		else {
 			if($bw->vars['public_cleanurl']) {
 				$bw->base_url = $bw->vars['board_url'].'/';
-                                $bw->main_url = $bw->vars['main_url'].'/';
-				if(!$vsLang->currentLang->getUserDefault()){
+				if(!$vsLang->currentLang->getUserDefault())
 					$bw->base_url = $bw->vars['board_url'].'/'.$vsLang->currentLang->getFolderName().'/';
-                                        $bw->main_url = $bw->vars['main_url'].'/'.$vsLang->currentLang->getFolderName().'/';
-                                }
+				
 			}
 			else{
 				$language = $vsLang->currentLang->getFolderName()."/";

@@ -11,7 +11,7 @@ class products extends VSFObject {
 		$this->categoryField 	= "productCatId";
 		$this->primaryField 	= 'productId';
 		$this->basicClassName 	= 'Product';
-		$this->tableName 	= 'product';
+		$this->tableName 		= 'product';
 		$this->obj              = $this->createBasicObject();
 		$this->obj              =&$this->basicObject;
 		$this->fields           = $this->obj->convertToDB();
@@ -20,28 +20,7 @@ class products extends VSFObject {
 
 	}
 
-	 function getObjPageCate($module = "",$status = 1,$limit = 10) {
-		global $vsMenu;
-		if($module)
-			$categories = $this->vsMenu->getCategoryGroup($module);
-		else $categories = $this->getCategories();
-                
-                $option['cate']=$categories->getChildren();
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image,{$this->tableName}Price,{$this->tableName}HotPrice");
-                $this->setLimit(array(0, $limit));
-                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
-                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
-                if($this->getCondition())
-        	$cond .= " and ".$this->getCondition();
-		$this->setCondition ( $cond );
-                $list = $this->getObjectsByCondition();
-                if($list)
-                    $this->convertFileObject($list,$module);
-                $option['item']=$list;
-		return $option;
-	} 
-        
+	
 	function requireFileUseFull() {
 		global $vsStd;
 		$vsStd->requireFile(UTILS_PATH."TextCode.class.php");
@@ -64,11 +43,12 @@ class products extends VSFObject {
 	 */
 	
 	public function getListWithCat($treeCat) {
-       	global $vsMenu;
-            
-       	if(!is_object($treeCat)) return false;
+            global $vsMenu;
+            if(!is_object($treeCat))
+		return false;
 		$ids=$vsMenu->getChildrenIdInTree($treeCat);
-		if($ids) $this->condition = "productCatId in ( {$ids})";
+		if($ids)
+		$this->condition = "productCatId in ( {$ids})";
 		$this->setOrder("productIndex Desc, productId Desc");
 		$this->limit=array(0,30);
 		return $this->getObjectsByCondition();
@@ -81,11 +61,11 @@ class products extends VSFObject {
 		$cat=$vsMenu->getCategoryById($obj->getCatId());
 		$ids=$vsMenu->getChildrenIdInTree($cat);
 		
-		$this->setFieldsString('productId,productTitle,productImage,productPostDate, productPrice,productHotPrice');
-//		$this->setOrder("productIndex Desc, productId Desc");
+		$this->setFieldsString('productId,productTitle,productImage,productPostDate');
+		$this->setOrder("productIndex Desc, productId Desc");
                 $this->condition = "productId <> {$obj->getId()} and productStatus >0";
                // $this->setTableName ("product left join vsf_file on productImage = fileId");
-                $size =  8;$vsSettings->getSystemKey("{$bw->input['module']}_user_list_number_other",9);
+                $size =  $vsSettings->getSystemKey("product_user_list_number_other",9);
 		$this->setLimit(array(0,$size));
 		if($ids)
 		$this->condition .= " and productCatId in ( {$ids})";
@@ -100,9 +80,9 @@ class products extends VSFObject {
 		
 		$this->setFieldsString('productId,productTitle,productImage,vsf_file.*');
 		$this->setOrder("productIndex Desc, productId Desc");
-                $this->condition = "productId <> {$obj->getId()} and productStatus >0";
-                $this->setTableName ("product left join vsf_file on productImage = fileId");
-                $size =  $vsSettings->getSystemKey("product_user_list_number_other_home",2);
+        $this->condition = "productId <> {$obj->getId()} and productStatus >0";
+        $this->setTableName ("product left join vsf_file on productImage = fileId");
+        $size =  $vsSettings->getSystemKey("product_user_list_number_other_home",2);
 		$this->setLimit(array(0,$size));
 		if($ids)
 		$this->condition .= " and productCatId in ( {$ids})";
@@ -126,7 +106,7 @@ class products extends VSFObject {
 	
 	function getLastest($limit=1){
 		$this->condition .= " productStatus > 0 ";
-		$this->setOrder("productId DESC");
+		$this->setOrder("productId Desc");
 		$this->setLimit(array(0, $limit));
 		return $this->getObjectsByCondition();
 	}
@@ -169,17 +149,17 @@ class products extends VSFObject {
                 $strIds = $vsMenu->getChildrenIdInTree($categories);
                 $rss->cate =$categories;
             }
-               $this->setFieldsString("productTitle,productImage,productId,productIntro,productPostDate,productPrice,productHotPrice,productCatId,vsf_file.*");
+               $this->setFieldsString("productTitle,productImage,productId,productIntro,productPostDate,productCatId,vsf_file.*");
                $this->setTableName ("product left join vsf_file on productImage = fileId");
         
             $this->setOrder("productIndex ASC,productId DESC");
             $this->setCondition("productStatus > 0 and productCatId in ({$strIds})");
-            $this->setLimit(array(0,4));
+            $this->setLimit(array(0,10));
             $arr = $this->getObjectsByCondition();
            
             $rss->arrayObj = $arr;
             $rss->buildRss();
-           	//print "<script>alert('".$vsLang->getWordsGlobal("alert_RSS","Bạn đã tạo RSS thành công")."')</script>";
+           	print "<script>alert('".$vsLang->getWordsGlobal("alert_RSS","Bạn đã tạo RSS thành công")."')</script>";
 
         }
 
@@ -199,7 +179,5 @@ class products extends VSFObject {
 		fwrite($file, $cache_content);
 		fclose($file);
 	}
-        
-       
 }
 ?>

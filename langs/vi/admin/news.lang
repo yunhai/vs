@@ -1,8 +1,8 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Thông tin',
-  'main_title' => 'Thông tin',
-  'tab_obj_objes' => 'Thông tin',
+  'pageTitle' => 'Tin tức',
+  'main_title' => 'Tin tức',
+  'tab_obj_objes' => 'Tin tức',
   'tab_obj_categories' => 'Danh mục',
   'menus_option_root' => 'Gốc',
   'category_table_title_header' => 'Danh mục',
@@ -72,9 +72,9 @@ $lang = array (
   'category_add' => 'Click here to add news',
   'status_display' => 'Hiển thị',
   'status_hidden' => 'Ẩn',
-  'pages_addPageItem_Successful' => 'Thêm trang mới thành công&#33;',
+  'pages_addPageItem_Successful' => 'Thêm trang mới thành công!',
   'pages_addPageItem_AddMore' => 'Bạn có thêm trang khác?',
-  'pages_editPageItem_Successful' => 'Chính sửa nội dung trang thành công&#33;',
+  'pages_editPageItem_Successful' => 'Chính sửa nội dung trang thành công!',
   'obj_back' => 'Trở lại',
   'Home_obj_bt' => 'Trang chủ',
   'status_2' => 'Trang chủ',
@@ -86,8 +86,10 @@ $lang = array (
   'permission_delete' => 'No permission delete : ',
   'delete_change_cate_bt' => 'Change Cate news',
   'danhmuc_obj_bt' => 'C.Danh mục',
-  'comment' => 'Comments',
-  'tab_obj_objes_news' => 'Thông tin',
+  'comment' => 'Bình luận',
+  'tab_obj_objes_news' => 'Tin tức',
+  'count_table_success' => 'count table successfully!',
+  'count_table_condition_fail' => 'There is no item in table!',
 );
 $userLang = array (
 );

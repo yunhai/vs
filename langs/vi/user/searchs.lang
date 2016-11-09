@@ -2,7 +2,11 @@
 $lang = array (
   'pageTitle' => 'Tìm kiếm',
   'main_title' => 'Tìm kiếm',
-  'xemchitiet' => 'xem chi tiết',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+  'search_nodata' => 'Không tìm thấy dữ liệu theo yêu cầu. Nhập từ khóa khác xem sao!',
+  'product_price' => 'Giá',
+  'callprice' => 'Call',
+  'searchs_search_emty' => 'Không tìm thấy dữ liệu theo yêu cầu. Vui lòng nhập từ khóa khác!',
 );
 $userLang = array (
 );

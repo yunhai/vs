@@ -69,6 +69,7 @@
 	</package>
 
 	<package id="static_files">
-		<file id="multiupload_xap" path="js/jquery/jquery.multiupload.silverlight.xap" type="application/x-silverlight-app" />
+		<file id="multiupload_xap" path="js/jquery/jquery.multiupload.silverlight.xap"
+			type="application/x-silverlight-app" />
 	</package>
 </resources>

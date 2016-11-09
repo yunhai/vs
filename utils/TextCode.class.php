@@ -105,7 +105,7 @@ class VSFTextCode {
 	    	$position = strrpos($result," "); //find position of last space
 	    	if($position)
 	    		$result = substr($result,0,$position); //cut string again at last space if there are space in the result above    	
-	    	//$result .= ' ...';
+	    	$result .= ' ...';
 	    }
 	    else {
 	    	$result = $string;    	

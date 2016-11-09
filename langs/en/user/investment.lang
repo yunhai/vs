@@ -1,8 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'investment',
-  'main_title' => 'investment',
-    'module_chitiet' => 'Detail',
-);
-$userLang = array();
-?>

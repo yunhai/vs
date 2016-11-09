@@ -14,103 +14,60 @@ class skin_global {
 	//===========================================================================
 	function vs_global(){
 		global $bw,$vsLang,$vsMenu,$vsSettings,$urlcate,$vsPrint;
+
+	
 	$count= count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'])?count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item']):'0';
-    	$stringSearch = $vsLang->getWordsGlobal('search_key','Search...');   
-            
+
 		$BWHTML .= <<<EOF
-           <a href="{$bw->base_url}" class="logo">
-		   	<object  width="190px" height="92px" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
-    <param value="{$bw->vars[img_url]}/flash_logo(190x92).swf" name="movie">
-    <param value="high" name="quality">
-    <param value="samedomain" name="allowscriptaccess">
-    <param name="wmode" value="transparent" />
-    <embed wmode="transparent" width="190" height="92" allowscriptaccess="samedomain" quality="high"  src="{$bw->vars[img_url]}/flash_logo(190x92).swf"  pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash">
-    		</object>
-		   </a>
-<div id="wrapper">
-   	{$this->menu}
-    <if="$this->listgallery">
-                <ul id="slide_banner">
-            <foreach="$this->listgallery as $baner1">
-                <li>{$baner1->createImageCache($baner1, 986, 260, 1)}</li>
-            </foreach>
-        </ul>
-               <else /> 
-    <if="$this->adv['banner']">
-        <ul id="slide_banner">
-            <foreach="$this->adv['banner'] as $baner">
-                <li>{$baner->createImageCache($baner->file, 986, 260, 1)}</li>
-            </foreach>
-        </ul>
-    </if>    
-                </if>
-	<div id="sitebar">
-        <if="$this->menuLeft">
-            <div class="sitebar_item">
-                    <h3 class="sitebar_title">{$vsLang->getWordsGlobal("global_danhmuc","danh mục")}</h3>
-                <ul class="danhmuc" id="menu">
-                    {$this->menuLeft}
-                </ul>
-            </div>
-        </if>
-        {$this->searchLeft}
+	<div id="wrapper">
+	<div id="header">
+    	<a href="{$bw->vars['board_url']}" class="logo"><img src="{$bw->vars['img_url']}/logo.jpg" /></a>
+    	<div class="slogan">{$vsSettings->getSystemKey("config_slogan","Slogan here","configs")}</div>
+    	{$this->portlet_supports}
         
+        <a href="{$bw->base_url}orders" class="giohang">{$vsLang->getWordsGlobal("global_giohang","Giỏ hàng")} <span>[{$count}]</span></a>
+        {$this->portlet_search}
         
     </div>
-    <!-- STOP SITEBAR -->
+    <!-- STOP HEADER -->
     
+    {$this->menu}
+    <!-- STOP MENU -->
+    <if=" $bw->input[0] != 'home' ">
+   	{$this->portlet_promotion}
+   	</if>
+    <if="$this->menu_left">
+    <div id="sitebar">
+	{$this->menu_left}
+	{$this->portlet_partner}
+	</div>
+	</if>
     {$this->SITE_MAIN_CONTENT}
-    <!-- STOP CONTENT -->
-    
     <div class="clear"></div>
-    
+        
     <div id="footer">
-    	<div class="tienich">
-            <a target="_blank" href="{$vsSettings->getSystemKey('dang_twis','twis', "config", 1, 1)}" class="twis" title="twister"><img src="{$bw->vars['img_url']}/icon7.png" /></a>
-            <a target="_blank" href="{$vsSettings->getSystemKey('dang_facebook','facebook', "config", 1, 1)}" title="facebook"><img src="{$bw->vars['img_url']}/icon6.png" /></a>
-            
-            <if="$this->supports">
-            <div class="support_onl">
-                <foreach="$this->supports as $sp">
-                    {$sp->show()}
-                </foreach>    
-            </div>
-            </if>
-            
-            <div class="clear_right"></div>
+    	<div class="footer_left">
+			{$this->menu_footer}
+    		<if="$this->contacts">
+    		{$this->contacts->getIntro()}
+    		</if>
+        	
         </div>
-        <div class="footer_page">
-        	<p class="banquyen">{$this->footer->getIntro(1000)}</p>
-            <p class="vietsol"> 
-                <a href='http://www.vietsol.net/' target='_blank' style="color:#666" title='{$vsLang->getWordsGlobal("global_tkwcn","Thiết kế web chuyên nghiệp")}'>{$vsLang->getWordsGlobal("global_tkweb","Thiết kế website")}</a>{$vsLang->getWordsGlobal("global_tkwebby"," bởi ")}
-        <a href='http://www.vietsol.net/gioi-thieu-cong-ty-thiet-ke-web/' style="color:#767676" target='_blank' title='{$vsLang->getWordsGlobal("global_tkweb_company","Công ty thiết kế web")}'  >Viet Solution</a>
-        	</p>
-            {$this->weblink}
-            <p class="truycap"> {$vsLang->getWordsGlobal("global_Online","Đang truy cập")}: <strong>{$this->state['today']}</strong>
-                        /{$vsLang->getWordsGlobal("global_Vistor","Tổng truy cập")}: <strong>{$this->state['visits']}</strong></p>
-            <div class="clear"></div>
-        </div>
+        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+			<a class="link_face addthis_button_facebook"></a>
+			<a class="link_twit addthis_button_twitter"></a>
+		</div>
+		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4ec0dc180ab5fc94"></script>
+		<p class="vietsol"> 
+	    	<a href='http://www.vietsol.net/' target='_blank' title='{$vsLang->getWordsGlobal("global_tkwcn","Thiết kế web")}' style="color:#999999;">{$vsLang->getWordsGlobal("global_tkweb","Thiết kế web")}</a>{$vsLang->getWordsGlobal("global_tkwebby"," bởi ")}
+	      	<a href='http://www.vietsol.net/gioi-thieu-cong-ty-thiet-ke-web/'  target='_blank' title='{$vsLang->getWordsGlobal("global_tkweb_company","Công ty thiết kế web")}' style="color:#e80000;">Viet Solution</a>
+      	</p>
     </div>
+</div>
 
-
-</div>   
-<script type="text/javascript">
-    $(document).ready(function(){
-		   $('.menu_top').find('li:last').addClass('li_last');
-		   $('.menu_top').find('li:first a').css({background:'none'});
-		   $('#slide_banner').innerfade({
-				animationtype: 'fade',
-				speed:2000,
-				timeout:5000,
-				type: 'sequence',
-				containerheight: '260px'
-			});
-    });
-
-</script>
 <script>
  $(function() {
-               if(window.hs!=null)
+      	if(window.hs!=null)
 		{
 			hs.graphicsDir = "{$bw->vars['cur_scripts']}/highslide/graphics/";
 			hs.align = 'center';
@@ -118,12 +75,13 @@ class skin_global {
 			hs.outlineType = 'glossy-dark';
 			hs.fadeInOut = true;
 			hs.dimmingOpacity = 0.75;
+			hs.captionEval = 'this.a.title';
 			// Add the controlbar
 			if (hs.addSlideshow) hs.addSlideshow({
                         //slideshowGroup: 'group1',
                         interval: 5000,
                         repeat: false,
-                        useControls: true,
+                        useControls: false,
                         fixedControls: false,
                         overlayOptions: {
                                 opacity: 1,
@@ -133,7 +91,11 @@ class skin_global {
                 });
 		}
              });
+
 </script>
+
+
+
 EOF;
 						
 		return $BWHTML;
@@ -146,22 +108,6 @@ EOF;
 		//--endhtml--//
 		return $BWHTML;
 	}
-function addFlash($url="",$width=0,$height=0,$mode="opaque") {
-		$BWHTML .= <<<EOF
-<object height="{$height}" width="{$width}" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0">
-        <param name="movie" value="{$url}">
-        <param name="quality" value="high">
-        <param name="allowscriptaccess" value="samedomain">
-        <param value="{$mode}" name="wmode">
-        <embed height="{$height}" width="{$width}" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="{$url}" quality="high" allowscriptaccess="samedomain" wmode="{$mode}">
-          <noembed>
-          </noembed>
-        
-      </object>
-EOF;
-		//--endhtml--//
-		return $BWHTML;
-	}        
 	function importantAjaxCallBack(){
 		global $bw,$vsLang;
 		$BWHTML .= <<<EOF
@@ -192,7 +138,6 @@ EOF;
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 <script language="javascript" type="text/javascript">
-
 		{$script}
 </script>
 EOF;

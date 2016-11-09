@@ -1,6 +1,7 @@
 <?php
 class Pcontact extends BasicObject {
 	private $address = NULL;
+	private $addressview = NULL;
 	private $email = NULL;
 	private $longitude = 0;
         private $latitude = 0;
@@ -12,7 +13,9 @@ class Pcontact extends BasicObject {
 	public function getAddress() {
 		return $this->address;
 	}
-
+public function getAddressview() {
+		return $this->addressview;
+	}
 //	public function getAddressGoogle() {
 //		$parser = new PostParser ();
 //		$parser->pp_do_html = 1;
@@ -66,7 +69,9 @@ class Pcontact extends BasicObject {
 	public function setAddress($address) {
 		$this->address = $address;
 	}
-
+	public function setAddressview($address) {
+		$this->addressview = $address;
+	}
 	/**
 	 * @param field_type $email
 	 */
@@ -107,6 +112,7 @@ class Pcontact extends BasicObject {
 	public function convertToDB() {
                 $dbobj = parent::convertToDB('pcontact');
                 isset ( $this->address )? ($dbobj ['pcontactAddress']       = $this->address) : '';
+                isset ( $this->addressview )? ($dbobj ['pcontactAddressview']       = $this->addressview) : '';
                 isset ( $this->email )  ? ($dbobj ['pcontactEmail']         = $this->email) : '';
                 isset ( $this->longitude ) ? ($dbobj ['pcontactLongitude']  = $this->longitude) : '';
                 isset ( $this->latitude )? ($dbobj ['pcontactLatitude']     = $this->latitude) : '';
@@ -117,6 +123,7 @@ class Pcontact extends BasicObject {
 		global $vsMenu;
                 parent::convertToObject($object,'pcontact');
 		isset ( $object ['pcontactAddress'] )   ? $this->setAddress ( $object ['pcontactAddress'] ) : '';
+		isset ( $object ['pcontactAddressview'] )   ? $this->setAddressview ( $object ['pcontactAddressview'] ) : '';
 		isset ( $object ['pcontactEmail'] )     ? $this->setEmail ( $object ['pcontactEmail'] )     : '';
                 isset ( $object ['pcontactLongitude'] ) ? $this->setLongitude ( $object ['pcontactLongitude'] ) : '';
                 isset ( $object ['pcontactLatitude'] )  ? $this->setLatitude ( $object ['pcontactLatitude'] ) : '';

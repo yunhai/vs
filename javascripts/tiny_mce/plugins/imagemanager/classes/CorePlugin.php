@@ -4,7 +4,7 @@
  *
  * @package MCManagerCore
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 // Load local file system
@@ -104,7 +104,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 					$stream =& $file->open('rb');
 					if ($stream) {
 						while (($buff = $stream->read()) != null)
-							echo $buff;
+						echo $buff;
 
 						$stream->close();
 					}
@@ -143,7 +143,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 					// Passthrough rnd
 					if (isset($input["rnd"]))
-						$url .= (strpos($url, "?") === false ? "?" : "&") . "rnd=" . $input["rnd"];
+					$url .= (strpos($url, "?") === false ? "?" : "&") . "rnd=" . $input["rnd"];
 
 					header('location: ' . $url);
 					die();
@@ -165,7 +165,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 					$stream =& $file->open('rb');
 					if ($stream) {
 						while (($buff = $stream->read()) != null)
-							echo $buff;
+						echo $buff;
 
 						$stream->close();
 					}
@@ -180,7 +180,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		switch ($cmd) {
 			case "viewServerInfo":
 				if (!checkBool($config['general.debug']))
-					die("You have to enable debugging in config by setting general.debug to true.");
+				die("You have to enable debugging in config by setting general.debug to true.");
 
 				phpinfo();
 
@@ -188,7 +188,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 			case "downloadServerInfo":
 				if (!checkBool($config['general.debug']))
-					die("You have to enable debugging in config by setting general.debug to true.");
+				die("You have to enable debugging in config by setting general.debug to true.");
 
 				// Get all ini settings
 				$data = ini_get_all();
@@ -205,16 +205,16 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				echo "# Config from config.php" . "\r\n\r\n";
 				foreach ($config as $key => $value) {
 					if (is_bool($value))
-						echo $key . "=" . ($value ? "true" : "false") . "\r\n";
+					echo $key . "=" . ($value ? "true" : "false") . "\r\n";
 					else
-						echo $key . "=" . $value . "\r\n";
+					echo $key . "=" . $value . "\r\n";
 				}
 
 				// Dump INI settings
 				echo "\r\n# PHP INI settings file\r\n\r\n";
 
 				foreach ($data as $key => $value)
-					echo $key . "=" . $value['local_value'] . "\r\n";
+				echo $key . "=" . $value['local_value'] . "\r\n";
 
 				// Dump function support
 				echo "\r\n# Function check" . "\r\n\r\n";
@@ -228,35 +228,35 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 					"ImagePng",
 					"gzdeflate",
 					"gzinflate"
-				);
+					);
 
-				foreach ($functions as $function)
+					foreach ($functions as $function)
 					echo $function . "=" . (function_exists($function) ? "ok" : "missing") . "\r\n";
 
-				// Dump rootpath access
-				echo "\r\n# Rootpath access" . "\r\n\r\n";
+					// Dump rootpath access
+					echo "\r\n# Rootpath access" . "\r\n\r\n";
 
-				foreach ($man->getRootPaths() as $rootpath) {
-					$stat = stat($rootpath);
-					echo $rootpath . "\r\n";
-					echo "  is_readable=" . (is_readable($rootpath) ? "readable" : "not readable") . "\r\n";
-					echo "  is_writable=" . (is_writable($rootpath) ? "writable" : "not writable") . "\r\n";
-					foreach ($stat as $key => $value)
+					foreach ($man->getRootPaths() as $rootpath) {
+						$stat = stat($rootpath);
+						echo $rootpath . "\r\n";
+						echo "  is_readable=" . (is_readable($rootpath) ? "readable" : "not readable") . "\r\n";
+						echo "  is_writable=" . (is_writable($rootpath) ? "writable" : "not writable") . "\r\n";
+						foreach ($stat as $key => $value)
 						echo "  " . $key . "=" . $value . "\r\n";
-				}
+					}
 
-				break;
+					break;
 
 			case "viewLog":
 				if (!checkBool($config['general.debug']))
-					die("You have to enable debugging in config by setting general.debug to true.");
+				die("You have to enable debugging in config by setting general.debug to true.");
 
 				header('Content-type: text/plain');
 
 				if ($input['level'] == "debug")
-					echo @file_get_contents("../logs/debug.log");
+				echo @file_get_contents("../logs/debug.log");
 				else
-					echo @file_get_contents("../logs/error.log");
+				echo @file_get_contents("../logs/error.log");
 
 				break;
 
@@ -264,16 +264,16 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				header('Content-type: text/plain');
 
 				if (!checkBool($config['general.debug']))
-					die("You have to enable debugging in config by setting general.debug to true.");
+				die("You have to enable debugging in config by setting general.debug to true.");
 
 				if ($input['level'] == "debug")
-					$log = "../logs/debug.log";
+				$log = "../logs/debug.log";
 				else
-					$log = "../logs/error.log";
+				$log = "../logs/error.log";
 
 				@unlink($log);
 				for ($i=0; $i<10; $i++)
-					@unlink($log . "." . $i);
+				@unlink($log . "." . $i);
 
 				echo "Logs cleared.";
 				break;
@@ -306,10 +306,10 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$maxSizeBytes = preg_replace("/[^0-9]/", "", $config["upload.maxsize"]);
 
 				if (strpos((strtolower($config["upload.maxsize"])), "k") > 0)
-					$maxSizeBytes *= 1024;
+				$maxSizeBytes *= 1024;
 
 				if (strpos((strtolower($config["upload.maxsize"])), "m") > 0)
-					$maxSizeBytes *= (1024 * 1024);
+				$maxSizeBytes *= (1024 * 1024);
 
 				// Is chunked upload
 				if (isset($input["chunk"])) {
@@ -343,7 +343,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 						}
 
 						if ($chunk == 0 && $file->exists() && $config["upload.overwrite"] == true)
-							$file->delete();
+						$file->delete();
 
 						// Write file
 						$stream =& $file->open($chunk == 0 ? 'wb' : 'ab');
@@ -351,7 +351,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 							$in = fopen("php://input", "rb");
 							if ($in) {
 								while ($buff = fread($in, 4096))
-									$stream->write($buff);
+								$stream->write($buff);
 							}
 
 							$stream->close();
@@ -430,7 +430,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 							}
 
 							if ($file->exists() && $config["upload.overwrite"] == true)
-								$file->delete();
+							$file->delete();
 
 							if (getClassName($file) == 'moxiecode_localfileimpl') {
 								if (!move_uploaded_file($_FILES['file' . $i]['tmp_name'], $file->getAbsolutePath())) {
@@ -441,7 +441,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 								// Dispatch add event
 								$file->importFile();
 							} else
-								$file->importFile($_FILES['file' . $i]['tmp_name']);
+							$file->importFile($_FILES['file' . $i]['tmp_name']);
 
 							if ($file->getLength() > $maxSizeBytes) {
 								$file->delete();
@@ -459,11 +459,11 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 							$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.upload_ok}");
 						} else
-							$result->add("GENERAL_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
+						$result->add("GENERAL_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
 					}
 				}
 			} else
-				$result->add("PATH_ERROR", $man->encryptPath($path), "{#error.upload_failed}");
+			$result->add("PATH_ERROR", $man->encryptPath($path), "{#error.upload_failed}");
 
 			return $result;
 		}
@@ -509,9 +509,9 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			}
 
 			if ($file->delete($config['filesystem.delete_recursive']))
-				$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.delete_success}");
+			$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.delete_success}");
 			else
-				$result->add("FAILED", $man->encryptPath($file->getAbsolutePath()), "{#error.delete_failed}");
+			$result->add("FAILED", $man->encryptPath($file->getAbsolutePath()), "{#error.delete_failed}");
 		}
 
 		return $result->toArray();
@@ -554,19 +554,19 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		$inputFileFilter = new Moxiecode_BasicFileFilter();
 
 		if (isset($input['include_directory_pattern']) && $input['include_directory_pattern'])
-			$inputFileFilter->setIncludeDirectoryPattern($input['include_directory_pattern']);
+		$inputFileFilter->setIncludeDirectoryPattern($input['include_directory_pattern']);
 
 		if (isset($input['exclude_directory_pattern']) && $input['exclude_directory_pattern'])
-			$inputFileFilter->setExcludeDirectoryPattern($input['exclude_directory_pattern']);
+		$inputFileFilter->setExcludeDirectoryPattern($input['exclude_directory_pattern']);
 
 		if (isset($input['include_file_pattern']) && $input['include_file_pattern'])
-			$inputFileFilter->setIncludeFilePattern($input['include_file_pattern']);
+		$inputFileFilter->setIncludeFilePattern($input['include_file_pattern']);
 
 		if (isset($input['exclude_file_pattern']) && $input['exclude_file_pattern'])
-			$inputFileFilter->setExcludeFilePattern($input['exclude_file_pattern']);
+		$inputFileFilter->setExcludeFilePattern($input['exclude_file_pattern']);
 
 		if (isset($input['extensions']) && $input['extensions'])
-			$inputFileFilter->setIncludeExtensions($input['extensions']);
+		$inputFileFilter->setIncludeExtensions($input['extensions']);
 
 		// If file doesn't exists use default path
 		if (!$file->exists()) {
@@ -598,12 +598,12 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			}
 
 			if (isset($input["filter"]) && $input["filter"] != null)
-				$fileFilter->setIncludeWildcardPattern($input["filter"]);
+			$fileFilter->setIncludeWildcardPattern($input["filter"]);
 
 			if (isset($input["only_dirs"]) && checkBool($input["only_dirs"]))
-				$fileFilter->setOnlyDirs(true);
+			$fileFilter->setOnlyDirs(true);
 			else if (!checkBool($config["filesystem.list_directories"], true) || (isset($input["only_files"]) && checkBool($input["only_files"])))
-				$fileFilter->setOnlyFiles(true);
+			$fileFilter->setOnlyFiles(true);
 
 			// List files
 			$combinedFilter = new Moxiecode_CombinedFileFilter();
@@ -616,21 +616,21 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$showparent = $showparent && $man->verifyPath($file->getParent());
 
 			if (!isset($input["only_dirs"]))
-				$showparent = $showparent && checkBool($config["filesystem.list_directories"], true);
+			$showparent = $showparent && checkBool($config["filesystem.list_directories"], true);
 
 			// Add parent
 			if ($showparent && !isset($input["only_files"])) {
 				// Remove files below root
 				if ($filter_root_path && getClassName($file) == 'moxiecode_localfileimpl') {
 					if (!$man->isChildPath($filter_root_path, $file->getParent()))
-						return $files;
+					return $files;
 				}
 
 				if ($file->getAbsolutePath() != $filter_root_path)
-					$result->add("..", $man->encryptPath($file->getParent()), -1, "parent", "", "", "", array());
+				$result->add("..", $man->encryptPath($file->getParent()), -1, "parent", "", "", "", array());
 			}
 		} else
-			trigger_error("The specified path is not a directory. Probably an incorrect setting for the filesystem.rootpath option.", FATAL);
+		trigger_error("The specified path is not a directory. Probably an incorrect setting for the filesystem.rootpath option.", FATAL);
 
 		return $files;
 	}
@@ -648,23 +648,23 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		if (isset($input["path"]) && $input["path"]) {
 			// URL specified
 			if (isset($input["url"]) && $input["path"] == '{default}')
-				$input["path"] = $man->convertURIToPath($input["url"]);
+			$input["path"] = $man->convertURIToPath($input["url"]);
 
 			if (isset($input['remember_last_path'])) {
 				if ($input['remember_last_path'] !== 'auto')
-					$remember = checkBool($input['remember_last_path']);
+				$remember = checkBool($input['remember_last_path']);
 				else
-					$remember = checkBool($config['general.remember_last_path']);
+				$remember = checkBool($config['general.remember_last_path']);
 
 				if ($remember) {
 					if (isset($_COOKIE["MCManager_". $man->getType() . "_lastPath"]) && $input["path"] == '{default}') {
 						$tmpPath = $_COOKIE["MCManager_". $man->getType() . "_lastPath"];
 
 						if ($man->getFSFromPath($tmpPath) == "file" && $tmpPath)
-							$input["path"] = $tmpPath;
+						$input["path"] = $tmpPath;
 					} else {
 						if ($man->getFSFromPath($input["path"]) == "file")
-							setcookie("MCManager_". $man->getType() . "_lastPath", $input["path"], time() + (3600*24*30)); // 30 days
+						setcookie("MCManager_". $man->getType() . "_lastPath", $input["path"], time() + (3600*24*30)); // 30 days
 					}
 				}
 			}
@@ -677,7 +677,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			// Move path inside rootpath if it's localfs
 			if ($filterRootPath && $man->getFSFromPath($input["path"]) == 'file') {
 				if (!$man->isChildPath($filterRootPath, $input["path"]))
-					$input["path"] = $filterRootPath;
+				$input["path"] = $filterRootPath;
 
 				$result->setHeader("path", $man->encryptPath($input["path"]));
 				$result->setHeader("visual_path", checkBool($config['general.user_friendly_paths']) ? $man->toVisualPath($input["path"], $filterRootPath) : $man->encryptPath($input["path"]));
@@ -704,9 +704,9 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 		if (isset($input["page_size"])) {
 			if ($file->getAbsolutePath() != $filterRootPath && $man->verifyPath($file->getParent()))
-				$pageSize = $input["page_size"] - 1;
+			$pageSize = $input["page_size"] - 1;
 			else
-				$pageSize = $input["page_size"];
+			$pageSize = $input["page_size"];
 
 			$pages = ceil(count($files) / $pageSize);
 
@@ -715,7 +715,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$result->setHeader("count", count($files));
 
 			if (!isset($input["page"]))
-				$input["page"] = 0;
+			$input["page"] = 0;
 
 			// Remove non visible files
 			$files = array_slice($files, ($input["page"] * $pageSize), $pageSize);
@@ -727,7 +727,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			// Remove files below root
 			if ($filterRootPath && $listFS == 'file') {
 				if (!$man->isChildPath($filterRootPath, $file->getAbsolutePath()))
-					continue;
+				continue;
 			}
 
 			// Setup fields
@@ -739,9 +739,9 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$filePath = $man->encryptPath($file->getAbsolutePath());
 
 			if ($file->isFile())
-				$type = getFileExt($file->getName());
+			$type = getFileExt($file->getName());
 			else
-				$type = "folder";
+			$type = "folder";
 
 			$man->dispatchEvent("onCustomInfo", array(&$file, "list", &$custom));
 
@@ -760,7 +760,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		}
 
 		if (isset($input["config"]))
-			$result->setConfig($man->getJSConfig($config, $input["config"]));
+		$result->setConfig($man->getJSConfig($config, $input["config"]));
 
 		return $result->toArray();
 	}
@@ -778,7 +778,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		$fileFilter->setIncludeExtensions($config['filesystem.extensions']);
 
 		if (isset($input["only_dirs"]) && checkBool($input["only_dirs"]))
-			$fileFilter->setOnlyDirs(true);
+		$fileFilter->setOnlyDirs(true);
 
 		return ($fileFilter->accept($file) > 0);
 	}
@@ -807,7 +807,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 			$template = false;
 			if (isset($input['template' . $i]))
-				$template = $man->decryptPath($input['template' . $i]);
+			$template = $man->decryptPath($input['template' . $i]);
 
 			// Setup target file
 			$file =& $man->getFile($path, $name, MC_IS_DIRECTORY);
@@ -836,7 +836,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 					continue;
 				}
 			} else
-				$templateFile = null;
+			$templateFile = null;
 
 			// Check if target exists
 			if ($file->exists()) {
@@ -846,14 +846,14 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 			// Create directory
 			if ($templateFile)
-				$status = $templateFile->copyTo($file);
+			$status = $templateFile->copyTo($file);
 			else
-				$status = $file->mkdir();
+			$status = $file->mkdir();
 
 			if ($status)
-				$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.directory_ok}");
+			$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.directory_ok}");
 			else
-				$result->add("FAILED", $man->encryptPath($file->getAbsolutePath()), "{#error.no_write_access}");
+			$result->add("FAILED", $man->encryptPath($file->getAbsolutePath()), "{#error.no_write_access}");
 		}
 
 		return $result->toArray();
@@ -863,11 +863,11 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		$globalConfig = $man->getConfig();
 
 		if (!isset($input['prefixes']))
-			$input["prefixes"] = "*";
+		$input["prefixes"] = "*";
 
 		// If debug mode return all
 		if (!isset($input['path']) && isset($input['debug']) && checkBool($globalConfig['general.debug']))
-			return $man->getConfig();
+		return $man->getConfig();
 
 		if (!isset($input['path'])) {
 			trigger_error("{#error.file_not_exists}", FATAL);
@@ -885,7 +885,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 		// If debug mode return all
 		if (isset($input['debug']) && checkBool($globalConfig['general.debug']))
-			return $config;
+		return $config;
 
 		return $man->getJSConfig($config, $input["prefixes"]);
 	}

@@ -1,5 +1,4 @@
 tinyMCE.addI18n('en.media_dlg',{
-allowfullscreen:"Allow Full Screen",
 title:"Insert / edit embedded media",
 general:"General",
 advanced:"Advanced",

@@ -94,14 +94,22 @@ class skin_pcontacts extends skin_objectadmin{
 						<if="$vsSettings->getSystemKey($bw->input[0].'_Address',1)">
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
+								{$langObject['itemObjAddressview']}:
+							</td>
+							<td colspan="3">
+                        		<input style="width:100%;" name="pcontactAddressview" value="{$objItem->getAddressview()}" id="obj-Addressview"/>	
+							</td>
+						</tr>
+						</if>
+                   		<if="$vsSettings->getSystemKey($bw->input[0].'_googleposition',1)">
+                   		<tr class='smalltitle'>
+							<td class="label_obj"  width="75">
 								{$langObject['itemObjAddress']}:
 							</td>
 							<td colspan="3">
                         		<input style="width:100%;" name="pcontactAddress" value="{$objItem->getAddress()}" id="obj-Address"/>	
 							</td>
 						</tr>
-						</if>
-                   		<if="$vsSettings->getSystemKey($bw->input[0].'_googleposition',1)">
 						<tr class='smalltitle'>
 							<td class="label_obj" width="75">{$langObject['itemObjPosition']}:</td>
 							<td colspan="3">
@@ -127,7 +135,7 @@ class skin_pcontacts extends skin_objectadmin{
 						<if=" $vsSettings->getSystemKey($bw->input[0].'_intro',1) ">
 						<tr class='smalltitle'>
 							<td class="label_obj" width="75">
-								{$langObject['itemObjIntro']}:
+								{$vsLang->getWords("obj_footer","Địa chỉ Footer")}:
 							</td>
 							<td colspan="3" valgin="left">
 								{$objItem->getIntro()}

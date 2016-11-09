@@ -89,8 +89,8 @@ class contacts_admin  {
 	function readContactProcess($contactId){
 		global $vsStd;
 		$contact = $this->module->getObjectById($contactId);
-		$contactProfile	= unserialize($contact->getProfile());		
-		
+		$contactProfile	= $contact->getProfile();		
+	
 		$this->output = $this->html->readContactInfo($contact, $contactProfile);
 		
 		$contact->setStatus(1);

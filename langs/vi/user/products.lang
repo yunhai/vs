@@ -2,7 +2,27 @@
 $lang = array (
   'pageTitle' => 'Sản phẩm',
   'main_title' => 'Sản phẩm',
-  'sanphamcungloai' => 'sản phẩm cùng loại',
+  'group_global_module' => 'global',
+  'products_other' => 'Sản phẩm cùng loại',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+  'callprice' => 'Call',
+  'products_search_result' => 'Kết quả tìm kiếm',
+  'product_price' => 'Giá',
+  'product_video' => 'Video',
+  'products_search_emty' => 'Không tìm thấy dữ liệu theo yêu cầu. Vui lòng nhập từ khóa khác!',
+  'product_unit' => 'VNĐ',
+  'products_nd_lienhe' => 'Bạn có nhu cầu mua gà chọi hay? Hãy liên hệ với chúng tôi tại đây',
+  'products_lienhe' => 'Liên hệ',
+  'products_viewall' => 'Xem tất cả sản phẩm',
+  'product_mauda' => 'Các mẫu đá',
+  'products_price' => 'Giá',
+  'status_banchay' => 'Bán chạy',
+  'products_status' => 'Trạng thái',
+  'products_chitietkythuat' => 'CHI TIẾT KỸ THUẬT',
+  'status_dangcohang' => 'Đang có hàng',
+  'products_info' => 'THÔNG TIN SẢN PHẨM',
+  'products_brands' => 'Thương hiệu',
+  'p_mausanco' => 'Các màu sẵn có',
 );
 $userLang = array (
 );

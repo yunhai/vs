@@ -4,7 +4,7 @@
  *
  * @package MCImageManager.authenicators
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 // Store away important references
@@ -34,7 +34,7 @@ if (!isset($_SESSION['mc_drupal_auth']) || !$_SESSION['mc_drupal_auth']) {
 	$isDrupalAuth = user_access('access tinymce');
 	$_SESSION['mc_drupal_auth'] = $isDrupalAuth;
 } else
-	$isDrupalAuth = $_SESSION['mc_drupal_auth'];
+$isDrupalAuth = $_SESSION['mc_drupal_auth'];
 
 // Restore everything
 chdir($access_check['cwd']);
@@ -51,7 +51,7 @@ $basepath = $access_check['basepath'];
  * @package MCImageManager.Authenticators
  */
 class Moxiecode_DrupalAuthenticator extends Moxiecode_ManagerPlugin {
-    /**#@+
+	/**#@+
 	 * @access public
 	 */
 
@@ -65,7 +65,7 @@ class Moxiecode_DrupalAuthenticator extends Moxiecode_ManagerPlugin {
 		global $isDrupalAuth;
 		global $user;
 
-        $config =& $man->getConfig(); 
+		$config =& $man->getConfig();
 
 		// If authenticated then
 		if ($isDrupalAuth && isset($user)) {
@@ -81,10 +81,10 @@ class Moxiecode_DrupalAuthenticator extends Moxiecode_ManagerPlugin {
 
 			// Create rootpath
 			if (!file_exists($rootPath))
-				mkdir($rootPath);
+			mkdir($rootPath);
 		}
 
-        return $isDrupalAuth;
+		return $isDrupalAuth;
 	}
 
 	/**#@-*/

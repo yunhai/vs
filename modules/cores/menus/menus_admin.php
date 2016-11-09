@@ -352,7 +352,7 @@ class menus_admin
 
 		$option = array('listStyle' => "| - -",
 						'id'		=> 'menus-category'.$categoryGroup->getUrl(),
-						'size'		=> 18,
+						'size'		=> 25,
 						'multiple'	=> true,
 						'onclick'	=> "setValue_category{$categoryGroup->getUrl()}"
 		);

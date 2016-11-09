@@ -19,7 +19,7 @@ class pcontacts_admin extends ObjectAdmin{
 		' );
 		if(!$bw->input['ajax']&&$vsSettings->getSystemKey('pcontacts_googleposition',0, $bw->input['module']))
 		$script = <<<EOF
-			<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyA-dyjdcxVT39u5zhMmFrhpegOWZi1D7LE"></script>
+			<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=ABQIAAAAFchR-gNjD0MQ7LJ6awqichTNHz2w15vTCggQMczdoQ-_ZgOzOBTJdQuflmfPJtQDBLcIi3vpSZLLTw"></script>
 EOF;
 		$this->output = $this->html->managerObjHtml().$script;
 		
@@ -51,8 +51,8 @@ function addEditObjProcess() {
 				if(!$bw->input["{$this->tableName}Image"]) $bw->input["{$this->tableName}Image"] = 0;
 			}
 		
-			if($vsSettings->getSystemKey('pcontacts_googleposition',0, $bw->input['module'])&&($bw->input ["{$this->tableName}Longitude"]==0 && $bw->input ["{$this->tableName}Latitude"]==0))  
-				if(($bw->input["{$this->tableName}Address"]!= $obj->getAddress()) ){
+			if($vsSettings->getSystemKey('pcontacts_googleposition',0, $bw->input['module']))  
+				if(($bw->input["{$this->tableName}Address"]!= $obj->getAddress()) || ($obj->getLongitude()==0 && $obj->getLatitude()==0)){
 				$vsStd->requireFile(UTILS_PATH."googleMap.class.php");
 				$googleMap = new googleMap();
 				$address = $bw->input["{$this->tableName}Address"];

@@ -4,7 +4,7 @@
  *
  * @package MCManager.includes
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 @error_reporting(E_ALL ^ E_NOTICE);
@@ -24,13 +24,13 @@ function getRequestParam($name, $default_value = false, $sanitize = false) {
 	global $httpRequestInput;
 
 	if (!isset($httpRequestInput[$name]))
-		return $default_value;
+	return $default_value;
 
 	if (is_array($httpRequestInput[$name])) {
 		$newarray = array();
 
 		foreach ($httpRequestInput[$name] as $name => $value)
-			$newarray[formatParam($name, $sanitize)] = formatParam($value, $sanitize);
+		$newarray[formatParam($name, $sanitize)] = formatParam($value, $sanitize);
 
 		return $newarray;
 	}
@@ -40,10 +40,10 @@ function getRequestParam($name, $default_value = false, $sanitize = false) {
 
 function formatParam($str, $sanitize = false) {
 	if ($sanitize)
-		$str = preg_replace("/[^0-9a-z\-_,]+/i", "", $str);
+	$str = preg_replace("/[^0-9a-z\-_,]+/i", "", $str);
 
 	if (ini_get("magic_quotes_gpc"))
-		$str = stripslashes($str);
+	$str = stripslashes($str);
 
 	return $str;
 }
@@ -60,15 +60,15 @@ function getClassName($obj) {
  */
 function checkBool($str, $def = false) {
 	if ($str === true)
-		return true;
+	return true;
 
 	if ($str === false)
-		return false;
+	return false;
 
 	$str = strtolower($str);
 
 	if ($str == "true")
-		return true;
+	return true;
 
 	return $def;
 }
@@ -89,7 +89,7 @@ function getFileExt($path) {
  *
  * @param String $path path to Map/get content type by
  * @patam String $mime_File Absolute filepath to mime.types style file.
- * @return String mime type of path or an empty string on failue.  
+ * @return String mime type of path or an empty string on failue.
  */
 function mapMimeTypeFromUrl($path, $mime_file) {
 	if (($fp = fopen($mime_file, "r"))) {
@@ -102,7 +102,7 @@ function mapMimeTypeFromUrl($path, $mime_file) {
 
 			for ($i=1; $i<count($chunks); $i++) {
 				if (rtrim($chunks[$i]) == $ext)
-					return $chunks[0];
+				return $chunks[0];
 			}
 		}
 
@@ -151,9 +151,9 @@ function varDump($data) {
  */
 function indexOf($str, $search, $offset=0) {
 	$pos = strpos($str, $search, $offset);
-	
+
 	if ($pos === false)
-		return -1;
+	return -1;
 
 	return $pos;
 }
@@ -162,7 +162,7 @@ function &getLogger() {
 	global $mcLogger, $man;
 
 	if (isset($man))
-		$mcLogger = $man->getLogger();
+	$mcLogger = $man->getLogger();
 
 	if (!$mcLogger) {
 		$mcLogger = new Moxiecode_Logger();

@@ -93,7 +93,7 @@ class Menu extends BasicObject{
 		return $status;
 	}
         
-	function getUrl($real=true,$other=0) {
+	function getUrl($real=true) {
 		global $bw;
 		if($real)
 		return $this->url;
@@ -101,9 +101,6 @@ class Menu extends BasicObject{
 		if($this->type){
 			return $this->url;
 		}
-                if(APPLICATION_TYPE=="user"&&$this->url&&$other) {                    
-                    return $bw->main_url.rtrim($this->url,"/")."/";
-                }
                 if(APPLICATION_TYPE=="user"&&$this->url) {                    
                     return $bw->base_url.rtrim($this->url,"/")."/";
                 }
@@ -121,19 +118,32 @@ class Menu extends BasicObject{
 		return $bw->vars['board_url']."/rss/".strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-')). '-' . $this->id.'.rss';
 	}
 	
+//	function getClassActive() {
+//		global $bw;
+//
+//		if($this->url){
+//			if(strpos(trim($bw->input['vs']), trim($this->url,"/ "))===0) return 'active selected';
+//		}elseif($bw->input['vs']=="home") return 'active selected';
+//		 
+//		if($bw->input['vs']=="home" && trim($this->url,"/") == trim($bw->vars['board_url'],"/"))return 'active selected';
+//		return $this->active;
+//	}
+	
 	function getClassActive($class = 'active selected'){
-		global $bw,$keyacc;
+		global $bw;
 
 		if($this->url){
 			if(strpos(trim($bw->input['vs']), trim($this->url,"/ "))===0) return $class;
-		}elseif($bw->input['module']=="home") return $class;
+		}elseif($bw->input['vs']=="home") return $class;
 		 
 		if($bw->input['vs']=="home" && trim($this->url,"/") == trim($bw->vars['board_url'],"/"))return $class;
-                
-                if($this->url==$keyacc)return $class;
+		if($bw->input['module']=="home" && trim($this->url,"/") == '')return $class;
+		if($bw->input['module']=="listproject" && trim($this->url,"/") == 'projects')return $class;
+		if($bw->input['module']=="gallery_image" && trim($this->url,"/") == 'gallerys')return $class;
+		if($bw->input['module']=="video" && trim($this->url,"/") == 'gallerys')return $class;
+		if($bw->input['module']=="ebrochure" && trim($this->url,"/") == 'gallerys')return $class;
 		return $this->active;
 	}
-	
 
 	function getFileId() {
 		return $this->fileId;
@@ -196,8 +206,17 @@ class Menu extends BasicObject{
 		return $this->children;
 	}
 
-	function getAlt() {
-		return $this->alt;
+	function getAlt($size=0, $br = 0, $tags = "") {
+		$parser = new PostParser ();
+		$parser->pp_do_html = 1;
+		$parser->pp_nl2br = $br;
+		$alt = $parser->post_db_parse($this->alt);
+		if($size){
+			if($tags) $alt = strip_tags($alt, $tags);
+			else $alt = strip_tags($alt);
+			return VSFTextCode::cutString($alt,$size);
+		}
+		return $alt;
 	}
 
 	function getIsAdmin() {
@@ -312,7 +331,7 @@ class Menu extends BasicObject{
             $re ="";
             if($this->children){
                 foreach($this->children as $obj)
-                      $re .= "<li><a href='{$obj->getUrl(0)}' title='{$obj->getTitle()}' target='_blank'>{$obj->getTitle()}</a></li>";
+                      $re .= "<li><a href='{$obj->getUrl(0)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
             }
             return $re;
         }

@@ -23,13 +23,14 @@ class Order extends BasicObject{
 	private $UR		= NULL;
 	
 	public function convertToDB() {
+		
 		isset ( $this->id ) 		? ($dbobj ['orderId'] 		= $this->id) 		: '';
 		isset ( $this->name ) 		? ($dbobj ['orderName'] 	= $this->name) 		: '';
 		isset ( $this->address ) 	? ($dbobj ['orderAddress'] 	= $this->address) 	: '';
 		isset ( $this->email ) 		? ($dbobj ['orderEmail'] 	= $this->email) 	: "";
 		isset ( $this->message )	? ($dbobj ['orderMessage'] 	= $this->message) 	: "";
 		isset ( $this->postdate ) 	? ($dbobj ['orderTime'] 	= $this->postdate) 	: '';
-		isset ( $this->info ) 		? ($dbobj ['orderInfo'] 	= $this->info) 		: '';
+		isset ( $this->info ) 		? ($dbobj ['orderInfo'] 	= serialize ( $this->info )) 		: '';
 		isset ( $this->infoU ) 		? ($dbobj ['orderInfoU'] 	= $this->infoU) 	: '';
 		isset ( $this->phone ) 		? ($dbobj ['orderPhone'] 	= $this->phone) 	: '';
 		isset ( $this->userId )		? ($dbobj ['userId'] 		= $this->userId) 	: "";
@@ -115,14 +116,14 @@ class Order extends BasicObject{
 	 * @return the $info
 	 */
 	public function getInfo() {
-		return unserialize($this->info);
+		return $this->info;
 	}
 
 	/**
 	 * @param $info the $info to set
 	 */
 	public function setInfo($info) {
-		$this->info = serialize($info);
+		$this->info = unserialize($info);
 	}
 	
 
@@ -161,7 +162,7 @@ class Order extends BasicObject{
 	 * @return the $phone
 	 */
 	public function getPhone() {
-		return $this->phone;
+		return str_replace("#", "", $this->phone);
 	}
 
 	/**
@@ -189,7 +190,7 @@ class Order extends BasicObject{
 	 * @return the $message
 	 */
 	public function getMessage() {
-		return $this->message;
+		return $this->info['message'];
 	}
 
 	/**
@@ -210,7 +211,7 @@ class Order extends BasicObject{
 	 * @param $phone the $phone to set
 	 */
 	public function setPhone($phone) {
-		$this->phone = $phone;
+		$this->phone = "#".$phone;
 	}
 
 	/**
@@ -238,7 +239,8 @@ class Order extends BasicObject{
 	 * @param $message the $message to set
 	 */
 	public function setMessage($message) {
-		$this->message = $message;
+		//$this->message = $message;
+		$this->info['message']= $message;
 	}
 
 	/**

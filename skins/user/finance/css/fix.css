@@ -1,0 +1,72 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/************ CSS TAB ***********************/
+.main_title1 .tabs{
+	background:url(../images/title_bg.jpg) bottom repeat-x;
+	text-transform:uppercase;
+	height:53px;
+	line-height:53px;
+	margin-bottom:14px;
+	font-family: 'MyriadProCondBold';
+	font-size:30px;
+}
+.main_title1 ul li{
+	float:left;
+	list-style: none;
+	margin-right:20px;
+}
+.main_title1 ul li a{
+	display:block;
+	height:53px;
+	padding:0px 15px;
+	text-transform:uppercase;
+	color:#787878;
+	font-family: 'MyriadProCondBold';
+	font-size:30px;
+	float:left;
+	cursor:pointer;
+}
+.main_title1 ul li .active{
+	background:url(../images/bg_tab.png) repeat-x;;
+	color:#FFF;
+		
+}
+
+#product_home2{
+	display:none;	
+}
+
+
+
+ul.accordion li .description{
+    position:absolute;
+    width:100%;
+    height:60px;
+	line-height:60px;
+    top:0px;
+    left:0px;
+	padding-bottom:30px;
+	padding-left:50px;
+    display:none;
+	background:url(../images/bg_acdico.png) repeat-x;
+
+}
+
+/*.description a{
+	display:block;
+	color:#FFF !important;
+	margin-bottom:30px;
+}*/
+
+ul.accordion li .description a{
+	float:left;
+	width:100px;
+	color:#FFF;
+	text-align:center;
+	padding:0px 10px;
+	font-size:13px;
+	font-weight:bold;
+}
+

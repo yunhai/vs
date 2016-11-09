@@ -52,7 +52,7 @@ $lang = array (
   'delete_image' => 'Xóa hình',
   'tab_obj_objes_pcontacts' => 'pcontacts',
   'tab_obj_objes_system' => 'system',
-
+  'obj_footer' => 'Địa chỉ Footer',
 );
 $userLang = array (
 );

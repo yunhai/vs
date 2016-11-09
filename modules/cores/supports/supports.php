@@ -20,14 +20,15 @@ class supports extends VSFObject{
             global $vsMenu;
 		$listObj= $this->getListWithCat(); // lấy theo 1 danh mục hoặc lấy tất cả
 		$listFile = $vsMenu->getImgeOfMenu('nickicons','menuId');
-                $nikon = $listFile->getChildren();
-       
-                foreach($listObj as $obj)
-                {
-                        if($nikon[$obj->getImageOnline()])$obj->fileOnl = $nikon[$obj->getImageOnline()]->file;
-                        if($nikon[$obj->getImageOffline()])$obj->fileOff = $nikon[$obj->getImageOffline()]->file;
-                }
-                        return $listObj;
+      	$nikon = $listFile->getChildren();
+
+     	foreach($listObj as $obj)
+       	{
+           	if($nikon[$obj->getImageOnline()])$obj->fileOnl = $nikon[$obj->getImageOnline()]->file;
+            if($nikon[$obj->getImageOffline()])$obj->fileOff = $nikon[$obj->getImageOffline()]->file;
+        }
+    
+   		return $listObj;                
 	}
 	function getSupportWithCatId($catId=0 ) {
 		

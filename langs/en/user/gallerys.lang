@@ -1,7 +1,9 @@
 <?php
 $lang = array (
-  'pageTitle' => 'gallerys',
-  'main_title' => 'gallerys',
+  'pageTitle' => 'Gallerys',
+  'main_title' => 'Gallerys',
+  'group_global_module' => 'global',
 );
-$userLang = array();
+$userLang = array (
+);
 ?>

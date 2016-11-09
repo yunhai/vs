@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -16,27 +16,27 @@ class Moxiecode_FileTreeHandler {
 	/**
 	 * Continue tree search.
 	 *
-	 * @var int $CONTINUE 
+	 * @var int $CONTINUE
 	 */
 	var $CONTINUE = 1;
 
 	/**
 	 * Abort tree search.
 	 *
-	 * @var int $ABORT 
+	 * @var int $ABORT
 	 */
 	var $ABORT = 2;
 
 	/**
 	 * Abort tree search on the current folder/directory.
 	 *
-	 * @var int $ABORT_FOLDER 
+	 * @var int $ABORT_FOLDER
 	 */
 	var $ABORT_FOLDER = 3;
 
 	/**
 	 * Handles a file instance while looping an tree of directories.
-	 * 
+	 *
 	 * @param MCE_File $file File object reference
 	 * @param int $level Current level of tree parse
 	 * @return int State of what to do next can be CONTINUE, ABORT or ABORTFOLDER.
@@ -130,7 +130,7 @@ class Moxiecode_BasicFileTreeHandler extends Moxiecode_FileTreeHandler {
 	function setMakeArray($state) {
 		$this->_makeArray = $state;
 		if ($this->_makeArray)
-			$this->_array = array();
+		$this->_array = array();
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Moxiecode_BasicFileTreeHandler extends Moxiecode_FileTreeHandler {
 
 	/**
 	 * Handles a file instance while looping an tree of directories.
-	 * 
+	 *
 	 * @param MCE_File $file File object reference
 	 * @param int $level Current level of tree parse
 	 * @return int State of what to do next can be CONTINUE, ABORT or ABORTFOLDER.
@@ -154,16 +154,16 @@ class Moxiecode_BasicFileTreeHandler extends Moxiecode_FileTreeHandler {
 		$add = true;
 
 		if (is_array($this->_array) && $this->_onlyDirs && $file->isFile())
-			$add = false;
+		$add = false;
 
 		if (is_array($this->_array) && $this->_onlyFiles && $file->isDir())
-			$add = false;
+		$add = false;
 
 		if ($add)
-			$this->_array[] = $file;
+		$this->_array[] = $file;
 
 		if ($this->_maxLevel && $level >= $this->_maxLevel)
-			return $this->ABORT_FOLDER;
+		return $this->ABORT_FOLDER;
 
 		return $this->CONTINUE;
 	}
@@ -176,7 +176,7 @@ class Moxiecode_ConfigFilteredFileTreeHandler extends Moxiecode_BasicFileTreeHan
 
 	/**
 	 * Handles a file instance while looping an tree of directories.
-	 * 
+	 *
 	 * @param MCE_File $file File object reference
 	 * @param int $level Current level of tree parse
 	 * @return int State of what to do next can be CONTINUE, ABORT or ABORTFOLDER.
@@ -184,9 +184,9 @@ class Moxiecode_ConfigFilteredFileTreeHandler extends Moxiecode_BasicFileTreeHan
 	function handle($file, $level) {
 		if ($file->isDirectory() || !is_array($this->_config)) {
 			if ($level == 0)
-				return parent::handle($file, $level);
+			return parent::handle($file, $level);
 			else
-				$parentFile = $file->getParentFile();
+			$parentFile = $file->getParentFile();
 
 			$this->_config = $parentFile->getConfig();
 		}
@@ -202,7 +202,7 @@ class Moxiecode_ConfigFilteredFileTreeHandler extends Moxiecode_BasicFileTreeHan
 		$filter->setOnlyDirs($this->_onlyDirs);
 
 		if (!$filter->accept($file))
-			return $this->ABORT_FOLDER;
+		return $this->ABORT_FOLDER;
 
 		return parent::handle($file, $level);
 	}

@@ -1,10 +1,9 @@
 <?php
-class  tinyMCE
-{
+class tinyMCE {
 	private $value = "";
 	private $width = 100;
 	private $height = 40;
-	private $skin  = "o2k7";
+	private $skin = "o2k7";
 	private $InstanceName = "";
 	private $url = "";
 	private $theme = "";
@@ -122,56 +121,48 @@ class  tinyMCE
 		$this->width = $width;
 	}
 	
-	function setToolbar($toolbarSet="") {
+	function setToolbar($toolbarSet = "") {
 		switch ($toolbarSet) {
-			case 'full':
+			case 'full' :
 				$this->toolbarSet = <<<EOF
-//				theme_advanced_buttons1 : "fullscreen,|,formatselect,fontselect,fontsizeselect,|,justifyleft,justifycenter,justifyright,justifyfull",				
-//				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,undo,redo,|,link,unlink,anchor,image,media,|,cleanup,|,sub,sup",
-//				theme_advanced_buttons3 : "hr,removeformat,visualaid",
-//				theme_advanced_buttons4 : "save,newdocument,|,bold,italic,underline,strikethrough,|,ltr,rtl,|,print,|,insertdate,inserttime,|,forecolor,backcolor,code,help",
-//				theme_advanced_buttons5 : "tablecontrols",
-//				theme_advanced_buttons6 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,",
-//				theme_advanced_buttons9 : "visualchars,nonbreaking,|,charmap,emotions,iespell",
-//				theme_advanced_buttons7 : "template",
-//				theme_advanced_buttons8 : "pagebreak",
-
-				theme_advanced_buttons1 : "fullscreen,|,formatselect,fontselect,fontsizeselect,|,justifyleft,justifycenter,justifyright,justifyfull,|,search,replace,|,bullist,numlist,|,undo,redo,|,sub,sup,",
-				theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,cut,copy,paste,pastetext,pasteword,cleanup,|,link,unlink,anchor,image,media,|,ltr,rtl,|,insertdate,inserttime,|,forecolor,backcolor,code,insertfile",
+				theme_advanced_buttons1 : "fullscreen,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
+				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,insertimage,|,media",
 EOF;
 				break;
-				
-			case 'medium':
+			
+			case 'medium' :
 				$this->toolbarSet = <<<EOF
 				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|bullist,numlist,|,outdent,indent,|,undo,redo",
 				theme_advanced_buttons2 : "link,unlink,image,insertimage, cleanup,code,forecolor,backcolor,fontsizeselect",
 				theme_advanced_buttons3 : '',
 EOF;
 				break;
-				
-			case 'simple':
+			
+			case 'simple' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,|,outdent,indent,blockquote,|undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,outdent,indent,blockquote,|undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
 				theme_advanced_buttons2 : '',
 EOF;
-			case 'narrow':
+                            break;
+			case 'narrow' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,|",
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|",
 				theme_advanced_buttons2 : ",outdent,indent,blockquote,|undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
 EOF;
 				break;
-				
-			default:
+			
+			default :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+				theme_advanced_buttons1 : "fullscreen,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
 				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
-				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,fullscreen,insertimage",
+				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,insertimage",
 EOF;
 				break;
 		}
 	}
 	
-	function createHtml(){
+	function createHtml() {
 		$BWHTML .= <<<EOF
 		<script language="javascript" type="text/javascript">
 			tinyMCE.init({
@@ -184,8 +175,12 @@ EOF;
 				relative_urls:false,
 				remove_script_host: true,
 				document_base_url:"{$this->url}",
-
-				plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,imagemanager",
+				
+                  force_p_newlines : true,
+				  force_br_newlines : false,
+				  forced_root_block : '',
+				  convert_newlines_to_brs: false,
+				plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist,imagemanager",
 
 				// Theme options
 				{$this->toolbarSet}
@@ -194,19 +189,18 @@ EOF;
 				align:"left",
 				theme_advanced_statusbar_location : "bottom",
 				theme_advanced_resizing : true,
-				extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-				
-		
+				extended_valid_elements : "a[name|href|target|title|onclick],img[class|style|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 				// Replace values for the template plugin
 				template_replace_values : {
-					username : "tongnguyen",
-					staffid : "123456"
+				username : "tongnguyen",
+				staffid : "123456"
 				}
 			});
+			
 		</script>
 		<textarea id="{$this->InstanceName}" name="{$this->InstanceName}" class="{$this->InstanceName}" rows="4" cols="50" style="height:{$this->height}; width:{$this->width};">{$this->value}</textarea>
 EOF;
-
+		
 		return $BWHTML;
 	}
 }

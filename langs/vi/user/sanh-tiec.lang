@@ -1,9 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Sảnh tiệc',
-  'main_title' => 'Sảnh tiệc',
-  'cactinkhac2' => 'CÁC TIN KHÁC',
-);
-$userLang = array (
-);
-?>

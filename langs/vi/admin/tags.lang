@@ -1,0 +1,32 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Tags',
+  'main_title' => 'Tags',
+  'tab_module_tags' => 'Tags',
+  'tab_help_tags' => 'Develops guides',
+  'tab_user_SS' => 'SystemSetting',
+  'visible_obj_confirm_hide' => 'You haven\'t choose any items to hide!',
+  'visible_obj_confirm_noitem' => 'You haven\'t choose any items to visible!',
+  'delete_obj_confirm_noitem' => 'You haven\'t choose any items to delete!',
+  'obj_delete_confirm' => 'Bạn muốn xóa tag này?',
+  'tags_list' => 'Danh sách tag',
+  'hide_obj_alt_bt' => 'Ần',
+  'add_obj_bt' => 'Thêm tag',
+  'hide_obj_bt' => 'Ần',
+  'visible_obj_alt_bt' => 'Hiển thị ',
+  'visible_obj_bt' => 'Hiển thị',
+  'delete_obj_alt_bt' => 'Xóa',
+  'delete_obj_bt' => 'Xóa',
+  'tags_text_head_text' => 'Từ khóa',
+  'tags_dateTime_head_text' => 'Ngày tạo',
+  'newsItem_EditObjTitle' => 'Click vào đây để sửa!',
+  'delete_success' => 'Xóa thành công!',
+  'add_edit_tags' => 'Add edit tags',
+  'close' => 'Trở lại',
+  'tags_text_name' => 'Từ khóa',
+  'add' => 'Thêm',
+  'text_is_not_null' => 'Từ khóa không được để trống!!!',
+);
+$userLang = array (
+);
+?>

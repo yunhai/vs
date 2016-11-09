@@ -1,10 +1,7 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Abouts ',
-  'main_title' => 'Abouts ',
-  'about_pagetitle' => 'Abouts ',
-  'ngaydangtin' => 'Post Date',
-  'Cac_tin_khac' => 'Other Abouts',
+  'pageTitle' => 'About us',
+  'main_title' => 'About us',
   'group_global_module' => 'global',
 );
 $userLang = array (

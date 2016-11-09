@@ -1,10 +1,7 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Dự án',
-  'main_title' => 'Dự án',
-  'tab_obj_objes_projects' => 'Dự án',
-  'menus_option_root' => 'Root',
+  'pageTitle' => 'projects',
+  'main_title' => 'projects',
 );
-$userLang = array (
-);
+$userLang = array();
 ?>

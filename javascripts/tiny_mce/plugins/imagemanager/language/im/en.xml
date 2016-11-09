@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <language-pack>
 	<header>
-		<!-- Please fill in contact information (author & email), we might contact you when we are doing updates -->
-		<!-- You will also have the chance to participate in beta releases of new versions -->
+		<!--
+			Please fill in contact information (author & email), we might contact
+			you when we are doing updates
+		-->
+		<!--
+			You will also have the chance to participate in beta releases of new
+			versions
+		-->
 		<author>Moxiecode Systems AB (spam@moxiecode.com)</author>
 		<version minor="2" major="1" releasedate="2006-12-05" />
 		<description>
@@ -68,7 +74,7 @@
 
 			<!-- delete -->
 			<item name="delete_failed">Could not delete file(s).</item>
-			
+
 			<!-- image edit -->
 			<item name="crop_failed">Could not crop image.</item>
 			<item name="resize_failed">Could not crop image.</item>
@@ -77,7 +83,8 @@
 			<item name="save_failed">Save was not successfull.</item>
 
 			<!-- Legacy items -->
-			<item name="remove_favorite_failed">Failed to remove the favorite from your favorites list.</item>
+			<item name="remove_favorite_failed">Failed to remove the favorite from your favorites
+				list.</item>
 		</group>
 
 		<group target="message">
@@ -122,7 +129,8 @@
 			<item name="dimensions">Dimensions</item>
 
 			<!-- Legacy items -->
-			<item name="confirm_remove_favorite">Are you sure you wish to remove this from your favorites list?</item>
+			<item name="confirm_remove_favorite">Are you sure you wish to remove this from your
+				favorites list?</item>
 		</group>
 
 		<group target="createdir">
@@ -146,15 +154,18 @@
 			<item name="button_upload">Upload</item>
 			<item name="browse">Add file(s)</item>
 			<item name="progress">Uploading...</item>
-			<item name="upload_warn">Files are being uploaded, are you sure you want to cancel the upload?</item>
-			<item name="statusrow">You have {files} files (total {size}) eagerly waiting to be uploaded.</item>
+			<item name="upload_warn">Files are being uploaded, are you sure you want to
+				cancel the upload?</item>
+			<item name="statusrow">You have {files} files (total {size}) eagerly waiting
+				to be uploaded.</item>
 			<item name="progressinfo">{loaded} of {total} uploaded at {speed}/s.</item>
 			<item name="abort">Abort upload</item>
 			<item name="add_more">Add more?</item>
 			<item name="upload_to_server">Upload to server</item>
 			<item name="cancelled">Upload was cancelled</item>
 			<item name="choose_files">Choose files</item>
-			<item name="basic_upload">If you're having trouble uploading you can always use the {a}basic uploader{/a}.</item>
+			<item name="basic_upload">If you're having trouble uploading you can always use
+				the {a}basic uploader{/a}.</item>
 			<item name="remove">Remove</item>
 			<item name="file">File</item>
 			<item name="size">Size</item>
@@ -181,23 +192,27 @@
 			<item name="horizontal">Horizontal</item>
 			<item name="vertical">Vertical</item>
 			<item name="saving_wait">Saving image, please wait...</item>
-			<item name="confirm_revert">Are you sure that you want to revert to the last saved image?</item>
+			<item name="confirm_revert">Are you sure that you want to revert to the last
+				saved image?</item>
 			<item name="loading">Loading image, please wait...</item>
-			<item name="confirm_no_save">Are you sure that you don't want to save the changes you made to the image?</item>
+			<item name="confirm_no_save">Are you sure that you don't want to save the changes
+				you made to the image?</item>
 		</group>
 
 		<group target="tinymce">
-			<item name="insertimage_desc">Insert image</item>	
-			<item name="replaceimage_desc">Replace image</item>	
-			<item name="editimage_desc">Edit image</item>	
+			<item name="insertimage_desc">Insert image</item>
+			<item name="replaceimage_desc">Replace image</item>
+			<item name="editimage_desc">Edit image</item>
 		</group>
 
 		<group target="favorites">
 			<item name="special_folder_title">Favorites</item>
 			<item name="addfavorites">Add favorite(s)</item>
 			<item name="removefavorites">Remove favorite(s)</item>
-			<item name="confirm_remove_favorite">Are you sure you wish to remove this from your favorites list?</item>
-			<item name="remove_favorite_failed">Failed to remove the favorite from your favorites list.</item>
+			<item name="confirm_remove_favorite">Are you sure you wish to remove this from your
+				favorites list?</item>
+			<item name="remove_favorite_failed">Failed to remove the favorite from your favorites
+				list.</item>
 		</group>
 
 		<group target="history">

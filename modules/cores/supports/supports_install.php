@@ -27,6 +27,7 @@ class supports_install {
 			  `supportStatus` tinyint(1) NOT NULL DEFAULT '0',
 			  `supportProfile` varchar(700) NOT NULL DEFAULT '',
 			  `supportAvatar` varchar(50) NOT NULL DEFAULT '',
+			  `supportName` varchar(256) NOT NULL DEFAULT '',
 			  PRIMARY KEY (`supportId`)
 			) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 		";

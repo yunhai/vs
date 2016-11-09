@@ -15,7 +15,7 @@
 	text-decoration: none;
 	padding: 3px;
 	text-align: left;
-	overflow:auto; /* FF */
+	overflow: auto; /* FF */
 }
 
 .menu a:hover {

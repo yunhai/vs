@@ -23,11 +23,10 @@ class admins_admin
 {
 	private $output		= NULL;
 	private $html       = NULL;
-	protected $module       = NULL;
+	protected $module	= NULL;
 
 
 	function __construct() {
-
 		global $bw, $vsTemplate, $vsPrint;
 		$this->module = new admins();
 		$this->base_url = $bw->base_url;
@@ -87,6 +86,11 @@ class admins_admin
 			case 'displayuseradmin':
 				$this->displayUserAdmins();
 				break;
+                        
+			case 'display_choise_group' :   
+                            $_SESSION['choise_group'] = $bw->input[2];
+                            $this->getObjList();
+                            break;
 			case 'display-obj-list':
 				$this->	getObjList();
 				break;
@@ -137,16 +141,71 @@ class admins_admin
 				break;
 					
 			default:
+                            $_SESSION['choise_group']=0;
 				$this->displayAd();//ok tabso 2
+				break;
+				
+			case 'memdetail':
+					$this->memdetail();
+				break;
+			case 'clearcache':
+					$this->clearCache();
 				break;
 		}
 	}
+	
+	function clearCache(){
+		global $vsLang;
+		$this->empty_folder(CACHE_PATH."time/");
+		$this->empty_folder(CACHE_PATH."html/");
+		return $this->output = "[".$vsLang->getWords('global_clear_cache_successfull', 'Cache has been cleared.')."]".<<<EOF
+			<script type='text/javascript'>
+				setTimeout(function(){
+				    $('#clearresult').toggle("slow", function(){	
+						$(this).html('');
+					});
+				}, 5000);
+			</script>
+EOF;
+	}
+	
+	function empty_folder($folder, $debug = false){ 
+	    if ($debug) { 
+	        echo "Cleaning folder $folder ... <br>"; 
+	    } 
+	    
+	    $d = dir($folder); 
+	    
+	    while (false !== ($entry = $d->read())) { 
+	        $isdir = is_dir($folder."/".$entry); 
+	        if (!$isdir and $entry!="." and $entry!="..") { 
+	            unlink($folder."/".$entry); 
+	        }elseif ($isdir  and $entry!="." and $entry!="..") { 
+	            empty_folder($folder."/".$entry,$debug); 
+	            rmdir($folder."/".$entry); 
+	        } 
+	    } 
+	    $d->close(); 
+	} 
+	
+	function memdetail(){
+		global $bw;
+		
+		$this->module->setTableName('admin, vsf_admin_group');
+		$this->module->setCondition('objectId = adminId AND relId = '.$bw->input[2]);
+		
+		$url = 'admins/memdetail/'.$bw->input[2]; $pIndex = 3; $size = 10;
+		$option = $this->module->getPageList($url, $pIndex, $size, 1, 'memdetail');
+		
+		$this->output = $this->html->memberList($option);
+	}
+	
 	//add adminstatus to $val
 	function showAllAdmins($val){
 		global $bw;
 		$this->module->setCondition("adminId in ({$bw->input[2]})");
 		$this->module->updateObjectByCondition(array('adminStatus'=>$val));
-		return $this->output = $this->getObjList($bw->vars['root_admin_groups'],$this->result['message']);
+		return $this->output = $this->getObjList($this->result['message']);
 	}
 
 	function displayAd(){
@@ -228,6 +287,7 @@ class admins_admin
 		$listperm = $this->module->groupadmins->obj->getPermissions();
 		$requireFile = CORE_PATH.$vsModule->obj->getClass()."/".$vsModule->obj->getClass().".perm.php";
 		$vsStd->requireFile($requireFile);
+
 		$className = $vsModule->obj->getClass()."_perm";
 		$this_module = new $className;
 		$permission = $this_module->getAdminPermission();
@@ -254,36 +314,41 @@ class admins_admin
 
 	function viewPermission() {
 		global $vsModule,$vsUser, $vsStd;
-		$groupBoxHTML = $this->html->AdminPermGroupBox($vsUser->obj->getGroups());
+		
+//		$groupBoxHTML = $this->html->AdminPermGroupBox($vsUser->obj->getGroups());
 
+		$groupBoxHTML = $this->html->AdminPermGroupBox($vsUser->groupadmins->arrayGroup);
 		$vsModule->getEnabledModule();
+		
 		foreach ($vsModule->arrayModule as $module) {
 			$requireFile = CORE_PATH.$module->getClass()."/".$module->getClass().".perm.php";
+//			echo $requireFile ."<br />";
 			// If the file is not exist, don't process for this module
 			if(!file_exists($requireFile)) continue;
+			
 			$vsStd->requireFile($requireFile);
 			$className = $module->getClass()."_perm";
-				
+			
 			// If the class is not exist, don't process for this module
 			if(!class_exists($className)) continue;
 				
 			$this_module = new $className;
-				
+			
 			// If the getAdminPermission method is not exist, don't process for this module
-			if(!method_exists($this_module,'getAdminPermission')) {
+			if(!method_exists($this_module, 'getAdminPermission')) {
 				unset($this_module);
 				continue;
 			}
 				
 			$permission = $this_module->getAdminPermission();
-				
-			$moduleItemHTML .= $this->html->ModuleOption($permission[0],$module);
+			
+			$moduleItemHTML .= $this->html->ModuleOption($permission[0], $module);
 		}
 
 		$moduleListHTML = $this->html->ModuleBox($moduleItemHTML);
 		//		$permTableHTML = $this->getAdminModuleList();
 
-		$this->output = $this->html->mainAdminPermission($moduleListHTML,$groupBoxHTML);
+		$this->output = $this->html->mainAdminPermission($moduleListHTML, $groupBoxHTML);
 	}
 
 	//===============================================
@@ -291,8 +356,13 @@ class admins_admin
 	//===============================================
 
 	function removeAdmins(){
-		global $bw;
-		if($bw->input[2]!=""){
+		global $bw, $vsLang;
+		
+		if($bw->input[2] == $bw->vars['superadminid']){
+			$this->result['message'] = $vsLang->getWords('cannot_delete', 'Tài khoản này không xóa được');
+			return $this->output = $this->getObjList($this->result['message']);
+		}
+		if($bw->input[2]){
 			$this->module->setCondition("adminId in ({$bw->input[2]})");
 			$this->module->deleteObjectByCondition();
 			$this->module->vsRelation->setObjectId($bw->input[2]);
@@ -300,16 +370,13 @@ class admins_admin
 			$this->module->vsRelation->delRelByObject();
 			$this->module->arrayAdmin = array();
 		}else{
-			$this->result['message']	=	"Have some error";
+			$this->result['message'] = $vsLang->getWords('delete_error', 'Đã xảy ra lỗi trong quá trình xóa.');
 		}
-		$this->output = $this->getObjList($bw->vars['root_admin_groups'],$this->result['message']);
+		
+		$this->output = $this->getObjList($this->result['message']);
 	}
 
 
-	/**
-	 * Process add or edit an admin
-	 *
-	 */
 	function addEditSSProcess() {
 		global $DB, $bw;
 		$this->result['message'] = "Báº¡n Ä‘Ã£ cáº­p nháº­t thÃ´ng tin thÃ nh cÃ´ng! Trá»Ÿ vá»� trang chÃ­nh Ä‘á»ƒ tháº¥y sá»± thay Ä‘á»•i";
@@ -327,10 +394,9 @@ class admins_admin
 	}
 
 	function addEditAdmin() {
-		global $bw, $vsLang;
-               
+		global $bw, $vsLang, $vsSettings;
+
 		$this->module->obj->setName($bw->input['adminName']);
-                $this->module->obj->setEmail($bw->input['adminEmail']);
 
 		
 		if($bw->input['formType']=='edit') {
@@ -346,7 +412,7 @@ class admins_admin
 		$bw->input['adminStatus']? $this->module->obj->setStatus(1):$this->module->obj->setStatus(0);
 		
 		$this->module->obj->setJoinDate(time());
-		$this->module->obj->setLastLogin(time());
+		$this->module->obj->setLastLogin(0);
 		$this->module->obj->getPassword();
 
 		if(($bw->input['formType'] == "add") || ($bw->input['formType'] == "edit" && $bw->input['adminName'] != $bw->input['oldName']) ){
@@ -422,25 +488,41 @@ class admins_admin
 	function displayAdminTable() {
 		global $bw;
 
-		$this->output = $this->getObjList($bw->input[2]);
+		$this->output = $this->getObjList();
 	}
+	
 	function getObjList($message=""){
 		global $bw,$vsSettings,$vsUser;
-		if($bw->input['pageIndex'])	$bw->input[2]=$bw->input['pageIndex'];
-		$size = $vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);
-		if(!$vsUser->checkRoot()){
-			$this->module->vsRelation->setRelId(implode(array_keys($vsUser->obj->getGroups()),','));
-			$this->module->vsRelation->setTableName($this->module->getRelTableName());
-			$listObj = $this->module->vsRelation->getObjectByRel();
-			$this->module->vsRelation->setRelId($bw->vars['root_admin_groups']);
+		if($bw->input['pageIndex'])	$bw->input[3]=$bw->input['pageIndex'];
+		$size = 20;
+		$vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);
+               
+        if($_SESSION['choise_group']){
+			$listgroup = $_SESSION['choise_group'];
+        }else{
+         	if(!$this->module->checkRoot()) 
+				$listgroup = implode(array_keys($vsUser->obj->getGroups()),',');
+        }
+			
+        if($listgroup){
+			$this->module->vsRelation->setRelId($listgroup);
 			$this->module->vsRelation->setTableName($this->module->getRelTableName());
 			$rootlistObj = $this->module->vsRelation->getObjectByRel();
-			$this->module->setCondition("adminId in({$listObj}) and adminId not in ($rootlistObj)");
-		}
-		$option=$this->module->getPageList("{$bw->input[0]}/display-obj-list", 2,$size,1,'obj-list');
-		$option['pageList'][$vsUser->obj->getId()]->current = 1;
+			if(!$rootlistObj) $rootlistObj = 0;
+			$this->module->setCondition("adminId in({$rootlistObj})");
+        }
+				
+		$url = 'admins/display-obj-list/'.$listgroup; $pIndex = 3; 
+		$option = $this->module->getPageList($url, $pIndex, $size, 1, 'obj-list');
+                
+		if($option['pageList'][$vsUser->obj->getId()])
+			$option['pageList'][$vsUser->obj->getId()]->current = 1;
 		
 		$option['message'] = $message;
+		
+		$oGroup = new groupadmins();
+		$option['groups'] = $oGroup->arrayGroup; 
+		
 		return $this->output = $this->html->objListHtml($option);
 	}
 
@@ -485,7 +567,7 @@ class admins_admin
 		$addEditAdminForm = $this->addEditAdminForm();
 
 		// Display admin list
-		$adminListHTML = $this->getObjList($bw->vars['root_admin_groups']);
+		$adminListHTML = $this->getObjList();
 
 		$this->output = $this->html->MainAdmin($groupBoxHTML,$addEditAdminForm, $adminListHTML);
 	}
@@ -501,25 +583,16 @@ class admins_admin
 		$addEditAdminForm = $this->addEditAdminForm();
 
 		// Display admin list
-		$adminListHTML = $this->getObjList($bw->vars['root_admin_groups']);
-
-		$this->output = $this->html->MainAdmin($groupBoxHTML,$addEditAdminForm, $adminListHTML);
+		$adminListHTML = $this->getObjList();
+		
+//$vsUser->groupadmins->arrayGroup
+		$this->output = $this->html->MainAdmin($groupBoxHTML, $addEditAdminForm, $adminListHTML);
 	}
 
 	//===============================================
 	// GROUP ZONE
 	//===============================================
-	//	function removeGroup() {
-	//		global $bw;
-	//		if($bw->input[2]!=1){
-	//			$this->module->groupadmins->obj->setId($bw->input[2]);
-	//			$this->module->groupadmins->deleteGroup();
-	//		}else{
-	//			$this->result['message']	=	"Can't delete Default Root Group!";
-	//		}
-	//
-	//		$this->output = $this->getGroupList($this->result['message']);
-	//	}
+	
 	function removeGroups() {
 		global $bw;
 		if($bw->input[2]!=""){
@@ -538,12 +611,10 @@ class admins_admin
 
 	function addEditGroup() {
 		global $bw;
-
 		$this->module->groupadmins->obj->convertToObject($bw->input);
 
 		if($bw->input['formType']) {
 			$this->module->groupadmins->updateObjectById($this->module->groupadmins->obj);
-
 		}
 		else {
 			$tempobj = $this->module->groupadmins->obj;
@@ -553,7 +624,6 @@ class admins_admin
 				
 			if($listad)return $this->output = $this->addEditGroupForm(0,"admin group [{$tempobj->getName()}] has been exits");
 			$this->module->groupadmins->insertObject($this->module->groupadmins->obj);
-				
 		}
 		$this->module->groupadmins = new groupadmins();
 		$this->output = $this->addEditGroupForm(0,$this->result['message']);
@@ -562,6 +632,7 @@ class admins_admin
 	function displayEditGroupForm($val = 0) {
 		global $bw;
 
+		$this->module->groupadmins->createBasicObject();
 		$this->module->groupadmins->getObjectById($bw->input[2]);
 
 		$this->output = $this->addEditGroupForm($val);
@@ -570,11 +641,13 @@ class admins_admin
 	function addEditGroupForm($formType=0,$message="") {
 		global $vsLang;
 		$form['type'] = $formType;
-		$form['title'] = $vsLang->getWords('group_title_add','ThÃªm nhÃ³m quáº£n trá»‹');
-		$form['submit'] = $vsLang->getWords('global_bt_add','ThÃªm');
+		$form['title'] = $vsLang->getWords('group_title_add','Add Group');
+		$form['submit'] = $vsLang->getWords('group_bt_add','Add');
 		if($form['type']) {
-			$form['title'] = $vsLang->getWords('group_title_edit','Sá»­a thÃ´ng tin nhÃ³m');
-			$form['submit'] = $vsLang->getWords('global_bt_edit','Sá»­a');
+			$form['title'] = $vsLang->getWords('group_title_edit','Edit Group');
+			$form['submit'] = $vsLang->getWords('group_bt_edit','Edit');
+		}else{
+			$this->module->groupadmins->createBasicObject();
 		}
 
 		$addEditFormHTML = $this->html->AddEditGroupForm($form, $this->module->groupadmins->obj, $message);
@@ -583,8 +656,29 @@ class admins_admin
 	}
 
 	function getGroupList($message="") {
-		$oGroups = new groupadmins();
-		return $this->html->GroupTable($oGroups->arrayGroup,$message);
+		$groups = new groupadmins();
+		
+//		$groups->setTableName('admingroup left join vsf_admin_group on (relId = groupId)');
+//		$groups->setGroupby('relId');
+//		$groups->setFieldsString('vsf_admingroup.*, count(*) as total');
+//		$array = $groups->getArrayByCondition('groupId');
+
+		$array = $groups->getArrayByCondition('groupId');
+		
+		$groups->setTableName('admin_group');
+		$groups->setGroupby('relId');
+		$groups->setOrder('relId');
+		$groups->setFieldsString('relId, count(*) as total');
+		$count = $groups->getArrayByCondition('relId');
+		
+		foreach($array as $key=>$value){
+			$total =  0;
+			if($count[$key]['total']) $total = $count[$key]['total'];
+			$array[$key]['total'] = $total;
+		}
+		
+		
+		return $this->html->GroupTable($array, $message);
 	}
 
 	function displayGroups() {

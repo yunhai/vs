@@ -1,15 +1,10 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Industrial',
-  'main_title' => 'Industrial',
-  'about_pagetitle' => 'GIỚI THIỆU CÔNG TY',
-  'news_title' => 'News',
-  'other_news' => 'Others news',
-  'cactinkhac' => 'Others news',
-  'ngaydangtin' => 'Postdate',
-  'Cac_tin_khac' => 'Others news',
-  'module_chitiet' => 'Detail',
-  'xemchitiet' => 'xem chi tiết',
+  'pageTitle' => 'News',
+  'main_title' => 'News',
+  'news_other' => 'Other news',
+  'news_ngay' => 'Date',
+  'news_chuyenmuc' => 'Category',
 );
 $userLang = array (
 );

@@ -2,7 +2,7 @@
 $lang = array (
   'pageTitle' => 'Dịch vụ',
   'main_title' => 'Dịch vụ',
-  'xemchitiet' => 'xem chi tiết',
+  'services_other' => 'Dịch vụ khác',
 );
 $userLang = array (
 );

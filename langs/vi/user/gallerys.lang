@@ -1,10 +1,10 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Gallerys',
-  'main_title' => 'Gallerys',
-  'err_contact_album' => 'Nhập tên Album mà bạn cần tìm!',
-  'gloabal_no_album' => 'Không tìm thấy album bạn cần!',
-  'pagetendangnhap' => 'Tên đăng nhập',
+  'pageTitle' => 'Thư viện',
+  'main_title' => 'Thư viện',
+  'group_global_module' => 'global',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+  'gallerys_other' => 'Các album khác',
 );
 $userLang = array (
 );

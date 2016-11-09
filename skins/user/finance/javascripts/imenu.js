@@ -1,11 +1,9 @@
 function initMenu(){
 	var i = 0;
-	var j = 0;
         if(typeof(urlcate)=='undefined')urlcate = document.location.href;
         $('#menu ul').hide();
 	($('#menu li a')).each(function(){
 		if(this.href == urlcate){
-			j = 1;
 			$(this).addClass("active");
                         var checkParent = $(this).parent().parent().prev();
                         $(this).parent().parent().parent().parent().prev().addClass("active");
@@ -18,10 +16,6 @@ function initMenu(){
 		}
 
 	});
-//	if(j==0){
-//            alert();
-//		$('#menu ul:first').show();
-//	}
 	$('#menu li a').click(function(){
 
 		var checkElement = $(this).next();

@@ -26,7 +26,7 @@ class Advisory extends BasicObject{
 	}
 
 	public function setPhone($phone) {
-		$this->phone = $phone;
+		$this->phone = "#".$phone;
 	}
 
 	public function setAddress($address) {
@@ -41,7 +41,7 @@ class Advisory extends BasicObject{
 	}
 
 	public function getPhone() {
-		return $this->phone;
+		return str_replace("#", "", $this->phone);
 	}
 
 	public function getAddress() {
@@ -57,8 +57,7 @@ class Advisory extends BasicObject{
 		isset ( $this->email ) 			? ($dbobj ['advisoryEmail'] 		= $this->email) 			: '';//email
 		isset ( $this->phone ) 			? ($dbobj ['advisoryPhone'] 		= $this->phone) 			: '';//TITLE
 		isset ( $this->address ) 		? ($dbobj ['advisoryAddress'] 		= $this->address) 			: '';//TITLE
-		isset ( $this->name ) 			? ($dbobj ['advisoryName'] 			= $this->name) 				: '';
-		isset ( $this->postdate ) 		? ($dbobj ['advisoryPostDate'] 		= $this->postdate) 				: '';
+		isset ( $this->name ) 			? ($dbobj ['advisoryName'] 		= $this->name) 				: '';
 		return $dbobj;
 	}
 
@@ -70,7 +69,6 @@ class Advisory extends BasicObject{
 		isset ( $object ['advisoryAddress'] ) 	? $this->setAddress ( $object ['advisoryAddress'] )             : '';
 		isset ( $object ['advisoryPhone'] ) 	? $this->setPhone ( $object ['advisoryPhone'] ) 		: '';
 		isset ( $object ['advisoryName'] ) 	? $this->setName ( $object ['advisoryName'] ) 			: '';
-		isset ( $object ['advisoryPostDate'] ) ? $this->setPostDate( $object ['advisoryPostDate'] ) : '';
 	}
 
 	public function setName($name) {

@@ -1,9 +1,29 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Thông tin Hoàng Long',
-  'main_title' => 'Thông tin Hoàng Long',
-  'xemchitiet' => 'xem chi tiết',
-  'cactinkhac2' => 'CÁC TIN KHÁC',
+  'pageTitle' => 'Tin tức',
+  'main_title' => 'Tin tức',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+  'news_title' => 'Tin tức',
+  'news_other' => 'Tin cùng danh mục',
+  'news_comment' => 'Các ý kiến',
+  'news_submitbinhluan' => 'Gửi ý kiến',
+  'comment_full_name' => 'Họ tên',
+  'comment_email' => 'Email',
+  'comment_title' => 'Tiêu đề',
+  'comment_message' => 'Nội dung',
+  'comment_captcha' => 'Mã bảo vệ',
+  'comment_security' => 'Tạo mã mới',
+  'button_send' => 'Gửi',
+  'button_reset' => 'Làm lại',
+  'err_comment_name_blank' => 'Vui lòng nhập họ tên!',
+  'err_comment_email_blank' => 'Nhập vào đúng loại email!',
+  'err_comment_title_blank' => 'Vui lòng nhập câu hỏi!',
+  'err_comment_message_blank' => 'Thông tin quá ngắn!',
+  'err_comment_security_blank' => 'Vui lòng nhập mã bảo vệ!',
+  'thank_message' => 'Mã bảo vệ không chính xác!',
+  'comment_successful' => 'Your feedback has been sent',
+  'news_ngay' => 'Ngày',
+  'news_chuyenmuc' => 'Chuyên mục',
 );
 $userLang = array (
 );

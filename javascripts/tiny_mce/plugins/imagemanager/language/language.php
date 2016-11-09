@@ -4,7 +4,7 @@
  *
  * @package MCManager.stream
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -30,7 +30,7 @@ $groupIDs = getRequestParam("groups", "");
 $code = getRequestParam("code", "en");
 
 if ($type == "")
-	die("alert('No type set.');");
+die("alert('No type set.');");
 
 // Clean up type, only a-z stuff.
 $type = preg_replace("/[^a-z]/i", "", $type);
@@ -47,7 +47,7 @@ $man->dispatchEvent("onPreInit", array($type));
 $pluginPaths = $man->getPluginPaths();
 
 foreach ($pluginPaths as $path)
-	require_once("../". $path);
+require_once("../". $path);
 
 // Dispatch auth event to make authenticators override config options
 $man->isAuthenticated();
@@ -66,7 +66,7 @@ if ($format == "tinymce") {
 		echo $prefix . $keys[$i] . ":" . $json->encodeString($group[$keys[$i]]);
 
 		if ($i != count($keys) - 1)
-			echo ",";
+		echo ",";
 
 		echo "\n";
 	}
@@ -82,7 +82,7 @@ if ($format == "tinymce") {
 		echo $prefix . $keys[$i] . ":" . $json->encodeString($group[$keys[$i]]);
 
 		if ($i != count($keys) - 1)
-			echo ",";
+		echo ",";
 
 		echo "\n";
 	}
@@ -101,7 +101,7 @@ if ($format == "tinymce") {
 			echo $keys[$i] . ":" . $json->encodeString($group[$keys[$i]]);
 
 			if ($i != count($keys) - 1)
-				echo ",";
+			echo ",";
 
 			echo "\n";
 		}
@@ -122,7 +122,7 @@ if ($format == "tinymce") {
 	$groupNames = $groupIDs ? explode(',', $groupIDs) : array_keys($groups);
 	foreach ($groupNames as $group) {
 		if (strlen($content) > 0)
-			$content .= ',';
+		$content .= ',';
 
 		$content .= "'" . $group . "':{\n";
 		$group = $groups[$group];
@@ -132,7 +132,7 @@ if ($format == "tinymce") {
 			$content .= ' ' . $keys[$i] . ":" . $json->encodeString($group[$keys[$i]]);
 
 			if ($i != count($keys) - 1)
-				$content .= ",";
+			$content .= ",";
 
 			$content .= "\n";
 		}

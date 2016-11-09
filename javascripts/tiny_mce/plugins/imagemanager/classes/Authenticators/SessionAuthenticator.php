@@ -4,7 +4,7 @@
  *
  * @package SessionAuthenticator
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 @session_start();
@@ -46,11 +46,11 @@ class Moxiecode_SessionAuthenticator extends Moxiecode_ManagerPlugin {
 
 		// Switch path
 		if (isset($_SESSION[$pathKey]))
-			$config['filesystem.path'] = $_SESSION[$pathKey];
+		$config['filesystem.path'] = $_SESSION[$pathKey];
 
 		// Switch root
 		if (isset($_SESSION[$rootPathKey]))
-			$config['filesystem.rootpath'] = $_SESSION[$rootPathKey];
+		$config['filesystem.rootpath'] = $_SESSION[$rootPathKey];
 
 		$user = isset($_SESSION[$userKey]) ? $_SESSION[$userKey] : "";
 		$user = preg_replace('/[\\\\\\/:]/i', '', $user);
@@ -58,13 +58,13 @@ class Moxiecode_SessionAuthenticator extends Moxiecode_ManagerPlugin {
 		// Override by prefix
 		foreach ($_SESSION as $key => $value) {
 			if (strpos($key, $configPrefix) === 0)
-				$config[substr($key, strlen($configPrefix))] = $value;
+			$config[substr($key, strlen($configPrefix))] = $value;
 		}
 
 		foreach ($config as $key => $value) {
 			// Skip replaceing {$user} in true/false stuff
 			if ($value === true || $value === false)
-				continue;
+			continue;
 
 			$value = str_replace('${user}', $user, $value);
 			$config[$key] = $value;

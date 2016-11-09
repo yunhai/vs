@@ -16,6 +16,7 @@ class skin_orders {
                                 </div>
                                 <div class="clear"></div>
                                 <div id="orderView">
+                                
                                 </div>
                                 <div class="clear"></div>
 			</div>
@@ -134,13 +135,21 @@ EOF;
 EOF;
 		return $BWHTML;
 	}
+	
 	function printOrderItem($obj,$option,&$amount=0){
 		global $vsLang,$bw;
-                $BWHTML = <<<EOF
+		$donhang = $obj->getId();
+		$i = 6-strlen($obj->getId());	
+		while($i>0){
+			$donhang = "0".$donhang;
+			$i--;
+		}
+
+   		$BWHTML = <<<EOF
 		<table cellpadding="1" cellspacing="1" border="0">
 	        	<tr align="left">
                                 <th >{$vsLang->getWords('order_order','Đơn hàng ')}:</th>
-                                <td>{$obj->getName()}</td>
+                                <td>{$donhang}</td>
                         </tr>
                         <tr align="left">
                                 <th >{$vsLang->getWords('order_name','Họ và tên')}:</th>
@@ -158,6 +167,10 @@ EOF;
                                 <th>{$vsLang->getWords('order_phone','Điện thoại')}:</th>
                                  <td>{$obj->getPhone()}</td>
                         </tr>
+                        <tr align="left">
+                        <th>{$vsLang->getWords('order_message','Nội dung')}:</th>
+                         <td>{$obj->getMessage()}</td>
+                		</tr>
 		</table>
 			<div style="padding:5px 0px; color:blue; font-size:18px;"> 
 		    	<strong>{$vsLang->getWords('orderitem_list','Danh sách sản phẩm trong giỏ')}</strong>
@@ -221,13 +234,15 @@ EOF;
                                 </if> -->
 				<tr><th colspan="4" style="text-align:right;"><strong>Tổng cộng ({$vsLang->getWords('vnd',' VNĐ')})</strong></th><td><strong style="color:red">{$option['total']} </strong></td></tr>
 				</table >
-				<div style="cursor: pointer; width:120px;" onclick="window.print();"><img src="{$bw->vars['board_url']}/styles/images/print.jpg"> In đơn hàng</div>
+				<div style="cursor: pointer; width:120px;" onclick="window.print();">
+				<img src="{$bw->vars['board_url']}/styles/images/print.jpg"> In đơn hàng
+				</div>
 EOF;
 		return $BWHTML;
 	}
 	
 	function viewCart(&$option,&$amount){
-		global $bw,$vsLang;
+		global $bw,$vsLang,$vsSettings;
 
 		$BWHTML = <<<EOF
 		<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
@@ -252,6 +267,10 @@ EOF;
                         <th>{$vsLang->getWords('order_phone','Điện thoại')}:</th>
                          <td>{$option['customer']->getPhone()}</td>
                 </tr>
+                <tr align="left">
+                        <th>{$vsLang->getWords('order_message','Nội dung')}:</th>
+                         <td>{$option['customer']->getMessage()}</td>
+                </tr>
                 </table>
                  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
                             <li class="ui-state-default ui-corner-top" id="success-objlist-bt"><a href="#" title="{$vsLang->getWords('add_obj_ht_bt',"Hoàn tất")}">{$vsLang->getWords('add_obj_ht_bt',"Hoàn tất")}</a></li>
@@ -263,8 +282,10 @@ EOF;
                                 <tr>
                                     <th width="15"><input type="checkbox" onclick="checkAlls()" onclicktext="checkAlls()" name="all" id="checked-cart" /></th> 
                                             <th>{$vsLang->getWords('order_status','Tình trạng')}</th> 
-                                    <th>{$vsLang->getWords('order_title','Tên')}</th> 
+                                    		<th>{$vsLang->getWords('order_title','Tên')}</th> 
+                                    		<if="$vsSettings->getSystemKey('order_type',0, 'orders')">
                                             <th>{$vsLang->getWords('order_product_type','Loại')}</th>
+                                            </if>
                                             <th>{$vsLang->getWords('order_product_amount','Số lượng')}</th> 
                                             <th>{$vsLang->getWords('order_product_price','Đơn giá')}</th> 
                                             <th>{$vsLang->getWords('order_product_money','Thành tiền')} </th>
@@ -290,7 +311,9 @@ EOF;
                                                                     <td>Đang chờ</td>
                                                             </if>
                                                             <td>{$value->getTitle()}</td>
-                                                            <td>{$value->getInfo()}</td>
+                                                            <if="$vsSettings->getSystemKey('order_type',0, 'orders')">
+                                                            <td>{$value->getType()}</td>
+                                                            </if>
                                                             <td>{$value->getQuantity()}</td>
                                                             <td>{$value->getPrice()} </td>
                                                             <td>{$value->getTotals()} </td>
@@ -336,7 +359,7 @@ EOF;
                                     </foreach>
                                     </if>
                                     <tr>
-                                    <th  colspan="6" align="right">{$vsLang->getWords('order_product_total','Tổng cộng')}({$vsLang->getWords('vnd',' VNĐ')})</th>
+                                    <th  colspan="5" align="right">{$vsLang->getWords('order_product_total','Tổng cộng')}({$vsLang->getWords('vnd',' VNĐ')})</th>
                                     <th>{$option['total']}
                                     </th>
                                     </tr>

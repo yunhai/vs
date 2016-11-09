@@ -19,7 +19,6 @@ class VSFSkin extends skins {
 	}
 	function loadWrapper() {
 		global $bw, $vsLang;
-		if(APPLICATION_TYPE != 'admin')$bs = "<base href='{$bw->vars['board_url']}/' />";
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -32,7 +31,6 @@ class VSFSkin extends skins {
 			<META NAME="author" CONTENT="Viet Solution">
 			<META NAME="copyright" CONTENT="CRPAOA 2006">
 			<META NAME="robots" CONTENT="FOLLOW,INDEX">
-			{$bs1}
 			<link rel="shortcut icon" href="{$this->SHORTCUT}" type="image/x-icon" />
 			{$this->GENERATOR}
 			{$this->CSS}
@@ -42,9 +40,6 @@ class VSFSkin extends skins {
 			{$this->BOARD}
 
 			</body> 
-			
-<script type="text/javascript" src="http://sdscdn.userreport.com/popup.min.js"></script>
-<script type="text/javascript">try { _bvt.initSite('259289d8-8a41-4f87-821b-118b9929d8c8'); } catch(err) {}</script> 
 			</html>
 			{$this->JAVASCRIPT_BOTTOM }
 EOF;

@@ -1,7 +1,7 @@
 <?php
 $lang = array (
-  'pageTitle' => 'services',
-  'main_title' => 'services',
+  'pageTitle' => 'Dịch vụ',
+  'main_title' => 'Dịch vụ',
 );
 $userLang = array();
 ?>

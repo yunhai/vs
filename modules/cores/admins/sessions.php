@@ -15,9 +15,12 @@ class sessions extends VSFObject {
 
 	function deleteSession(){
 		global $bw;
-		$this->setCondition('sessionTime < ' . (time()-$bw->vars['admin_timeout']*4*60));
+		
+		$lifetime = time() - 60*60;
+		$this->setCondition('sessionTime < ' . $lifetime);
 		$this->deleteObjectByCondition();
 	}
+	
 	function updateLoginSession(){
 		global $vsUser;
 		$thisTime= time();
@@ -29,10 +32,8 @@ class sessions extends VSFObject {
 		$_SESSION[APPLICATION_TYPE]['session'] = $vsUser->sessions->obj->convertToDB();
 		$_SESSION[APPLICATION_TYPE]['obj'] = $vsUser->obj->convertToDB();
 		if(count($vsUser->obj->getGroups())>0)
-		foreach ($vsUser->obj->getGroups() as $group)
-		{
+		foreach ($vsUser->obj->getGroups() as $group){
 			$_SESSION[APPLICATION_TYPE]['groups'][$group->getId()] = $group->getId();
 		}
-
 	}
 }

@@ -1,0 +1,476 @@
+Tue, 08 Mar 2011 15:30:45:mySQL query error: SELECT * FROM vsf_page left join vsf_file on pageImage = fileId WHERE pageCatId in () and pageStatus > 0 ORDER BY pageIndex ASC,pageId DESC
+            Request:  /kientruc/architects/
+            Referer:  http://localhost/kientruc/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') and pageStatus > 0 ORDER BY pageIndex ASC,pageId DESC' at line 1
+            code:     
+Wed, 09 Mar 2011 10:17:53:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'architect','architect',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /kientruc/architects/category/gioi-thieu-hoi-79/
+            Referer:  http://localhost/kientruc/architects/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Wed, 09 Mar 2011 13:34:27:mySQL query error: SELECT * FROM vsf_ WHERE  = 1
+            Request:  /kientruc/files/download/1
+            Referer:  http://localhost/kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+            code:     
+Wed, 09 Mar 2011 13:41:21:mySQL query error: SELECT * FROM vsf_ WHERE  = 1
+            Request:  /kientruc/files/download/1
+            Referer:  http://localhost/kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+            code:     
+Wed, 09 Mar 2011 13:41:39:mySQL query error: SELECT * FROM vsf_ WHERE  = 2
+            Request:  /kientruc/files/download/2
+            Referer:  http://localhost/kientruc/library/detail/cau-truc-khong-gian-da-lat-%E2%80%93-chuyen-hoa-do-thi-27/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 2' at line 1
+            code:     
+Wed, 09 Mar 2011 13:42:38:mySQL query error: SELECT * FROM vsf_ WHERE  = 35
+            Request:  /kientruc/files/download/35
+            Referer:  http://localhost/kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 35' at line 1
+            code:     
+Wed, 09 Mar 2011 13:43:57:mySQL query error: SELECT * FROM vsf_ WHERE  = 35
+            Request:  /kientruc/files/download/35
+            Referer:  http://localhost/kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 35' at line 1
+            code:     
+Wed, 09 Mar 2011 14:09:33:mySQL query error: SELECT pageId,pageTitle,pageIntro,pageContent,pageImage, vsf_file.* FROM vsf_page LEFT JOIN vsf_gallery_pages ON pageId = vsf_gallery_pages.relId 
+        							LEFT JOIN rel_gallery_file ON relId = rel_gallery_file.objectId 
+        							LEFT JOIN vsf_file ON objectId = fileId WHERE pageCatId in (28) ORDER BY fileId DESC
+            Request:  /kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            Referer:  http://localhost/kientruc/library/detail/cau-truc-khong-gian-da-lat-%E2%80%93-chuyen-hoa-do-thi-27/
+            IP:       127.0.0.1
+            message:  Table 'kientruc.rel_gallery_file' doesn't exist
+            code:     
+Wed, 09 Mar 2011 14:10:52:mySQL query error: SELECT pageId,pageTitle,pageIntro,pageContent,pageImage, vsf_file.* FROM vsf_page LEFT JOIN vsf_gallery_pages ON pageId = vsf_gallery_pages.relId 
+        							LEFT JOIN rel_gallery_file ON relId = rel_gallery_file.objectId 
+        							LEFT JOIN vsf_file ON objectId = fileId WHERE pageCatId in (28) ORDER BY fileId DESC
+            Request:  /kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            Referer:  http://localhost/kientruc/library/detail/cau-truc-khong-gian-da-lat-%E2%80%93-chuyen-hoa-do-thi-27/
+            IP:       127.0.0.1
+            message:  Table 'kientruc.rel_gallery_file' doesn't exist
+            code:     
+Wed, 09 Mar 2011 14:12:17:mySQL query error: SELECT pageId,pageTitle,pageIntro,pageContent,pageImage, vsf_file.* FROM vsf_page LEFT JOIN vsf_gallery_pages ON pageId = vsf_gallery_pages.relId 
+        							LEFT JOIN vsf_rel_gallery_file ON relId = vsf_rel_gallery_file.objectId 
+        							LEFT JOIN vsf_file ON objectId = fileId WHERE pageCatId in (28) ORDER BY fileId DESC
+            Request:  /kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            Referer:  http://localhost/kientruc/library/detail/cau-truc-khong-gian-da-lat-%E2%80%93-chuyen-hoa-do-thi-27/
+            IP:       127.0.0.1
+            message:  Column 'relId' in on clause is ambiguous
+            code:     
+Wed, 09 Mar 2011 14:26:45:mySQL query error: SELECT * FROM vsf_ WHERE  = 35
+            Request:  /kientruc/files/download/35
+            Referer:  http://localhost/kientruc/library/detail/phat-trien-va-nang-cao-chat-luong-khong-gian-phuc-v-28/
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 35' at line 1
+            code:     
+Wed, 09 Mar 2011 15:05:44:mySQL query error: SELECT COUNT(newsId) as total FROM vsf_news left join vsf_file on newsImage = fileId WHERE newsCatId in (114,114) and newsStatus >0 and pageId<> 1
+            Request:  /kientruc/news/category/hoat-dong-san-xuat-kinh-doanh-114/
+            Referer:  http://localhost/kientruc/
+            IP:       127.0.0.1
+            message:  Unknown column 'pageId' in 'where clause'
+            code:     
+Wed, 09 Mar 2011 15:07:14:mySQL query error: SELECT COUNT(newsId) as total FROM vsf_news left join vsf_file on newsImage = fileId WHERE newsCatId in (114,114) and newsStatus >0 and pageId<> 1
+            Request:  /kientruc/news/category/hoat-dong-san-xuat-kinh-doanh-114/
+            Referer:  http://localhost/kientruc/
+            IP:       127.0.0.1
+            message:  Unknown column 'pageId' in 'where clause'
+            code:     
+Thu, 10 Mar 2011 10:36:21:mySQL query error: SELECT COUNT(newsId) as total FROM vsf_news WHERE newsStatus <> 0 and newsCatId in (47,47,114,115,116,135,136) AND newsClearSearch LIKE '%a%'
+            Request:  /kientruc/news/search?newsName=a
+            Referer:  http://localhost/kientruc/contacts/
+            IP:       127.0.0.1
+            message:  Unknown column 'newsClearSearch' in 'where clause'
+            code:     
+Thu, 10 Mar 2011 10:37:48:mySQL query error: SELECT COUNT(newsId) as total FROM vsf_news WHERE newsStatus <> 0 and newsCatId in (47,47,114,115,116,135,136) AND newsClearSearch LIKE '%a%'
+            Request:  /kientruc/news/search?newsName=a
+            Referer:  http://localhost/kientruc/contacts/
+            IP:       127.0.0.1
+            message:  Unknown column 'newsClearSearch' in 'where clause'
+            code:     
+Fri, 11 Mar 2011 15:31:55:mySQL query error: SELECT pageId,pageCatId,pageUrl,pageTitle,pageIntro,pagePostDate,pageImage,vsf_file.* FROM vsf_page left join vsf_file on pageImage = fileId WHERE pageCatId in (141) and pageStatus > 0 ORDER BY pageIndex ASC,pageId DESC LIMIT 0,1
+            Request:  /kientruc/projects/
+            Referer:  http://localhost/kientruc/practices/category/cong-nghe-vat-lieu-103/
+            IP:       127.0.0.1
+            message:  Unknown column 'pageUrl' in 'field list'
+            code:     
+Fri, 18 Mar 2011 11:06:34:mySQL query error: SELECT newsId,newsTitle,newsIntro,newsPostDate,newsImage,vsf_file.* FROM vsf_news left join vsf_file on newsImage = fileId WHERE newsCatId in (48) and newsStatus = 2 ORDER BY newsId Desc,newsIndex Desc LIMIT 0,8
+            Request:  /saigonfood/images/loadingAnimation.gif
+            Referer:  http://localhost/saigonfood/admin.php
+            IP:       127.0.0.1
+            message:  Table 'saigonfood.vsf_news' doesn't exist
+            code:     
+Fri, 18 Mar 2011 15:06:18:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/images/loadingAnimation.gif
+            Referer:  http://localhost/saigonfood/admin.php?vs=
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Fri, 18 Mar 2011 15:06:43:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/images/loadingAnimation.gif
+            Referer:  http://localhost/saigonfood/admin.php?vs=
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Fri, 18 Mar 2011 17:07:04:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/abouts/objList/0/
+            Referer:  http://localhost/saigonfood/admin.php?vs=abouts
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Sat, 19 Mar 2011 08:54:35:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/images/loadingAnimation.gif
+            Referer:  http://localhost/saigonfood/admin.php?vs=menus
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Sat, 19 Mar 2011 08:54:52:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/skins/user/finance/images/video.jpg
+            Referer:  http://localhost/saigonfood/admin.php
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Sat, 19 Mar 2011 08:54:52:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/skins/user/finance/javascripts/jcarousellite.js
+            Referer:  http://localhost/saigonfood/admin.php
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Sat, 19 Mar 2011 08:54:52:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/skins/user/finance/javascripts/iepngfix_tilebg.js
+            Referer:  http://localhost/saigonfood/admin.php
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Sat, 19 Mar 2011 08:55:23:mySQL query error: INSERT INTO vsf_menu LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,menuStatus,menuAlt,parentId,menuIsLink,menuIsDropDown,menuIsAdmin,menuType,menuLevel,menuPosition) VALUES(1,'partners','partners',0,1,'',18,1,1,-1,0,1,'@')
+            Request:  /saigonfood/
+            Referer:  
+            IP:       127.0.0.1
+            message:  You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LEFT JOIN vsf_file ON menuFileId = fileId (langId,menuTitle,menuUrl,menuIndex,me' at line 1
+            code:     
+Mon, 21 Mar 2011 10:28:50:mySQL query error: SELECT productTitle,productImage,productId,productPrice,productIntro,vsf_file.* FROM vsf_product left join vsf_file on productImage = fileId WHERE  productCare > 0 and productCatId in ( 75,82,83,84) and productImage > 0  ORDER BY productIndex DESC, productId DESC LIMIT 0,6
+            Request:  /saigonfood/
+            Referer:  http://localhost/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCare' in 'where clause'
+            code:     
+Mon, 21 Mar 2011 10:30:20:mySQL query error: SELECT productTitle,productImage,productId,productPrice,productIntro,vsf_file.* FROM vsf_product left join vsf_file on productImage = fileId WHERE  productCare = 3 and productCatId in ( 75,82,83,84) and productImage > 0  ORDER BY productIndex DESC, productId DESC LIMIT 0,6
+            Request:  /saigonfood/
+            Referer:  http://localhost/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCare' in 'where clause'
+            code:     
+Tue, 22 Mar 2011 15:43:55:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productImage,productPostDate,productIndex,productStatus,productState,productHome,productPromo,productCare,productCleanSearch) VALUES(118,'','ngói nóc loại 1','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:Công ty gạch Thái Bảo&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:180x390x13&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:2.3&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:2.8&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:6.44&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:10.000.000 vnđ&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',61,1300783435,'',1,0,0,0,0,'ngoi noc loai 1 
+
+
+Hang san xuat
+Cong ty gach Thai Bao
+
+
+Kich thuoc
+180x0x13
+
+
+Trong luong
+23
+
+
+So vien
+28
+
+
+Khoi luong/m2 kg
+644
+
+
+Gia
+10000000 vnd
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productState' in 'field list'
+            code:     
+Tue, 22 Mar 2011 15:48:16:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productImage,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(123,'','ngói nóc loại 1','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:C&lt;/strong&gt;ông ty gạch Thái Bảo&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',62,1300783696,'',1,'ngoi noc loai 1 
+
+
+Hang san xuat
+Cong ty gach Thai Bao
+
+
+Kich thuoc
+
+
+
+Trong luong
+
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     
+Tue, 22 Mar 2011 15:49:40:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(123,'','sdfsadrar','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:weqweqw&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:qweqwqe&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:qwewq&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',1300783780,'',1,'sdfsadrar 
+
+
+Hang san xuat
+weqweqw
+
+
+Kich thuoc
+qweqwqe
+
+
+Trong luong
+qwewq
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     
+Tue, 22 Mar 2011 15:57:13:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(123,'','xcffs','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:sdfsdff&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:dsfsdf&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',1300784233,'',1,'xcffs 
+
+
+Hang san xuat
+sdfsdff
+
+
+Kich thuoc
+dsfsdf
+
+
+Trong luong
+
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     
+Tue, 22 Mar 2011 16:00:25:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(120,'','sdfsaf','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:sdfsfs&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',1300784425,'',1,'sdfsaf 
+
+
+Hang san xuat
+sdfsfs
+
+
+Kich thuoc
+
+
+
+Trong luong
+
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     
+Tue, 22 Mar 2011 16:02:54:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(122,'','asdas','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:sadsa&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','',1300784574,'',1,'asdas 
+
+
+Hang san xuat
+sadsa
+
+
+Kich thuoc
+
+
+
+Trong luong
+
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ ')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     
+Tue, 22 Mar 2011 16:04:32:mySQL query error: INSERT INTO vsf_product (productCatId,productId,productTitle,productIntro,productContent,productPostDate,productIndex,productStatus,productCleanSearch) VALUES(117,'','kkkk','&lt;table border=&quot;0&quot; width=&quot;400&quot;&gt;<br />&lt;tbody&gt;<br />&lt;tr&gt;<br />&lt;td width=&quot;146&quot;&gt;-Hãng sản xuất&lt;/td&gt;<br />&lt;td width=&quot;242&quot;&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Kích thước&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Trọng lượng&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Số viên&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Khối lượng/m2 (kg)&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;-Giá&lt;/td&gt;<br />&lt;td&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td&gt;&lt;strong&gt;Mô tả:&lt;/strong&gt;&lt;/td&gt;<br />&lt;td&gt;&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;tr&gt;<br />&lt;td colspan=&quot;2&quot;&gt;.&lt;/td&gt;<br />&lt;/tr&gt;<br />&lt;/tbody&gt;<br />&lt;/table&gt;','hjkjhkljkl',1300784672,444,1,'kkkk 
+
+
+Hang san xuat
+
+
+
+Kich thuoc
+
+
+
+Trong luong
+
+
+
+So vien
+
+
+
+Khoi luong/m2 kg
+
+
+
+Gia
+
+
+
+
+
+
+
+Mo ta
+
+
+
+
+
+
+ hjkjhkljkl')
+            Request:  /gachthaibao/admin.php
+            Referer:  http://localhost/gachthaibao/admin.php?vs=products/
+            IP:       127.0.0.1
+            message:  Unknown column 'productCleanSearch' in 'field list'
+            code:     

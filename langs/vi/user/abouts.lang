@@ -2,6 +2,12 @@
 $lang = array (
   'pageTitle' => 'Giới thiệu',
   'main_title' => 'Giới thiệu',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+  'abouts_other' => 'Tin cùng danh mục',
+  'abouts_search_result' => 'Kết quả tìm kiếm',
+  'abouts_search_emty' => 'Không tìm thấy dữ liệu theo yêu cầu. Vui lòng nhập từ khóa khác!',
+  'product_price' => 'Giá',
 );
-$userLang = array();
+$userLang = array (
+);
 ?>

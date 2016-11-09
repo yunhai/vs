@@ -54,7 +54,7 @@ class gallerys_admin extends ObjectAdmin{
 				break;
 			
 			case 'display-obj-list' :
-				$this->getObjList ( str_replace("-", "", $bw->input [2]), $this->model->result ['message'] );
+				$this->getObjList ( $bw->input [2], $this->model->result ['message'] );
 				break;
 			
 			case 'add-edit-obj-form' :
@@ -102,6 +102,152 @@ class gallerys_admin extends ObjectAdmin{
 		}
 	}
 
+	function addEditObjForm($objId = 0, $option = array()) {
+		global $vsLang, $vsStd, $bw, $vsPrint,$vsSettings,$search_module,$langObject,$vsFile;
+		
+                $option['skey'] = $bw->input['module'];
+		$obj = $this->model->createBasicObject ();
+		$option ['formSubmit'] = $langObject['itemFormAddButton'];
+		$option ['formTitle'] = $langObject['itemFormAdd'];
+		if ($objId) {
+                        
+			$option ['formSubmit'] = $langObject['itemFormEditButton'];
+			$option ['formTitle'] = $langObject['itemFormEdit'];
+			$obj = $this->model->getObjectById ( $objId ,1);
+		
+			if($obj->getImage())
+           		$file.=$obj->getImage().",";
+                        
+           	if($obj->getFileupload())
+             	$file.=$obj->getFileupload().",";
+          	$file = trim($file,",");
+          	if($file){
+            	$vsFile->setCondition("fileId in ({$file})");
+               	$option ['file'] =  $vsFile->getObjectsByCondition();
+        	}
+		} 
+              
+		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
+		$vsStd->requireFile ( JAVASCRIPT_PATH . "/tiny_mce/tinyMCE.php" );
+		$editor = new tinyMCE ();
+		if($vsSettings->getSystemKey($option['skey'].'_intro_editor', 1, $option['skey'])){
+		$editor->setWidth ( '100%' );
+		$editor->setHeight ( '150px' );
+		$editor->setToolbar ( 'simple' );
+		$editor->setTheme ( "advanced" );
+		$editor->setInstanceName ( "{$this->tableName}Intro" );
+		$editor->setValue ( $obj->getIntro () );
+		$obj->setIntro ( $editor->createHtml () );
+                }else
+			$obj->setIntro ('<textarea name="'.$this->tableName.'Intro" style="width:100%;height:100px;">'. strip_tags($obj->getIntro()) .'</textarea>');
+			
+		return $this->output = $this->html->addEditObjForm ( $obj, $option );
+	}
+	
+        function addEditObjProcess() {
+		global $bw, $vsStd, $vsLang, $vsFile,$DB,$vsSettings,$search_module,$langObject;
+
+		$bw->input ["{$this->tableName}Status"] = $bw->input ["{$this->tableName}Status"] ? $bw->input ["{$this->tableName}Status"] : 0;
+                
+		
+		if (! $bw->input ["{$this->tableName}CatId"])
+			$bw->input ["{$this->tableName}CatId"] = $this->model->getCategories ()->getId ();
+
+        if ($bw->input ['fileId']){
+        	
+        	
+			$vsFile->setCondition("fileId in ({$bw->input ['fileId']})");
+           	$list =  $vsFile->getObjectsByCondition();
+           
+           	if($list)
+           		foreach($list as $obj){
+                	$bw->input [$obj->getField()] = $obj->getId();
+               	}
+            if($bw->input['txtlink'] && !$bw->input["{$this->tableName}IntroImage"]){
+            	$vsFile = new files();
+				$bw->input["{$this->tableName}IntroImage"]=$vsFile->copyFile($bw->input["txtlink"],$bw->input[0]);
+            }
+		}
+	
+		
+		// If there is Object Id passed, processing updating Object
+		if ($bw->input ["{$this->tableName}Id"]) {
+			$obj = $this->model->getObjectById ( $bw->input ["{$this->tableName}Id"] );
+                       
+			$arrayI =  array("IntroImage"=>$obj->getImage (),
+                             "Fileupload"=>$obj->getFileupload (),
+                        );
+            foreach($arrayI as $key => $val){
+            	$vsFile= new files();            
+				$imageOld = $val;
+             	if($bw->input["delete".$key]){
+					if($imageOld) $vsFile->deleteFile($imageOld);
+                	if(!$bw->input["{$this->tableName}{$key}"]) $bw->input["{$this->tableName}{$key}"] = 0;
+              	}
+                if($imageOld && $bw->input[$this->tableName.$key])
+                   		$vsFile->deleteFile($imageOld);
+         	}         
+			
+			$objUpdate = $this->model->createBasicObject ();
+			$objUpdate->convertToObject ( $bw->input );
+                       
+			$this->model->updateObjectById ( $objUpdate );
+			if ($this->model->result ['status']) {
+				$alert = $langObject['itemEditSuccess'];
+				$javascript = <<<EOF
+						<script type='text/javascript'>
+							jAlert(
+								"{$alert}",
+								"{$bw->vars['global_websitename']} Dialog"
+							);
+						</script>
+EOF;
+			}
+		} else {
+            $bw->input["{$this->tableName}PostDate"] = time();           
+			$this->model->obj->convertToObject ( $bw->input );
+			
+			$this->model->insertObject ( $this->model->obj );
+			if ($this->model->result ['status']) {
+				$confirmContent = $langObject['itemAddSuccess'] . '\n' . $langObject['itemAddAnother'] ." ?";
+				$javascript = <<<EOF
+					<script type='text/javascript'>
+						jConfirm(
+							"{$confirmContent}",
+							'{$bw->vars['global_websitename']} Dialog',
+							function(r){
+								if(r){
+									vsf.get("{$bw->input[0]}/add-edit-obj-form/&pageIndex={$bw->input['pageIndex']}&pageCate={$bw->input['pageCate']}",'obj-panel');
+								}
+							}
+						);
+					</script>
+EOF;
+			}
+		}
+//		if ($imageOld && $bw->input ['fileId']) {
+//			$vsFile->deleteFile ( $imageOld );
+//		}
+		
+        //convert to Search
+		if (in_array($bw->input['module'], $search_module)){
+                    if($bw->input['searchRecord']){
+                        $vsStd->requireFile(CORE_PATH."searchs/searchs.php");
+                        $search = new searchs();
+                        $search->setCondition("searchRecord  = ".$bw->input['searchRecord']);
+                        $search->updateObjectByCondition($this->model->obj->convertSearchDB());
+                    }
+                    elseif(isset ($bw->input['searchRecord'])){
+                        $DB->do_insert("search",$this->model->obj->convertSearchDB());
+                    }
+		}
+		      
+        //end convert to Search
+		$cat = $bw->input ['pageCate'] ? $bw->input ['pageCate'] : $bw->input ['pageCatId'];
+		$vsFile->buildCacheFile ( $bw->input ['module'] );
+		return $this->output = $javascript . $this->getObjList ();
+	}
+	
 	function displayEditFileForm($model, $fileId){
 		global $bw;
 		$this->getFileById($fileId);
@@ -139,6 +285,13 @@ class gallerys_admin extends ObjectAdmin{
 	}
 
 	function displayFile($albumId=0){
+		global $vsStd,$bw;
+	
+		if($bw->input[2]=='products'){
+		$vsStd->requireFile(CORE_PATH."products/products.php");
+		$product= new products(); 
+		$option['obj'] = $product->getObjectById($bw->input[3]);
+		}
 		$option['file-form'] = $this->displayFileForm('add',$albumId);
 		$option['file-list'] = $this->displayGalleryFileList($albumId);
 		return $this->output = $this->html->displayFile($option);
@@ -150,10 +303,15 @@ class gallerys_admin extends ObjectAdmin{
 		</script>";	
 	}
 	function createAlbum($array=array()){
-		global $vsLang,$bw,$DB;
-		$bw->input[2] = str_replace("-", "", $bw->input[2]);
+		global $vsLang,$bw,$DB,$vsMenu;
+		
 		$array['albumTitle']?$this->model->obj->setTitle($array['albumTitle']):$this->model->obj->setTitle($vsLang->getWords('global_system_auto_album',"System Create Album")." [{$bw->input[2]}]");
 		$array['albumCode']	?$this->model->obj->setCode($array['albumCode']):$this->model->obj->setCode($bw->input[2]);
+		if($array['albumCode']=="banner"){
+			$vsMenu->obj->setLangId(1);
+			$this->model->setCategories ( $vsMenu->getCategoryGroup("gallerys",array('key'=>1)));
+			
+			}
 		$this->model->obj->setCatId($this->model->getCategories()->getId());
 		$this->model->obj->setStatus(-1);
 		$this->model->vsRelation->setRelId($bw->input[3]);

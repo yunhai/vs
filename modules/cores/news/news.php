@@ -3,7 +3,7 @@ require_once(CORE_PATH."news/News.class.php");
 class newses extends VSFObject {
         public $obj;
 	function __construct(){
-            global $vsMenu,$catelist;
+            global $vsMenu;
 //            $this->requireFileUseFull();
 		parent::__construct();
 		$this->categoryField 	= "newsCatId";
@@ -14,7 +14,7 @@ class newses extends VSFObject {
 		$this->obj              =&$this->basicObject;
 		$this->fields           = $this->obj->convertToDB();
 		$this->categories       = array();
-		$catelist = $this->categories       = $vsMenu->getCategoryGroup(($this->tableName));
+		$this->categories       = $vsMenu->getCategoryGroup(($this->tableName));
 	}
 	
 }

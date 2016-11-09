@@ -191,29 +191,37 @@ class menus extends VSFObject{
         
         
 	function getCategoryGroup($categoryGroup='',$extent=array()) {
-		global $vsStd;
+		global $vsStd,$bw;
                 $this->tableName = "menu";
+                $lv =1;
 		if(!$categoryGroup) return false;
 		if(count($this->arrayTreeCategory) < 1) return false;
 		$this->createBasicObject();
 		$this->obj->setUrl($categoryGroup);
-
+		if($extent['status']){
+                    $this->obj->setStatus(1);
+                    $lv = 3;
+                }
+				
 		reset($this->arrayTreeCategory);
 		$categories = $this->arrayTreeCategory[18];
                 $listChildren = $categories->getChildren();
-                if(!in_array($categoryGroup, array("settings","supports","partners","weblink","banner","nickicons","slidebottom"))){
+                if(!in_array($categoryGroup, array("settings","bannerglobal","videoglobal","supports","weblinks","banner","nickicons","gallery_image","video","partners"))){
+				
 			$this->obj->setLangId($_SESSION[APPLICATION_TYPE]['language']['currentLang']['langId']);
+			if($extent['key']==1)$this->obj->setLangId(1);
 			$option=array('url'=>true, 'langId'=>true);
                         unset ($listChildren[14]);
 		}else{
                     $option=array('url'=>true);
                 }
+				
 		
 		if(is_array($extent)){
 			$option=array_merge($option,$extent);
 		}
                 
-		$result = $this->filterMenu($option,$listChildren,1);
+		$result = $this->filterMenu($option,$listChildren,$lv);
 		reset($result);
 		$thisCategory = current($result);
 		
@@ -450,7 +458,6 @@ class menus extends VSFObject{
 	 */
 	function extractNodeInTree($categoryId = 0, $categories=array()) {
 		foreach($categories as $category) {
-			
 			if($category->getId()==$categoryId) {
 				$result['ids'][] = $category->getId();
 				$result['category']= $category;

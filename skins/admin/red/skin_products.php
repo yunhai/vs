@@ -1,28 +1,179 @@
 <?php
 class skin_products extends skin_objectadmin{
 
-function addEditObjForm($objItem, $option = array()) {
-		global $vsLang, $bw,$vsSettings,$tableName,$langObject, $vsMenu;
-		
-		$categories = $vsMenu->getCategoryGroup("manufacture");
-	    $colors = $categories->getChildren();
-	     $chtml .= "<option value='0'>{$vsLang->getWords('itemListManu',"Nhà sản xuất")}</option>";
-		foreach($colors as $key=>$color){
-			$chtml .= "<option value='".$key."'>".$color->getTitle()."</option>";
-		}
-                
+	function objListHtml($objItems = array(), $option = array()) {
+		global $bw, $vsLang, $vsSettings, $vsSetting, $tableName, $vsUser,$langObject;
 		$BWHTML .= <<<EOF
+		
+			<div class="red">{$option['message']}</div>
+			<input type="hidden" name="checkedObj" id="checked-obj" value="" />
+			<input type="hidden" name="categoryId" value="{$option['categoryId']}" id="categoryId" />
+			<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
+                            <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+                            <span class="ui-icon ui-icon-note"></span>
+                            <span class="ui-dialog-title">{$vsLang->getWords('list_item','List item')}</span>
+                            <if="$option['subbreadcumbs']"><span class='ui-dialog-title' style='margin-left: 10px;'>[{$option['subbreadcumbs']}]</span></if>
+                            <if=" $vsSettings->getSystemKey($bw->input[0].'_search_function', 0, $bw->input[0]) ">
+					        	<span id="search-bt" style='align:right; float: right; color: #FFFFFF; cursor: pointer;'>{$vsLang->getWords('obj_search', 'Search')}</span>
+					        	<script>
+                            	$('#search-bt').click(function(){
+									$("#search-form").animate({"height": "toggle"}, { duration: 1000 });
+								});
+								</script>
+					        </if>
+                            </div>
+                            {$this->searchForm()}
+                            <if=" $vsSettings->getSystemKey($bw->input[0].'_add_hide_show_delete',1, $bw->input[0]) ">
+                                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
+                                    <li class="ui-state-default ui-corner-top" id="add-objlist-bt"><a href="#" title="{$langObject['itemListAdd']}">{$vsLang->getWords('add_item','Add item')}</a></li>
+                                    <li class="ui-state-default ui-corner-top" id="hide-objlist-bt"><a href="#" title="{$langObject['itemListHide']}">{$langObject['itemListHide']}</a></li>
+                                    <li class="ui-state-default ui-corner-top" id="visible-objlist-bt"><a href="#" title="{$langObject['itemListVisible']}">{$langObject['itemListVisible']}</a></li>
+                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
+                                       <li class="ui-state-default ui-corner-top" id="home-objlist-bt"><a href="#" title="{$langObject['itemListHome']}">{$langObject['itemListHome']}</a></li>
+                                    </if>
+                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_banchay',0, $bw->input[0]) ">
+                                       <li class="ui-state-default ui-corner-top" id="banchay-objlist-bt"><a href="#" title="{$vsLang->getWords("obj_banchay","Bán chạy")}">{$vsLang->getWords("obj_banchay","Bán chạy")}</a></li>
+                                    </if>
+                                    <li class="ui-state-default ui-corner-top" id="delete-objlist-bt"><a href="#" title="{$langObject['itemListDelete']}">{$langObject['itemListDelete']}</a></li>
+                                    <if="$vsSettings->getSystemKey($bw->input[0].'_category_list',1, $bw->input[0])">
+                                    <li class="ui-state-default ui-corner-top" id="change-objlist-bt"><a href="#" title="{$langObject['itemListChangeCate']}">{$langObject['itemListChangeCate']}</a></li>
+                                    </if>
+                                    <if="$vsSettings->getSystemKey($bw->input[0].'_search_list',0, $bw->input[0])">
+                                    <li class="ui-state-default ui-corner-top" id="insertSearch-objlist-bt"><a href="#" title="{$langObject['itemListInsertSearch']}">{$langObject['itemListInsertSearch']}</a></li>
+                                    </if>
+                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_order_function', 0, $bw->input[0]) ">
+                                    <li>
+                                    	<select id='order' name='order' style='padding: 3px;border: 1px solid #A8211D;'>
+                                    		<option value='0'>{$vsLang->getWords('order_0','Chọn cách sắp xếp')}</option>
+                                    		<option value='1'>{$vsLang->getWords('order_1','Sản phẩm đang ẩn lên đầu')}</option>
+                                    		<option value='2'>{$vsLang->getWords('order_2','Sản phẩm đang hiện lên đầu')}</option>
+                                    		<option value='3'>{$vsLang->getWords('order_3','Sản phẩm mới nhất lên đầu')}</option>
+                                    	</select>
+                                    </li>
+                                    </if>
+								</ul>
+							</if>
+							<script>
+								vsf.jSelect('{$option['order']}', 'order');
+								
+								$('#order').change(function(){
+									vsf.get('{$bw->input[0]}/reorder/'+$(this).val()+'/&pcategory={$option['categoryId']}', 'obj-panel');
+									return false;
+								});
+							</script>
+					<table cellspacing="1" cellpadding="1" id='objListHtmlTable' width="100%">
+						<thead>
+						    <tr>
+						        <th width="10"><input type="checkbox" onclick="vsf.checkAll()" onclicktext="vsf.checkAll()" name="all" /></th>
+						        <th width="60">{$langObject['itemListActive']}</th>
+						        <th>{$langObject['itemListTitle']}</td>
+						        <th width="30">{$langObject['itemListIndex']}</th>
+						        <if=" $vsSettings->getSystemKey($bw->input[0].'_option', 0, $bw->input[0], 1, 1) ">
+						        <th width="80" align="center">{$langObject['itemListAction']}</th>
+						        </if>
+						    </tr>
+						</thead>
+						<tbody>
+							<foreach="$objItems as $obj">
+								<tr class="$vsf_class">
+									<td align="center">
+                                    	<if="!$vsSettings->getSystemKey($bw->input[0].'_code',0) && $obj->getCode()">
+                                        	<img src="{$bw->vars['img_url']}/disabled.png" />
+                                      	<else />
+										<input type="checkbox" onclicktext="vsf.checkObject();" onclick="vsf.checkObject();" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
+                                     	</if>
+									</td>
+									<td style='text-align:center'>{$obj->getStatus('image')}
+									</td>
+									
+									<td>
+										<a href="javascript:vsf.get('{$bw->input[0]}/add-edit-obj-form/{$obj->getId()}/&pageIndex={$bw->input[3]}&pageCate={$bw->input[2]}','obj-panel')"  class="editObj" >
+										{$obj->getTitle()}
+										</a>
+									</td>
+									<td>{$obj->getIndex()}</td>
+									<if=" $vsSettings->getSystemKey($bw->input[0].'_option', 0,$bw->input[0], 1, 1) ">
+									<td>
+										{$this->addOtionList($obj,$option['modulecomment'])}
+									</td>
+									</if>
+								</tr>
+							</foreach>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colspan='5'>
+									<div style='float:right;'>{$option['paging']}</div>
+								</th>
+							</tr>
+							
+							<tr>
+								<th colspan='6' align="left">
+                                                      <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/enable.png" /> {$langObject['itemListCurrentShow']}</span>
+                                                      <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/disabled.png" /> {$langObject['itemListNotShow']}</span>
+                                                       <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
+                                                            <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/home.png" /> {$langObject['itemListHomeShow']}</span>
+                                                      </if>
+                                                      <if=" $vsSettings->getSystemKey($bw->input[0].'_banchay',0, $bw->input[0]) ">
+                                                            <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/special.gif" /> {$vsLang->getWords("obj_banchay","Bán chạy")}</span>
+                                                      </if>
+                                                      </th>
+                                                </tr>
+						</tfoot>
+					</table>
+				</div>
+			<div class="clear" id="file"></div>
+			<div id='commentList'></div>
+			{$this->addJavaScript()}
+EOF;
+	}
+	
+	function preset_products() {
+            global $vsLang, $bw,$vsSettings,$langObject;
+            
+            $BWHTML .= <<<EOF
+            	<table class='presetcontent' style='width: 100%'>
+            		<tr>
+            			<td width='100px'>{$vsLang->getWords('product_code', 'Mã sản phẩm')}</td>
+            			<td>&nbsp;</td>
+            		</tr>
+            		<tr>
+            			<td width='100px'>{$vsLang->getWords('product_material', 'Chất liệu')}</td>
+            			<td>&nbsp;</td>
+            		</tr>
+            		<tr>
+            			<td width='100px'>{$vsLang->getWords('product_color', 'Màu sắc')}</td>
+            			<td>&nbsp;</td>
+            		</tr>
+            		<tr>
+            			<td width='100px'>{$vsLang->getWords('product_size', 'Kích thước')}</td>
+            			<td>&nbsp;</td>
+            		</tr>
+            		<tr>
+            			<td width='100px'>{$vsLang->getWords('product_xuatxu', 'Xuất xứ')}</td>
+            			<td>&nbsp;</td>
+            		</tr>
+            	</table>
+EOF;
+            return $BWHTML;
+	}
+	
+	function addEditObjForm($objItem, $option = array()) {
+		global $vsLang, $bw,$vsSettings,$tableName,$langObject,$vsPrint;
+		
+		$BWHTML .= <<<EOF
+		
 			<div id="error-message" name="error-message"></div>
 			<form id='add-edit-obj-form' name="add-edit-obj-form" method="POST" enctype='multipart/form-data'>
 				<input type="hidden" id="obj-cat-id" name="{$tableName}CatId" value="{$option['categoryId']}" />
 				<input type="hidden" name="{$tableName}Id" value="{$objItem->getId()}" />
 				<input type="hidden" name="pageIndex" value="{$bw->input['pageIndex']}" />
 				<input type="hidden" name="pageCate" value="{$bw->input['pageCate']}" />
-				<input type="hidden" name="searchRecord" value="{$objItem->record}" />
-				<input type="hidden" name="{$tableName}PostDate" value="{$objItem->getPostDate()}" />
-				<input type="hidden" name="{$tableName}Image" value="{$objItem->getImage()}" />
-				<input type="hidden" name="{$tableName}Author" value="{$objItem->getAuthor()}" />
-
+	              	<input type="hidden" name="searchRecord" value="{$objItem->record}" />
+	               	<input type="hidden" name="{$tableName}PostDate" value="{$objItem->getPostDate()}" />
+	               	<input type="hidden" name="{$tableName}Image" value="{$objItem->getImage()}" />
+	               	<input type="hidden" name="{$tableName}Author" value="{$objItem->getAuthor()}" />
+	               	<input type="hidden" name="{$tableName}Module" value="{$bw->input['module']}" />
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 						<span class="ui-dialog-title">{$option['formTitle']}</span>
@@ -35,32 +186,13 @@ function addEditObjForm($objItem, $option = array()) {
 					<table class="ui-dialog-content ui-widget-content" style="width:100%;">
 						
 						<tr class='smalltitle'>
-							<td class="label_obj" width="75">{$langObject['itemListTitle']}:</td>
+							<td class="label_obj" width="75">{$vsLang->getWords('global_Title',"Tên sản phẩm")}:</td>
 							<td colspan="3">
 								<input style="width:100%;" name="{$tableName}Title" value="{$objItem->getTitle()}" id="obj-title"/>
 							</td>
 						</tr>
 						
-						<tr class='smalltitle'>
-							<td width="75" class="label_obj">
-								{$langObject['itemObjPrice']}:
-							</td>
-							<td colspan="3">
-								<input size="35" name="{$tableName}Price" value="{$objItem->getPrice(false)}" class="numeric"/>
-							</td>
-						</tr>
-						</if>	
-						
-						
-                                                <tr class='smalltitle'>
-							<td class="label_obj" width="75">{$vsLang->getWords('itemListManu',"Nhà sản xuất")}:</td>
-							<td colspan="3">
-								
-								<select id="{$tableName}Manu" name="{$tableName}Manu">
-									{$chtml}
-								</select>
-							</td>
-						</tr>                
+							
 						<if="$vsSettings->getSystemKey($bw->input[0].'_author',0, $bw->input[0])">
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
@@ -82,27 +214,54 @@ function addEditObjForm($objItem, $option = array()) {
 							</td>
 						</tr>
 						</if>
-						
-						
+						<if="$vsSettings->getSystemKey($bw->input[0].'_price',0, $bw->input[0])">
+						<tr class='smalltitle'>
+							<td class="label_obj"  width="75">
+								{$langObject['itemObjPrice']}:
+							</td>
+							<td colspan="3">
+								<input style="width:40" name="{$tableName}Price" value="{$objItem->getPrice()}"/>
+							</td>
+						</tr>
+						</if>
+						<if="$vsSettings->getSystemKey($bw->input[0].'_hotprice',0, $bw->input[0])">
+						<tr class='smalltitle'>
+							<td class="label_obj"  width="75">
+								{$langObject['itemObjHotPrice']}:
+							</td>
+							<td colspan="3">
+								<input style="width:40" name="{$tableName}HotPrice" value="{$objItem->getHotPrice()}"/>
+							</td>
+						</tr>
+						</if>
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
 								{$langObject['itemObjIndex']}:
 							</td>
 							<td width="170" colspan="3">
 								<input size="10" class="numeric" name="{$tableName}Index" value="{$objItem->getIndex()}" />
-                               	<span style="margin-right: 20px;margin-left:40px">{$langObject['itemObjStatus']}</span>
+							</td>
+						</tr>
+						<tr class='smalltitle'>
+							<td class="label_obj"  width="75">
+								{$langObject['itemObjStatus']}:
+							</td>
+							<td width="170" colspan="3">
                                	<label>{$langObject['itemObjDisplay']}</label>
-
 								<input name="{$tableName}Status" id="{$tableName}Status1" value='1' class='c_noneWidth' type="radio" checked />
 
 								<label>{$langObject['itemListHide']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status0" value='0' class='c_noneWidth' type="radio" />
-
-
+								
 								<if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
 								<label>{$langObject['itemListHome']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status2" value='2' class='c_noneWidth' type="radio" />
 								</if>
+								<if=" $vsSettings->getSystemKey($bw->input[0].'_banchay',0, $bw->input[0]) ">
+								<label>{$vsLang->getWords("obj_banchay","Bán chạy")}</label>
+								<input name="{$tableName}Status" id="{$tableName}Status3" value='3' class='c_noneWidth' type="radio" />
+								</if>
+								
 							</td>
 						</tr>
 						
@@ -116,14 +275,7 @@ function addEditObjForm($objItem, $option = array()) {
 								<input size="39" type="text" name="txtlink" id="txtlink"/><br/>
 								 {$vsSettings->getSystemKey($bw->input[0]."_image_timthumb_size","(size:100x100px)", $bw->input[0])}
 							</td>
-							<td colspan="2" rowspan="2">
-								{$objItem->createImageCache($objItem->getImage(), 100, 50)}
-								<br/>
-								<if=" $objItem->getImage() && $vsSettings->getSystemKey($bw->input[0].'_image_delete',1, $bw->input[0]) ">
-								<input type="checkbox" name="deleteImage" id="deleteImage" />
-								<label for="deleteImage">{$langObject['itemObjDeleteImage']}</lable>
-								</if>
-							</td>
+							
 						</tr>
 
 						<tr class='smalltitle'>
@@ -135,9 +287,37 @@ function addEditObjForm($objItem, $option = array()) {
 								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
 								 <!--{$vsSettings->getSystemKey($bw->input[0]."_image_timthumb_size","(size:100x100px)", $bw->input[0])}-->
 							</td>
-						</tr>						
+						</tr>
+						<tr class='smalltitle'>
+							
+							<td colspan="3">
+								{$objItem->createImageCache($objItem->getImage(), 250, 200)}
+								<br/>
+								<if=" $objItem->getImage() && $vsSettings->getSystemKey($bw->input[0].'_image_delete',1, $bw->input[0]) ">
+								<input type="checkbox" name="deleteImage" id="deleteImage" />
+								<label for="deleteImage">{$langObject['itemObjDeleteImage']}</lable>
+								</if>
+							</td>
+						</tr>
 						</if>
-						
+						<if=" $vsSettings->getSystemKey($bw->input[0].'_urlvideo',0, $bw->input[0]) ">
+						<tr class='smalltitle'>
+							<td class="label_obj"  width="75">
+								{$vsLang->getWords("obj_url","Url video")}:
+							</td>
+							<td colspan="3">
+								<input style="width:100%;" name="{$tableName}UrlVideo" value="{$objItem->getUrlVideo()}"/>
+							</td>
+						</tr>
+						</if>
+						<tr class='smalltitle'>
+							<td width="75">{$vsLang->getWords('obj_brand', 'Thương hiệu')}:</td>
+							<td colspan="3">
+	                        	
+	                           	{$this->brandList($option)}
+	                         	
+	                       	</td>
+						</tr>                        
 						<if=" $vsSettings->getSystemKey($bw->input[0].'_intro',1, $bw->input[0]) ">
 						<tr class='smalltitle'>
 							<td class="label_obj" width="75">
@@ -154,6 +334,19 @@ function addEditObjForm($objItem, $option = array()) {
 							<td colspan="4" align="center">{$objItem->getContent()}</td>
 						</tr>
 						</if>
+						<if="$vsSettings->getSystemKey($bw->input[0].'_tags',0, $bw->input[0])">
+						<tr class='smalltitle' >
+							<td class="label_obj"  width="75">
+								Tags:
+							</td>
+							<td colspan="3" valgin="left">
+								<div id="tag_panel_diplay">
+								<script src='{$bw->base_url}tags/get_tag_for_obj/{$bw->input[0]}/{$objItem->getId()}'>
+								</script>
+								</div>
+							</td>
+						</tr>
+						</if>
 						<tr>
 							<td class="ui-dialog-buttonpanel" colspan="4" align="center">
 								<input type="submit" name="submit" value="{$option['formSubmit']}" />
@@ -162,16 +355,16 @@ function addEditObjForm($objItem, $option = array()) {
 					</table>
 				</div>
 			</form>
+			
 			<script language="javascript">
-				$(window).ready(function() {
-                                        $('#obj-category option').each(function(){
-							$(this).removeAttr('selected');
-						});
+				$(window).ready(function(){
+					$('#obj-category option').each(function(){
+						$(this).removeAttr('selected');
+					});
 					$("input.numeric").numeric();
 					checkedLinkFile();
 					vsf.jRadio('{$objItem->getStatus()}','{$tableName}Status');
 					vsf.jSelect('{$objItem->getCatId()}','obj-category');
-                                        vsf.jSelect('{$objItem->getManu()}','productManu');
 				
 				});
 				
@@ -233,6 +426,80 @@ function addEditObjForm($objItem, $option = array()) {
 EOF;
 	}
 	
+	function addOtionList_listcolor($obj) {
+ 	global $vsLang, $bw,$vsSettings,$tableName,$opt;
+       	$this->array = array();
+    	if($obj->getColor())
+        	$this->array = explode(",", $obj->getColor()); 
+        
+        	$BWHTML .= <<<EOF
+                <foreach="$opt['color'] as $k => $color">
+                    <if="in_array($k,$this->array)">
+                    <a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode={$color->getColorTitle()}_{$k}','albumn')">
+                            {$color->getTitle()}
+                    </a>
+                    </if>
+                </foreach>
+               
+EOF;
+            return $BWHTML;
+        }
+        
+	function brandList($option) {
+		global $vsLang, $bw,$opt;
+
+		$BWHTML .= <<<EOF
+		<style>
+		.colorhide{
+			display:none;
+		}
+		.colorshow{
+			display:block;
+		}
+		.brand{
+		border : 1px solid #999;
+		}
+		</style>
+		<select  id="brand" name="productBrand" class="brand">
+			<option value="0">--- chọn Thương hiệu ----</option>
+			<foreach="$opt['brand'] as $key => $obj">
+			<option value="$key" <if="$key == $option['bra']"> selected </if>>{$obj->getTitle()}</option>
+			</foreach>
+		</select>
+		<script type="text/javascript">
+		$('#brand').change(function() {
+		var str =$(this).val();
+		$('.colorshow').addClass('colorhide');
+		$('.colorshow').removeClass('colorshow');
+		$("#brand"+str).addClass('colorshow');
+		});
+		$("#brand  option").each(function () {
+			var str =$(this).val();
+        	if($(this).attr('selected')){
+        	$('.colorshow').addClass('colorhide');
+			$('.colorshow').removeClass('colorshow');
+			$("#brand"+str).addClass('colorshow');
+			}
+		});
+		</script>
+		
+		<foreach="$opt['brand'] as $key => $obj">
+             	<if="$obj->list">
+             	<div class="colorhide" id="brand{$key}" >
+				<foreach="$obj->list as $k1 => $item">
+					<p>
+						<input type="checkbox"  value="{$k1}" <if="in_array($k1,$option['co'])"> checked </if> id="productColor{$item->getId()}"  name="productColor[{$key}][{$k1}]"  >
+						{$item->createImageCache($item->file,12,11,1)} &nbsp;<span>{$item->getTitle()}</span>
+					</p>
+				</foreach>
+				</div>
+           		</if>
+			
+		</foreach>
+				
+EOF;
+	}
+
 	function addEditOptionForm($objItem = '', $option = array()) {
 		global $bw, $vsLang,$langObject,$tableName;
                
@@ -304,6 +571,8 @@ EOF;
 		return $BWHTML;
 	}
 	
+	
+	
 	function mainProductOpt($option) {
 		$BWHTML .= <<<EOF
 			<div id="opt-form">{$option['objForm']}</div>
@@ -320,7 +589,10 @@ EOF;
 			<div class='ui-widget ui-widget-content ui-corner-all' style="margin-top:15px;">
 				    <div class="ui-title ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 				        <span class="ui-icon ui-icon-note"></span>
-				        <span class="ui-dialog-title">{$vsLang->getWords('product_opt_title',"Danh sách các loại")}</span>
+				        <span class="ui-dialog-title">
+						{$vsLang->getWords('product_opt_title',"Danh sách các loại")}
+						</span>
+						
 				    </div>
 					<table cellspacing="1" cellpadding="1" id='objListHtmlTable' width="100%">
 						<thead>
@@ -360,7 +632,146 @@ EOF;
 			<div class="clear" id="file"></div>
 EOF;
 	}
+	
+	function advanceTab($option) {
+		global $bw, $vsSettings,$vsPrint;
+		$vsPrint->addCSSFile ( 'products' );
+		$BWHTML .= <<<EOF
+			<div id="obj-panel" class="right-cell" style="width:100%;">
+				{$option['objList']}
+			</div>
+			<div class="clear"></div>
+EOF;
+		return $BWHTML;
+	}
+	
+	function filterList($option = array()) {
+		global $bw, $vsLang, $vsSettings, $vsUser;
 
+		$note1 = $vsLang->getWords('file_not_match','Vui lòng chọn file excel 2003 [.xls] để import !!!');
+		$BWHTML .= <<<EOF
+			
+				<div class="red">{$option['message']}</div>
+				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
+					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+						<span class="ui-icon ui-icon-note"></span>
+						
+						<form id="obj-list-form" name="objlistform" method="post" enctype='multipart/form-data' >
+								<div class="import_file" style="float:right; padding-right: 5px;" style="width:600px;">
+								
+								<a href='{$bw->vars['board_url']}/uploads/sample/import_data_sample.xls' style='color: #FFF;' title='{$vsLang->getWords('download_sample_file','Sample file')}'>
+									[{$vsLang->getWords('download_sample_file',"Sample file")}]
+								</a>
+								<label>{$vsLang->getWords('obj_import_file_Title',"Import file")}</label>
+								<input type="file" name="file_document" id="file_document" />
+								<input id="buttonImport" name="buttonImport" type="button" value="{$vsLang->getWords('obj_submit_file_Title',"Import")}" />
+								
+							</div>
+							<div class="clear"></div>
+						</form>
+						
+						<script type="text/javascript">
+							$(document).ready(function(){
+								$("#buttonImport").click(function(){
+									vsf.uploadFile("obj-list-form", "products", "import", "importcb", "imports");
+								});
+							});
+						</script>
+					</div>
+					<div class="clear"></div>
+					<div id='importcb' style='margin: 10px 10px 0px 10px;'></div>
+					<div id='filter-container'>
+						<form id='filterForm' method='post'>
+							<div class='tr header'>
+								<div class='cbox'>
+								<input type='checkbox' name='fieldcheckall' id='fieldcheckall' value='1' />
+								</div>
+								<div class='fieldname' id='showFieldList'>
+									{$vsLang->getWords('export_fields','Mục cần xuất ra exel')}
+								</div>
+								<div class='clear'></div>
+							</div>
+							<if=" $option['field'] ">
+                            <div id="filterForm_content">
+							<foreach=" $option['field'] as $key=>$field">
+								<div class='tr field_tr'>
+									<div class='cbox'>
+									<input name='fields[{$key}]' value='{$key}' type='checkbox' />
+									</div>
+									<div class='fieldname'>
+										{$field}
+									</div>
+									<div class='clear'></div>
+								</div>
+							</foreach>
+                                                                                </div>
+							</if>
+                                                                                <div class="clear"></div>
+							<div class='submit'>
+								<!--<input type='button' id='criteriago' name='isumbit' value='{$vsLang->getWords('field_filter','Lọc dữ liệu')}' />-->
+								<input type='button' id='exportgo' name='isumbit' value='{$vsLang->getWords('field_export','Xuất dữ liệu')}' />
+								<input type='button' id='exportallgo' name='exportallgo' value='{$vsLang->getWords('field_exportall','Xuất tất cả thông tin dữ liệu')}' />
+							</div>
+						</form>
+						
+						<div id='filter-criterion'></div>
+						<div class='clear'></div>
+						
+						<script type='text/javascript'>
+							$(document).ready(function(){
+								$('#showFieldList').click(function(){
+									$('#filterForm_content').animate({
+										height: 'toggle'
+									});
+								});
+								$('#fieldcheckall').click(function(){
+									var checked = $(this).attr('checked');
+									$("#filterForm input[type=checkbox]").each(function(){
+										this.checked = checked;
+									});
+								});
+							});
+							$('#criteriago').click(function(){
+								vsf.submitForm($('#filterForm'), 'products/criteria/', 'filter-criterion');
+							});
+							var flagajax = false;
+							$('#exportgo').click(function(){
+								if(flagajax){
+									vsf.submitForm($('#filterForm'), 'products/export/', 'filterdata');
+									return false;
+								}
+								
+								$('#filterForm').append($('#pForm').children());
+								$('#filterForm').attr('action','{$bw->base_url}products/export/');
+								$('#filterForm').submit();
+								return true;
+							});
+							
+							$('#exportallgo').click(function(){
+								$('#fieldcheckall').checked = true;
+								$("#filterForm input[type=checkbox]").each(function(){
+									this.checked = true;
+								});
+
+								if(flagajax){
+									vsf.submitForm($('#filterForm'), 'products/export/', 'filterdata');
+									return false;
+								}
+								
+								$('#filterForm').append($('#pForm').children());
+								$('#filterForm').attr('action','{$bw->base_url}products/export/');
+								$('#filterForm').submit();
+								return true;
+								
+							});
+						</script>
+					</div>
+					
+					<div id='filterdata'></div>
+				</div>
+EOF;
+	}
+	
 	function managerObjHtml() {
 		global $bw, $vsLang,$vsSettings,$langObject;
 		$BWHTML .= <<<EOF
@@ -383,13 +794,6 @@ EOF;
                                 </li>
 			        </if>
 			        
-			        <if="$vsSettings->getSystemKey($bw->input[0].'_color_tab', 1, "{$bw->input[0]}", 1, 1)">
-                                        <li class="ui-state-default ui-corner-top">
-                                        <a href="{$bw->base_url}menus/display-category-tab/manufacture/&ajax=1">
-                                        <span>{$vsLang->getWords('product-manufacture',"Nhà sản xuất")}</span></a>
-                                </li>
-			        </if>
-			        
 			        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab',0, "{$bw->input[0]}", 1, 1)">
 				        <li class="ui-state-default ui-corner-top">
 				        	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">
@@ -397,12 +801,15 @@ EOF;
 							</a>
 			        	</li>
 		        	</if>
+		        	<if="$vsSettings->getSystemKey($bw->input[0].'_advance_tab',0, "{$bw->input[0]}", 1, 1)">
+		        	<li class="ui-state-default ui-corner-top">
+			        	<a href="{$bw->base_url}products/advance/&ajax=1"><span>{$vsLang->getWords('tab_obj_advance','Nâng cao')}</span></a>
+			        </li>
+			        </if>
 				</ul>
 			</div>
 EOF;
 		return $BWHTML;
 	}
-
-	
 }
 ?>

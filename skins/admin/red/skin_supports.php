@@ -155,7 +155,21 @@ EOF;
 							<td><input size="35" type="text" name="supportNick" value="{$objItem->getNick()}" id="obj-nick"/></td>
 						</tr>
 						</if>
-
+						
+							
+						<if=" $vsSettings->getSystemKey($bw->input[0].'_name',1, "supports", 1, 1) ">	
+							<tr>
+							<td class="label_obj">{$vsLang->getWords('obj_name', 'Name')}:</td>
+							<td><input size="35" type="text" name="supportName" value="{$objItem->getName()}" id="obj-name"/></td>
+							</tr>
+						</if>
+						<if=" $vsSettings->getSystemKey($bw->input[0].'_phone',0, "supports", 1, 1) ">	
+							<tr>
+							<td class="label_obj">{$vsLang->getWords('obj_phone', 'Điện thoại')}:</td>
+							<td><input size="35" type="text" name="supportPhone" value="{$objItem->getPhone()}" id="obj-phone"/></td>
+							</tr>
+						</if>	
+						
 						<if=" $vsSettings->getSystemKey($bw->input[0].'_index', 1, "supports", 1, 1) ">
 						<tr>
 							<td class="label_obj">{$langObject['itemObjIndex']}:</td>
@@ -168,8 +182,8 @@ EOF;
 							<td class="label_obj">{$langObject['itemObjType']}:</td>
 							<td>
 								<select name="supportType" id="supportType">
-									<option value="1"> Yahoo </option>
-									<option value="2"> Skype </option>
+									<option value="1"> Skype </option>
+									<option value="2"> Yahoo </option>
 								</select>
 							</td>
 						</tr>
@@ -214,19 +228,19 @@ EOF;
 							</td>
 						</tr>
 						<tr>
-                                                <td class="label_obj">{$vsLang->getWords('support_icon_offline','Icon Offline')}:</td>
-                                                <td colspan="4" align="center">
-                                                <if="count($option['icon_offline'])">
-                                                <foreach="$option['icon_offline'] as $icon">
-                                                        <p class="nickicon" style="width:auto">
-                                                                <input type="radio" value="{$icon->getId()}"  name="supportImageOffline" >
-                                                                <span>
-                                                                        {$icon->createImageCache($icon->getFileId(), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_width", 60, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_height", 20, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_type", 0, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_noimage", 0, $option['bw']->input[0], 1, 1))}<br />
-                                                                </span>
-                                                        </p>
-                                                </foreach>
-                                                </if>
-                                                </td>
+                       		<td class="label_obj">{$vsLang->getWords('support_icon_offline','Icon Offline')}:</td>
+                           	<td colspan="4" align="center">
+                            	<if="count($option['icon_offline'])">
+                             		<foreach="$option['icon_offline'] as $icon">
+                                  	<p class="nickicon" style="width:auto">
+                                   	<input type="radio" value="{$icon->getId()}"  name="supportImageOffline" >
+                                   	<span>
+                                    	{$icon->createImageCache($icon->getFileId(), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_width", 60, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_height", 20, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_type", 0, $option['bw']->input[0], 1, 1), $option['setting']->getSystemKey($option['bw']->input[0]."_icon_timthumb_noimage", 0, $option['bw']->input[0], 1, 1))}<br />
+                                 	</span>
+                              		</p>
+                         			</foreach>
+                             	</if>
+                         	</td>
 						</tr>
 						</if>
 

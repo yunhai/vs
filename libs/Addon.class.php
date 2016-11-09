@@ -1,208 +1,291 @@
-	<?php
+<?php
 class Addon{
 
 	public  $html;
         
 	function __construct() {
-		global	$vsTemplate;
 		
+		global	$vsTemplate;
 		$this->html = $vsTemplate->load_template('skin_addon');
 		
-		if(APPLICATION_TYPE=='user')$this->runUserAddOn();
-		else $this->runAdminAddOn();
+		if(APPLICATION_TYPE=='user') {$this->runUserAddOn();}
+		else {$this->runAdminAddOn ();}
 		
 	}
-	
+
 	function runUserAddOn() {
-		global	$vsStd, $vsCounter, $vsTemplate;
+		global	$vsStd, $vsCounter, $vsTemplate,$bw;
 
 		$vsCounter->visitCounter();
-		while(4-strlen($vsTemplate->global_template->state['today'])){
+		
+		while(6-strlen($vsTemplate->global_template->state['today'])){
 			$vsTemplate->global_template->state['today'] = "0".$vsTemplate->global_template->state['today'];
 		}
-		while(4-strlen($vsTemplate->global_template->state['visits'])){
+
+		while(6-strlen($vsTemplate->global_template->state['visits'])){
 			$vsTemplate->global_template->state['visits'] = "0".$vsTemplate->global_template->state['visits'];
 		}
+		
 		$this->managerPortlet();
 	}
 
 	function managerPortlet(){
-		global $vsTemplate, $vsMenu, $bw, $vsStd,$vsLang,$vsPrint,$arracc,$keyacc;
+		global $vsTemplate, $vsStd, $vsMenu, $vsSettings,$DB,$bw,$vsPrint;
+	
+		$vsStd->requireFile(CORE_PATH."pages/pages.php");
+		$array = array("home","contacts","orders");
+		$menu = $vsMenu->getMenuForUser();
+		$vsTemplate->global_template->menu_sub["services"] = $this->buildchildMenu('services');
+		$vsTemplate->global_template->menu_sub["products"] = $this->buildchildMenuPro('products');
+		
+		$vsTemplate->global_template->menu =  $this->html->showMenuTopForUser($menu);
+		$vsTemplate->global_template->menu_footer =  $this->html->showMenuBottomForUser($menu);
+		$vsTemplate->global_template->portlet_search = $this->html->portlet_search();
+		if(!in_array($bw->input['module'], $array)){	
+			$vsTemplate->global_template->menu_left =  $this->html->showMenuLeft();
+			$vsStd->requireFile(CORE_PATH.'partners/partners.php');
+	   		$partners = new partners();
+	     	$pn = $partners->getArrayPartners(array("partners"));
+	    	$vsTemplate->global_template->portlet_partner = $this->html->portlet_partner($pn["partners"]);
+		}
+   		$page = new pages();
+   		
+		$vsStd->requireFile(CORE_PATH.'supports/supports.php');
+		$supports = new supports();
+		$vsTemplate->global_template->portlet_supports = $this->html->portlet_supports($supports->portlet());
+		
+		
+		$cate_promo = $vsMenu->getCategoryGroup("promotions");
+		$ids_promo = $vsMenu->getChildrenIdInTree($cate_promo);
+		$promo = $page->getObjPage("promotions",2);
+		foreach ($promo as $obj) {
+			$obj->file = current($page->getarrayGallery($obj->getId(),"promotions"));
+		}
+	
+		$vsTemplate->global_template->portlet_promotion = $this->html->portlet_promotion($promo); 
 
-                $listmenu = $vsMenu->getMenuForUser();
-                 $vsStd->requireFile(CORE_PATH.'pages/pages.php');
- 
-                $vsTemplate->global_template->menu_sub['sanh-tiec'] = $this->getPagemenu('sanh-tiec');
-                $vsTemplate->global_template->menu_sub['td-tiec-cuoi'] = $this->getPagemenu('td-tiec-cuoi');
-//                $vsTemplate->global_template->menu_sub['bang-gia'] = $this->getPagemenu('bang-gia');
-                $vsTemplate->global_template->menu_sub['sanh-hoi-nghi'] = $this->getPagemenu('sanh-hoi-nghi');
-                $vsTemplate->global_template->menu_sub['am-thuc'] = $this->getPagemenu('am-thuc');
-                $vsTemplate->global_template->menu_sub['news'] = $this->buildchildMenu('news');
+		
+    	//$vsTemplate->global_template->portlet_weblink = $this->html->portlet_dropdown_weblink($pn["weblinks"]);
+   
+    	$vsStd->requireFile(CORE_PATH."pcontacts/pcontacts.php");
+		$pcontact = new pcontacts();
+		$categories = $vsMenu->getCategoryGroup("pcontacts");
+      	$strIds = $vsMenu->getChildrenIdInTree($categories);
+      	$pcontact->setCondition("pcontactCatId in ({$strIds}) and pcontactStatus > 0");
+      	$pcontact->setOrder("pcontactIndex ASC, pcontactId ASC");
+		$vsTemplate->global_template->contacts = $pcontact->getOneObjectsByCondition();
+	
+		
+	}
 
-                $acc = $this->buildMenuLeft($listmenu);
-                
+/*
+function rightPortlet(){
+	global $vsLang,$vsTemplate;
+	
+		return $BWHTML .= <<<EOF
+		<div id="tabs">
+	       	<ul>
+	        	<li><a href="#tabs-1">{$vsLang->getWordsGlobal("global_giavang","Giá vàng")}</a></li> 
+	          	<li><a href="#tabs-2">{$vsLang->getWordsGlobal("global_giangoaite","Ngoại tệ")}</a></li>        
+	       	</ul>
+            <div class="clear_left"></div>            
+	      	<div id="tabs-1">
+	        	<table width="100%">
+	            	<tr>
+	               	<th>{$vsLang->getWordsGlobal('global_loai','Loại')}</th>
+	             	<th class="col_td1">{$vsLang->getWordsGlobal('global_mua','Mua')}</th>
+	               	<th class="col_td1">{$vsLang->getWordsGlobal('global_ban','Bán')}</th>
+	             	</tr>
+	           	</table>
+	         	<div class="height_auto">
+	           		<table width="100%" border="1">
+					{$vsTemplate->global_template->giavang}
+	                                
+	           		</table>
+	        	</div>
+	       	</div>
+	    	<!-- STOP GIAVANG -->
+                        
+	     	<div id="tabs-2">
+	     		<table width="100%">
+	            	<tr>
+	               	<th>{$vsLang->getWordsGlobal('global_loai','Loại')}</th>
+	             	<th class="col_td1">{$vsLang->getWordsGlobal('global_mua','Mua')}</th>
+	               	<th class="col_td1">{$vsLang->getWordsGlobal('global_ban','Bán')}</th>
+	             	</tr>
+	           	</table>
+	         	<div class="height_auto">
+	          		<table width="100%" border="1">
+	               	{$vsTemplate->global_template->rates}        
+	           		</table>
+	           	</div>
+	    	</div>
+	     	<!-- STOP GIAUSD -->
+		</div>
+		
+			
+EOF;
+	}
+	*/
+        function getThoiTiet(){
+            global $vsStd,$vsTemplate;
+            $vsStd->requireFile(UTILS_PATH.'class_utilities.php');
+		$utilities = new class_ultilities();
+		$citys = array(
+  					array('city'=>'Sonla', 'name'=>'Sơn La'),
+  					array('city'=>'Haipho', 'name'=>'Hải Phòng'),
+  					array('city'=>'Hanoi', 'name'=>'Hà Nôi'),
+  					array('city'=>'Vinh', 'name'=>'Vinh'),
+  					array('city'=>'Danang', 'name'=>'Ðà Nẵng'),
+  					array('city'=>'Nhatra', 'name'=>'Nha Trang'),
+  					array('city'=>'Pleicu', 'name'=>'Pleiku'),
+					array('city'=>'HCM', 'name'=>'Tp. Hồ Chí Minh'),
+		);
+	
+		$weather = $utilities->getWeatherFromVNExpress($citys);
+
+		$vsTemplate->global_template->weatherArray = $citys;
+		$vsTemplate->global_template->weather = $weather;
                
-                $acc['news'] = $this->buildchildMenu('news');
-                if($keyacc = $this->getkeyAcc($bw->input['module'])){
-                     
-                $vsTemplate->global_template->menuLeft = $acc[$keyacc];
-                }
-              
-                 $vsTemplate->global_template->menu = $this->html->showMenuTopForUser($listmenu);
-                $vsTemplate->global_template->menu_bottom = $this->html->showMenuBottomForUser($listmenu);
-                
-                
-                $vsStd->requireFile(CORE_PATH.'partners/partners.php');
-                $partners = new partners();
-                $vsTemplate->global_template->adv = $partners->getArrayPartners(array('slidehome','weblink','banner'));
-                
-                $vsTemplate->global_template->weblink = $this->html->portlet_dropdown_weblink($vsTemplate->global_template->adv['weblink']);
- 
-                $vsStd->requireFile(CORE_PATH.'pcontacts/pcontacts.php');
-		$pcontacts = new pcontacts();
-		$vsTemplate->global_template->footer = $pcontacts->getPageContact();
                
-                $vsStd->requireFile(CORE_PATH.'supports/supports.php');
-                $supports = new supports();
-                $vsTemplate->global_template->supports = $supports->portlet();
-                
-//                str_replace($supports, $pcontacts, $partners)
+        }
+
+	function getGiavangSJC(){
+  		global $vsStd,$vsTemplate;
+      	$vsStd->requireFile(UTILS_PATH.'class_xml.php');
+			
+		$myXML = new class_xml();
+		$xmlFile = "http://www.sjc.com.vn/xml/tygiavang.xml";
+
+		$myXML->xml_parse_document(file_get_contents($xmlFile));
+		$array = current($myXML->xml_array);
+
+		$myarray = array(); $i = 0;
+		foreach($array['ratelist']['city'] as $element){
+			$myarray[$i]['title'] = $element['ATTRIBUTES']['name'];
+			if(count($element['item']) == 2) $myarray[$i]['items'][] =  $element['item']['ATTRIBUTES'];
+			else{ 
+				foreach($element['item'] as $value){
+					$myarray[$i]['items'][] =  $value['ATTRIBUTES'];
+				}
+			} 
+			$i++;
+		}
+		
+	
+		foreach($myarray as $key =>$obj){
+	        	$giavang .= <<<EOF
+	        		<tr>
+	        		<td colspan="3">{$myarray[$key]['title']}</td>
+	        		</tr>
+EOF;
+
+	        foreach($myarray[$key]['items'] as $val)
+	        $giavang .= <<<EOF
+	        		<tr>
+	        		<td class="col_td">{$val['type']}</td>
+	            	<td class="col_td1">{$val['buy']}</td>
+	            	<td class="col_td1">{$val['sell']}</td>
+	            	</tr>
+EOF;
+
+		}
+		$vsTemplate->global_template->giavang = $giavang;
                
-                $vsTemplate->global_template->searchLeft = $this->html->showSearchLeft();
-				
-				$pages = new pages();
-                $vsTemplate->global_template->listgallery = $pages->getGalleryCode();
-            }
-            
-        function buildMenuLeft($listmenu){
-            global $vsTemplate,$access;
-            
-            if($listmenu){
-                foreach($listmenu as $key=>$men){       
-                    if($men->getChildren())
-                    $access[$men->getUrl()] = $this->getSubMenuLeft($men);
-                }
-            }
-            return $access;
-        }    
-        function getSubMenuLeft($children){
-            global $vsTemplate,$arracc;
-            $retur ="";
-            $arracc['news'][]='news';
-            if($children->getChildren())
-            foreach($children->getChildren() as $obj){
-                $arracc[$children->getUrl()][]=$obj->getUrl();
-                $retur.="<li><a href='{$obj->getUrl(0)}'  title='{$obj->getTitle()}' class='{$obj->getClassActive()}'><span>{$obj->getTitle()}</span></a>";
-                      if($vsTemplate->global_template->menu_sub[$obj->getUrl()]) 
-                          $retur.="<ul>{$vsTemplate->global_template->menu_sub[$obj->getUrl()]}</ul>";
-                $retur.='</li>';
-            }
-            return $retur;
+               
         }
         
-        function getkeyAcc($key){
-            global $vsTemplate,$arracc;
-            
-            if(!is_array($arracc))return "";
-            foreach($arracc as $ke => $val){
-                if(in_array($key, $val))return $ke;
-            }
-            return "";
-        }
-
-        function getThoiTiet(){
-            global $vsStd,$vsTemplate,$vsLang;
-            $vsStd->requireFile(UTILS_PATH.'class_utilities.php');
-			$utilities = new class_ultilities();
-			$citys = array(
-  					array('city'=>'Sonla', 'name'=>$vsLang->getWords('global_nSonLa','Sơn La')),
-//  					array('city'=>'Haipho', 'name'=>$vsLang->getWords('global_nHaiPhong','Hải Phòng')),
-  					array('city'=>'Hanoi', 'name'=>$vsLang->getWords('global_nHanoi','Hà Nôi')),
-  					array('city'=>'Vinh', 'name'=>$vsLang->getWords('global_nVinh','Vinh')),
-  					array('city'=>'Danang', 'name'=>$vsLang->getWords('global_ndanang','Ðà Nẵng')),
-  					array('city'=>'Nhatra', 'name'=>$vsLang->getWords('global_nnhatrang','Nha Trang')),
-  					array('city'=>'Pleicu', 'name'=>$vsLang->getWords('global_npleiku','Pleiku')),
-					array('city'=>'HCM', 'name'=>$vsLang->getWords('global_nHCM','Tp. Hồ Chí Minh'))
-			);
-
-			$weather = $utilities->getWeatherFromVNExpress($citys);
-			$vsTemplate->global_template->weatherArray = $citys;
-
-//                       foreach($weather as $key=>$obj){
-//                           $weather[$key]['weatherDes'] = substr ($obj['weatherDes'], -12,4);
-//                       }
-                       
-			$vsTemplate->global_template->weather = $weather;
-        }
-public function buildchildMenuPro($key = "products"){
-		global $vsMenu,$bw,$vsLang,$vsStd;
-	  	$re ="";
-		$count = 0;
-		$count_li = 0;
-	  	$list = $vsMenu->getCategoryGroup ( $key );
-	  	
-	  	$vsStd->requireFile(CORE_PATH."products/products.php");
-		$product = new products();
-		
-		$strIds = $vsMenu->getChildrenIdInTree($list);
-        $product->setFieldsString('productId,productTitle,productCatId');
-        $product->setOrder('productIndex ASC,productId DESC');
-        $product->setCondition("productCatId in ({$strIds}) and productStatus > 0");
-        $listpro = $product->getObjectsByCondition("getCatId",1);
-      
-	  	if ($list)
-	  	if($list->getChildren()){
-	   		foreach( $list->getChildren() as $k => $obj){
-	   			$count+=1;
-	    		if($obj->getChildren()){
-	     			$re .= "<li><a title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul class='abc{$count}'>";
-	     			foreach( $obj->getChildren() as $k1 => $obj1){
-	     				$count_li +=1;
-	     				if ($listpro[$k1]){
-	     					if($count_li==1)
-		    				$re .= "<li><a title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a><ul class='abc{$count}'>";
-		    				else
-		    				$re .= "<li><a title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a><ul>";
-			   				foreach ($listpro[$k1] as $pro) 
-			   					$re .= "<li><a href='{$pro->getUrl('products')}' title='{$pro->getTitle()}'>{$pro->getTitle()}</a></li>";
-			   				$re .= "</ul></li>";
-		    			}else 
-	      					$re .= "<li><a title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a></li>";
-	     			}
-	     			$re .="</ul></li>";
-	    		}
-	    		else{
-	   	 			
-		    		if ($listpro[$k]){
-		    			$re .= "<li><a title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul class='abc{$count}'>";
-		   				foreach ($listpro[$k] as $pro1) 
-		   				$re .= "<li><a href='{$pro1->getUrl('products')}' title='{$pro1->getTitle()}'>{$pro1->getTitle()}</a></li>";
-		   				$re .= "</ul></li>";
-		    		}else 
-		    			$re .= "<li><a title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
-	    		}
-	   		}
-
-	  	}
-		
-	  	return $re;
-	 }
         function getTygia(){
             global $vsStd,$vsTemplate,$vsLang;
             $vsStd->requireFile(UTILS_PATH.'class_utilities.php');
 			$utilities = new class_ultilities();
 			$time = time();
-			$array = array('USD','EUR','JPY','SGD');
+			$array = array('USD','JPY','EUR','AUD');
 			$exchange = $utilities->getCurrencyFormVietcombank($array, $time);
-			
+
 			foreach($array as $obj)
 	        	$rates .= <<<EOF
-	            	<tr><td>{$obj}:</td><td>{$exchange[$obj]['exchangeSell']}</td><td>{$exchange[$obj]['exchangeBuy']}</td></tr>
+	        		<tr>
+	        		<td>{$obj}</td>
+	            	<td class="col_td1">{$exchange[$obj]['exchangeBuy']}</td>
+	            	<td class="col_td1">{$exchange[$obj]['exchangeSell']}</td>
+	            	</tr>
 EOF;
 
 			$vsTemplate->global_template->rates = $rates;
         }
-	
+/*========================= TI GIA ACB =================*/
+
+	function get_string($string,$start,$end){
+	    $ex = explode($start,$string);
+	    $ex = explode($end,$ex[1]);
+	    return $ex[0];
+    }
+    
+	function get_data($url, $follow_location=false, $return_last_url=false){
+	    $browser_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7.12) Gecko/20050915 Firefox/2.0.0.16";
+	    $cookie_file='my.cookie';
+	    $f=fopen($cookie_file,'wb');
+	    fclose($f);
+	    $ch= curl_init();
+	    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	    if ($follow_location)
+	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+	    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+	    curl_setopt($ch, CURLOPT_USERAGENT, $browser_agent);
+	    curl_setopt($ch, CURLOPT_URL, $url);
+	    $result=curl_exec($ch);
+	    $last_url=curl_getinfo($ch,CURLINFO_EFFECTIVE_URL);
+	    curl_close($ch);
+	    if ($return_last_url)
+	    return $last_url;
+	    else
+	    return $result;
+    } 
+
+	function getTygiaACB(){ 
+		global  $vsTemplate;
+	    $known_bank = array("acb"        =>    "http://www.acb.com.vn/tygia/");
+	    $name = array(
+                        "USD"        =>     "US Dollar",
+                        "EUR"        =>    "Euro",
+                        "JPY"        =>    "Japanese Yen", 
+	    				"GBP"        =>    "GB Yen", 
+					    "AUD"        =>    "Australia Dollar", 
+					    "SGD"        =>    "Singapore Dollar", 
+					    "NZD"        =>    "NewZeland Dollar", 
+                        "THB"        =>     "Thai Baht",
+                        "HKD"        =>    "HongKong Dollar",
+                        "CAD"        =>    "Canadian Dollar",
+                        "CHF"        =>    "Swiss France"
+                    );
+    
+    	$source = $this->get_data($known_bank['acb'], $follow_location=false, $return_last_url=false);
+    	if(empty($source)) exit("Unknown bank");
+		$tygia = array();
+		foreach ($name as $nt =>$value) {
+            $str = strstr($source,strtoupper($nt));
+            $tygia[$nt]['mua'] = $this->get_string($str, 'class="cap-r2">',"</td>");
+            $tygia[$nt]['mck'] = $this->get_string($str, 'class="cap-r3">',"</td>");
+            $tygia[$nt]['ban'] = $this->get_string($str, 'class="cap-r4">',"</td>"); 
+		} 
+
+		foreach($tygia as $k =>$obj)
+	        	$rates .= <<<EOF
+	        		<tr>
+	        		<td>{$k}</td>
+	            	<td class="col_td1">{$obj['mua']}</td>
+	            	<td class="col_td1">{$obj['ban']}</td>
+	            	</tr>
+EOF;
+
+      $vsTemplate->global_template->tygia = $rates;
+
+    }  
+    
+/*=======================================================*/
 		
 	function runAdminAddOn() {
 		global $bw, $vsTemplate;
@@ -271,38 +354,56 @@ EOF;
                                                 $vsSkin->ACP_HELP_SYSTEM	=	$this->html->acpHelpHTML($acp_help);
                                         }
 	}
+	
+	function showMenuGallery($option){
+            $re ="";
+            foreach ($option as $menu) {
+	            if($menu->children){
+	                foreach($menu->children as $obj)
+	                      $re .= "<li><a href='{$obj->getUrl(0)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
+	            }
+            }
+            
+            return $re;
+        }
+        
         public function getPagemenu($key = 'pages'){
-		global $vsStd,$bw,$vsMenu;
+		global $vsStd,$bw,$vsMenu,$DB;
         $categories = $vsMenu->getCategoryGroup($key);
 		$strIds = $vsMenu->getChildrenIdInTree($categories);
+	
 		if($key=='gallerys'){
+			$vsStd->requireFile(CORE_PATH."gallerys/gallerys.php");
 			$pages = new gallerys();
 			$pages->setFieldsString('galleryId,galleryTitle');
 	        $pages->setOrder('galleryIndex ASC,galleryId DESC');
 			$pages->setCondition("galleryCatId in ({$strIds}) and galleryStatus > 0");
 		}else{
 			$pages = new pages();
-	        $pages->setFieldsString('pageId,pageTitle,pageCode');
+	        $pages->setFieldsString('pageId,pageTitle');
 	        $pages->setOrder('pageIndex ASC,pageId DESC');
+	        if($key=='abouts')
+			$pages->setCondition("pageCatId in ({$strIds}) and pageStatus > 0 and pageCode = ''");
+			else 
 			$pages->setCondition("pageCatId in ({$strIds}) and pageStatus > 0");
 		}
 		$list = $pages->getObjectsByCondition();
-              
+     
 		
 		return $this->buildLi($key,$list);
 	}
 
+ 	
+	
  	public function buildLi($key = 'pages',$list=array()){
-            global $vsTemplate;
+ 		global $vsLang,$bw;
      	$re ="";
 		if(count($list)){
 			foreach( $list as $obj){
-                            if($obj->getCode()&&$vsTemplate->global_template->menu_sub[$obj->getCode()])
-				$re .= "<li><a href='{$obj->getUrl($key)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul>{$vsTemplate->global_template->menu_sub[$obj->getCode()]}</ul></li>";
-                            else
-                                $re .= "<li><a href='{$obj->getUrl($key)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
+				$re .= "<li><a href='{$obj->getUrl($key)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
 			}
 		}
+		
        	return $re;
   	}
   	
@@ -310,7 +411,8 @@ EOF;
 		global $vsMenu,$bw,$vsLang;
 	  	$re ="";
 
-	  	$list = $vsMenu->getCategoryGroup ( $key );
+	  	$list = $vsMenu->getCategoryGroup ( $key,array('status'=>true));
+
 	  	if ($list)
 	  	if($list->getChildren()){
 	   		foreach( $list->getChildren() as $obj){
@@ -324,11 +426,119 @@ EOF;
 	   		}
 
 	  	}
+
+	  	return $re;
+	 }
+	
+	public function buildchildMenuPro($key = "news"){
+	global $vsMenu,$bw,$vsLang;
+	  	$re ="";
+
+	  	$list = $vsMenu->getCategoryGroup ( $key,array('status'=>true));
+
+	  	if ($list)
+	  	if($list->getChildren()){
+	   		foreach( $list->getChildren() as $obj){
+	    		if($obj->getChildren()){
+	     		$re .= "<li><a href='{$obj->getUrlCategory()}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul>";
+	     		foreach( $obj->getChildren() as $obj1)
+	     			if($obj1->getChildren()){
+		     			$re .= "<li><a href='{$obj1->getUrlCategory()}' title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a><ul>";
+		     			foreach( $obj1->getChildren() as $obj2)
+		     				if($obj2->getChildren()){
+					     		$re .= "<li><a href='{$obj2->getUrlCategory()}' title='{$obj2->getTitle()}'>{$obj2->getTitle()}</a><ul>";
+					     		foreach( $obj2->getChildren() as $obj3)
+					      		$re .= "<li><a href='{$obj3->getUrlCategory()}' title='{$obj3->getTitle()}'>{$obj3->getTitle()}</a></li>";
+					     		$re .="</ul></li>";
+					    		}else
+					   	 		$re .= "<li><a href='{$obj2->getUrlCategory()}' title='{$obj2->getTitle()}'>{$obj2->getTitle()}</a></li>";
+			      		
+			     		$re .="</ul></li>";
+		    		}else
+		   	 			$re .= "<li><a href='{$obj1->getUrlCategory()}' title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a></li>";
+	      		
+	     		$re .="</ul></li>";
+	    		}else
+	   	 		$re .= "<li><a href='{$obj->getUrlCategory()}' title='{$obj->getTitle()}' class='product_list_title'>{$obj->getTitle()}</a></li>";
+	   		}
+
+	  	}
 		
 	  	return $re;
 	 }
 	 
+	public function buildchildMenuPro1($key = "news"){
+		global $vsMenu,$bw,$vsLang,$vsStd;
+	  	$re ="";
+
+	  	$list = $vsMenu->getCategoryGroup ( $key,array('status'=>true) );
+	  	
+	  	//$vsStd->requireFile(CORE_PATH."page/products.php");
+		$pages = new pages();
+		
+		$strIds = $vsMenu->getChildrenIdInTree($list);
+        $pages->setFieldsString('pageId,pageTitle,pageCatId');
+        $pages->setOrder('pageIndex ASC,pageId DESC');
+        $pages->setCondition("pageCatId in ({$strIds}) and pageStatus > 0");
+        $listpro = $pages->getObjectsByCondition("getCatId",1);
+
+	  	if ($list)
+	  	if($list->getChildren()){
+	   		foreach( $list->getChildren() as $k => $obj){
+	   			
+	    		if($obj->getChildren()){
+	     			$re .= "<li><a href='{$obj->getUrlCategory()}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul>";
+	     			foreach( $obj->getChildren() as $k1 => $obj1)
+	     				if ($listpro[$k1]){
+		    				$re .= "<li><a href='{$obj1->getUrlCategory()}' title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a><ul>";
+			   				foreach ($listpro[$k1] as $pro) 
+			   					$re .= "<li><a href='{$pro->getUrl($key)}' title='{$pro->getTitle()}'>{$pro->getTitle(35)}</a></li>";
+			   				$re .= "</ul></li>";
+		    			}else 
+	      					$re .= "<li><a href='{$obj1->getUrlCategory()}' title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a></li>";
+	     			$re .="</ul></li>";
+	    		}else{
+	   	 			
+		    		if ($listpro[$k]){
+		    			$re .= "<li><a href='{$obj->getUrlCategory()}' title='{$obj->getTitle()}'>{$obj->getTitle(40)}</a><ul>";
+		   				foreach ($listpro[$k] as $pro1) 
+		   				$re .= "<li><a href='{$pro1->getUrl($key)}' title='{$pro1->getTitle()}'>{$pro1->getTitle(30)}</a></li>";
+		   				$re .= "</ul></li>";
+		    		}else 
+		    			$re .= "<li><a href='{$obj->getUrlCategory()}' title='{$obj->getTitle()}'>{$obj->getTitle(40)}</a></li>";
+	    		}
+	   		}
+
+	  	}
+		
+	  	return $re;
+	 }
+	 
+	public function buildchildRss($key = "news"){
+		global $vsMenu,$bw,$vsLang;
+	  	$re ="";
+
+	  	$list = $vsMenu->getCategoryGroup ( $key );
+	  	
+	  	if ($list){
+	  	$re .= "<li><a href='{$list->getUrlRSS()}' title='{$list->getTitle()}' target='_blank'> + {$list->getTitle()}</a></li><ul>";
+		  	if($list->getChildren()){
+		   		foreach( $list->getChildren() as $obj){
+		   			
+		    		if($obj->getChildren()){
+		     		$re .= "<li><a href='{$obj->getUrlRSS()}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a><ul>";
+		     		foreach( $obj->getChildren() as $obj1)
+		      		$re .= "<li><a href='{$obj1->getUrlRSS()}' title='{$obj1->getTitle()}'>{$obj1->getTitle()}</a></li>";
+		     		$re .="</ul></li>";
+		    		}else
+		   	 		$re .= "<li><a href='{$obj->getUrlRSS()}' title='{$obj->getTitle()}' target='_blank'> - {$obj->getTitle()}</a></li>";
+		   		}
 	
+		  	}
+		  	$re .="</ul></li>";
+	  	}
+	  	return $re;
+	 }
 	 
 	public function getTitleMenu($option){
 	global $vsTemplate;

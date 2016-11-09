@@ -52,8 +52,7 @@ $lang = array (
   'recruitment_phone' => 'Điện thoại',
   'tab_contacts_gopytuong' => 'Đóng góp ý tưởng',
   'recruitment_file' => 'Download',
-  'tab_contacts_tiecuoi' => 'Tiệc cưới',
-  'tab_contacts_hoinghi' => 'Hội nghị',
+  'menu_permmission' => 'Quản lý quyền Menu',
 );
 $userLang = array (
 );

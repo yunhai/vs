@@ -19,21 +19,7 @@ class pages extends VSFObject {
 		unset($this);
 	}
 	
-	function getGalleryCode($module = "") {
-		global $vsMenu,$keyacc;
-
-		$categories = $this->vsMenu->getCategoryGroup('quangcao');			
 	
-		$strIds = $vsMenu->getChildrenIdInTree($categories);		
-		
-		$this->setCondition ( "pageStatus >0 and pageCatId in ({$strIds}) and pageCode = '{$keyacc}'" );
-                $item = $this->getOneObjectsByCondition();
-                if($item)
-                    $array= $this->getarrayGallery($item->getId(),"quangcao");
-               
-		if(is_array($array))return $array;
-		return array();
-	}
 	function getMenuList() {
 		global $vsMenu;
 		
@@ -117,7 +103,7 @@ class pages extends VSFObject {
 	function getObjSpecial($module = "") {
 		global $vsMenu;
 		if($module)
-		$categories = $this->vsMenu->getCategoryGroup($module);			
+			$categories = $this->vsMenu->getCategoryGroup($module);			
 		else $categories = $this->getCategories();
 		
 		$strIds = $vsMenu->getChildrenIdInTree($categories);	
@@ -146,14 +132,7 @@ class pages extends VSFObject {
 
 	}
 
-    public function getPageByCode($code = ''){
-    	if(!$code) return NULL; 
-    	$this->setCondition('pageCode ="'.$code.'" AND pageStatus > 0');
-    	$temp = $this->getObjectsByCondition();
-    	reset($temp);
-    	return current($temp);
-    }    
-	
+        
         public function getPagemenu($key = 'pages'){
 		global $vsStd,$bw,$vsMenu;
                 $categories = $vsMenu->getCategoryGroup($key);
@@ -178,35 +157,6 @@ class pages extends VSFObject {
 		}
                 return $re;
         }
-        
-         function getObjPageCate($module = "",$status = 1,$limit = 10) {
-		global $vsMenu;
-		if($module)
-			$categories = $this->vsMenu->getCategoryGroup($module);
-		else $categories = $this->getCategories();
-                
-                $option['cate']=$categories->getChildren();
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image");
-                $this->setLimit(array(0, $limit));
-                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
-                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
-                if($this->getCondition())
-        	$cond .= " and ".$this->getCondition();
-		$this->setCondition ( $cond );
-                $list = $this->getObjectsByCondition();
-                if($list){
-                    $this->convertFileObject($list,$module);
-                    $option['big']= current($list);
-                    unset($list[$option['big']->getId()]);
-                    if(count($list)>2){
-                        $option['links']=  array_splice($list,0,2);
-                        $option['imglinks'] = $list;
-                    }else $option['links'] = $list;
-                
-                }
-		return $option;
-	}
 	
 }
 ?>

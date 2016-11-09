@@ -1,9 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Thư viện',
-  'main_title' => 'Thư viện',
-  'xemchitiet' => 'xem chi tiết',
-);
-$userLang = array (
-);
-?>

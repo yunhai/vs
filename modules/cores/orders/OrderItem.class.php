@@ -4,9 +4,11 @@ class OrderItem extends BasicObject{
 	private $productId 	= NULL;
 	private $quantity 	= 0;
 	private $saleOff 	= NULL;
-//	private $price		= 0;
 	private $info		= NULL;
-        private $type = 0;
+  	private $type = 0;
+  	//private $module = NULL;
+       
+  
 	
 	/**
 	 * CONSTRUCT
@@ -23,6 +25,8 @@ class OrderItem extends BasicObject{
 		unset($this->saleOff);
 		unset($this->price);
                 unset($this->type);
+                unset($this->image);
+               //  unset($this->module);
 	}
 	
 	/**
@@ -31,6 +35,7 @@ class OrderItem extends BasicObject{
 	 * @return array $dbObj
 	 */
 	public function convertToDB() {
+
 		isset ( $this->id) 			? ($object["itemId"]			= $this->id)			:"" ;
 		isset ( $this->orderId ) 		? ($dbobj ['orderId'] 			= $this->orderId) 		: '';
 		isset ( $this->productId ) 		? ($dbobj ['productId'] 		= $this->productId) 	: '';
@@ -41,7 +46,9 @@ class OrderItem extends BasicObject{
 		isset ( $this->postdate ) 		? ($dbobj ['itemDate'] 			= $this->postdate) 		: '';
 		isset ( $this->status ) 		? ($dbobj ['itemStatus'] 		= $this->status) 		: '';
 		isset ( $this->info ) 			? ($dbobj ['itemInfo'] 			= $this->info) 			: '';
-                isset ( $this->type ) 			? ($dbobj ['itemType'] 			= $this->type) 			: '';
+    	isset ( $this->type ) 			? ($dbobj ['itemType'] 			= $this->type) 			: '';
+    	isset ( $this->image ) 			? ($dbobj ['itemImage'] 			= $this->image) 			: '';
+    	//isset ( $this->module ) 			? ($dbobj ['itemModule'] 			= $this->module) 			: '';
 		return $dbobj;
 	}
 	/**
@@ -49,6 +56,7 @@ class OrderItem extends BasicObject{
 	 * @param unknown_type $object
 	 */
 	function convertToObject($object) {
+	
 		isset ( $object ['itemId'] ) 		? $this->setId ( $object ['itemId'] ) 				: '';
 		isset ( $object ['orderId'] ) 		? $this->setOrderId( $object ['orderId'] ) 			: '';
 		isset ( $object ['productId'] ) 	? $this->setProductId ( $object ['productId'] ) 	: '';
@@ -59,11 +67,18 @@ class OrderItem extends BasicObject{
 		isset ( $object ['itemDate'])		? $this->setPostDate ( $object ['itemDate'] ) 		: '';
 		isset ( $object ['itemStatus'])		? $this->setStatus ( $object ['itemStatus'] ) 		: '';
 		isset ( $object ['itemInfo'])		? $this->setInfo ( $object ['itemInfo'] ) 			: '';
-                isset ( $object ['itemType'])		? $this->setType ( $object ['itemType'] ) 			: '';
+       	isset ( $object ['itemType'])		? $this->setType ( $object ['itemType'] ) 			: '';
+       	isset ( $object ['itemImage'])		? $this->setImage ( $object ['itemImage'] ) 			: '';
+      // 	isset ( $object ['itemModule'])		? $this->setModule ( $object ['itemModule'] ) 			: '';
 	}
 	
         public function getType() {
-		return $this->type;
+        	global $vsLang;
+        	if ($this->type == 1)
+				return $vsLang->getWords("orders_type1","Giá thường");
+			if ($this->type == 2)
+        	return $vsLang->getWords("orders_type2","Giá Khuyến mãi");
+        	
 	}
 
 	/**
@@ -76,6 +91,13 @@ class OrderItem extends BasicObject{
 	public function getInfo() {
 		return $this->info;
 	}
+public function setModule($module) {
+		$this->module = $module;
+	}
+	
+	public function getmodule() {
+		return $this->module;
+	}
 
 	/**
 	 * @param field_type $info
@@ -84,7 +106,11 @@ class OrderItem extends BasicObject{
 		$this->info = $info;
 	}
 
-       
+function getUrl($module=null) {
+		global $bw;
+		if(!$module) return $this->url;
+		return $bw->base_url . "{$module}/detail/".strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-')). '-' . $this->getProductId () . '.html';
+	}
         
 	public function getPrice($number = true) {
 		global $vsLang;

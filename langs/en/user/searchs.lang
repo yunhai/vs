@@ -1,11 +1,7 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Search',
-  'main_title' => 'Search',
-  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
-  'search_nodata' => 'Unable to find required data. Enter other keywords!',
-  'searchs_id' => 'ID',
+  'pageTitle' => 'searchs',
+  'main_title' => 'searchs',
 );
-$userLang = array (
-);
+$userLang = array();
 ?>

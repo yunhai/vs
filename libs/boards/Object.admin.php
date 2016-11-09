@@ -72,11 +72,19 @@ class ObjectAdmin{
 			case 'display_list_news_comments':
 				$this->displayListNewsComments($bw->input [2], $this->module->result ['message'] );
 				break;
+			case 'create_rss_file':
+             	$this->createRSS($bw->input[2]);
+              	break;
 			default :
 				$this->loadDefault ();
 				break;
 		}
 	}
+	
+	public function createRSS($idCate=""){
+            global $bw;            
+            return $this->model->createRSS($idCate);
+        }
 	function deleteObj($ids,$cate = 0){
 		global $bw,$search_module,$vsStd;
 	
@@ -134,10 +142,21 @@ class ObjectAdmin{
 		// If not just get all product
 		if (intval ( $catId )) {
 			$result = $this->model->vsMenu->extractNodeInTree ( $catId, $categories->getChildren () );
-			if ($result)
+			if($result){
 				$strIds = trim ( $catId . "," . $this->model->vsMenu->getChildrenIdInTree ( $result ['category'] ), "," );
+				if($result['ids']){
+					global $vsMenu, $vsLang;
+	           		$result['ids'] = array_reverse($result['ids']);
+	           		$subbreadcumbs = $vsLang->getWords('subbreadcumbs_'.$bw->input[0], $bw->input[0]).' › ';
+	             	foreach($result['ids'] as $b){
+	              		$mobj = $vsMenu->getCategoryById($b);
+	                 	if($mobj) $subbreadcumbs .= "{$mobj->getTitle()} › ";
+	             	}
+	             	$subbreadcumbs = trim($subbreadcumbs, '› ');
+	      		}
+			}
 		}
-		if (! $strIds)
+		if (!$strIds)
 			$strIds = $this->model->vsMenu->getChildrenIdInTree ( $categories );		
 		// Set the condition to get all product in specified category and its chidlren
 		$this->model->setCondition ( $this->model->getCategoryField () . " in (" . $strIds . ") and {$this->tableName}Status > -1" );
@@ -145,9 +164,22 @@ class ObjectAdmin{
 		$size = $vsSettings->getSystemKey ( "admin_{$bw->input[0]}_list_number", 10 );
 		
 		$option = $this->model->getPageList ( "{$bw->input[0]}/display-obj-list/{$catId}", 3, $size, 1, 'obj-panel' );
+	
+		if ($vsSettings->getSystemKey($bw->input[0].'_comment',0, $bw->input[0], 1, 1))
+			$option['modulecomment'] = array();
+	   		if(count($option['pageList'])){
+	       		require_once CORE_PATH . 'comments/comments_public.php';
+	  			$comments = new comments ();
+	  			$comments->setFieldsString("id,objId,module");
+				$comments->setCondition("module = '{$bw->input['module']}'");
+				$comments->setGroupby("objId");
+				$option['modulecomment'] = array_keys($comments->countTable());
+	       	}
 		$option ['message'] = $message;
 		$option ['categoryId'] = $catId;
-            
+		$option['subbreadcumbs'] = $subbreadcumbs;
+		
+    	
 		return $this->output = $this->html->objListHtml ( $this->model->getArrayObj (), $option );
 	}
 	
@@ -163,6 +195,7 @@ class ObjectAdmin{
 			$option ['formSubmit'] = $langObject['itemFormEditButton'];
 			$option ['formTitle'] = $langObject['itemFormEdit'];
 			$obj = $this->model->getObjectById ( $objId ,1);
+		
 		} 
               
 		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
@@ -190,11 +223,12 @@ class ObjectAdmin{
 			$val=$vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1);
 			if(!is_numeric($val)){
 				$editor->setValue($vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1));
-			}
-					
+			}else
+				 $editor->setValue($obj->getContent());
+				
 		}
 		$obj->setContent ( $editor->createHtml () );
-		
+			
 		return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
 	
@@ -202,8 +236,7 @@ class ObjectAdmin{
 		global $bw, $vsStd, $vsLang, $vsFile,$DB,$vsSettings,$search_module,$langObject;
 
 		$bw->input ["{$this->tableName}Status"] = $bw->input ["{$this->tableName}Status"] ? $bw->input ["{$this->tableName}Status"] : 0;
-                $bw->input ["{$this->tableName}Hot"] = $bw->input ["{$this->tableName}Hot"] ? $bw->input ["{$this->tableName}Hot"] : 0;
-                $bw->input ["{$this->tableName}Manu"] = $bw->input ["{$this->tableName}Manu"] ? $bw->input ["{$this->tableName}Manu"] : 0;
+                
 		
 		if (! $bw->input ["{$this->tableName}CatId"])
 			$bw->input ["{$this->tableName}CatId"] = $this->model->getCategories ()->getId ();
@@ -226,7 +259,14 @@ class ObjectAdmin{
 			
 			$objUpdate = $this->model->createBasicObject ();
 			$objUpdate->convertToObject ( $bw->input );
-                       
+
+			if($vsSettings->getSystemKey($bw->input[0].'_tags',0, $bw->input[0])){
+			/**add tags process***/
+			require_once CORE_PATH.'tags/tags.php';
+			$tags=new tags();
+			$tags->addTagForContentId($bw->input[0], $this->model->obj->getId(), $bw->input['tags_submit_list']);
+			/****/
+			}
 			$this->model->updateObjectById ( $objUpdate );
 			if ($this->model->result ['status']) {
 				$alert = $langObject['itemEditSuccess'];
@@ -266,7 +306,7 @@ EOF;
 		}
 		
         //convert to Search
-				if (in_array($bw->input['module'], $search_module)){
+		if (in_array($bw->input['module'], $search_module)){
                     if($bw->input['searchRecord']){
                         $vsStd->requireFile(CORE_PATH."searchs/searchs.php");
                         $search = new searchs();
@@ -280,12 +320,7 @@ EOF;
 		      
         //end convert to Search
 		$cat = $bw->input ['pageCate'] ? $bw->input ['pageCate'] : $bw->input ['pageCatId'];
-		$lang = new languages();
-	
-		foreach ($lang->arrayLang as $value) {
-			$vsFile->buildCacheFile ( $bw->input ['module'],$value->getFoldername() );;
-		}
-		
+		$vsFile->buildCacheFile ( $bw->input ['module'] );
 		return $this->output = $javascript . $this->getObjList ();
 	}
 
@@ -296,10 +331,11 @@ EOF;
 
 		$option = array('listStyle' => "| - -",
 						'id'		=> 'obj-category',
-						'size'		=> 10,
+						'size'		=> 25,
 		);
 		$menu = new Menu();
 		$menu = $this->model->getCategories();
+	
 		$data['html'] = $vsMenu->displaySelectBox($menu->getChildren(), $option);
 
 		return $this->html->categoryList($data);
@@ -350,6 +386,133 @@ EOF;
 		
 	}
 	
+function getProductCatId($name, $type){
+  global $vsMenu;
+  $temp = $vsMenu->getCategoryGroup($type);
+  
+  if($temp){
+   $cats = $temp->getChildren();
+   foreach($cats as $key => $value){
+    if(trim(strtolower($name)) == trim(strtolower($value->getTitle()))) return $key;
+    foreach($value->getChildren() as $key1 => $value1){
+     if(trim(strtolower($name)) == trim(strtolower($value1->getTitle()))){
+      return $key1;
+     }
+    }
+    if(trim(strtolower(VSFTextCode::removeAccent($value->getTitle()))) == 'loai bat dong san khac') $otherId = $key;
+   }
+  }
+  return $otherId;
+ }
+ 	
+function update(){
+		global $bw,$vsFile,$vsLang, $vsStd;
+		
+		if(!$bw->input['fileDocumentId']) return $this->output = $vsLang->getWords('error_import_file', '"Không th? import d? li?u"');
+		
+		$idFile = $bw->input['fileDocumentId'];
+		$file = $vsFile->getObjectById($bw->input['fileDocumentId']);
+		
+		
+		$arrayTerm = $this->getDTExcel($file);
+	
+		$data = $this->update_convertToData($arrayTerm);
+
+		$message = 'Ðã x?y ra l?i trong quá trình import';
+		if($data){
+			$flag = false;
+			
+			foreach($data['main'] as $key=>$single){
+				if(is_numeric($key)){
+					$this->module->obj = new Product();
+					$this->module->obj->convertToObject($single);
+	
+					$this->module->updateObjectById();
+					$idArray[$key] = $key;
+					$flag = true;
+				}
+			}
+			
+			
+			if($flag)
+				$message = $vsLang->getWords('product_update_data_ok', 'c?p nh?t d? li?u thành công!');
+		}
+		$this->output = $message;
+//		$vsFile->deleteFile($idFile);
+	}
+	
+	
+	function getDTExcel($file="", $sheet = 0){
+		
+		if($file->getPathView(false)){
+			require_once(UTILS_PATH."excel_reader2_patch_applied.php");
+			
+			$data = new Spreadsheet_Excel_Reader($file->getPathView(false), true, "UTF-8");
+			$temp = $data->getRawExcelData($sheet);
+			
+			return $temp;
+		}
+		return array();
+	}
+	
+	
+	function update_convertToData($rawdata = array()){
+		global $vsSettings, $vsStd;
+		
+		$i = 1;
+		while($i < 2) unset($rawdata[$i++]);
+		
+		
+		$data = array();
+		$datetime = new VSFDateTime();
+		
+		$prices = $this->module->getUnits();
+//		$vsStd->requireFile(CORE_PATH.'roads/roads.php');
+//		$roads = new roads();
+
+		foreach($rawdata as $keyraw=>$value ){
+			if(!$value[1]) continue;
+			$key = $value[1];
+			$data[$key]['productId'] = $value[1];
+			$data[$key]['productCatId'] = $this->getProductCatId($value[2], 'products');//
+			$data[$key]['productTitle'] = $value[3];
+			$data[$key]['productPrice'] = $value[4];
+			
+			$data[$key]['productIntro'] = $value[5];
+			$data[$key]['productContent'] = $value[6];
+
+			$data[$key]['productStatus'] = $value[7];
+			$data[$key]['productIndex'] = $value[8];
+			
+			$datetimeArray  	= explode("/", $value[9]);
+			$datetime->day 		= $datetimeArray[0];
+			$datetime->month 	= $datetimeArray[1];
+			$datetime->year 	= $datetimeArray[2];
+			$data[$key]['productPostDate'] = $datetime->TimeToInt();
+			
+			
+//			$arrayinfo = array(
+//				'userFullName' 	=> $value[43],
+//				'userAddress' 	=> $value[44],
+//				'userPhone' 	=> $value[45],
+//				'userChusohuu'  => $value[46],
+//				'userCMND'  	=> $value[47],
+//				'userNgaycap' 	=> $value[48],
+//				'userNoicap'  	=> $value[49],
+//				'userEmail'  	=> $value[50],
+//			);
+//			$data[$key]['userInfo'] = serialize($arrayinfo);
+//			$data[$key]['productRoadId'] = $roads->convertToRoadId($value[12]);
+//////
+			//$utils[$key] = $this->update_convertToUtils($key, $value);
+		}
+		
+		$return['main'] = $data;
+		
+		
+		return $return;
+	}
+	
          function getListLangObject(){
             global $langObject,$vsLang;
             $langObject['itemList']         =$vsLang->getWords('global_Item_List',"Item List");
@@ -387,11 +550,14 @@ EOF;
             $langObject['itemObjIntro'] =$vsLang->getWords('global_obj_Intro',"Intro");
             $langObject['itemObjContent'] =$vsLang->getWords('global_obj_Content',"Content");
             $langObject['itemObjAddress'] =$vsLang->getWords('global_obj_Address',"Address");
+            $langObject['itemObjAddressview'] =$vsLang->getWords('global_obj_Addressview',"Địa chỉ hiển thị trên google");
             $langObject['itemObjBack'] =$vsLang->getWords('global_obj_Back',"Back");
             $langObject['itemObjWebsite_Name'] =$vsLang->getWords('global_obj_Website_Name',"Website Name");
             $langObject['itemObjWebsite'] =$vsLang->getWords('global_obj_Website',"Website");
             $langObject['itemObjPosition'] =$vsLang->getWords('global_obj_Position',"Position");
             $langObject['itemObjPrice'] =$vsLang->getWords('global_obj_Price',"Price");
+            $langObject['itemObjHotPrice'] =$vsLang->getWords('global_obj_HotPrice',"Hot Price");
+            $langObject['itemObjFileupload'] =$vsLang->getWords('global_obj_Fileupload',"File download");
             //no define onfield
             $langObject['notItemObjTitle'] =$vsLang->getWords('global_not_Title',"Title not blank");
             //category

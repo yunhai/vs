@@ -1,30 +1,38 @@
 <?php
 class skin_objectadmin{
 
-function objListHtml($objItems = array(), $option = array()) {
+	function objListHtml($objItems = array(), $option = array()) {
 		global $bw, $vsLang, $vsSettings, $vsSetting, $tableName, $vsUser,$langObject;
-                $this->objcallback = "obj-panel-callback";
-		if($option['comment_panel']){
-			$this->objcallback = "comment-callback";
-		}
 		$BWHTML .= <<<EOF
 		
 			<div class="red">{$option['message']}</div>
-			<form id="obj-list-form">
 			<input type="hidden" name="checkedObj" id="checked-obj" value="" />
 			<input type="hidden" name="categoryId" value="{$option['categoryId']}" id="categoryId" />
 			<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
                             <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
                             <span class="ui-icon ui-icon-note"></span>
                             <span class="ui-dialog-title">{$langObject['itemList']}</span>
+                            <if="$option['subbreadcumbs']"><span class='ui-dialog-title' style='margin-left: 10px;'>[{$option['subbreadcumbs']}]</span></if>
+                            <if=" $vsSettings->getSystemKey($bw->input[0].'_search_function', 0, $bw->input[0]) ">
+					        	<span id="search-bt" style='align:right; float: right; color: #FFFFFF; cursor: pointer;'>{$vsLang->getWords('obj_search', 'Search')}</span>
+					        	<script>
+                            	$('#search-bt').click(function(){
+									$("#search-form").animate({"height": "toggle"}, { duration: 1000 });
+								});
+								</script>
+					        </if>
                             </div>
-                                <if=" $vsSettings->getSystemKey($bw->input[0].'_add_hide_show_delete',1, $bw->input[0]) ">
+                            {$this->searchForm()}
+                            <if=" $vsSettings->getSystemKey($bw->input[0].'_add_hide_show_delete',1, $bw->input[0]) ">
                                 <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
                                     <li class="ui-state-default ui-corner-top" id="add-objlist-bt"><a href="#" title="{$langObject['itemListAdd']}">{$langObject['itemListAdd']}</a></li>
                                     <li class="ui-state-default ui-corner-top" id="hide-objlist-bt"><a href="#" title="{$langObject['itemListHide']}">{$langObject['itemListHide']}</a></li>
                                     <li class="ui-state-default ui-corner-top" id="visible-objlist-bt"><a href="#" title="{$langObject['itemListVisible']}">{$langObject['itemListVisible']}</a></li>
                                     <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
                                        <li class="ui-state-default ui-corner-top" id="home-objlist-bt"><a href="#" title="{$langObject['itemListHome']}">{$langObject['itemListHome']}</a></li>
+                                    </if>
+                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_banchay',0, $bw->input[0]) ">
+                                       <li class="ui-state-default ui-corner-top" id="banchay-objlist-bt"><a href="#" title="{$vsLang->getWords("obj_banchay","Bán chạy")}">{$vsLang->getWords("obj_banchay","Bán chạy")}</a></li>
                                     </if>
                                     <li class="ui-state-default ui-corner-top" id="delete-objlist-bt"><a href="#" title="{$langObject['itemListDelete']}">{$langObject['itemListDelete']}</a></li>
                                     <if="$vsSettings->getSystemKey($bw->input[0].'_category_list',1, $bw->input[0])">
@@ -33,8 +41,26 @@ function objListHtml($objItems = array(), $option = array()) {
                                     <if="$vsSettings->getSystemKey($bw->input[0].'_search_list',0, $bw->input[0])">
                                     <li class="ui-state-default ui-corner-top" id="insertSearch-objlist-bt"><a href="#" title="{$langObject['itemListInsertSearch']}">{$langObject['itemListInsertSearch']}</a></li>
                                     </if>
-                                </ul>
-                                </if>
+                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_order_function', 0, $bw->input[0]) ">
+                                    <li>
+                                    	<select id='order' name='order' style='padding: 3px;border: 1px solid #A8211D;'>
+                                    		<option value='0'>{$vsLang->getWords('order_0','Chọn cách sắp xếp')}</option>
+                                    		<option value='1'>{$vsLang->getWords('order_1','Sản phẩm đang ẩn lên đầu')}</option>
+                                    		<option value='2'>{$vsLang->getWords('order_2','Sản phẩm đang hiện lên đầu')}</option>
+                                    		<option value='3'>{$vsLang->getWords('order_3','Sản phẩm mới nhất lên đầu')}</option>
+                                    	</select>
+                                    </li>
+                                    </if>
+								</ul>
+							</if>
+							<script>
+								vsf.jSelect('{$option['order']}', 'order');
+								
+								$('#order').change(function(){
+									vsf.get('{$bw->input[0]}/reorder/'+$(this).val()+'/&pcategory={$option['categoryId']}', 'obj-panel');
+									return false;
+								});
+							</script>
 					<table cellspacing="1" cellpadding="1" id='objListHtmlTable' width="100%">
 						<thead>
 						    <tr>
@@ -51,13 +77,14 @@ function objListHtml($objItems = array(), $option = array()) {
 							<foreach="$objItems as $obj">
 								<tr class="$vsf_class">
 									<td align="center">
-                                                                                <if="!$vsSettings->getSystemKey($bw->input[0].'_code',0) && $obj->getCode()">
-                                                                                    <img src="{$bw->vars['img_url']}/disabled.png" />
-                                                                                <else />
+                                    	<if="!$vsSettings->getSystemKey($bw->input[0].'_code',0) && $obj->getCode()">
+                                        	<img src="{$bw->vars['img_url']}/disabled.png" />
+                                      	<else />
 										<input type="checkbox" onclicktext="vsf.checkObject();" onclick="vsf.checkObject();" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
-                                                                                </if>
+                                     	</if>
 									</td>
-									<td style='text-align:center'>{$obj->getStatus('image')}</td>
+									<td style='text-align:center'>{$obj->getStatus('image')}
+									</td>
 									
 									<td>
 										<a href="javascript:vsf.get('{$bw->input[0]}/add-edit-obj-form/{$obj->getId()}/&pageIndex={$bw->input[3]}&pageCate={$bw->input[2]}','obj-panel')"  class="editObj" >
@@ -67,7 +94,7 @@ function objListHtml($objItems = array(), $option = array()) {
 									<td>{$obj->getIndex()}</td>
 									<if=" $vsSettings->getSystemKey($bw->input[0].'_option', 0,$bw->input[0], 1, 1) ">
 									<td>
-										{$this->addOtionList($obj,$this->objcallback,$option)}
+										{$this->addOtionList($obj,$option['modulecomment'])}
 									</td>
 									</if>
 								</tr>
@@ -79,26 +106,90 @@ function objListHtml($objItems = array(), $option = array()) {
 									<div style='float:right;'>{$option['paging']}</div>
 								</th>
 							</tr>
-                                                         <tr >
-                                                      <th colspan='6' align="left">
+							
+							<tr>
+								<th colspan='6' align="left">
                                                       <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/enable.png" /> {$langObject['itemListCurrentShow']}</span>
                                                       <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/disabled.png" /> {$langObject['itemListNotShow']}</span>
                                                        <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
                                                             <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/home.png" /> {$langObject['itemListHomeShow']}</span>
+                                                      </if>
+                                                      <if=" $vsSettings->getSystemKey($bw->input[0].'_banchay',0, $bw->input[0]) ">
+                                                            <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/special.gif" /> {$vsLang->getWords("obj_banchay","Bán chạy")}</span>
                                                       </if>
                                                       </th>
                                                 </tr>
 						</tfoot>
 					</table>
 				</div>
-			</form>
 			<div class="clear" id="file"></div>
-                        <div id='commentList'></div>
+			<div id='commentList'></div>
 			{$this->addJavaScript()}
 EOF;
 	}
-        
-function addJavaScript() {
+
+	
+function searchForm($option = array()){
+        global $bw, $vsLang, $vsSettings;
+      
+      	$flag = $bw->input[1];
+      	
+		$BWHTML .= <<<EOF
+                <style>
+                	.fcontainer{
+                		padding-left: 10px;
+                	}
+                	.srow{
+                		margin: 5px 0px;
+                		width: 450px;
+                	}
+                	.srow input{
+	                	width: 243px;
+	                }
+                	.srow input.short{
+	                	width: 100px;
+	                }
+	                .srow label{
+	                	width:120px;
+	                	float:left;
+					}
+	                .srow select{
+	                	border:solid 1px #666;
+	                	width: 200px;
+					}
+                </style>
+                <div id="search-form" <if=" $flag!='search' ">style="display:none"</if> >
+                	<form id="searchinfo" name="searchinfo" method="get">
+						<div class="fcontainer" >
+                            <div class="srow">
+                                <label>{$vsLang->getWords("sf_code", "Mã sản phẩm")}</label>
+                                <input name="scode" id="scode" size="20" value="{$bw->input['scode']}" />
+                            </div>
+                            
+                            <div class="classhidden srow">
+                            	<a title="Click here to search this content!" style="float:right;margin-right: 75px; line-height:20px;" id="search"  class="ui-state-default ui-corner-all ui-state-focus">
+									{$vsLang->getWords("global_search", "Search")}
+								</a>
+								<div class='clear'></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class='clear'></div>
+				<script>
+					$('#search').click(function(){
+						$('#obj-category :selected').attr('selected', '');
+						vsf.submitForm($('#searchinfo'), '{$bw->input[0]}/search', 'obj-panel');
+						return false;
+					});
+               </script>
+EOF;
+        return $BWHTML;
+    }
+
+	
+    
+	function addJavaScript() {
 		global $bw, $vsLang, $vsSettings, $vsSetting, $tableName, $vsUser,$langObject;
 		$BWHTML .= <<<EOF
 			<script type="text/javascript">
@@ -121,7 +212,10 @@ function addJavaScript() {
 					if(vsf.checkValue())
                     vsf.get('{$bw->input[0]}/home-checked-obj/'+$('#checked-obj').val()+'/'+ $("#idCategory").val() +'/&pageIndex={$bw->input[3]}&pageCate={$bw->input[2]}', 'obj-panel');
 				});           
-				 
+				 $('#banchay-objlist-bt').click(function() {
+					if(vsf.checkValue())
+                    vsf.get('{$bw->input[0]}/banchay-checked-obj/'+$('#checked-obj').val()+'/'+ $("#idCategory").val() +'/&pageIndex={$bw->input[3]}&pageCate={$bw->input[2]}', 'obj-panel');
+				});  
 				
 				$('#delete-objlist-bt').click(function() {
 					if(vsf.checkValue())
@@ -161,26 +255,41 @@ function addJavaScript() {
 EOF;
 	}        
 
-function addOtionList($obj,$dd,$option) {
+function addOtionList($obj,$option) {
             global $vsLang, $bw,$vsSettings,$tableName;
-            
+            $array = array("video");
             $BWHTML .= <<<EOF
                 <if="$vsSettings->getSystemKey($bw->input[0].'_multi_file',0, $bw->input[0], 1, 1)">
-                    <a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image','albumn')">
+                	<if="in_array($bw->input[0],$array)">
+                    <a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=video_{$bw->input[0]}','albumn')">
+                            {$vsLang->getWords('global_video','Video')}
+                    </a>
+                 
+                    <else />
+                    <if="$bw->input[0]=='banner'">
+                    <a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=banner','albumn')">
                             {$vsLang->getWords('global_album','Album')}
                     </a>
+                    <else />
+                    <a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image_{$bw->input[0]}','albumn')">
+                            {$vsLang->getWords('global_album','Album')}
+                    </a>
+                    </if>
+                    </if>
                 </if>
-                                <if=" $vsSettings->getSystemKey($bw->input[0].'_comment',0, $bw->input[0], 1, 1) && in_array($obj->getId(),$option['forecastcomment'])">
-                    <a onclick="vsf.popupGet('comments/display_panel_popup_comment/products_comments/{$obj->getId()}','comment-panel-callback', 520,500)"  class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" >
+                
+                <if=" $vsSettings->getSystemKey($bw->input[0].'_comment',0, $bw->input[0], 1, 1)  && in_array($obj->getId(),$option)">
+                    <a onclick="vsf.popupGet('comments/display_panel_popup_comment/{$tableName}/{$obj->getId()}','comment-panel-callback', 520,500)"  class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" >
                             {$vsLang->getWords('comment','Comments')}
                     </a>
                 </if>
-                 <if="$bw->input[0]=='quangcao'">           
-				<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image1','albumn')">
-                            {$vsLang->getWords('global_album','Album')}
-                    </a>
-                    
-                </if>
+                <script>
+//                $("#image_{$bw->input[0]}_{$obj->getId()}").click(function() { 
+//             	var checkParent = $(this).parent().parent();
+//               	checkParent.addClass("active");       
+//             	vsf.popupGet('gallerys/display-album-tab/{$bw->input[0]}/{$obj->getId()}&albumCode=image_{$bw->input[0]}','albumn');
+//				});
+			</script>
 EOF;
             return $BWHTML;
         }
@@ -194,10 +303,11 @@ EOF;
 				<input type="hidden" name="{$tableName}Id" value="{$objItem->getId()}" />
 				<input type="hidden" name="pageIndex" value="{$bw->input['pageIndex']}" />
 				<input type="hidden" name="pageCate" value="{$bw->input['pageCate']}" />
-                                <input type="hidden" name="searchRecord" value="{$objItem->record}" />
-                                <input type="hidden" name="{$tableName}PostDate" value="{$objItem->getPostDate()}" />
-                                <input type="hidden" name="{$tableName}Image" value="{$objItem->getImage()}" />
-                                <input type="hidden" name="{$tableName}Author" value="{$objItem->getAuthor()}" />
+             	<input type="hidden" name="searchRecord" value="{$objItem->record}" />
+              	<input type="hidden" name="{$tableName}PostDate" value="{$objItem->getPostDate()}" />
+          		<input type="hidden" name="{$tableName}Image" value="{$objItem->getImage()}" />
+              	<input type="hidden" name="{$tableName}Author" value="{$objItem->getAuthor()}" />
+                <input type="hidden" name="{$tableName}Module" value="{$bw->input['module']}" />            
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 						<span class="ui-dialog-title">{$option['formTitle']}</span>
@@ -293,22 +403,6 @@ EOF;
 							</td>
 						</tr>						
 						</if>
-                                                                 
-                                                <if="$bw->input['module']=='reports'">
-						<tr class='smalltitle'>
-							<td class="label_obj">
-								File download:
-							</td>
-							<td>
-								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
-								<if=" $objItem->getImage()">
-								<input type="checkbox" name="deleteImage" id="deleteImage" />
-								<label for="deleteImage">Xóa</lable>  <a href="{$bw->vars['board_url']}/files/download/{$objItem->getImage()}/">File</a>
-								</if>
-							</td>
-						</tr>						
-						</if>                 
-                                                                 
 						
 						<if=" $vsSettings->getSystemKey($bw->input[0].'_intro',1, $bw->input[0]) ">
 						<tr class='smalltitle'>
@@ -324,6 +418,19 @@ EOF;
 						<if="$vsSettings->getSystemKey($bw->input[0].'_content',1, $bw->input[0])">
 						<tr class='smalltitle'>
 							<td colspan="4" align="center">{$objItem->getContent()}</td>
+						</tr>
+						</if>
+						<if="$vsSettings->getSystemKey($bw->input[0].'_tags',0, $bw->input[0])">
+						<tr class='smalltitle' >
+							<td class="label_obj"  width="75">
+								Tags:
+							</td>
+							<td colspan="3" valgin="left">
+								<div id="tag_panel_diplay">
+								<script src='{$bw->base_url}tags/get_tag_for_obj/{$bw->input[0]}/{$objItem->getId()}'>
+								</script>
+								</div>
+							</td>
 						</tr>
 						</if>
 						<tr>

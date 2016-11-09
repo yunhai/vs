@@ -1,7 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'slidebottom',
-  'main_title' => 'slidebottom',
-);
-$userLang = array();
-?>

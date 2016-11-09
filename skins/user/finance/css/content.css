@@ -1,252 +1,485 @@
-#content{
-	width:712px;
-	float:right;
-	overflow:hidden;
-	margin-right:12px;
-	margin-bottom:35px;
+#content_home{
+	padding-top:29px;
+}
+.main_title_home,.main_title{
+	background:url(../images/title_bg.jpg) bottom repeat-x;
+	text-transform:uppercase;
+	color:#787878;
+	padding-bottom:21px;
+	margin-bottom:14px;
+	font-family: 'MyriadProCondBold';
+	font-size:30px;
 }
 .main_title{
-	position:relative;
-	background:url(../images/line.png) no-repeat right bottom;
-	padding-bottom:19px;
-	margin-bottom:3px;
+	font-size:24px;
+	padding-top: 5px;
 }
-.main_title_text,.main_title_gallery,.main_title_gallery2,.main_title_service,.main_title_map,.main_title_khuyenmai,.main_title_contact,.main_title_tuyendung{
-	background:url(../images/tintuc_icon.png) no-repeat left center;
-	padding-left:35px;
-	height:26px;
-	line-height:26px;
-	color:#6a0606;
-	font-size:15px;
+.main_title a{
+	color:#787878;
 }
-#center{
-	background:#fbfbfb url(../images/line2.png) no-repeat bottom center;
-	border:1px solid #d2d2d2;
+.main_title a.sub{
+	color:#ff3028;
 }
-.tintuc{
-	width:660px;
-	padding:3px 16px 55px 32px;
+#content{
+	float:right;
+	width:714px;
+	overflow:hidden;
+	
 }
-.news_item{
-	margin-top:20px;
+/*====================================================
+						SITEBAR
+===================================================*/
+#sitebar{
+    float:left;
+    overflow: hidden;
+    width:220px;
 }
-.news_item h3 a,.tintuc_title{
-	background:url(../images/line.png) no-repeat bottom left;
-	padding-bottom:22px;
+.product_list{
+	width:220px;
+	margin-bottom:11px;
+}
+.product_list li,.product_list ul li,.product_list ul ul li{
+	background:#e3e1e1 url(../images/bg_productlist.jpg) no-repeat;
+	list-style:none;
 	display:block;
-	color:#520606;
+	border-bottom:1px solid #fff;
 }
-.news_item h3 a span,.tintuc_title span{
-	color:#606060;
+.product_list li a,.product_list ul li a{
+	color:#333;
+	padding-left:10px;
+	text-align:left;
+	display:block;
 	font-weight:normal;
+	line-height:30px;
+	text-transform: uppercase;
+}
+.product_list ul li,.product_list ul ul li{
+	background:#fff url(../images/icon8.jpg) no-repeat left 13px;
+	border-bottom:1px solid #e3e1e1;
+}
+.product_list ul li a{
+	text-transform: none;
+}
+.product_list li a:hover,.product_list li a.active{
+	background:#ff3028 url(../images/icon6.jpg) no-repeat right center;
+	color:#fff;
+}
+.product_list ul li a:hover,.product_list ul li a.active,.product_list ul ul li a:hover,.product_list ul ul li a.active{
+	background:#fff url(../images/icon7.jpg) no-repeat left 13px;
+	color:#ff3028;
+}
+
+.product_list ul ul {
+	margin-left: 10px;
+}
+
+/*====================================================
+						PRODUCT
+===================================================*/
+.product_home{
+	width:990px;
+}
+.product{
+	width:741px;
+}
+.product_home_item{
+	float:left;
+	/*height:150px;*/
+	height:140px;
+	width:210px;
+	border: 1px solid #e5e5e5;
+	padding:4px;
+	position:relative;
+	margin-right:27px;
+	margin-bottom:30px;
+}
+
+.product_text{
+	background:url(../images/description_bg.png) repeat;
+	width:190px;
+	height:110px;
+	position:absolute;
+	bottom:4px;
+	z-index:1;
+	padding:15px 10px;
+	display:none;
+}
+.product_text h3 a,.product_detail h3,.news_item h3 a{
+	color:#0e0d0c;
+	text-transform:uppercase;
+	display:block;
+	margin-bottom:5px;
+	font-family: 'MyriadProCondBold';
+	font-size:20px;
+	line-height:normal;
+}
+.product_text_intro{
+	overflow:hidden;
+	height:86px;
+	margin-bottom:10px;
+	text-align:left;
+	color:#fff;
+}
+.product_text h3 a{
+	color:#fff;
+}
+.product_text a.dathang_btn,a.dathang_btn,.view_detail{
+	background:url(../images/dathang_btn.png) no-repeat;
+	/*float:left;*/
+	color:#fff;
+	width:66px;
+	height:21px;
+	text-align:center;
+	line-height:21px;
+	margin-right:10px;
+	margin-bottom:10px;
+	display: inline-block;
+}
+.view_all{
+	background:url(../images/icon5.jpg) no-repeat 60px center;
+	padding-right:12px;
+	color:#000;
+	float:right;
+	margin-bottom:15px;
+	margin-right: 10px;
+	padding-right: 30px;
+}
+.view_all:hover{
+	text-decoration:underline;
+}
+.cost{
+	font-weight:bold;
+	font-size:16px;
+	margin:10px 0;
+	padding-bottom:3px;
+}
+.cost span{
+	color:#ff3028;
+}
+.product_detail{
+	margin-bottom: 20px;
+}
+.view_all1{
+	background:url(../images/icon5.jpg) no-repeat right center;
+	position:absolute;
+	top:0px;
+	right:0px;
+	font-size: 11px;
+	color: #ff3028;
+	margin-top: 10px;
+	padding-right: 12px;
+}
+/*====================================================
+						KHUYEN MAI
+===================================================*/
+.news_item{
+	padding-bottom: 20px;
+	border-bottom: 1px dotted #999;
+	margin-bottom: 18px;
 }
 .news_img{
-	float:right;
-	border:1px solid #cfcfcf;
-	padding:3px;
-	width:145px;
-	height:101px;
-	overflow:hidden;
-	margin-left:10px;
+	height: 111px;
+	width: 153px;
+	text-align: center;
+	background: #fff;
+	float: left;
+	margin-right: 10px;
+	border: 1px solid #ccc;
 }
-.tintuc_title{
-	padding-top:20px;
-	margin-bottom:10px;
+.news_intro{
+	height: 58px;
+	overflow: hidden;
 }
-.detail p{
-	padding-bottom:10px;
+.news_item h3 a,.news_item h3 span,.page_title,#contact h1{
+	color:#666666;
+	text-transform:uppercase;
+	margin-bottom:5px;
+	font-family: 'MyriadProCondBold';
+	font-size:18px;
+	line-height:normal;
+	font-weight: bold;
+}
+.view_detail{
+	margin: 6px 0 0 0;
+}
+.news_item h3 span,.page_title span{
+	color: #999;
+	font-size: 14px;
+	font-weight: normal;
 }
 .other{
-	padding-bottom:40px;
+	margin-top: 20px;
+	position: relative;
 }
-.other a{
-	display:block;
-	background:url(../images/dot.png) no-repeat left 8px;
-	padding-bottom:5px;
-	text-indent:10px;
-	color:#666;
+.other a.other_item{
+	background:#fff url(../images/icon7.jpg) no-repeat left 10px;
+	color: #484848;
+	padding: 3px 0;
+	padding-left:10px;
+	display: block;
 }
-
-/*================================
-			GALLERY
-================================*/
-.main_title_gallery{
-	background:url(../images/gallery_icon.png) no-repeat left center;
+.other a.other_item:hover{
+	color: #ff3028;
+	font-weight: bold;
 }
-.gallery{
-	padding-bottom:20px;
+.other a.other_item span{
+	font-size: 11px;
+	color: #999;
 }
-.gallery li{
-    list-style: none;
-    float: left;
+/*====================================================
+						GIO HANG
+===================================================*/
+.giohang_form{
+	width:713px;
+	border:1px solid #d2d4cc;
+	-moz-box-shadow:    2px 2px 0px 1px #ccc;
+  -webkit-box-shadow: 3px 3px 1px 1px #ccc;
+  box-shadow:         3px 3px 4px 0px #ccc;
+	margin:20px auto 80px auto;
 }
-.gallery a{
+.giohang_form h3{
+	height:40px;
+	line-height:40px;
+	color:#333333;
+	text-indent:11px;
+}
+.giohang_form th{
+	background:#eeeeee;
+	height:34px;
+	line-height:34px;
+	border-left:1px solid #d9d9d9;
+	padding:0px 14px;
+	color:#5c5c5c !important;
+	font-size:12px!important;
+}
+.giohang_form td{
+	padding:12px 14px;
+	border-left:1px solid #d9d9d9;
+	border-bottom:1px solid #d9d9d9;
+}
+.giohang_form th.giohang_col1,.giohang_form td.giohang_col1{
+	border-left:none;
+	width:13px;
+}
+.giohang_form th.giohang_col2,.giohang_form td.giohang_col2{
+	width:220px;
+	color:#ff3028;
+	font-size:14px;
+}
+.giohang_form td.giohang_col2 a{
 	float:left;
-	width:149px;
-	height:148px;
-	text-align:center;
-	border:3px solid #fff;
-	margin-right:12px;
-	margin-bottom:10px;
-	margin-left:11px;
-}
-.main_title_gallery2{
-	background:url(../images/gallery_icon2.png) no-repeat left center;
-}
-.video{
-	width:695px;
-	height:385px;
-	margin:10px auto;
-}
-.gallery_dangnhap form{
-	background:url(../images/dangnhap_bg.png) no-repeat;
-	width:446px;
-	padding:88px 300px 34px 45px;
-}
-.gallery_dangnhap form label{
-	float:left;
-	width:108px;
-	line-height:23px;
-	color:#000;
-	font-weight:bold;
-}
-.gallery_dangnhap form input{
-	width:336px;
-	text-indent:10px;
-	border:1px solid #d3d2d2;
-	height:17px;
-	padding:3px 0px;
-}
-.gallery_dangnhap form input.gallery_btn{
-	width:88px;
-	height:25px;
-	color:#fff;
-	padding:0px;
-	border:none;
-	background:url(../images/gallery_btn.jpg) no-repeat;
-	font-size:10px;
-	text-indent:0px;
-	float:right;
-	margin-top:10px;
-}
-
-/*================================
-			SERVICE
-================================*/
-.main_title_service{
-	background:url(../images/dichvu_icon.png) no-repeat left center;
-}
-.main_title_map{
-	background:url(../images/map_icon.png) no-repeat left center;
-}
-.sodosanh img{
-	margin-top:10px;
-}
-.thucdon{
-	padding-left:35px;
-	width:675px;
-	padding-top:20px;
-	padding-bottom:70px;
-}
-.main_title_khuyenmai{
-	background:url(../images/khuyenmai_icon.png) no-repeat left center;
-}
-.main_title_contact{
-	background:url(../images/contact_icon.png) no-repeat left center;
-}
-.main_title_tuyendung{
-	background:url(../images/tuyendung_icon.png) no-repeat left center;
-}
-/*===================================================
-				LIEN HE
-==================================================*/
-#contact h3.title_center {
-    color:#da251c;
-	font-weight:normal;
-	margin-top:10px;
-	margin-bottom:10px;
-}
-#contact{
-    width:500px;
-	margin-bottom:30px;
-}
-#contact form label,.form_tuyendung label {
-    float: left;
-    width: 61px;
-	font-weight:bold;
-	margin-bottom:8px;
-	line-height:20px;
-	text-align:right;
 	margin-right:5px;
 }
-#contact form input, #contact form textarea ,.form_tuyendung input, .form_tuyendung textarea {
-    float: left;
-    font-size: 11px;
-    height: 20px;
-    line-height: 20px;
-    margin-bottom: 8px;
-    width:412px;
+.giohang_form th.giohang_col3,.giohang_form td.giohang_col3{
+	width:54px;
+	text-align:center;
 }
-#contact form input.input_submit, #contact form input.input_reset, .form_tuyendung input.tuyendung_submit, .form_tuyendung input.tuyendung_reset {
-    background: url("../images/btn_contact.jpg") no-repeat scroll 0 0 transparent;
-    border:none;
-    color: #FFFFFF;
-    font-weight: bold;
-    height: 24px;
-    line-height: 24px;
-    margin-left: 65px;
-    margin-top: 10px;
-    padding-bottom: 2px;
-    text-align: center;
-    width: 68px;
+.giohang_form td.giohang_col3 input{
+	width:54px;
+	text-align:center;
 }
-#contact form input.input_reset,  .form_tuyendung input.tuyendung_reset {
-    margin-left: 10px;
+.giohang_form th.giohang_col4,.giohang_form td.giohang_col4{
+	width:144px;
 }
-#contact form textarea, .form_tuyendung textarea {
-    height: 110px;
+.giohang_form th.giohang_col5,.giohang_form td.giohang_col5{
+	width:145px;
+	text-align:right;
 }
-#contact form img,.form_tuyendung img{
+.total{
+	float:right;
+	font-weight:bold;
+	font-size:14px;
+	color:#5c5c5c;
+	height:70px;
+	line-height:70px;
+	padding-right:14px;
+}
+.total span{
+	font-size:24px;
+	color:#ff0000;
+}
+.giohang_form button,.giohang_form button.thanhtoan{
 	float:left;
-	margin-left:5px;
+	color:#fff;
+	height:29px;
+	line-height:29px;
+	text-align:center;
+	margin:21px 0px 21px 12px;
+	border: none;
 }
-#contact form a.mamoi,.form_tuyendung a.mamoi{
+.giohang_form button.xoa,.giohang_form button.huy,.thongtinkh button.back{
+	background:url(../images/btn1.jpg) no-repeat;
+	width:48px;
+}
+.giohang_form button.muatiep{
+	background:url(../images/btn3.jpg) no-repeat;
+	width:73px;
+}
+.giohang_form button.thanhtoan{
+	background:url(../images/btn2.jpg) no-repeat;
+	width:88px;
+	border:none;
+	cursor:pointer;
+}
+.thongtinkh{
+	border-top:1px solid #d9d9d9;
+	padding-top:22px;
+}
+.thongtinkh form{
+	width:400px;
+	padding-top:5px;
+	padding-left:22px;
+}
+.thongtinkh form label,#contact form label{
+	float:left;
+	text-align:right;
+	width:91px;
+	margin-right:5px;
+	height:26px;
+	line-height:26px;
+	margin-bottom:5px;
+	color:#222222;
+}
+.thongtinkh form input,.contact_form input,.thongtincanhan input,.thongtinkh form textarea,#contact form input, #contact form textarea,#contact form select{
+	margin-bottom:5px;
+	border:1px solid #a1a1a1;
+	width:228px;
+	height:16px;
+	/*ackground:url(../images/input_bg.jpg) repeat-y top left;*/
+	padding:4px 0px 4px 14px;
+}
+.thongtinkh form textarea,#contact form textarea{
+	height:100px;
+}
+.thongtinkh form input.dathang_btn,.thongtinkh form input.reset_btn,
+.contact_form input.send_btn,.thongtincanhan input.send_btn,
+.search_thongtin input.search_btn,#contact form input.input_submit, #contact form input.input_reset{
+	float:left;
+	border:none;
+	background:url(../images/dathang_btn2.jpg) no-repeat;
+	width:81px;
+	height:29px;
+	color:#fff;
+	padding:0;
+	margin:5px 0px 25px 96px;
+}
+.thongtinkh button.back{
+	float:left;
+	border:none;
+	color:#fff;
+	padding:0;
+	margin:5px 0px 25px 9px;
+}
+.thongtinkh form input.reset_btn{
+	background:url(../images/reset_btn.jpg) no-repeat;
+	width:71px;
+	margin-left:9px;
+}
+.thongtinkh span{
+	color: #ff0000;
+	margin-left: 5px;
+}
+.giohang_thongbao{
+	background:#f1f1f1 url(../images/icon10.jpg) no-repeat 15px 9px;
+	padding:12px 0px 12px 70px;
+	color:#252525;
+}
+.giohang table.thongbao{
+	margin-bottom:20px;
+}
+.giohang .thongbao tr td{
+	border:none;
+	padding:2px 15px;
+}
+.phuongthucthanhtoan{
+	border-top:1px solid #d9d9d9;
+	width:680px;
+	margin:auto;
+}
+.phuongthucthanhtoan h3{
+	text-transform:none;
+	color:#000;
+	text-indent:0;
+}
+.thongbao_thanhtoan{
+	text-transform:uppercase;
+	width:680px;
+	margin:10px auto 130px auto;
+}
+.giohang_form table.thongbao{
+	margin-bottom:10px;
+}
+.giohang_form table.thongbao td{
+	border:none;
+	padding:5px 14px;
+}
+a.mamoi{
 	float:left;
 	background:url(../images/capcha_btn.jpg) no-repeat left center;
-	padding-left:23px;
+	padding-left:27px;
+	width:72px;
+	height:21px;
 	color:#666666;
 	margin-left:5px;
-    margin-top: 3px;
+    margin-top: 4px;
+}
+/*==============================================
+					CONTACT
+=================================================*/
+#contact{
+	float: left;
+	width: 485px;
+}
+#contact form{
+	margin-top:30px;
+}
+#contact h3{
+	font-weight:bold;
+	color:#025dce;
+	margin:0 0 10px 0px;
+	text-transform:uppercase;
+}
+#contact form h3{
+	color:#ff0000;
+	margin-bottom: 10px;
+	text-transform: none;
+	font-weight: normal;
+}
+#contact form label{
+	width:70px;
+	font-weight: bold;
+	text-align:left;
+	font-size: 11px;
+}
+#contact form input,#contact form textarea{
+    width: 394px;
+}
+
+#contact form input.input_submit, #contact form input.input_reset{
+	font-weight:bold;
+	font-size:11px;
+	cursor:pointer;
+	margin-left: 75px;
+}
+#contact form input.input_reset{
+    margin-left: 10px;
 }
 .map {
-    background:#FFFFFF;
-    border: 1px solid #CCCCCC;
-    height: 253px;
-    padding: 3px;
-    width:503px;
-	margin-bottom:30px;
+	float:right;
+	width:454px;
+	height:332px;
+	padding: 4px;
+	border: 1px solid #a1a1a1;
 }
-#contact p img{
-	vertical-align:middle;
-	margin-right:5px;
+
+#content .product .product_home_item{
+	/*width:220px;*/
+	overflow:hidden;
+	margin-right:27px;
 }
-.form_tuyendung label {
-	width:87px;
+#content .product .product_text{
+	/*width:200px;*/
 }
-.form_tuyendung input.tuyendung_submit{
-	margin-left:90px;
-}
-.tuyendung{
-	padding:30px 30px 60px 30px;
-	width:650px;
-}
-.tuyendung a{
-	display:block;
-	background:url(../images/icon8.jpg) no-repeat left 3px;
-	padding-left:15px;
-	padding-bottom:10px;
-	color:#666;
-}
-.detail table tr td{
-	padding:5px 10px;
+#content .product .product_home_item img{
+	/*width:220px;*/
 }

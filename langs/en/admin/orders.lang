@@ -1,7 +1,7 @@
 <?php
 $lang = array (
-  'pageTitle' => 'orders',
-  'main_title' => 'orders',
+  'pageTitle' => 'Đơn hàng',
+  'main_title' => 'Đơn hàng',
   'order_list' => 'Danh sách các hóa đơn',
   'group_global_module' => 'global',
   'pages_deletePage' => 'Xóa',

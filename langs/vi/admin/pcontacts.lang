@@ -51,7 +51,11 @@ $lang = array (
   'obj_Email' => 'Email',
   'delete_image' => 'Xóa hình',
   'tab_obj_objes_pcontacts' => 'pcontacts',
-
+  'tab_obj_objes_system' => 'system',
+  'obj_footer' => 'Địa chỉ Footer',
+  'count_table_success' => 'count table successfully!',
+  'count_table_condition_fail' => 'There is no item in table!',
+  'sf_code' => 'Mã sản phẩm',
 );
 $userLang = array (
 );

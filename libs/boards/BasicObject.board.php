@@ -14,7 +14,8 @@ class BasicObject {
         protected $image                = NULL;
         public    $record               = NULL;
         protected $author = NULL;
-         protected $price = 0;
+         protected $price = NULL;
+          protected $hotPrice = NULL;
         
 
        
@@ -122,7 +123,7 @@ class BasicObject {
 		if(!$type) return isset($this->status) ? $this->status : 1;
 		
 		if($type=="image"){
-			$imgArray = array('disabled.png', 'enable.png', 'home.png','new.png', 'coming.png','special.png');			
+			$imgArray = array('disabled.png', 'enable.png', 'home.png','special.gif','new.png', 'coming.png','special.png','hethang.png','khuyenmai.gif');			
 			return $this->status = "<img src='{$bw->vars ['img_url']}/{$imgArray[$this->getStatus()]}' alt='{$this->getStatus()}' />";
 		}
 		if($type=="text")
@@ -160,17 +161,12 @@ class BasicObject {
 	}
 	
 	function setContent($content, $parse = 0, $br = 0) {
-//                $content = str_replace("<br>", "<p></p>", $content);
-//                $content = str_replace("<br />", "<p></p>", $content);
-//                $content = str_replace("<br/>", "<p></p>", $content);
-                
 		if($parse){
 	        $parser = new PostParser ();
 			$parser->pp_do_html = 1;
 			$parser->pp_nl2br = $br;
 			$content = $parser->post_db_parse($content);
 		}
-                $content = str_replace("", "</p><br><p>", $content);
 		$this->content = $content;
 	}
 
@@ -198,7 +194,15 @@ class BasicObject {
 		return "{$bw->vars['board_url']}/utils/timthumb.php?src={$path}&w={$width}&h={$height}&zc={$type}";
 	}
 	
-	
+	function getResizeImagePathScale($fileObject,$width = 130, $height = 100,$type=0) {
+		global $bw,$vsStd;
+		$size = $vsStd->scaleImage($fileObject->getPathView(0), $width, $height);
+		$width = round($size['width']);
+		$height = round($size['height']);
+		$path = $fileObject->getPathView(TIMTHUMB);
+		if(TIMTHUMB==1) return $bw->vars['board_url']."/cache/images/{$width}x{$height}-{$type}/uploads/{$path}";
+		return "{$bw->vars['board_url']}/utils/timthumb.php?src={$path}&w={$width}&h={$height}&zc={$type}";
+	}
 	
 	function getCacheImagePathByFile($fileObject, $width = 130, $height = 100, $type=0, $timthumb=0) {
 		global $vsFile, $vsSettings, $bw;
@@ -281,10 +285,14 @@ function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimag
 	function showImagePopup( $fileObject="",$width=100, $height=100, $class ="" , $type=0, $noimage=0,$startDiv="",$endDiv=""){
             global $vsFile, $bw,$vsStd;
            $RET ="";
+		if(!is_object($fileObject)){
+				$vsFile = new files();
+				$fileObject = $vsFile->getObjectById(intval($fileObject));
+         }
             if($fileObject && file_exists ( $fileObject->getPathView (0) ))
             $RET .= <<<EOF
                 {$startDiv}
-                <a href="{$this->getCacheImagePathByFile($fileObject,1,1,1,1)}" class="highslide {$class}" onclick="return hs.expand(this)">
+                <a href="{$this->getCacheImagePathByFile($fileObject,1,1,1,1)}" class="highslide {$class}" onclick="return hs.expand(this)" title="{$fileObject->getTitle()}">
                                     {$this->createImageCache($fileObject, $width, $height, $type, $noimage)}
                 </a>
                 {$endDiv}
@@ -309,10 +317,10 @@ EOF;
         
         function createSeo(){
 		global $vsCom,$bw,$vsPrint;
-//		$exac_url=strtr($this->getUrl($bw->input['module']), $vsCom->SEO->aliasurl);
-//  		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-//  		if($url!=$exac_url)
-//   			$vsPrint->boink_it($exac_url);
+		$exac_url=strtr($this->getUrl($bw->input['module']), $vsCom->SEO->aliasurl);
+  		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+  		if($url!=$exac_url)
+   			$vsPrint->boink_it($exac_url);
 		if(is_object($vsCom->SEO->obj)){
 			if(!$vsCom->SEO->obj->getIntro())
 			{
@@ -404,16 +412,19 @@ EOF;
 		isset ( $this->postdate )   ? ($dbobj ["searchPostDate"] = $this->postdate) : "";
 		isset ( $this->status )     ? ($dbobj ["searchStatus"]  = $this->status) : "";
 		isset ( $this->author )     ? ($dbobj ["searchAuthor"]  = $this->author) : "";
+		isset ( $this->price )     ? ($dbobj ["searchPrice"]  = $this->price) : "";
+		//isset ( $this->hotPrice )     ? ($dbobj ["searchHotPrice"]  = $this->hotPrice) : "";
                 isset ( $this->record )     ? ($dbobj ["searchRecord"]  = $this->record) : "";
                     $dbobj ["searchUpdate"] = time();
                     $dbobj ["searchModule"] = $bw->input['module'];
-                    $dbobj ["searchContent"] = $this->getCleanSearch();
+                    $dbobj ["searchContent"] = $this->getCleanSearch123();
                     $dbobj ["searchCatId"] =$vsLang->currentLang->getId();
                     $dbobj ["searchIntro"] =$this->intro ? $this->intro : $this->getContent(300);
+                 
                 return $dbobj;
         }
 
-        function getCleanSearch() {
+        function getCleanSearch123() {
 		$cleanContent = VSFTextCode::removeAccent($this->title)." ";
                 if($this->intro)
                     $cleanContent .= VSFTextCode::removeAccent(strip_tags($this->getIntro()))." ";
@@ -421,16 +432,4 @@ EOF;
                     $cleanContent.= VSFTextCode::removeAccent(strip_tags($this->getContent()));
 		return strtolower($cleanContent);
 	}
-
-
-
-        function validate() {
-		$status = true;
-		if ($this->title == "") {
-			$this->message .= " title can not be blank!";
-			$status = false;
-		}
-		return $status;
-	}
-        
 }

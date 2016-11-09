@@ -1,0 +1,36 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Hỗ trợ',
+  'main_title' => 'Hỗ trợ',
+  'advisorys_form' => 'Gửi câu hỏi tư vấn',
+  'advisory_full_name' => 'Họ tên',
+  'advisory_phone' => 'Điện thoại',
+  'advisory_email' => 'Email',
+  'advisory_title' => 'Câu hỏi',
+  'advisory_message' => 'Nội dung cần tư vấn',
+  'advisory_captcha' => 'Mã bảo vệ ',
+  'advisory_security' => 'Tạo mã mới',
+  'button_send' => 'Gửi',
+  'button_reset' => 'Làm lại',
+  'err_advisory_name_blank' => 'Vui lòng nhập họ tên!',
+  'err_advisory_phone_blank' => 'Vui lòng nhập điện thọai!',
+  'err_advisory_email_blank' => 'Nhập vào đúng loại email!',
+  'err_advisory_message_blank' => 'Thông tin quá ngắn!',
+  'err_advisory_security_blank' => 'Vui lòng nhập mã bảo vệ!',
+  'thank_message' => 'Mã bảo vệ không chính xác!',
+  'err_advisory_title_blank' => 'Vui lòng nhập nội dung!',
+  'advisory_redirectText' => 'Câu hỏi của bạn đã được gửi',
+  'redirect_title' => 'Chuyển trang...',
+  'redirect_immediate' => 'Click vào đây nếu không muốn chờ lâu',
+  'advisorys_other' => 'Các câu hỏi khác',
+  'advisory_address' => 'Địa chỉ',
+  'advisory_pagetitle' => 'Hỗ trợ',
+  'recruitment_back' => 'Quay lại trang trước',
+  'advisorys_answer' => 'Trả lời',
+  'advisorys_viewanswer' => 'Xem trả lời',
+  'advisorys_note' => 'Lưu ý:',
+  'advisorys_note2' => 'là nội dung bắt buộc',
+);
+$userLang = array (
+);
+?>

@@ -1,43 +1,72 @@
+.menu_top_bg{
+	width:100%;
+	height:43px;
+	
+}
 ul.menu_top{
-	background:url(../images/menu.jpg) no-repeat;
-	height:41px;
-	padding-left:19px;
-	width:981px;
-	overflow:hidden;
-	margin-bottom:23px;
+	height:43px;
+	width:961px;
 }
 ul.menu_top li{
-	list-style:none;
+	display:inline;
 	float:left;
-}
-ul.menu_top li a{
-	float:left;
-	height:41px;
-	line-height:42px;
+	height:43px;
+	position:relative;
+	z-index:999;
+	background:url(../images/menu_line.jpg) no-repeat left top;
 	padding-left:4px;
-	text-transform:uppercase;
-	font-weight:bold;
-	color:#8d0404;
-	background:url(../images/menu_left.jpg) no-repeat left center;
 }
-ul.menu_top li a span{
+
+ul.menu_top a{
 	float:left;
-	height:41px;
-	line-height:45px;
-	padding:0px 21px 0px 17px;
-	padding:0px 15px 0px 14px\0/IE9;
-	padding:0px 20px 0px 17px\9;
-	background:url(../images/menu_right.jpg) no-repeat right center;
+	color:#999;
+	height:43px;
+	line-height:43px;
+	padding:0px 33px;
+	text-transform:uppercase;
+	font-family: 'MyriadProCondRegular';
+	font-size:18px;
 }
-ul.menu_top li a:hover,ul.menu_top li a.active{
-	background:url(../images/menu_left_hover.jpg) no-repeat left center;
+ul.menu_top a:hover,ul.menu_top a.active,ul.menu_top a.active1{
+	color:#181818;
 }
-ul.menu_top li a:hover span,ul.menu_top li a.active span{
-	background:url(../images/menu_right_hover.jpg) no-repeat right center;
+ul.menu_top ul{
+	position:absolute;
+	left:0%;
+	top:38px;
+	background:url(../images/menu_active_02.png) no-repeat top center;
+	width:152px;
+	padding-top:4px;
+	border-bottom:4px solid #e77715;
+	display:none;
 }
-ul.menu_top li.li_last a span{
-	background:none;
+ul.menu_top ul li{
+	background:url(../images/menu_sub_bg.png) repeat;
+	height:auto;
+	padding:8px 0px;
 }
-ul.menu_top li.li_last a:hover span,ul.menu_top li.li_last a.active span{
-	background:url(../images/menu_hover_last.jpg) repeat-x right center;
+ul.menu_top ul li a{
+	text-transform:none;
+	font-weight:bold;
+	font-size:12px;
+	height:auto;
+	line-height:normal;
+	padding:0px 19px 0px 14px;
+	width:119px;
+	text-align:left;
+}
+ul.menu_top ul li a:hover,ul.menu_top ul li a.active,ul.menu_top ul li a.active1{
+	color:#e77715;
+	background:url(../images/menu_sub_active1.png) no-repeat right center;
+}
+ul.menu_top ul ul{
+	left:152px;
+	top:0;
+	background:url(../images/menu_active_02.png) no-repeat top center;
+	padding-top:4px;
+}
+.news_icon{
+	position: absolute;
+	right:0;
+	top:0;
 }

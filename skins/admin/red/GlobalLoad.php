@@ -24,25 +24,15 @@ class GlobalLoad {
     		    var ajaxfile = "admin.php";
 				var noimage=0;
 				var imgurl = "' . $bw->vars ['img_url'] . '/";
+				
 				var global_website_title = "' . $bw->vars ['global_websitename'] . '/";
 				var global_website_choise = "' .$vsLang->getWordsGlobal('global_website_choise','You haven\'t choose any items !') . '";
 				var boardUrl = "' . $bw->vars ['board_url'] . '";
 				var baseUrl  = "' . $bw->base_url . '";
+				
+				var myArray = {"doc" : "doc","docx" : "docx", "xls" : "xls", "pdf" : "pdf","zip":"zip","rar":"rar","exe":"exe" }; 
     		' );
-		 $vsPrint->addJavaScriptString ( 'global_var1', '
-    		$(document).ready(function(){
-               
-                $("#topmenu li a").each(function(){
-              
-                if(this.href == document.location.href){
-
-			$(this).parent("li").addClass("active selected");
-			$(this).parent().parent().parent("li").addClass("active selected");
-			
-		}
-});
-});
-    		' );
+		
 		$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
 		$vsPrint->addJavaScriptFile ( 'vs.ajax' );
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.core' );
@@ -58,9 +48,10 @@ class GlobalLoad {
 		$vsPrint->addJavaScriptFile ( 'jquery.numeric' );
 		$vsPrint->addJavaScriptFile("jquery/jquery.tablesorter");
                 $vsPrint->addJavaScriptFile("fileuploader");
+                //$vsPrint->addJavaScriptFile ( 'jquery/ui.datepicker',1 );
 
 		$vsPrint->addJavaScriptFile ( 'ddsmoothmenu' );
-                $vsPrint->addJavaScriptFile ( 'jquery/ui.datepicker' );
+                $vsPrint->addJavaScriptFile ( 'jquery.timeout' );
 
 		$vsPrint->addJavaScriptFile ( 'checkbox' );
 		$vsPrint->addJavaScriptString ( 'topmenu', '
@@ -98,9 +89,7 @@ class GlobalLoad {
 		$vsPrint->addCSSFile ( 'ceedos' );
 		$vsPrint->addCSSFile ( 'input_style' );
                 $vsPrint->addCSSFile ( 'fileuploader' );
-                $vsPrint->addCSSFile ( 'ui.datepicker' );
-                $vsPrint->addCSSFile ( 'comments' );
-		
+		$vsPrint->addCSSFile ( 'comments' );
 		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.core' );
 		$vsPrint->addGlobalCSSFile ( 'ddsmoothmenu' );
 		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.theme' );

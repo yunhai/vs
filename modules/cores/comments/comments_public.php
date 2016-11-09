@@ -1,115 +1,147 @@
-<?php
-class comments_public extends ObjectPublic{
-	
-	function __construct() {
-		global $vsTemplate;
-		parent::__construct('comments', CORE_PATH.'comments/', 'comments');
+ <?php
+	/*
+ +-----------------------------------------------------------------------------
+ |   VSF version 5.0
+ |	Author: System
+ |	Homepage: http://www.vietsol.net
+ |	If you use this code, please don't delete these comment lines!
+ |	Start Date: 
+ |	Finish Date: 
+ |	Modified Start Date: 
+ |	Modified Finish Date: 
+ |	News Description: this file created by auto system
+ +-----------------------------------------------------------------------------
+ */
+	if (! defined ( 'IN_VSF' )) {
+		print "<h1>Permission denied!</h1>You cannot access this area. (VS Framework is powered by <a href=\"http://www.vietsol.net\">Viet Solution webdesign company</a>)";
+		exit ();
 	}
 	
-	function auto_run() {
-		global $bw, $vsPrint;
-		switch ($bw->input [1]) {
+	require_once (CORE_PATH . "comments/comments.php");
+	class comments_public {
+		/**
+		 * 
+		 * Enter description here ...
+		 * @var unknown_type
+		 */
+		protected $html;
+		/**
+		 * 
+		 * Enter description here ...
+		 * @var comments
+		 */
+		protected $module;
+		protected $output;
 		
+		function __construct() {
+			global $vsTemplate, $bw, $vsModule;
+			$this->html = $vsTemplate->load_template ( 'skin_comments' );
+			$this->module = new comments ();
+		}
+		
+		function auto_run() {
+			global $bw, $vsSettings;
 			
-			case 'form-comment' :
-				$vsPrint->addJavaScriptFile ( 'jquery/ui.alerts' );
-				$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
-				$vsPrint->addJavaScriptFile ( 'vs.ajax' );
-				
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.dialog' );
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.theme' );
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.core' );
-				$this->output = $this->html->displayComment ();
-				break;
-			case 'load-form' :
-				$this->output = $this->html->formComment ();
-				break;
+			switch ($bw->input ['action']) {
+				case 'get_comment_module' :
+					$this->getCommentByModule ($bw->input[2], $bw->input[3]);
+					break;
+				case 'add_comment' :
+					$this->addComment ();
+					break;
+				case 'get_list':
+					$this->getList ($bw->input[2], $bw->input[3]);
+					break;
+				default :
+					$this->loadDefault ();
+					break;
+			}
+		}
+		function getList($objId, $module){
+			global $vsTemplate, $vsSettings;
+			$condition = "status = 1 AND objId = $objId AND module = '$module'";
+			$this->module->setCondition($condition);
+			$size =$vsSettings->getSystemKey($module.'_comments_list_user', 5, $module);
+			$option = $this->module->getPageList ( "comments/get_list/$objId/$module", 4, $size, 1, 'comment_view_panel' );
+			return $this->output = $this->html->getList ( $option );
+		}
+		
+		function getCommentByModule($objId, $module){
+			global $vsTemplate, $vsSettings;
+			$condition = "status = 1 AND objId = $objId AND module = '$module'";
+			$this->module->setCondition($condition);
+			$size = $vsSettings->getSystemKey($module.'_comments_list_user', 5, $module);
+			$option = $this->module->getPageList ( "comments/get_list/$objId/$module", 4, $size, 1, 'comment_view_panel' );
 			
-			case 'process-add' :
-			$vsPrint->addJavaScriptFile ( 'jquery/ui.alerts' );
-				$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
-				$vsPrint->addJavaScriptFile ( 'vs.ajax' );
-				
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.dialog' );
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.theme' );
-				$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.core' );
-				$this->processAdd ();
-				break;
-
+			return $this->output = $this->html->getComments ( $option );
+		}
+		
+		function getFormComment($objId=0, $module='news',$catId){
+			return $this->html->getFormComment($objId, $module,$catId);
+		}
+		
+		function addComment() {
+			global $vsStd, $bw, $vsPrint, $vsLang;
+                      
+			$objId = $bw->input ['cobjId'];
+			$objCatId = $bw->input ['cobjCatId'];
+			$module = $bw->input ['cmodule'];
+			$email = $bw->input ['commentEmail'];
+			$name = $bw->input ['commentName'];
+			$title = $bw->input ['commentTitle'];
+			$content = $_POST ['commentContent'];
+			$security = $bw->input ['commentSecurity'];
+			$callback = $_SERVER ['HTTP_REFERER'] ? $_SERVER ['HTTP_REFERER'] : $bw->base_url;
+			$option = pathinfo ( $callback );
+			$vsStd->requireFile ( ROOT_PATH . "vscaptcha/VsCaptcha.php" );
+			$image = new VsCaptcha ();
+			if (! $image->check ( $security )) {
+				$error = $vsLang->getWords($module.'_thanks_message',"Mã xác nhận không đúng!");
+			}
+			
+			if ($error) {
+				$bw->input ['message'] = $error;
+				$option ['back'] = $callback;
+				return $this->output ="<script>vsf.alert('{$error}');$('#vscapcha').attr('src',$('#vscapcha').attr('src')+'?a');</script>";
+			}
+			
+			$this->module->getBasicObject()->setModule ( $module );
+			$this->module->getBasicObject()->setObjId ( $objId );
+			$this->module->getBasicObject()->setCatId ( $objCatId );
+			$this->module->getBasicObject()->setTitle ( $title );
+			$this->module->getBasicObject()->setEmail ( $email );
+			$this->module->getBasicObject()->setName ( $name );
+			$this->module->getBasicObject()->setContent ( $content );
+			$this->module->getBasicObject()->setPostDate ( time () );
+			
+			$this->module->insertObject ();
+			return $this->output ="<script>vsf.alert('{$vsLang->getWords('{$module}_thanks_message','Cám ơn bạn đã đóng góp ý kiến. Ý kiến của bạn đã được chuyển đến bộ phận chức năng xem xét.')}');$('#vscapcha').attr('src',$('#vscapcha').attr('src')+'?a');$('#frComment')[0].reset();</script>";
+		
+		}
+		function loadDefault() {
+			global $vsPrint, $vsLang, $bw, $vsSettings, $vsTemplate, $vsStd, $vsMenu;
+			
+			$this->output = $this->html->loadDefault ( $option );
+		}
+		
+		function loadDetail($pageId, $com = NULL) {
+			global $vsPrint, $vsLang, $bw, $vsMenu, $vsStd, $vsSettings;
+			
+			$this->output = $this->html->loadDetail ( $obj, $option );
+		}
+		
+		function loadCategory($catId) {
+			global $vsPrint, $vsLang, $bw, $vsSettings, $vsTemplate, $vsStd, $vsMenu, $DB;
+			
+			$this->output = $this->html->loadCategory ( $option );
+		}
+		
+		function setOutput($out) {
+			return $this->output = $out;
+		}
+		
+		function getOutput() {
+			return $this->output;
 		}
 	}
-	
-	function processAdd() {
-		global $bw, $vsStd, $vsLang, $vsSettings;
-		
-		$bw->input ['commentPostDate'] = time ();
-		$bw->input ['commentStatus'] = $bw->input ['commentStatus'] ? $bw->input ['commentsStatus'] : 0;
-		
-		$bw->input ['commentCatId'] = $this->model->getCategories ()->getId ();
-		
-		if ($bw->input ['fileId'])
-			$bw->input ['commentsImage'] = $bw->input ['fileId'];
-		
-		$com = $this->model->createBasicObject();
-		$com->convertToObject ( $bw->input );
-		$this->model->insertObject ($com);
-		
-		$obj = $this->model->vsRelation->createBasicObject();
-		$this->model->vsRelation->setObjectId($bw->input ['objectId']);
-		$this->model->vsRelation->setRelId($com->getId());
-		$this->model->vsRelation->setTableName("{$bw->input ['tableName']}");
-		$this->model->vsRelation->insertRel(NULL,NULL, false);
-	}
-	
-	function loadDefault() {
-		global $vsMenu, $vsSettings;
-		
-		$categories = $this->model->getCategories ();
-		$strIds = $vsMenu->getChildrenIdInTree ( $categories );
-		$size = $vsSettings->getSystemKey ( "comments_show_cat_num", 7, "comments" );
-		
-		$this->model->setFieldsString ( "commentsTitle,commentsImage,commentsId,commentsIntro,commentsContent,vsf_file.*" );
-		$this->model->setCondition ( "commentsStatus > 0 and commentsCatId in ({$strIds})" );
-		$this->model->setOrder ( "commentsId DESC" );
-		$this->model->setTableName ( "comments left join vsf_file on commentsImage = fileId" );
-		
-		$option = $this->model->getPageList ( "comments", 1, 5 );
-		
-		return $this->output = $this->html->loadDefault ( $option );
-	}
-	
-	
-	public function loadDetail($objId) {
-		global $bw, $vsLang, $vsPrint, $vsStd, $vsSettings, $vsMenu;
-		
-		$query = explode ( '-', $objId );
-		$objId = abs ( intval ( $query [count ( $query ) - 1] ) );
-		$this->model->setTableName ( "comments left join vsf_file on commentsImage = fileId" );
-		$obj = $this->model->getObjectById ( $objId );
-		if (! $obj)
-			return $vsPrint->redirect_screen ( 'Không có dữ liệu theo yêu cầu' );
-		$vsPrint->pageTitle = $obj->getTitle ();
-		$option ['obj'] = $obj;
-		$option ['category'] = $vsMenu->getCategoryById ( $obj->getCatId () );
-		$option ['other'] = $this->model->getOtherList ( $obj );
-		$otherHtml .= "<ul>";
-		foreach ( $option ['other'] as $news ) {
-			$otherHtml .= "<li><a href='" . $bw->base_url . "comments/detail/" . $news->getId () . "'>" . $news->getTitle () . "</a></li>";
-		}
-		$otherHtml .= "</ul>";
-		$option ['other'] = " <div class='other'>" . "<h3>" . $vsLang->getWords ( 'comments_other_title', 'Các ý kiến khác' ) . "</h3>" . $otherHtml . "</div>";
-		
-		return $this->output = $this->html->loadDetail ( $obj, $option );
-	}
-	
-	public function getOutput() {
-		return $this->output;
-	}
-	
-	public function setOutput($output) {
-		$this->output = $output;
-	}
-
-}
-
-?>
+	?>

@@ -18,11 +18,6 @@ $arraySkin = array (
      'status' => '0',
      'url' => NULL,
      'postdate' => NULL,
-     'code' => NULL,
-     'image' => NULL,
-     'record' => NULL,
-     'author' => NULL,
-     'price' => 0,
      'stt' => 1,
   )),
   0 => 
@@ -43,11 +38,6 @@ $arraySkin = array (
      'status' => '1',
      'url' => NULL,
      'postdate' => NULL,
-     'code' => NULL,
-     'image' => NULL,
-     'record' => NULL,
-     'author' => NULL,
-     'price' => 0,
      'stt' => 2,
   )),
 );

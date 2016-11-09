@@ -2,6 +2,8 @@
 $lang = array (
   'pageTitle' => 'files',
   'main_title' => 'files',
+  'file_download_success' => 'Download file successfully!',
 );
-$userLang = array();
+$userLang = array (
+);
 ?>

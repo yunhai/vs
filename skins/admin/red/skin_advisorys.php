@@ -74,27 +74,12 @@ EOF;
 						<tr class='smalltitle'>
 							<td class="submenu" style="width:67px;"> Email:</td>
 							<td><input size="35" name="advisoryEmail" value="{$objItem->getEmail()}" id="obj-email"/></td>
+							<if=" $vsSettings->getSystemKey($bw->input[0].'_address', 0) ">
 							<td class="submenu" style="width:67px;"> {$langObject['itemObjAddress']}:</td>
 							<td><input size="35" name="advisoryAddress" value="{$objItem->getAddress()}" id="obj-email"/></td>
+							</if>
 						</tr>
-						<tr class='smalltitle'>
-							<td class="submenu" style="width:30px;"> {$langObject['itemObjIndex']}:</td>
-                                                        <td><input class="numeric" size="15" name="advisoryIndex" value="{$objItem->getIndex()}" /></td>
-							
-							<td class="submenu">{$langObject['itemObjStatus']}:</td>
-							<td>
-                                                        {$langObject['itemObjDisplay']}
-							<input class='c_noneWi{dth' type="radio" name="advisoryStatus" id="advisoryStatus" checked value="1" style='margin-right:3px;'/>
-
-							{$langObject['itemObjHide']}   		
-							<input class='c_noneWidth' type="radio" name="advisoryStatus" id="advisoryStatus"  value="0" style='margin-right:3px;'/>
-							
-							<if="$vsSettings->getSystemKey("{$bw->input[0]}_home",0,$bw->input[0])">
-                                                            {$langObject['itemObjHome']}
-                                                            <input class='c_noneWidth' type="radio" name="advisoryStatus" id="advisoryStatus" checked value="2" style='margin-right:3px;'/>
-                                                        </if>
-							</td>
-						</tr>
+						
 						<tr class='smalltitle'>
 							<td class="submenu" style="width:30px;">{$vsLang->getWords('obj_Fullname', 'Fullname')}: </td>
 							<td><input size="35" name="advisoryName" value="{$objItem->getName()}" /></td>
@@ -105,11 +90,32 @@ EOF;
 									{$vsLang->getWords('obj_reply', 'Reply')}
 								</a>
 							</td>
-							<else />
-							<td class="submenu" colspan="2">&nbsp;</td>
+							</if>
+							<if=" $vsSettings->getSystemKey($bw->input[0].'_phone', 0) ">
+							<td class="submenu" style="width:67px;"> {$vsLang->getWords('obj_phone', 'Điện thoại')}:</td>
+							<td class="submenu"><input size="35" name="advisoryPhone" value="{$objItem->getPhone()}" /></td>
 							</if>
 						</tr>
-                                                <if="$vsSettings->getSystemKey("{$bw->input[0]}_intro",1,$bw->input[0])">
+						<tr class='smalltitle'>
+							<td class="submenu" style="width:30px;"> {$langObject['itemObjIndex']}:</td>
+                       		<td><input class="numeric" size="15" name="advisoryIndex" value="{$objItem->getIndex()}" /></td>
+						</tr>
+						<tr class='smalltitle'>
+							<td class="submenu">{$langObject['itemObjStatus']}:</td>
+							<td>
+                            	{$langObject['itemObjDisplay']}
+							<input class='c_noneWi{dth' type="radio" name="advisoryStatus" id="advisoryStatus" checked value="1" style='margin-right:3px;'/>
+
+							{$langObject['itemObjHide']}   		
+							<input class='c_noneWidth' type="radio" name="advisoryStatus" id="advisoryStatus"  value="0" style='margin-right:3px;'/>
+							
+							<if="$vsSettings->getSystemKey("{$bw->input[0]}_home",0,$bw->input[0])">
+                            	{$langObject['itemObjHome']}
+                             	<input class='c_noneWidth' type="radio" name="advisoryStatus" id="advisoryStatus" checked value="2" style='margin-right:3px;'/>
+                          	</if>
+							</td>
+						</tr>
+                 		<if="$vsSettings->getSystemKey("{$bw->input[0]}_intro",1,$bw->input[0])">
 						<tr class='smalltitle'>
 							<td class="submenu" style="width:auto">
 								{$vsLang->getWords('obj_Intro', 'Question')}:
@@ -118,8 +124,8 @@ EOF;
 								{$objItem->getIntro()}
 							</td>
 						</tr>
-                                                </if>
-                                                <if="$vsSettings->getSystemKey("{$bw->input[0]}_content",1,$bw->input[0])">
+                      	</if>
+                   		<if="$vsSettings->getSystemKey("{$bw->input[0]}_content",1,$bw->input[0])">
 						<tr class='smalltitle'>
 							<td colspan="4" class="submenu" style="width:auto">
 								{$vsLang->getWords('obj_Content', 'Answer')}:

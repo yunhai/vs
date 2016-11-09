@@ -15,6 +15,9 @@ class polls_public extends ObjectPublic{
 			case 'vote':
 				$this->vote($bw->input[2]);
 				break;
+				case 'securityVote':
+				return $this->output = $this->html->securityVote($bw->input[2]);
+				break;
 			default:{
 				$this->loadDefault();
 				break;
@@ -23,6 +26,16 @@ class polls_public extends ObjectPublic{
 	}
 
 	function vote($id){
+		global $vsSettings,$vsStd,$vsLang,$vsPrint,$bw;
+		if($vsSettings->getSystemKey("poll_security", 1, "polls", 1, 1)){
+			$vsStd->requireFile(ROOT_PATH."captcha/securimage.php");
+			$image = new Securimage();
+
+			if(!$image->check($bw->input['code'])) {
+				$message = $vsLang->getWords('thank_message','Security code doesnot match');
+				return $this->output =  $this->html->securityVote($bw->input[2],$message);
+			}
+		}
 		
 		$this->model->getObjectById($id);
 		$this->model->setCondition("pollId=".$this->model->obj->getId());
@@ -32,11 +45,9 @@ class polls_public extends ObjectPublic{
 	}
 	
 	function viewVote($catId){
-		global $vsMenu;
-		$cat=$vsMenu->getCategoryById($catId);
+		$cat=$this->model->vsMenu->getCategoryById($catId);
 		$option['list'] = $this->model->getListWithCat($cat);
 		$option['totalClick'] = $this->model->getTotalClick($cat->getId());
-		
 		return $this->output = $this->html->vote($cat ,$option);
 	}
 }

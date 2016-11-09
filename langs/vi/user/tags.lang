@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Tags',
+  'main_title' => 'Tags',
+  'products_price' => 'Giá',
+);
+$userLang = array (
+);
+?>

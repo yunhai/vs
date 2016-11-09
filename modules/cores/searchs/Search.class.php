@@ -13,6 +13,8 @@ class Search extends BasicObject {
 	public function convertToDB() {
 		$dbobj = parent::convertToDB('search');
 		isset ( $this->price)       ? ($dbobj ['searchPrice']	 = $this->price) : '';
+		//isset ( $this->hotPrice)       ? ($dbobj ['searchHotPrice']	 = $this->hotPrice) : '';
+		
                 return $dbobj;
 	}
 
@@ -20,6 +22,7 @@ class Search extends BasicObject {
 		global $vsMenu,$tableName;
                 parent::convertToObject($object,'search');
                 isset ( $object ["{$tableName}Price"] )      ? $this->price = $object ["{$tableName}Price"]             : '';
+                //isset ( $object ["{$tableName}HotPrice"] )      ? $this->hotPrice = $object ["{$tableName}HotPrice"]             : '';
                 isset ( $object ["{$tableName}Module"] )      ? $this->module = $object ["{$tableName}Module"]             : '';
                 isset ( $object ["{$tableName}Record"] )      ? $this->record = $object ["{$tableName}Record"]             : "";
                 isset ( $object ["{$tableName}Update"] )      ? $this->update = $object ["{$tableName}Update"]             : "";
@@ -37,7 +40,7 @@ class Search extends BasicObject {
 		}
 		return $this->update;
 	}
-public function getPrice($number=true) {
+	public function getPrice($number=true) {
 		global $vsLang;
 		if (APPLICATION_TYPE=='user' && $number){
 			if ($this->price>0){
@@ -49,9 +52,30 @@ public function getPrice($number=true) {
 	}
 
         
+public function getModule() {
+			return $this->module;
+		}
 	
+	public function setModule($module) {
+			$this->module = $module;
+		}
         public function setPrice($price) {
 		$this->price = $price;
+	}
+	
+ public function setHotPrice($price) {
+		$this->hotPrice = $price;
+	}
+	
+	public function getHotPrice($number=true) {
+		global $vsLang;
+		if (APPLICATION_TYPE=='user' && $number){
+			if ($this->hotPrice>0){
+				return number_format ( $this->hotPrice,0,"","." );
+			}
+			return $vsLang->getWords('callprice','Call');
+		}
+		return $this->hotPrice;
 	}
 	public function getRecord() {
 		return $this->record;

@@ -1,0 +1,225 @@
+.product_slide{
+	width:407px;
+	height:356px;
+	overflow:hidden;
+	float:left;
+	margin-right:15px;
+	position:relative;
+	margin-bottom:30px;
+}
+div.content,.pro_detail_img {
+	/* The display of content is enabled using jQuery so that the slideshow content won't display unless javascript is enabled. */
+	display: none;
+	width: 407px; 
+	height:279px;
+	overflow:hidden;
+	margin-bottom:5px;
+	text-align: center;
+}
+.pro_detail_img {
+	display: block;
+}
+.pro_detail_img img{
+	border: none!important;
+}
+div.content a, div.navigation a {
+	text-decoration: none;
+	color: #777;
+}
+div.content a:focus, div.content a:hover, div.content a:active {
+	text-decoration: underline;
+
+}
+div.controls {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:407px;
+	height:72px;
+	background: #EBEBEB;
+}
+div.controls a {
+	padding: 5px;
+
+}
+div.ss-controls {
+	float: left;
+}
+div.nav-controls {
+
+}
+div.slideshow-container {
+	position: relative;
+	clear: both;
+	width: 407px; 
+	height:279px;
+	overflow:hidden;
+ /* This should be set to be at least the height of the largest image in the slideshow */
+}
+div.loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	/*background-image: url('loader.gif');*/
+	background-repeat: no-repeat;
+	background-position: center;
+		width: 407px; 
+	height:279px;
+ /* This should be set to be at least the height of the largest image in the slideshow */
+}
+div.slideshow {
+
+}
+div.slideshow span.image-wrapper {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+div.slideshow a.advance-link {
+	display: block;
+	width: 407px; 
+	height:279px;
+ /* This should be set to be at least the height of the largest image in the slideshow */
+	line-height:0px;/*  This should be set to be at least the height of the largest image in the slideshow */
+	text-align: center;
+}
+div.slideshow a.advance-link:hover, div.slideshow a.advance-link:active, div.slideshow a.advance-link:visited {
+	text-decoration: none;
+}
+div.slideshow img {
+	vertical-align: middle;
+		width: 407px; 
+}
+div.download {
+	float: right;
+}
+div.caption-container {
+	position: relative;
+	clear: left;
+	height: 75px;
+}
+span.image-caption {
+	display: block;
+	position: absolute;
+	width:466px;
+	top: 0;
+	left: 0;
+}
+div.caption {
+	padding: 12px;
+}
+div.image-title {
+	font-weight: bold;
+	font-size: 1.4em;
+}
+div.image-desc {
+	line-height: 1.3em;
+	padding-top: 12px;
+}
+div.navigation {
+	margin-left:24px;
+	z-index:2;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+}
+ul.thumbs {
+    clear: both;
+	height:59px;
+	margin: 0;
+    overflow: hidden;
+    padding-left:4px;
+	margin:7px 0;
+	width:360px;
+}
+ul.thumbs li {
+	float: left;
+	list-style: none;
+	width:80px;
+	height:57px;
+	overflow:hidden;
+	margin:0px 4px;
+	/*background:url(../images/album_thumb_bg.jpg) no-repeat;*/
+}
+a.thumb {
+    display: block;
+	width:80px;
+	height:57px;
+	text-align:center;
+	background: #fff;
+	
+}
+ul.thumbs li.selected a.thumb {
+	border:1px solid #999;
+}
+ul.thumbs li.selected{
+	height:59px;
+	width:82px;
+}
+a.thumb:focus {
+	outline: none;
+}
+ul.thumbs img {
+    border: medium none;
+
+}
+div.pagination {
+	clear: both;
+}
+div.navigation div.top {
+	margin-bottom: 12px;
+	height: 11px;
+	display:none;
+}
+div.navigation div.bottom {
+	margin-top: 12px;
+}
+div.pagination a, div.pagination span.current, div.pagination span.ellipsis {
+	display: block;
+	float: left;
+	margin-right: 2px;
+	padding: 4px 7px 2px 7px;
+	border: 1px solid #ccc;
+}
+div.pagination a:hover {
+	background-color: #eee;
+	text-decoration: none;
+}
+div.pagination span.current {
+	font-weight: bold;
+	background-color: #000;
+	border-color: #000;
+	color: #fff;
+}
+div.pagination span.ellipsis {
+	border: none;
+	padding: 5px 0 3px 2px;
+}
+/*===================================================================================*/
+.product_slide .controls a{
+	padding:0px;
+	width:11px;
+	height:29px;
+	text-indent:-999px;
+}
+.product_slide .controls .prev{
+	background:#CECDCD url(../images/icon9.jpg) no-repeat 6px 25px;
+	position:absolute;
+	left:0px;	
+	height:72px;
+	width:24px;
+}
+.product_slide .controls .next{
+	background:#CECDCD url(../images/icon9.jpg) no-repeat 6px -25px;
+	position:absolute;
+	right:0px;
+	height:72px;
+	width:24px;
+}
+.product_slide .controls .prev:hover{
+	background:#CECDCD  url(../images/icon9_hover.jpg) no-repeat 6px 25px;	
+}
+.product_slide .controls .next:hover{
+	background:#CECDCD url(../images/icon9_hover.jpg) no-repeat 6px -25px;
+}

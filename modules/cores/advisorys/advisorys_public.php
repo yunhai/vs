@@ -6,11 +6,10 @@ function __construct(){
             parent::__construct('advisorys', CORE_PATH.'advisorys/', 'advisorys');
 			$this->html = $vsTemplate->load_template('skin_advisorys');    
 	}
-    function auto_run() {
-		global $bw, $vsPrint;
+    
+	function auto_run() {
+		global $bw;
 
-//		$vsPrint->addCurentJavaScriptFile('imenu');
-$this->model->getNavigator();
 		switch ($bw->input['action']) {
 			case 'detail':
 				$this->showDetail($bw->input[2]);
@@ -19,95 +18,97 @@ $this->model->getNavigator();
 			case 'category':
 				$this->showCategory($bw->input[2]);
 				break;
-                        case 'send':
+           	case 'send':
 				$this->sendadvisory();
 				break;
-                        case 'form':
-                                $this->output = $this->html->showFormDefault ( );
-                                break;
+        	case 'form':
+             	$this->output = $this->html->advisoryForm ( );
+              	break;
 			case 'thanks':
 				$this->thankadvisory();
 				break;
+			
 			default:
 				$this->showDefault();
 				break;
 		}
 	}
 	
+function showDefault(){
+		global $vsSettings,$vsMenu,$bw,$vsTemplate;
+  
+		$categories = $this->model->getCategories();
+       	$strIds = $vsMenu->getChildrenIdInTree($categories);
+
+       	$this->model->setFieldsString("{$this->tableName}Title, {$this->tableName}Image, {$this->tableName}Id, {$this->tableName}Intro,{$this->tableName}CatId,{$this->tableName}PostDate");
+       	
+		$this->model->setCondition("{$this->tableName}Status > 0 and {$this->tableName}CatId in ({$strIds})");
+		$this->model->setOrder("{$this->tableName}Index ASC, {$this->tableName}Id DESC");
+		$size  = $vsSettings->getSystemKey("{$bw->input[0]}_user_item_quality",10,$bw->input[0]);
+		$option = $this->model->getPageList($bw->input['module'], 1, $size);			
+    	
+     	$option['cate'] = $categories;
+        $this->model->getNavigator();
+    	return $this->output = $this->html->showDefault($option);
+		
+	}
+   
+	function showDetail($objId){
+		global $vsPrint, $vsLang, $bw,$vsMenu,$vsTemplate;              
+		$query = explode('-',$objId);
+		$objId = intval($query[count($query)-1]);
+		if(!$objId) return $vsPrint->redirect_screen($vsLang->getWords('global_no_item','Không có dữ liệu theo yêu cầu!'));
+		$obj=$this->model->getObjectById($objId);
+
+		$this->model->convertFileObject(array($obj),$bw->input['module']);
+		$cat=$this->model->vsMenu->getCategoryById($obj->getCatId());
+		$this->model->getNavigator($obj->getCatId());
+		
+		$option['other'] =  $this->model->getOtherList($obj);
+		$categories = $this->model->getCategories();
+		$option['cate'] =  $vsLang->getWords('advisory_pagetitle', 'Tư vấn');
+		$option['id'] = $obj->getId();	
+
+		$vsPrint->mainTitle = $vsPrint->pageTitle = $obj->getTitle();
+		
+		$this->output = $this->html->showDetail($obj,$option);
+	}
+	
+	
+	
 	function sendadvisory(){
-		global $bw,$vsLang,$vsSettings,$vsStd;
+		global $bw,$vsLang,$vsSettings,$vsStd,$DB;
 
-		$bw->input['advisoryPostDate'] = time();
-$vsStd->requireFile(ROOT_PATH."captcha/securimage.php");
-			$image = new Securimage();
-			if(!$image->check($bw->input['advisorySecurity'])) {
-				$message = $vsLang->getWords('thank_message','Security code doesnot match');
-                                $java = <<<EOF
-                                    <script>
-                                        $(document).ready(function(){
-                                        jAlert('{$vsLang->getWords('thank_message','Security code doesnot match')}','{$bw->vars['global_websitename']} Dialog');
-});
-                                    </script>    
-
-EOF;
-				//$vsPrint->redirect_screen($message, "contacts");
-                                return $this->output = $this->html->showFormDefault () .$java;
+			$security = $bw->input ['advisorySecurity'];
+			$vsStd->requireFile ( ROOT_PATH . "vscaptcha/VsCaptcha.php" );
+			$image = new VsCaptcha();
+			if (! $image->check ( $security )) {
+				
+				$this->model->obj->convertToObject($bw->input);
+				$bw->input['message'] = $vsLang->getWords('thank_message','Security code doesnot match');
+				
+				if ($bw->input['skin']=='default'){
+					$bw->input[1] = 1;
+					return $this->showDefault();
+				}
+				if ($bw->input['skin']=='detail')
+					return $this->showDetail($bw->input['id']);
+				
 			}
-
-		$bw->input['advisoryCatId'] = $bw->input['advisoryCatId'] ? $bw->input['advisoryCatId'] : $this->model->categories->getId();
 		
 		$bw->input['advisoryPostDate'] = time();
+		$bw->input['advisoryCatId'] = $bw->input['advisoryCat'] ? $bw->input['advisoryCat'] : $this->model->categories->getId();
+
 		$this->model->obj->convertToObject($bw->input);
+	
 		$this->model->insertObject($this->model->obj);
 
-
 		if($this->error) $this->sendadvisoryError();
-		else $this->thankadvisory($bw->input['module']);
+		
+		$url = $bw->input['module'];
+		$this->thankadvisory($url);
 	}
-
-	function errorCallback($advisoryType=0, $error){
-		global $bw, $vsStd;
-		$vsStd->requireFile(UTILS_PATH.'PostParser.class.php');
-
-		$parser = new PostParser();
-		$parser->pp_nl2br = 1;
-
-		if($advisoryType){
-			$this->consulting();
-			$bw->input['advisoryCompany'] = $parser->post_db_parse_html($bw->input['advisoryCompany']);
-			$bw->input['advisoryAddress'] = $parser->post_db_parse_html($bw->input['advisoryAddress']);
-
-			$this->output .= <<<EOF
-				<script type='text/javascript'>
-					reloadadvisoryInformation(jsonObj);
-				</script>
-EOF;
-		}
-		else{
-			$bw->input['advisoryMessage'] = $parser->post_db_parse_html($bw->input['advisoryMessage']);
-			$this->output = <<<EOF
-				<div id='errorDisplay'>
-					<b>The following errors were found</b>:<br />{$error}
-				</div>
-				<script type='text/javascript'>
-					setTimeout('removeDiv()', 3000);
-					function removeDiv(){
-	    				$('#errorDisplay').fadeOut('slow');
-					}
-				  	$('#recaptcha_response_field').focus();
-				  	$('#recaptcha_response_field').addClass('vs-error');
-					$('#advisoryName').attr("value","{$bw->input['advisoryName']}");
-					$('#advisoryAddress').attr("value","{$bw->input['advisoryAddress']}");
-					$('#advisoryPhone').attr("value","{$bw->input['advisoryPhone']}");
-					$('#advisoryEmail').attr("value","{$bw->input['advisoryEmail']}");
-					$('#advisoryTitle').attr("value","{$bw->input['advisoryTitle']}");
-					$('#advisoryMessage').attr("value","{$bw->input['advisoryMessage']}");
-					refreshIdentifyCode();
-				</script>
-EOF;
-		}
-	}
-
+	
 	function sentadvisoryByEmail($addon_profile){
 		global $vsStd, $vsLang, $bw,$vsSettings;
 		$vsStd->requireFile(LIBS_PATH."Email.class.php",true);
@@ -116,7 +117,7 @@ EOF;
 
 		$message = "<strong>Name:</strong> {$this->model->obj->getName()}<br />
 					<strong>Email:</strong> {$this->model->obj->getEmail()}<br />";
-		$message.= "<strong>Address:</strong>".$addon_profile[0]."<br /><strong>Phone:</strong>".$addon_profile[1]."<br />";
+		//$message.= "<strong>Address:</strong>".$addon_profile[0]."<br /><strong>Phone:</strong>".$addon_profile[1]."<br />";
 		$message.= "<strong>Message subject:</strong> {$this->model->obj->getTitle()}<br />
 				    <strong>Message:</strong>".$this->model->obj->getContent();
 		$this->email->setTo($vsSettings->getSystemKey("advisory_emailRecerver","admin@vietsol.net"));
@@ -129,20 +130,14 @@ EOF;
 	}
 
 	function thankadvisory($url){
-		global $vsPrint, $vsLang, $bw;
-		
+		global $vsPrint, $vsLang,$bw;
 		$text = $vsLang->getWords('advisory_redirectText','Câu hỏi của bạn đã được gửi');
-		
-		$categories = $this->model->getCategories();
-		$option['catList'] = $categories->getChildren();
-		$this->output = $this->html->thankyou($text, $url, $option);
+		$this->output = $this->html->thankyou ( $text, $url );
 	}
 
 	function sendadvisoryError(){
 		global $vsLang;
 		$this->output = $vsLang->getWords('advisory_sendContentError','The following errors were found! Unknow!');
 	}
-
-   
 }
 ?>

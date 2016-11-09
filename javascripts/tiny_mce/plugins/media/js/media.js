@@ -71,7 +71,6 @@ function init() {
 				setBool(pl, 'flash', 'loop');
 				setBool(pl, 'flash', 'menu');
 				setBool(pl, 'flash', 'swliveconnect');
-				setBool(pl, 'flash', 'allowfullscreen');
 				setStr(pl, 'flash', 'quality');
 				setStr(pl, 'flash', 'scale');
 				setStr(pl, 'flash', 'salign');
@@ -303,19 +302,8 @@ function getMediaListHTML() {
 function getType(v) {
 	var fo, i, c, el, x, f = document.forms[0];
 
-	
-	var ihost = window.location.href
-	ihost = ihost.replace("media.htm", "");
-
 	fo = ed.getParam("media_types", "flash=swf;flv=flv;shockwave=dcr;qt=mov,qt,mpg,mp3,mp4,mpeg;shockwave=dcr;wmp=avi,wmv,wm,asf,asx,wmx,wvx;rmp=rm,ra,ram").split(';');
 
-	if (v.match(/(.+)(.*)\.flv/) || v.match(/(.+)(.*)\.mp4/)) {
-	    f.width.value = '328';
-	    f.height.value = '200';
-	    f.src.value = 'javascripts/jwplayer/player.swf?file=' + v;
-	    return 'flash';
-	}
-	
 	// YouTube
 	if (v.match(/watch\?v=(.+)(.*)/)) {
 		f.width.value = '425';
@@ -385,7 +373,6 @@ function serializeParameters() {
 			s += getBool('flash', 'loop', true);
 			s += getBool('flash', 'menu', true);
 			s += getBool('flash', 'swliveconnect', false);
-			s += getBool('flash', 'allowfullscreen', false);
 			s += getStr('flash', 'quality');
 			s += getStr('flash', 'scale');
 			s += getStr('flash', 'salign');
@@ -479,7 +466,8 @@ function serializeParameters() {
 }
 
 function setBool(pl, p, n) {
-	if (typeof(pl[n]) == "undefined")return;
+	if (typeof(pl[n]) == "undefined")
+		return;
 
 	document.forms[0].elements[p + "_" + n].checked = pl[n] != 'false';
 }
@@ -497,7 +485,6 @@ function setStr(pl, p, n) {
 }
 
 function getBool(p, n, d, tv, fv) {
-	if(typeof(document.forms[0].elements[p + "_" + n]) == 'undefined') return '';
 	var v = document.forms[0].elements[p + "_" + n].checked;
 
 	tv = typeof(tv) == 'undefined' ? 'true' : "'" + jsEncode(tv) + "'";

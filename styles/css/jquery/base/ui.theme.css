@@ -5,6 +5,7 @@
 */
 .ui-widget-content { background:#FFF; color: #222222; }
 .ui-widget-content a { color: #222222; }
+.ui-widget-content a:visited { font-weight:bold; }
 .ui-widget-header {color: #FFFFFF; font-weight: bold; }
 table.ui-widget-content{
 	border:none;

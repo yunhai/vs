@@ -97,6 +97,7 @@ EOF;
 	//===========================================================================
 	function vs_global() {
 		global $bw, $vsUser, $vsLang;
+	
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 		<if=" !$vsUser->obj->getId() ">
@@ -120,19 +121,30 @@ EOF;
 					<ul>
 						<if=" $this->ADMIN_TOP_MENU ">
 						<foreach="$this->ADMIN_TOP_MENU as $menu">
-						<li ><a href="{$menu->getUrl(0)}" title="{$menu->getTitle()}" >{$menu->getTitle()}</a>
-							<if="$menu->isDropdown&&count($menu->children)">
-			                    <ul>
-			                    <foreach="$menu->children as $obj">
-			                    <li><a href="{$obj->getUrl(0)}" title="{$obj->getTitle()}">{$obj->getTitle()}</a></li>
-			                    </foreach>
-			                    </ul>
-							</if>
-						</li>
+							<php>
+							if( ($menu->getId() == 2 || $menu->getId() == 7) || $vsUser->checkViewPermission('menus', $menu->getUrl())){
+								$li_menus = "<li class='".$menu->getClassActive()."'><a href='".$menu->getUrl(0)."' title='".$menu->getTitle()."' >".$menu->getTitle()."</a>";
+									if($menu->isDropdown && count($menu->children)){
+					                   $li_menus.="<ul>";
+					                   foreach($menu->children as $obj){
+						                    global $vsUser;
+						                    if(($obj->getId() == 2 || $obj->getId() == 7) || $vsUser->checkViewPermission('menus',$obj->getUrl()))
+						                    	 $li_menus.= "<li><a href='".$obj->getUrl(0)."' title='".$obj->getTitle()."'>".$obj->getTitle()."</a></li>";
+						                }
+					                    $li_menus.= "</ul>";
+									}
+								 $li_menus.= "</li>";
+									}
+							</php>
+							{$li_menus}
 						</foreach>
 						</if>
 					</ul>
-					<div class="clear"></div></div>
+					<div style="float: right; width: 15%; font-size:12px; margin-right: 20px;">
+						Welcome {$vsUser->obj->getName()}
+					</div>
+				</div>
+				
 				<!-- END OF TOP MENU -->
 			    <div class="clear"></div>
 			</div>

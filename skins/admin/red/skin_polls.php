@@ -367,7 +367,7 @@ EOF;
 							<foreach="$objItems as $obj">	
 								<tr class="$class">
 									<td align="center">
-										<input type="checkbox" onclicktext="checkObject({$obj->getId()});" onclick="checkObject({$obj->getId()});" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
+										<input type="checkbox" onclicktext="vsf.checkObject();" onclick="vsf.checkObject();" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
 									</td>
 									<td style='text-align:center'>{$obj->getStatus('image')}</td>
 									<td>

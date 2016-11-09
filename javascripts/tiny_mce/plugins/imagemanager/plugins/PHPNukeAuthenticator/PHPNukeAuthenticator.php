@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.authenicators
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 // Include PHPNuke logic
@@ -20,7 +20,7 @@ chdir($mcOldCWD);
  * @package MCImageManager.Authenticators
  */
 class Moxiecode_PHPNukeAuthenticator extends Moxiecode_ManagerPlugin {
-    /**#@+
+	/**#@+
 	 * @access public
 	 */
 

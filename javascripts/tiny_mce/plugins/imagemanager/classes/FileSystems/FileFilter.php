@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -15,7 +15,7 @@
 class Moxiecode_FileFilter {
 	/**
 	 * Returns true or false if the file is accepted or not.
-	 * 
+	 *
 	 * @param MCE_File $file File to grant or deny.
 	 * @return boolean true or false if the file is accepted or not.
 	 */
@@ -50,7 +50,7 @@ class Moxiecode_CombinedFileFilter {
 
 	/**
 	 * Returns true or false if the file is accepted or not.
-	 * 
+	 *
 	 * @param MCE_File $file File to grant or deny.
 	 * @return boolean true or false if the file is accepted or not.
 	 */
@@ -59,7 +59,7 @@ class Moxiecode_CombinedFileFilter {
 			$state = $this->_filters[$i]->accept($file);
 
 			if ($state < 0)
-				return $state;
+			return $state;
 		}
 
 		return 1;
@@ -75,7 +75,7 @@ class Moxiecode_DummyFileFilter extends Moxiecode_FileFilter {
 	/**
 	 * Returns true or false if the file is accepted or not.
 	 * Note: This dummb method allways returns true.
-	 * 
+	 *
 	 * @param MCE_File $file File to grant or deny.
 	 * @return boolean true or false if the file is accepted or not.
 	 */
@@ -116,7 +116,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	var $_maxLevels;
 	var $_debug;
 
-    /**#@+
+	/**#@+
 	 * @access public
 	 */
 
@@ -130,7 +130,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets if debug mode is on or off, default off.
-	 * 
+	 *
 	 * @param boolean $state if true debug mode is enabled.
 	 */
 	function setDebugMode($state) {
@@ -139,7 +139,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets if only files are to be accepted in result.
-	 * 
+	 *
 	 * @param boolean $files_only True if only files are to be accepted.
 	 */
 	function setOnlyFiles($files_only) {
@@ -148,7 +148,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets if only dirs are to be accepted in result.
-	 * 
+	 *
 	 * @param boolean $dirs_only True if only dirs are to be accepted.
 	 */
 	function setOnlyDirs($dirs_only) {
@@ -157,7 +157,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets maximum number of directory levels to accept.
-	 * 
+	 *
 	 * @param int $max_levels Maximum number of directory levels to accept.
 	 */
 	function setMaxLevels($max_levels) {
@@ -171,54 +171,54 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 */
 	function setIncludeExtensions($extensions) {
 		if ($extensions == "*" || $extensions == "")
-			return;
+		return;
 
 		$this->_extensions = explode(',', strtolower($extensions));
 	}
 
 	/**
 	 * Sets comma separated string list of filenames to exclude.
-	 * 
+	 *
 	 * @param String $files separated string list of filenames to exclude.
 	 */
 	function setExcludeFiles($files) {
 		if ($files != "")
-			$this->_excludeFiles = split(',', $files);
+		$this->_excludeFiles = split(',', $files);
 	}
 
 	/**
 	 * Sets comma separated string list of filenames to include.
-	 * 
+	 *
 	 * @param String $files separated string list of filenames to include.
 	 */
 	function setIncludeFiles($files) {
 		if ($files != "")
-			$this->_includeFiles = split(',', $files);
+		$this->_includeFiles = split(',', $files);
 	}
 
 	/**
 	 * Sets comma separated string list of foldernames to exclude.
-	 * 
+	 *
 	 * @param String $folders separated string list of foldernames to exclude.
 	 */
 	function setExcludeFolders($folders) {
 		if ($folders != "")
-			$this->_excludeFolders = split(',', $folders);
+		$this->_excludeFolders = split(',', $folders);
 	}
 
 	/**
 	 * Sets comma separated string list of foldernames to include.
-	 * 
+	 *
 	 * @param String $folders separated string list of foldernames to include.
 	 */
 	function setIncludeFolders($folders) {
 		if ($folders != "")
-			$this->_includeFolders = split(',', $folders);
+		$this->_includeFolders = split(',', $folders);
 	}
 
 	/**
 	 * Sets a regexp pattern that is used to accept files path parts.
-	 * 
+	 *
 	 * @param String $pattern regexp pattern that is used to accept files path parts.
 	 */
 	function setIncludeFilePattern($pattern) {
@@ -227,7 +227,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets a regexp pattern that is used to deny files path parts.
-	 * 
+	 *
 	 * @param String $pattern regexp pattern that is used to deny files path parts.
 	 */
 	function setExcludeFilePattern($pattern) {
@@ -236,7 +236,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets a regexp pattern that is used to accept directory path parts.
-	 * 
+	 *
 	 * @param String $pattern regexp pattern that is used to accept directory path parts.
 	 */
 	function setIncludeDirectoryPattern($pattern) {
@@ -245,7 +245,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets a regexp pattern that is used to deny directory path parts.
-	 * 
+	 *
 	 * @param String $pattern regexp pattern that is used to deny directory path parts.
 	 */
 	function setExcludeDirectoryPattern($pattern) {
@@ -254,27 +254,27 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 	/**
 	 * Sets a wildcard pattern that is used to accept files path parts.
-	 * 
+	 *
 	 * @param String $pattern wildcard pattern that is used to accept files path parts.
 	 */
 	function setIncludeWildcardPattern($pattern) {
 		if ($pattern != "")
-			$this->_includeWildcardPattern = $pattern;
+		$this->_includeWildcardPattern = $pattern;
 	}
 
 	/**
 	 * Sets a wildcard pattern that is used to deny files path parts.
-	 * 
+	 *
 	 * @param String $pattern wildcard pattern that is used to deny files path parts.
 	 */
 	function setExcludeWildcardPattern($pattern) {
 		if ($pattern != "")
-			$this->_excludeWildcardPattern = $pattern;
+		$this->_excludeWildcardPattern = $pattern;
 	}
 
 	/**
 	 * Returns true or false if the file is accepted or not.
-	 * 
+	 *
 	 * @param MCE_File $file File to grant or deny.
 	 * @return boolean true or false if the file is accepted or not.
 	 */
@@ -288,7 +288,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			foreach ($this->_excludeFolders as $folder) {
 				if (strpos($absPath, $folder) != "") {
 					if ($this->_debug)
-						debug("File denied \"" . $absPath . "\" by \"excludeFolders\".");
+					debug("File denied \"" . $absPath . "\" by \"excludeFolders\".");
 
 					return BASIC_FILEFILTER_INVALID_NAME;
 				}
@@ -308,7 +308,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 			if (!$state) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"includeFolders\".");
+				debug("File \"" . $absPath . "\" denied by \"includeFolders\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -319,7 +319,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			foreach ($this->_excludeFiles as $fileName) {
 				if ($name == $fileName) {
 					if ($this->_debug)
-						debug("File \"" . $absPath . "\" denied by \"excludeFiles\".");
+					debug("File \"" . $absPath . "\" denied by \"excludeFiles\".");
 
 					return BASIC_FILEFILTER_INVALID_NAME;
 				}
@@ -339,7 +339,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 			if (!$state) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"includeFiles\".");
+				debug("File \"" . $absPath . "\" denied by \"includeFiles\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -349,7 +349,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		if ($isFile) {
 			if ($this->_dirsOnly) {
 				if ($this->_debug)
-					debug("File denied \"" . $absPath . "\" by \"dirsOnly\".");
+				debug("File denied \"" . $absPath . "\" by \"dirsOnly\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -357,7 +357,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			// Handle exclude pattern
 			if ($this->_excludeFilePattern && preg_match($this->_excludeFilePattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"excludeFilePattern\".");
+				debug("File \"" . $absPath . "\" denied by \"excludeFilePattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -365,14 +365,14 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			// Handle include pattern
 			if ($this->_includeFilePattern && !preg_match($this->_includeFilePattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"includeFilePattern\".");
+				debug("File \"" . $absPath . "\" denied by \"includeFilePattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 		} else {
 			if ($this->_filesOnly) {
 				if ($this->_debug)
-					debug("Dir denied \"" . $absPath . "\" by \"filesOnly\".");
+				debug("Dir denied \"" . $absPath . "\" by \"filesOnly\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -380,7 +380,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			// Handle exclude pattern
 			if ($this->_excludeDirectoryPattern && preg_match($this->_excludeDirectoryPattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"excludeDirectoryPattern\".");
+				debug("File \"" . $absPath . "\" denied by \"excludeDirectoryPattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -388,7 +388,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			// Handle include pattern
 			if ($this->_includeDirectoryPattern && !preg_match($this->_includeDirectoryPattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $absPath . "\" denied by \"includeDirectoryPattern\".");
+				debug("File \"" . $absPath . "\" denied by \"includeDirectoryPattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
@@ -397,7 +397,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		// Handle include wildcard pattern
 		if ($this->_includeWildcardPattern && !$this->_fnmatch($this->_includeWildcardPattern, $name)) {
 			if ($this->_debug)
-				debug("File \"" . $absPath . "\" denied by \"includeWildcardPattern\".");
+			debug("File \"" . $absPath . "\" denied by \"includeWildcardPattern\".");
 
 			return BASIC_FILEFILTER_INVALID_NAME;
 		}
@@ -405,7 +405,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		// Handle exclude wildcard pattern
 		if ($this->_excludeWildcardPattern && $this->_fnmatch($this->_excludeWildcardPattern, $name)) {
 			if ($this->_debug)
-				debug("File \"" . $absPath . "\" denied by \"excludeWildcardPattern\".");
+			debug("File \"" . $absPath . "\" denied by \"excludeWildcardPattern\".");
 
 			return BASIC_FILEFILTER_INVALID_NAME;
 		}
@@ -424,7 +424,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			}
 
 			if (!$valid)
-				return BASIC_FILEFILTER_INVALID_EXTENSION;
+			return BASIC_FILEFILTER_INVALID_EXTENSION;
 		}
 
 		return BASIC_FILEFILTER_ACCEPTED;
@@ -440,13 +440,13 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		for ($i = 0; $i<strlen($str); $i++) {
 			$c = $str{$i};
 			if ($c =='?')
-				$s .= '.'; // any character
-			else if ($c == '*')  
-				$s .= '.*'; // 0 or more any characters
+			$s .= '.'; // any character
+			else if ($c == '*')
+			$s .= '.*'; // 0 or more any characters
 			else if ($c == '[' || $c == ']')
-				$s .= $c;  // one of characters within []
+			$s .= $c;  // one of characters within []
 			else
-				$s .= '\\' . $c;
+			$s .= '\\' . $c;
 		}
 
 		$s = '^' . $s . '$';
@@ -454,10 +454,10 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		//trim redundant ^ or $
 		//eg ^.*\.txt$ matches exactly the same as \.txt$
 		if (substr($s,0,3) == "^.*")
-			$s = substr($s, 3);
+		$s = substr($s, 3);
 
 		if (substr($s,-3,3) == ".*$")
-			$s = substr($s, 0, -3);
+		$s = substr($s, 0, -3);
 
 		return $s;
 	}

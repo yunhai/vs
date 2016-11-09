@@ -4,7 +4,7 @@
     display:block; /* or inline-block */
     width: 105px; padding: 7px 0; text-align:center;    
   /*  background:#880000; border-bottom:1px solid #ddd;color:#fff;*/
-    background: url("../images/mess_input_attach.jpg") no-repeat scroll 10px 5px transparent;
+    /*background: url("../images/mess_input_attach.jpg") no-repeat scroll 10px 5px transparent;*/
     color: #0076E3;
     cursor: pointer;
 }

@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -34,13 +34,13 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		$this->_type = $type;
 
 		if ($child_name != "")
-			 $this->_absPath = $this->_manager->removeTrailingSlash($absolute_path) . "/" . $child_name;
+		$this->_absPath = $this->_manager->removeTrailingSlash($absolute_path) . "/" . $child_name;
 		else
-			$this->_absPath = $absolute_path;
+		$this->_absPath = $absolute_path;
 
 		// Force it absolute
 		if (strpos($this->_absPath, '..') !== false)
-			$this->_absPath = $this->_manager->toUnixPath(realpath($this->_absPath));
+		$this->_absPath = $this->_manager->toUnixPath(realpath($this->_absPath));
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 	/**
 	 * Imports a local file to the file system, for example when users upload files.
-	 *											   
+	 *
 	 * @param String $local_absolute_path Absolute path to local file to import.
 	 */
 	function importFile($local_absolute_path = "") {
@@ -125,11 +125,11 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 		// Chmod the file
 		if (($mask = $this->_getConfigValue("filesystem.local.file_mask", false)) !== false)
-			@chmod($this->_manager->toOSPath($this->_absPath), intval($mask, 8));
+		@chmod($this->_manager->toOSPath($this->_absPath), intval($mask, 8));
 
 		// Chown the file
 		if (($owner = $this->_getConfigValue("filesystem.local.file_owner", false)) !== false)
-			$this->_chown($this->_manager->toOSPath($this->_absPath), $owner);
+		$this->_chown($this->_manager->toOSPath($this->_absPath), $owner);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function exists() {
 		if (isset($this->_statCache['exists']))
-			return $this->_statCache['exists'];
+		return $this->_statCache['exists'];
 
 		// Returns false if safe mode is on and the user/group is not the same as apache
 		return ($this->_statCache['exists'] = file_exists($this->_manager->toOSPath($this->_absPath)));
@@ -152,10 +152,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function isDirectory() {
 		if (!$this->exists())
-			return $this->_type == MC_IS_DIRECTORY;
+		return $this->_type == MC_IS_DIRECTORY;
 
 		if (isset($this->_statCache['is_dir']))
-			return $this->_statCache['is_dir'];
+		return $this->_statCache['is_dir'];
 
 		return ($this->_statCache['is_dir'] = is_dir($this->_manager->toOSPath($this->_absPath)));
 	}
@@ -167,10 +167,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function isFile() {
 		if (!$this->exists())
-			return $this->_type == MC_IS_FILE;
+		return $this->_type == MC_IS_FILE;
 
 		if (isset($this->_statCache['is_file']))
-			return $this->_statCache['is_file'];
+		return $this->_statCache['is_file'];
 
 		return ($this->_statCache['is_file'] = is_file($this->_manager->toOSPath($this->_absPath)));
 	}
@@ -182,7 +182,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function getLastModified() {
 		if (!isset($this->_statCache['stat']))
-			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+		$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
 
 		return $this->_statCache['stat'][9];
 	}
@@ -194,7 +194,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function getCreationDate() {
 		if (!isset($this->_statCache['stat']))
-			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+		$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
 
 		return $this->_statCache['stat'][10];
 	}
@@ -206,7 +206,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function canRead() {
 		if (isset($this->_statCache['is_readable']))
-			return $this->_statCache['is_readable'];
+		return $this->_statCache['is_readable'];
 
 		return ($this->_statCache['is_readable'] = is_readable($this->_manager->toOSPath($this->_absPath)));
 	}
@@ -222,13 +222,13 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			$file =& $this->getParentFile();
 
 			if ($this->getAbsolutePath() == $file->getAbsolutePath())
-				return false;
+			return false;
 
 			return $file->canWrite();
 		}
 
 		if (isset($this->_statCache['is_writeable']))
-			return $this->_statCache['is_writeable'];
+		return $this->_statCache['is_writeable'];
 
 		// Is windows
 		if (DIRECTORY_SEPARATOR == "\\") {
@@ -264,7 +264,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function getLength() {
 		if (!isset($this->_statCache['stat']))
-			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+		$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
 
 		return $this->_statCache['stat'][7];
 	}
@@ -279,15 +279,15 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		$this->_clearCache();
 
 		if ($dest->exists())
-			return false;
+		return false;
 
 		// Copy in to your self?
 		if (strpos($dest->getAbsolutePath(), $this->getAbsolutePath()) === 0)
-			return false;
+		return false;
 
 		// Different file system then import
 		if (getClassName($dest) != 'moxiecode_localfileimpl')
-			return $dest->importFile($this->getAbsolutePath());
+		return $dest->importFile($this->getAbsolutePath());
 
 		$dest->_clearCache();
 
@@ -300,20 +300,20 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			return true;
 		} else {
 			if ($this->_events)
-				$this->_manager->dispatchEvent("onBeforeFileAction", array(COPY_ACTION, &$this, &$dest));
+			$this->_manager->dispatchEvent("onBeforeFileAction", array(COPY_ACTION, &$this, &$dest));
 
 			$status = $this->_absPath == $dest->_absPath || copy($this->_manager->toOSPath($this->_absPath), $this->_manager->toOSPath($dest->_absPath));
 
 			// Chmod the file
 			if (($mask = $dest->_getConfigValue("filesystem.local.file_mask", false)) !== false)
-				@chmod($this->_manager->toOSPath($dest->_absPath), intval($mask, 8));
+			@chmod($this->_manager->toOSPath($dest->_absPath), intval($mask, 8));
 
 			// Chown the file
 			if (($owner = $dest->_getConfigValue("filesystem.local.file_owner", false)) !== false)
-				$this->_chown($this->_manager->toOSPath($dest->_absPath), $owner);
+			$this->_chown($this->_manager->toOSPath($dest->_absPath), $owner);
 
 			if ($status && $this->_events)
-				$this->_manager->dispatchEvent("onFileAction", array(COPY_ACTION, &$this, &$dest));
+			$this->_manager->dispatchEvent("onFileAction", array(COPY_ACTION, &$this, &$dest));
 
 			return $status;
 		}
@@ -327,13 +327,13 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function delete($deep = false) {
 		if (!$this->exists())
-			return false;
+		return false;
 
 		$this->_clearCache();
 
 		if (is_dir($this->_manager->toOSPath($this->_absPath))) {
 			if ($this->_events)
-				$this->_manager->dispatchEvent("onBeforeFileAction", array(RMDIR_ACTION, &$this));
+			$this->_manager->dispatchEvent("onBeforeFileAction", array(RMDIR_ACTION, &$this));
 
 			if ($deep) {
 				// Get all the files
@@ -343,20 +343,20 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 				// Delete the files
 				$files = array_reverse($treeHandler->getFiles());
 				foreach ($files as $file)
-					$file->delete();
+				$file->delete();
 
 				// Hmm, should be better
 				return true;
 			}
 
 			if (($status = rmdir($this->_manager->toOSPath($this->_absPath))) && ($this->_events))
-				$this->_manager->dispatchEvent("onFileAction", array(RMDIR_ACTION, &$this));
+			$this->_manager->dispatchEvent("onFileAction", array(RMDIR_ACTION, &$this));
 		} else {
 			if ($this->_events)
-				$this->_manager->dispatchEvent("onBeforeFileAction", array(DELETE_ACTION, &$this));
+			$this->_manager->dispatchEvent("onBeforeFileAction", array(DELETE_ACTION, &$this));
 
 			if (($status = unlink($this->_manager->toOSPath($this->_absPath))) && ($this->_events))
-				$this->_manager->dispatchEvent("onFileAction", array(DELETE_ACTION, &$this));
+			$this->_manager->dispatchEvent("onFileAction", array(DELETE_ACTION, &$this));
 		}
 
 		return $status;
@@ -379,9 +379,9 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return Array array of File instances based on the specified filter instance.
 	 */
 	function &listFilesFiltered(&$filter) {
-	 	$dir = $this->_absPath;
-	 	$files = array();
-	 	$dirs = array();
+		$dir = $this->_absPath;
+		$files = array();
+		$dirs = array();
 		$fileArray = array();
 		$dirArray = array();
 
@@ -392,19 +392,19 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 			while (false !== ($file = readdir($fHnd))) {
 				if ($file == "." || $file == "..")
-					continue;
+				continue;
 
 				// Returns false if safe mode is on and the user/group is not the same as apache
 				$path = $dir . "/" . $file;
 				if (file_exists($path)) {
 					// We are at root!
 					if ($dir == "/")
-						$dir = "";
+					$dir = "";
 
 					if (is_file($path))
-						$fileArray[] = $file;
+					$fileArray[] = $file;
 					else
-						$dirArray[] = $file;
+					$dirArray[] = $file;
 				}
 			}
 
@@ -419,7 +419,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 				$file = new Moxiecode_LocalFileImpl($this->_manager, $dir . "/" . $adir);
 
 				if ($filter->accept($file) < 0)
-					continue;
+				continue;
 
 				array_push($files, $file);
 			}
@@ -429,7 +429,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 				$file = new Moxiecode_LocalFileImpl($this->_manager, $dir . "/" . $afile);
 
 				if ($filter->accept($file) < 0)
-					continue;
+				continue;
 
 				array_push($files, $file);
 			}
@@ -439,7 +439,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	}
 
 	/**
-	 * Lists the file as an tree and calls the specified FileTreeHandler instance on each file. 
+	 * Lists the file as an tree and calls the specified FileTreeHandler instance on each file.
 	 *
 	 * @param FileTreeHandler &$file_tree_handler FileTreeHandler to invoke on each file.
 	 */
@@ -467,25 +467,25 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		$this->_clearCache();
 
 		if ($this->_events)
-			$this->_manager->dispatchEvent("onBeforeFileAction", array(MKDIR_ACTION, &$this));
+		$this->_manager->dispatchEvent("onBeforeFileAction", array(MKDIR_ACTION, &$this));
 
 		$tpl = $this->_getConfigValue("filesystem.local.directory_template", false);
 
 		if ($tpl)
-			$status = copy($this->_manager->toAbsPath($tpl), $this->_manager->toOSPath($this->_absPath));
+		$status = copy($this->_manager->toAbsPath($tpl), $this->_manager->toOSPath($this->_absPath));
 		else
-			$status = mkdir($this->_manager->toOSPath($this->_absPath));
+		$status = mkdir($this->_manager->toOSPath($this->_absPath));
 
 		// Chmod the dir
 		if (($mask = $this->_getConfigValue("filesystem.local.directory_mask", false)) !== false)
-			@chmod($this->_manager->toOSPath($this->_absPath), intval($mask, 8));
+		@chmod($this->_manager->toOSPath($this->_absPath), intval($mask, 8));
 
 		// Chown the dir
 		if (($owner = $this->_getConfigValue("filesystem.local.directory_owner", false)) !== false)
-			$this->_chown($this->_manager->toOSPath($this->_absPath), $owner);
+		$this->_chown($this->_manager->toOSPath($this->_absPath), $owner);
 
 		if ($status && $this->_events)
-			$this->_manager->dispatchEvent("onFileAction", array(MKDIR_ACTION, &$this));
+		$this->_manager->dispatchEvent("onFileAction", array(MKDIR_ACTION, &$this));
 
 		return $status;
 	}
@@ -501,26 +501,26 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 		// Already exists
 		if ($dest->exists())
-			return false;
+		return false;
 
 		if ($this->_events)
-			$this->_manager->dispatchEvent("onBeforeFileAction", array(RENAME_ACTION, &$this, &$dest));
+		$this->_manager->dispatchEvent("onBeforeFileAction", array(RENAME_ACTION, &$this, &$dest));
 
 		if ($this->_absPath != $dest->_absPath)
-			$status = rename($this->_manager->toOSPath($this->_absPath), $this->_manager->toOSPath($dest->_absPath));
+		$status = rename($this->_manager->toOSPath($this->_absPath), $this->_manager->toOSPath($dest->_absPath));
 
 		if ($status && $this->_events)
-			$this->_manager->dispatchEvent("onFileAction", array(RENAME_ACTION, &$this, &$dest));
+		$this->_manager->dispatchEvent("onFileAction", array(RENAME_ACTION, &$this, &$dest));
 
 		$isFile = is_file($this->_manager->toOSPath($this->_absPath));
 
 		// Chmod the file/directory
 		if (($mask = $dest->_getConfigValue("filesystem.local." . ($isFile ? "file" : "directory") . "_mask", false)) !== false)
-			@chmod($this->_manager->toOSPath($dest->_absPath), intval($mask, 8));
+		@chmod($this->_manager->toOSPath($dest->_absPath), intval($mask, 8));
 
 		// Chown the file/directory
 		if (($owner = $dest->_getConfigValue("filesystem.local." . ($isFile ? "file" : "directory") . "_owner", false)) !== false)
-			$this->_chown($this->_manager->toOSPath($dest->_absPath), $owner);
+		$this->_chown($this->_manager->toOSPath($dest->_absPath), $owner);
 
 		return $status;
 	}
@@ -565,7 +565,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			$state = $file_tree_handler->handle($file, $level);
 
 			if ($state == $file_tree_handler->ABORT || $state == $file_tree_handler->ABORT_FOLDER)
-				return $state;
+			return $state;
 		}
 
 		$files = $file->listFiles();
@@ -575,7 +575,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 				if ($file->isFile()) {
 					// This is some weird shit!
 					//if (!is_object($file_filter))
-						$state = $file_tree_handler->handle($file, $level);
+					$state = $file_tree_handler->handle($file, $level);
 				} else {
 					$state = $this->_listTree($file, $file_tree_handler, $file_filter, ++$level);
 					--$level;
@@ -583,7 +583,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			}
 
 			if ($state == $file_tree_handler->ABORT)
-				return $state;
+			return $state;
 		}
 
 		return $file_tree_handler->CONTINUE;
@@ -608,16 +608,16 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			$file =& $this;
 
 			if ($file->isFile())
-				$file =& $file->getParentFile();
+			$file =& $file->getParentFile();
 
 			while ($file->exists() && $file->getAbsolutePath() != "/") {
 				$accessFile = new Moxiecode_LocalFileImpl($this->_manager, $file->getAbsolutePath(), $globalConf["filesystem.local.access_file_name"]);
 				if ($accessFile->exists())
-					$accessFiles[] = $accessFile;
+				$accessFiles[] = $accessFile;
 
 				// Is not a valid path break loop
 				if (!$this->_manager->verifyPath($file->getParent()))
-					break;
+				break;
 
 				$file =& $file->getParentFile();
 			}
@@ -645,11 +645,11 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 						// Skip comments
 						if (substr($line, 0, 1) == "#")
-							continue;
+						continue;
 
 						// Split rows
 						if (($pos = strpos($line, "=")) !== FALSE)
-							$config[substr($line, 0, $pos)] = substr($line, $pos+1);
+						$config[substr($line, 0, $pos)] = substr($line, $pos+1);
 					}
 
 					fclose($fp);
@@ -660,7 +660,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 				if ($accessFile->getParent() == $curDir) {
 					foreach ($config as $key => $value) {
 						if (substr($key, 0, 1) == '_')
-							$localConfig[substr($key, 1)] = $value;
+						$localConfig[substr($key, 1)] = $value;
 					}
 				}
 
@@ -677,20 +677,20 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 							if (in_array($allowDenyKey, $allowoverrideKeys)) {
 								if ($lastChunk == "allow_override")
-									$allowoverrideKeys[] = $allowDenyKey;
+								$allowoverrideKeys[] = $allowDenyKey;
 								else
-									$denyOverrideKeys[] = $allowDenyKey;
+								$denyOverrideKeys[] = $allowDenyKey;
 							}
 						}
 					}
 				}
 
 				// Remove the denied keys from the allow list
-/*				foreach ($denyOverrideKeys as $denyKey) {
-					for ($i=0; $i<count($allowoverrideKeys); $i++) {
-						if ($denyKey == $allowoverrideKeys[$i])
-							unset($allowoverrideKeys[$i]);
-					}
+				/*				foreach ($denyOverrideKeys as $denyKey) {
+				for ($i=0; $i<count($allowoverrideKeys); $i++) {
+				if ($denyKey == $allowoverrideKeys[$i])
+				unset($allowoverrideKeys[$i]);
+				}
 				}*/
 
 				// Add all overriden values
@@ -710,7 +710,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 					if ((in_array($key, $allowoverrideKeys) || $validAllKey) && !in_array($key, $denyOverrideKeys)) {
 						if (strpos($value, '${') !== false)
-							$value = str_replace('${configpath}', $accessFile->getParent(), $value);
+						$value = str_replace('${configpath}', $accessFile->getParent(), $value);
 
 						$this->_config[$key] = $value;
 					}
@@ -721,16 +721,16 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 			foreach ($this->_config as $key => $value) {
 				if (!is_array($value) && strpos($value, '${') !== false) {
 					if ($this->isFile())
-						$path = $this->getAbsolutePath();
+					$path = $this->getAbsolutePath();
 					else
-						$path = $this->getParent();
+					$path = $this->getParent();
 
 					$value = str_replace('${path}', $path, $value);
 					$value = str_replace('${rootpath}', $this->_manager->toUnixPath($this->_manager->_rootPaths[0]), $value);
 
 					// Handle multiple rootpaths
 					for ($i=0; $i<count($this->_manager->_rootPaths); $i++)
-						$value = str_replace('${rootpath' . $i . '}', $this->_manager->toUnixPath($this->_manager->_rootPaths[$i]), $value);
+					$value = str_replace('${rootpath' . $i . '}', $this->_manager->toUnixPath($this->_manager->_rootPaths[$i]), $value);
 
 					$this->_config[$key] = $value;
 				}
@@ -755,24 +755,24 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 				if ((in_array($key, $allowoverrideKeys) || $validAllKey) && !in_array($key, $denyOverrideKeys)) {
 					if (strpos($value, '${') !== false)
-						$value = str_replace('${configpath}', $accessFile->getParent(), $value);
+					$value = str_replace('${configpath}', $accessFile->getParent(), $value);
 
 					$this->_config[$key] = $value;
 				}
 			}
 
-/*			foreach ($this->_config as $key => $value) {
+			/*			foreach ($this->_config as $key => $value) {
 				if (in_array($key, $allowoverrideKeys)) {
-					// Seems to be a variable
-					if (strpos($value, '${') !== false) {
-						$matches = array();
-						preg_match_all('/\${(.*)}/i', $value, $matches);
-						var_dump($matches);
-						foreach ($matches as $match)
-							$this->_config[$key] = str_replace('${' . $match . '}', $this->_config[$match], $this->_config[$key]);
-					}
+				// Seems to be a variable
+				if (strpos($value, '${') !== false) {
+				$matches = array();
+				preg_match_all('/\${(.*)}/i', $value, $matches);
+				var_dump($matches);
+				foreach ($matches as $match)
+				$this->_config[$key] = str_replace('${' . $match . '}', $this->_config[$match], $this->_config[$key]);
 				}
-			}*/
+				}
+				}*/
 		}
 
 		return $this->_config;
@@ -787,34 +787,34 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 */
 	function _getConfigValue($key, $default_value = "") {
 		$config = $this->getConfig();
-		
+
 		if (isset($config[$key]))
-			return $config[$key] ? $config[$key] : $default_value;
+		return $config[$key] ? $config[$key] : $default_value;
 		else
-			return $default_value;
+		return $default_value;
 	}
 
 	function _chown($path, $owner) {
 		if ($owner == "")
-			return;
+		return;
 
 		$owner = explode(":", $owner);
 
 		// Only user
 		if (count($owner) == 1)
-			array_push($owner, "");
+		array_push($owner, "");
 
 		// Hmm
 		if (count($owner) != 2)
-			return;
+		return;
 
 		// Set user
 		if ($owner[0] != "")
-			@chown($path, $owner[0]);
+		@chown($path, $owner[0]);
 
 		// Set group
 		if ($owner[1] != "")
-			@chgrp($path, $owner[1]);
+		@chgrp($path, $owner[1]);
 	}
 
 	function _cmpByName($file1, $file2) {
@@ -822,7 +822,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		$bl = strtolower($file2->getName());
 
 		if ($al == $bl)
-			return 0;
+		return 0;
 
 		return $al > $bl ? 1 : -1;
 	}
@@ -843,7 +843,7 @@ class _LocalCopyDirTreeHandler extends Moxiecode_FileTreeHandler {
 
 	/**
 	 * Handles a file instance while looping an tree of directories.
-	 * 
+	 *
 	 * @param File $file File object reference
 	 * @param int $level Current level of tree parse
 	 * @return int State of what to do next can be CONTINUE, ABORT or ABORTFOLDER.
@@ -857,9 +857,9 @@ class _LocalCopyDirTreeHandler extends Moxiecode_FileTreeHandler {
 
 		// Do action
 		if ($file->isDirectory())
-			$toFile->mkdir();
+		$toFile->mkdir();
 		else
-			$file->copyTo($toFile);
+		$file->copyTo($toFile);
 
 		return $this->CONTINUE;
 	}
@@ -887,7 +887,7 @@ class _LocalDeleteDirTreeHandler extends Moxiecode_FileTreeHandler {
 
 	/**
 	 * Handles a file instance while looping an tree of directories.
-	 * 
+	 *
 	 * @param File $file File object reference
 	 * @param int $level Current level of tree parse
 	 * @return int State of what to do next can be CONTINUE, ABORT or ABORTFOLDER.
@@ -925,14 +925,14 @@ class Moxiecode_LocalFileStream extends Moxiecode_FileStream {
 		$data = "";
 
 		while (($chunk = $this->read(1024)) != null)
-			$data .= $chunk;
+		$data .= $chunk;
 
 		return $data;
 	}
 
 	function write($buff, $len = -1) {
 		if ($len == -1)
-			return fwrite($this->_fp, $buff);
+		return fwrite($this->_fp, $buff);
 
 		return fwrite($this->_fp, $buff, $len);
 	}

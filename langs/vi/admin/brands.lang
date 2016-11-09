@@ -1,0 +1,14 @@
+<?php
+$lang = array (
+  'pageTitle' => 'brands',
+  'main_title' => 'brands',
+  'tab_obj_objes_brands' => 'brands',
+  'menus_option_root' => 'Root',
+  'count_table_success' => 'count table successfully!',
+  'count_table_condition_fail' => 'There is no item in table!',
+  'menu_permmission' => 'Quản lý quyền Menu',
+  'sf_code' => 'Mã sản phẩm',
+);
+$userLang = array (
+);
+?>

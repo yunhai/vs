@@ -144,6 +144,12 @@ EOF;
 					</div>
 					
 					<table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" width="100%">
+						<if=" $vsSettings->getSystemKey("contact_form_company", 1, "contacts", 0, 1)">
+						<tr class="smalltitle">
+							<td class='left' width="100">{$vsLang->getWords('contactCompany','Company:')}</td>
+							<td class='right'>{$contactProfile["contactCompany"]}</td>
+						</tr>
+						</if>
 
 						<if=" $vsSettings->getSystemKey("contact_form_name", 1, "contacts", 0, 1)">
 						<tr class="smalltitle">
@@ -162,14 +168,14 @@ EOF;
 						<if=" $vsSettings->getSystemKey("contact_form_phone", 0, "contacts", 0, 1)">
 				        <tr class="smalltitle">
 				        	<td class='left' width="100">{$vsLang->getWords('contactPhone','Phone')}:</td>
-				            <td class='right'>{$contactProfile['contactPhone']}</td>
+				            <td class='right'>{$contact->getPhone()}</td>
 						</tr>
 						</if>
 
 						<if=" $vsSettings->getSystemKey("contact_form_address", 1, "contacts", 0, 1)">
 						<tr class="smalltitle">
 				        	<td class='left' width="100">{$vsLang->getWords('contactAddress','Address')}:</td>
-				             <td class='right'>{$contactProfile['contactAddress']}</td>
+				             <td class='right'>{$contact->getAddress()}</td>
 						</tr>
 						</if>
 						
@@ -185,7 +191,7 @@ EOF;
 						</tr>
 				        <tr>
 				        	<td colspan="2" valign="top">
-				            	<div id='contactMessage' style=" background-color: #EBEEF7; padding: 0px 5px;">
+				            	<div id='contactMessage' style="height: 150px; background-color: #EBEEF7; padding: 0px 5px;">
 									{$contact->getContent()}
 				               	</div>
 							</td>
@@ -280,13 +286,7 @@ EOF;
 				        <li class="ui-state-default ui-corner-top  ui-tabs-selected ui-state-active">
 				        	<a href="{$bw->base_url}contacts/showContact/1/&ajax=1" ><span>{$vsLang->getWords('tab_contacts_recruitment','Tuyển dụng')}</span></a>
 				        </li>
-				        </if>    
-                                        <li class="ui-state-default ui-corner-top  ui-tabs-selected ui-state-active">
-				        	<a href="{$bw->base_url}contacts/showContact/2/&ajax=1" ><span>{$vsLang->getWords('tab_contacts_tiecuoi','Tiệc cưới')}</span></a>
-				        </li>  
-                                        <li class="ui-state-default ui-corner-top  ui-tabs-selected ui-state-active">
-				        	<a href="{$bw->base_url}contacts/showContact/3/&ajax=1" ><span>{$vsLang->getWords('tab_contacts_hoinghi','Hội nghị')}</span></a>
-				        </li>         
+				        </if>              
 				        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab', 0, $bw->input[0], 1, 1)">
 				        <li class="ui-state-default ui-corner-top">
 			        		<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">{$vsLang->getWords('tab_contact_Setting','Settings')}</a>

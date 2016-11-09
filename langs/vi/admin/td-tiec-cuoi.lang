@@ -1,7 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'td-tiec-cuoi',
-  'main_title' => 'td-tiec-cuoi',
-);
-$userLang = array();
-?>

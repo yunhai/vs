@@ -285,8 +285,9 @@ class VSFDisplay {
 	/*-------------------------------------------------------------------------*/
 	
 	function boink_it($url) {
-		global $bw;
+		global $bw,$DB;
 		// Ensure &amp;s are taken care of
+		$DB->close_db();
 		$url = str_replace ( "&amp;", "&", $url );
 		if ($bw->vars ['header_redirect'] == 'refresh')
 			header ( "Refresh: 2;url=" . $url );

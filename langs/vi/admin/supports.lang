@@ -60,6 +60,11 @@ $lang = array (
   'support_icon_online' => 'Icon Online',
   'support_icon_offline' => 'Icon Offline',
   'support_nickicons' => 'Tiện ích',
+  'count_table_success' => 'count table successfully!',
+  'count_table_condition_fail' => 'There is no item in table!',
+  'obj_name' => 'Tên hiển thị',
+  'obj_phone' => 'Điện thoại',
+  'menu_permmission' => 'Quản lý quyền Menu',
 );
 $userLang = array (
 );

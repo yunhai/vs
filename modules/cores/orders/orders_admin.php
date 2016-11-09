@@ -21,8 +21,10 @@ class orders_admin {
 	function __construct(){
 		global $vsStd,$vsPrint;
 		global $vsTemplate;
+
 		$this->html = $vsTemplate->load_template ( 'skin_orders' );
 		$this->module = new orders ( );
+	
 	}
 	
 	function __destruct(){
@@ -80,6 +82,7 @@ class orders_admin {
 	
 	function showOrder($message = ""){
 		global $vsTemplate;	
+		
 		$current = $this->getListObj($message);
 		$this->output = $this->html->mainLayout($current);
 	}

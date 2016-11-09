@@ -4,9 +4,13 @@ class admins_perm {
 		global $vsLang;
 
 		$permission = array($vsLang->getWords('admins_perm','Admin manager permission'),
-		array(// admin permission
+		array(// admin permission 
+			
+										'addformadmin'		=> $vsLang->getWords('admin_perm_add'		,'Thêm tài khoản'),
 										'deleteadmin'		=> $vsLang->getWords('admin_perm_delete'		,'Delete an Admin'),
 										'editadmin'			=> $vsLang->getWords('admin_perm_edit'			,'Edit an Admin'),
+										'showAdmins'		=> $vsLang->getWords('admin_perm_display'		,'Thao tác hiển thị'),
+										'hiddenAdmins'		=> $vsLang->getWords('admin_perm_hidden'		,'Thao tác ẩn'),
 										'displayadmintable'	=> $vsLang->getWords('admin_perm_displaytable'	,'View Admin list'),
 										'addeditadmin'		=> $vsLang->getWords('admin_perm_addedit'		,'Process add/edit Admin'),
 										'displayadmin'		=> $vsLang->getWords('admin_perm_displayadmin'	,'View Admin users tab'),

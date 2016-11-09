@@ -1,13 +1,13 @@
 <?php
 $lang = array (
-  'pageTitle' => 'orders',
-  'main_title' => 'orders',
+  'pageTitle' => 'Đơn hàng',
+  'main_title' => 'Đơn hàng',
   'order_list' => 'Danh sách các hóa đơn',
   'group_global_module' => 'global',
   'pages_deletePage' => 'Xóa',
   'order_name' => 'Họ và tên',
   'order_address' => 'Địa chỉ',
-  'order_phone' => 'Địa thoại',
+  'order_phone' => 'Điện thoại',
   'order_email' => 'Email',
   'order_time' => 'Ngày đặt hàng',
   'order_option' => 'Tùy chọn',
@@ -32,7 +32,10 @@ $lang = array (
   'order_product_name' => 'Tên sản phẩm',
   'order_product_code' => 'Mã',
   'order_order' => 'Đơn hàng ',
-  'callprice' => 'Call',
+  'orders_type1' => 'Giá thường',
+  'orders_type2' => 'Giá Khuyến mãi',
+  'order_message' => 'Nội dung',
+  'menu_permmission' => 'Quản lý quyền Menu',
 );
 $userLang = array (
 );

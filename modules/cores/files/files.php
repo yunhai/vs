@@ -45,10 +45,11 @@ class files extends VSFObject {
 	}
 
 	function convertVideoToFlv($source, $des, $extension = '') {
-		global $bw;
+		global $_SERVER;
 		$dynamic_path = $_SERVER ['DOCUMENT_ROOT'];
-
-		if (! file_exists ( $source )) return false;
+		
+		if (! file_exists ( $source ))
+		return false;
 		else if ($extension == '') {
 			$fileNameParts = explode ( ".", $source );
 			$extension = end ( $fileNameParts );
@@ -60,34 +61,33 @@ class files extends VSFObject {
 		$desimg=str_replace('flv','png',$desvideo);
 		$fileNameParts = explode( "/", $desimg );
 		$name = end( $fileNameParts );
-
-		exec ( "/usr/bin/ffmpeg -y -i " . $sourcevideo . " -vframes 1 -ss 00:00:05 -an -vcodec png -f rawvideo -s 416x250 " . $desimg );
-		chmod($desimg, 0775);
-		
-		
+		//$desimg=str_replace($name,"{$name}",$desimg);
+		exec ( "/usr/bin/ffmpeg -y -i " . $sourcevideo . " -vframes 1 -ss 00:00:05 -an -vcodec png -f rawvideo -s 825x655 " . $desimg  );
+		chmod($desimg, 0777);
 		if ($extension == "wav") {
 			exec ( "/usr/bin/ffmpeg -i $sourcevideo -acodec mp3 -ab 128k $desvideo" );
 			if (file_exists ( $des ))
+			chmod($desvideo, 0777);
 			return true;
 		}
-		
 		if ($extension == "wmv") {
-			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -sameq -acodec libmp3lame -ar 22050 -ab 32 -f flv -s 416x250 " . $desvideo );
+			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -sameq -acodec libmp3lame -ar 22050 -ab 32 -f flv -s 320x240 " . $desvideo );
 			if (file_exists ( $des ))
+			chmod($desvideo, 0777);
 			return true;
 
 		} elseif ($extension == "mp4") {
-			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -ar 22050 -ab 32 -acodec libmp3lame -r 25 -f flv -b 400 -s 416x250 " . $desvideo );
+			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -ar 22050 -ab 32 -acodec libmp3lame -r 25 -f flv -b 400 -s 320x240 " . $desvideo );
 			if (file_exists ( $des ))
+			chmod($desvideo, 0777);
 			return true;
 		}
 
 		if ($extension == "avi" || $extension == "mpg" || $extension == "mpeg" || $extension == "mov") {
-			exec ( "/usr/bin/ffmpeg -i $sourcevideo -ar 22050 -ab 32 -f flv -s 416x250 $desvideo" );
-			if(file_exists($des)){
-				chmod($desvideo, 0775);
-				return true;
-			}
+			exec ( "/usr/bin/ffmpeg -i $sourcevideo -ar 22050 -ab 32 -f flv -s 320x240 $desvideo" );
+			if (file_exists ( $des ))
+			chmod($desvideo, 0777);
+			return true;
 		}
 
 		return false;
@@ -242,7 +242,8 @@ class files extends VSFObject {
 		$time = time ();
 
 		if (! is_dir ( $this->rootPath . $pathFile )) {
-			mkdir ( $this->rootPath . $pathFile, 0775, true );
+			mkdir ( $this->rootPath . $pathFile, 0750,true );
+			chmod($this->rootPath . $pathFile, 0750);
 		}
 
 		$objName = str_replace ( substr ( $_FILES [$uploadName] ['name'], strrpos ( $_FILES [$uploadName] ['name'], '.' ) ), "", $_FILES [$uploadName] ['name'] );
@@ -284,6 +285,7 @@ class files extends VSFObject {
                         if($this->obj->getTitle()=="" or $this->obj->getTitle()=="undefined")
                             $this->obj->setTitle ( '~'.$objName );
 			$this->obj->setName ( '~'.$objName );
+			$this->obj->setField ( $uploadName );
 			$this->obj->setType ( $this->getFileExtension ( $_FILES [$uploadName] ['name'] ) );
 			$this->obj->setUploadTime ( $time );
 			@chmod($this->obj->getPathView ( 0 ),0775);
@@ -315,7 +317,7 @@ class files extends VSFObject {
 		return $info_upload;
 	}
 	
-	function buildCacheFile($module,$lang) {
+	function buildCacheFile($module) {
 		// Only build cache for user menus
 		global $DB,$vsLang;
 		$this->makeFilefolder($vsLang->currentLang->getFoldername());
@@ -336,8 +338,7 @@ class files extends VSFObject {
 		$cache_content .= "\$arrayFile = ".var_export($vars,true).";\n";
 		
 		$cache_content .= "?>";
-		if(!$lang)$lang = $vsLang->currentLang->getFoldername();
-		$cache_path = CACHE_PATH."file/".$lang."/".$module.".cache";
+		$cache_path = CACHE_PATH."file/".$vsLang->currentLang->getFoldername()."/".$module.".cache";
 		$cache_content = preg_replace('/\s\s+/', '', $cache_content);
 		$file = fopen($cache_path, "w");
 		fwrite($file, $cache_content);

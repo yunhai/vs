@@ -257,6 +257,7 @@ td.cursor a{
 	border-bottom:1px solid #9CD9EB;
 	color:#fff;
 }
+
 .vsf-topmenu span.seperator{
 	width:1px;
 	height:28px;
@@ -265,7 +266,7 @@ td.cursor a{
 	overflow:hidden;
 }
 .vsf-topmenu ul{
-	width:100%;
+	width:80%;
 }
 .vsf-topmenu ul li{
 	z-index:4;
@@ -1106,11 +1107,8 @@ table.tablesorter thead tr .headerSortDown {
 .editObj {
 	color: #CA59AA !important;
 }
-
+a.editObj:active,a.editObj:visited   { font-weight:bold!important; }
 .closeObj{
 	float:right;
 	cursor:pointer;
-}
-.ui-widget-content select option .main_title_service{
-background-image: url(../images/dichvu_icon.png);
 }

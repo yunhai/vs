@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -32,9 +32,9 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 		$this->_type = $type;
 
 		if ($child_name != "")
-			 $this->_absPath = $this->_manager->removeTrailingSlash($absolute_path) . "/" . $child_name;
+		$this->_absPath = $this->_manager->removeTrailingSlash($absolute_path) . "/" . $child_name;
 		else
-			$this->_absPath = $absolute_path;
+		$this->_absPath = $absolute_path;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 	 */
 	function isDirectory() {
 		if (!$this->exists())
-			return $this->_type == MC_IS_DIRECTORY;
+		return $this->_type == MC_IS_DIRECTORY;
 
 		return is_dir($this->_manager->toOSPath($this->_absPath));
 	}
@@ -106,7 +106,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 	 */
 	function isFile() {
 		if (!$this->exists())
-			return $this->_type == MC_IS_FILE;
+		return $this->_type == MC_IS_FILE;
 
 		return !$this->isDirectory();
 	}
@@ -122,7 +122,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 	}
 
 	/**
-	 * Lists the file as an tree and calls the specified FileTreeHandler instance on each file. 
+	 * Lists the file as an tree and calls the specified FileTreeHandler instance on each file.
 	 *
 	 * @param FileTreeHandler &$file_tree_handler FileTreeHandler to invoke on each file.
 	 */
@@ -153,7 +153,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 			$state = $file_tree_handler->handle($file, $level);
 
 			if ($state == $file_tree_handler->ABORT || $state == $file_tree_handler->ABORT_FOLDER)
-				return $state;
+			return $state;
 		}
 
 		$files = $file->listFiles();
@@ -163,7 +163,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 				if ($file->isFile()) {
 					// This is some weird shit!
 					//if (!is_object($file_filter))
-						$state = $file_tree_handler->handle($file, $level);
+					$state = $file_tree_handler->handle($file, $level);
 				} else {
 					$state = $this->_listTree($file, $file_tree_handler, $file_filter, ++$level);
 					--$level;
@@ -171,7 +171,7 @@ class Moxiecode_BaseFileImpl extends Moxiecode_BaseFile {
 			}
 
 			if ($state == $file_tree_handler->ABORT)
-				return $state;
+			return $state;
 		}
 
 		return $file_tree_handler->CONTINUE;

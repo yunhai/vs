@@ -6,7 +6,8 @@ class File extends BasicObject{
 	private $uploadTime = NULL;
 	private $path 		= NULL;
 	private $name 	= NULL;
-
+	private $field=NULL;
+	
 	function validate() {
 		global $vsLang;
 		$status = true;
@@ -33,15 +34,10 @@ class File extends BasicObject{
 		isset ( $this->name ) 		? ($dbobj ['fileName'] 			= $this->name) 			: '';
 		isset ( $this->size ) 		? ($dbobj ['fileSize'] 			= $this->size) 			: '';
 		isset ( $this->uploadTime ) ? ($dbobj ['fileUploadTime'] 	= $this->uploadTime) 	: '';
+		isset ( $this->field ) ? ($dbobj ['fileField'] 	= $this->field) 	: '';
 		return $dbobj;
 	}
-function showImageVideo(){
-            global $bw;
-            $src = UPLOAD_PATH."{$this->getPath()}{$this->getName()}_{$this->uploadTime}.png";
-            if(!file_exists($src))
-            $src= $bw->vars['img_url']."/video_media1.jpg";
-            return '<img src="'.$bw->vars['board_url'].'/utils/timthumb.php?src='.$src.'&amp;w=166&amp;h=126&amp;zc=1" >';
-        }
+
 	function convertToObject($object = array()) {
 
 		isset ( $object ['fileId'] ) 			? $this->setId($object ['fileId']) 					: '';
@@ -55,9 +51,17 @@ function showImageVideo(){
 		isset ( $object ['fileStatus'] ) 		? $this->setStatus($object ['fileStatus']) 			: '';
 		isset ( $object ['fileName'] ) 			? $this->setName($object ['fileName']) 				: '';
 		isset ( $object ['fileSize'] ) 			? $this->setSize($object ['fileSize']) 				: '';
+		isset ( $object ['fileField'] ) 		? $this->setField($object ['fileField']) 			: '';
 		isset ( $object ['fileUploadTime'] ) 	? $this->setUploadTime($object ['fileUploadTime']) 	: '';
 	}
 	
+	function setField($name){
+		 $this->field = $name;
+	}
+	
+ 	function getField() {
+		return $this->field;
+	}
 	function __set_state($array=array()) {
 		$file = new File();
 		foreach ($array as $key => $value) {

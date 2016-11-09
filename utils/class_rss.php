@@ -11,8 +11,65 @@ class VSSRss{
 	
 	function buildRss(){
 	global $vsMenu,$bw,$vsLang,$vsStd,$vsCom;
-       
 	$temp = $this->module?$this->module:$bw->input['module']	;
+
+//	$dom = new DOMDocument(); // Represents an entire XML document (the root of the document tree)
+//        $dom->encoding = 'utf-8';//set the document encoding
+//        $dom->xmlVersion = '2.0';//set xml version
+//        $dom->formatOutput = true;//Nicely formats output with indentation and extra space
+//        $dom->xmlStandalone = false; //Whether or not the document is standalone
+//
+//        $pRSS = $dom->createElement('rss');
+//        $pRSS->setAttribute('version', '2.0');
+//        $dom->appendChild($pRSS);
+//
+//        $pChannel = $dom->createElement('channel');
+//        $pRSS->appendChild($pChannel);
+//        $pTitle = $dom->createElement('title', 'TalkPHP');
+//$pLink  = $dom->createElement('link', 'http://www.talkphp.com');
+//$pDesc  = $dom->createElement('description', 'Discuss PHP and other various web related topics in a knowledgeable and friendly community.');
+//$pLang  = $dom->createElement('language', 'en');
+//$pImage = $dom->createElement('image');
+//
+//// Here we simply append all the nodes we just created to the channel node
+//$pChannel->appendChild($pTitle);
+//$pChannel->appendChild($pLink);
+//$pChannel->appendChild($pDesc);
+//$pChannel->appendChild($pLang);
+//$pChannel->appendChild($pImage);
+//
+//// Create three new elements that are needed to "describe" our image
+//$pURL   = $dom->createElement('url', 'http://www.talkphp.com/images/misc/rss.jpg');
+//$pTitle = $dom->createElement('title', 'TalkPHP');
+//$pLink  = $dom->createElement('link', 'http://www.talkphp.com');
+//
+//// Append these new elements to the image element
+//$pImage->appendChild($pURL);
+//$pImage->appendChild($pTitle);
+//$pImage->appendChild($pLink);
+//
+//        $root = $dom->createElement('root');//Creates the root element of the xml file
+//
+//        foreach($this->arrayObj as $value)
+//        {
+//            $item = $dom->createElement('items');//Creates the root element of the xml file
+//
+//            $node=$dom->createElement('title',$value->getTitle());//Create a child node
+//            $item->appendChild($node);
+//
+//            $node=$dom->createElement('description',$value->getIntro());//Create a child node
+//            $item->appendChild($node);
+//
+//            $node=$dom->createElement('pubDate',$value->getPostDate('SHORT'));//Create a child node
+//            $item->appendChild($node);
+//
+//            $node=$dom->createElement('link',$value->getRssUrl($bw->input['module']));//Create a child node
+//            $item->appendChild($node);
+//
+//
+//            $root->appendChild($item);
+//        }
+//        $dom->appendChild($root);//append the root node
 
                 $xml  = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$xml .= "<rss version=\"2.0\">\n";
@@ -30,8 +87,6 @@ class VSSRss{
 			$xml .= "\t\t<description><![CDATA[".$obj->createImageCache($obj->file,0, 109).$obj->getIntro()."]]></description>\n";
 			$xml .= "\t\t<pubDate>".$time->format(DateTime::RSS)."</pubDate>\n";
 			$xml .= "\t\t<link>".$obj->getRssUrl($temp)."</link>\n";
-                        $xml .= "\t\t<price>".$obj->getPrice("",1)."</Price>\n";
-                        $xml .= "\t\t<hotPrice>".$obj->getHotPrice("",1)."</hotPrice>\n";
 			$xml .= "\t</item>\n";
 		}
 		$xml .= "\n</channel>\n</rss>\n";
@@ -40,7 +95,7 @@ class VSSRss{
                     mkdir(ROOT_PATH."rss/", 777);
                 }
 //		$xml = str_replace($reals, $alias, $xml);
-                 $file_title = "products_{$vsLang->currentLang->getFoldername()}";strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->cate->title)),'-')). '-' . $this->cate->getId ().".rss";
+                 $file_title = strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->cate->title)),'-')). '-' . $this->cate->getId ().".rss";
 		
 		$wf = fopen ( ROOT_PATH."rss/".$file_title, "w" );
 		file_put_contents(ROOT_PATH."rss/".$file_title, $xml);

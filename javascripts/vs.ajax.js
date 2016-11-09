@@ -11,8 +11,8 @@ var vsf = {
 	var params = {vs: act, ajax:1};
 	params = $.extend({}, params,  options);
 	var noimage = "";
-	if(typeof(noimage)=="undefine" || !noimage && id!='')
-		$("#"+id).html('<img src="'+imgurl+'loader.gif"/>');
+//	if(typeof(noimage)=="undefine" || !noimage && id!='')
+//		$("#"+id).html('<img src="'+imgurl+'loader.gif"/>');
 	$.get(ajaxfile,params,function(data){
 		if(id!='') {
 			data=data.replace("id=\""+id+"\"","");
@@ -49,24 +49,24 @@ popupGet:function(act, id, w, h) {
 /**
  * if you not understand this problem please contact tuyenbui@vietsol.net
  */
-popupLightGet:function(act, id, w, h,options) {
+popupLightGet:function(act, id, options) {
 	var defaults={
-			resizable: false,
-			width:w,
-			height:h,
+			resizable: false, 
 			bgiframe: true,
 			modal: true
 	}
 	options = $.extend({}, defaults,  options);
-	if(!this.isDefined(w)) w = 500;
-	if(!this.isDefined(h)) h = 500;
+	if(!this.isDefined(options['weight'])) w = 818;
+	if(!this.isDefined(options['height'])) h = 500;
+	
 	if(!$("#"+id).html())
 		$("body").append("<div id='"+id+"' class='"+id+"' >	</div>");
-	vsf.get(act, id);
+
+	vsf.get(act, id, options['params']);
 	$(document).ready(function() {
 		$("#"+id).dialog(options);
 		$("#"+id ).bind( "dialogclose", function(event, ui) {
-			$(this).remove();
+			$(this).remove(); 
 		});
 		//if you understand this problem contact tuyenbui
 		var maxZ = Math.max.apply(null,$.map($('body > *'), function(e,n){
@@ -86,7 +86,7 @@ submitForm:function(obj,act,id,options) {
 					data=data.replace("id='"+id+"'","");
 					$("#"+id).html(data).css('display','none')
 					$("#"+id).fadeIn('slow');
-					$('#page_tabs').tabs();
+					//$('#page_tabs').tabs();
 				}
 			}
 
@@ -195,20 +195,16 @@ uploadFile:function( formId, module, action, objIdCallBack, fileFolder){
 	});
 	if(countFile > 0){
 		$('#error-message').ajaxStart(function(){
-			$(this).html("<img src='skins/admin/blue/images/loader.gif' alt='loading' />");
+			$(this).html('<img src="'+imgurl+'loader.gif"/>');
 		});
 		var file = "";  
 		$("#"+formId).find("input[type='file']").each(function(){
 			if(this.value){
 				var name = this.name;
                                 var filetitle = $("#"+formId).find("#fileTitle").val();
-                                    if(!filetitle||typeof(filetitle)=="undefined")filetitle='123';
                                 var fileindex = $("#"+formId).find("#fileIndex").val();
-                                    if(!fileindex||typeof(fileindex)=="undefined")fileindex='123';
                                 var fileurl = $("#"+formId).find("#fileUrl").val();
-                                    if(!fileurl||typeof(fileurl)=="undefined")fileurl='123';
                                 var fileintro = $("#"+formId).find("#fileIntro").val();
-                                    if(!fileintro||typeof(fileintro)=="undefined")fileintro='123';
 				var uri =baseUrl+"files/uploadfile/&ajax=1&uploadName="+name+"&fileFolder="+fileFolder+"&table="+module+"&fileTitle="+filetitle+"&fileIndex="+fileindex+"&fileUrl="+fileurl+"&fileIntro="+fileintro;
 				$.ajaxFileUpload({
 					url:uri,

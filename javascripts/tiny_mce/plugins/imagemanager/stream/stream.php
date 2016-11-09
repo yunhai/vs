@@ -4,12 +4,12 @@
  *
  * @package MCManager.stream
  * @author Moxiecode
- * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 // Use install
 if (file_exists("../install"))
-	die('{"result":null,"id":null,"error":{"errstr":"You need to run the installer or rename/remove the \\"install\\" directory.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
+die('{"result":null,"id":null,"error":{"errstr":"You need to run the installer or rename/remove the \\"install\\" directory.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -48,7 +48,7 @@ if ($package) {
 		// Load plugin resources
 		$plugins = explode(',', $config["general.plugins"]);
 		foreach ($plugins as $plugin)
-			$resources->load('../plugins/' . $plugin . '/resources.xml');
+		$resources->load('../plugins/' . $plugin . '/resources.xml');
 	}
 
 	$file = $resources->getFile($package, $file);
@@ -60,7 +60,7 @@ if ($package) {
 }
 
 if ($cmd == "")
-	die("No command.");
+die("No command.");
 
 $chunks = explode('.', $cmd);
 
@@ -71,7 +71,7 @@ $method = $cmd = $chunks[1];
 $type = preg_replace("/[^a-z]/i", "", $type);
 
 if ($type == "")
-	die("No type set.");
+die("No type set.");
 
 // Include Base and Core and Config.
 $man = new Moxiecode_ManagerEngine($type);
@@ -86,7 +86,7 @@ $config = $man->getConfig();
 $pluginPaths = $man->getPluginPaths();
 
 foreach ($pluginPaths as $path)
-	require_once("../". $path);
+require_once("../". $path);
 
 // Dispatch onAuthenticate event
 if ($man->isAuthenticated()) {
@@ -120,7 +120,7 @@ if ($man->isAuthenticated()) {
 			echo '<html><body><script type="text/javascript">';
 
 			if (isset($args["domain"]) && $args["domain"])
-				echo 'document.domain="' . $args["domain"] . '";';
+			echo 'document.domain="' . $args["domain"] . '";';
 
 			echo 'parent.handleJSON({method:\'' . $method . '\',result:' . $json->encode($data) . ',error:null,id:\'m0\'});</script></body></html>';
 		}
@@ -130,7 +130,7 @@ if ($man->isAuthenticated()) {
 	}
 } else {
 	if (isset($_GET["format"]) && ($_GET["format"] == "flash"))
-		header("HTTP/1.1 405 Method Not Allowed");
+	header("HTTP/1.1 405 Method Not Allowed");
 
 	die('{"result":{login_url:"' . addslashes($config["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
 }

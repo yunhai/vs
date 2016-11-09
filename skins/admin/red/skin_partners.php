@@ -2,8 +2,9 @@
 class skin_partners extends skin_objectadmin{
 function addEditObjForm($objItem, $option = array()) {
 		global $vsLang, $bw,$vsSettings,$langObject;
-                if($objItem->getPosition()) $pos = $objItem->getPosition();
-                else $pos = 1;
+      	if($objItem->getPosition()) $pos = $objItem->getPosition();
+       	else $pos = 1;
+       
 		$BWHTML .= <<<EOF
 			<div id="error-message" name="error-message"></div>
 			<form id='add-edit-obj-form' name="add-edit-obj-form" method="POST"  enctype='multipart/form-data'>
@@ -21,42 +22,49 @@ function addEditObjForm($objItem, $option = array()) {
                                             </p>
 					</div>
 					<table class="ui-dialog-content ui-widget-content" cellspacing="1" border="0" style="width:100%">
-                                              
+
                                         <tr class="smalltitle">
                                                 <td class="label_obj">{$langObject['itemObjWebsite_Name']}:</td>
                                                 <td><input size="43" type="text" name="partnerTitle" value="{$objItem->getTitle()}" id="obj-title"/></td>
-                                         <if="$vsSettings->getSystemKey($bw->input[0].'_image', 1, $bw->input[0])">       
-                                                <td align='left' rowspan="5">
+                                         	<if="$vsSettings->getSystemKey($bw->input[0].'_image', 1, $bw->input[0])">       
+                                                <td align='left' rowspan="4">
                                                 <if="$objItem->getImage()">
-                                                    {$objItem->createImageCache($objItem->getImage(),250, 150)}
+                                                    {$objItem->createImageCache($objItem->getImage(),$vsSettings->getSystemKey($bw->input[0].'_image_width', 250, $bw->input[0], 0), $vsSettings->getSystemKey($bw->input[0].'_image_height', 150, $bw->input[0]))}
                                                     <input name="oldImage" value="{$objItem->getImage()}" type="hidden" />
                                                     <p>{$langObject['itemObjDeleteImage']}<input type="checkbox" class="checkbox" name="partnerDeleteImage" /></p>
+                                                    
                                                 <else />
-                                                    {$objItem->createImageCache($objItem->getImage(), 250, 150,0,1, 1, 1)}
+                                                    {$objItem->createImageCache($objItem->getImage(), $vsSettings->getSystemKey($bw->input[0].'_image_width', 250, $bw->input[0], 0), $vsSettings->getSystemKey($bw->input[0].'_image_height', 150, $bw->input[0]),0,1, 1, 1)}
                                                 </if>
                                                 </td>
                                            </if>
-                                            <if="$vsSettings->getSystemKey($bw->input[0].'_address',0, $bw->input[0])">   
-                                                            <td align='left' rowspan="5">
-                                           <iframe  id="videos_obj_code_img" style="" 
-								width="200" height="200" src="http://www.youtube.com/embed/{$objItem->getAddress()}" frameborder="0" allowfullscreen></iframe>
-                                                                </td>
-                                                            </if>
-                                                                
                                         </tr>
-                                                    
                                         <if="$vsSettings->getSystemKey($bw->input[0].'_address',0, $bw->input[0])">
                                             <tr class="smalltitle">
                                                     <td class="label_obj">{$langObject['itemObjAddress']}:</td>
-                                                    <td><input size="43" type="text" name="partnerAddress" value="{$objItem->getAddress()}" id="videos_obj_code"/></td>
+                                                    <td><input size="43" type="text" name="partnerAddress" value="{$objItem->getAddress()}" id="obj-address"/></td>
                                             </tr>
                                         </if>
-                                       <if="$vsSettings->getSystemKey($bw->input[0].'_websites',1, $bw->input[0])">   
-                                            <tr class="smalltitle">
+                                       <if="$vsSettings->getSystemKey($bw->input[0].'_website',0, $bw->input[0])">
+                                      	<tr class="smalltitle">
                                                     <td class="label_obj">{$langObject['itemObjWebsite']}:</td>
                                                     <td><input size="43" type="text" name="partnerWebsite" value="{$objItem->getWebsite()}" id="obj-website"/></td>
-                                            </tr>
-                                       </if> 
+                                      	</tr>
+                                      	</if>
+                                    	<if="$vsSettings->getSystemKey($bw->input[0].'_position',0, $bw->input[0])">
+                                       	<tr class="smalltitle">
+									    <td>{$vsLang->getWords('obj_Position', "Position")}</td>
+									    <td>
+									    	<input type="radio" value="1" name="partnerPosition" class="radio">
+									        <label style="padding-right: 10px" for="left">{$vsLang->getWords('global_position_left', "Trái")}</label>
+			
+			                               	<!--<input type="radio" value="2" name="partnerPosition" class="radio">
+									        <label style="padding-right: 10px" for="left">{$vsLang->getWords('global_position_right', "Phải")}</label>-->
+									        <input type="radio" value="3" name="partnerPosition" class="radio">
+									        <label style="padding-right: 10px" for="left">{$vsLang->getWords('global_position_video', "Video")}</label>
+									    </td>
+										</tr>
+                                        </if>
                                        <tr class="smalltitle">
                                            <td class="label_obj">{$langObject['itemObjIndex']}:</td>
                                             <td>
@@ -229,13 +237,6 @@ function addEditObjForm($objItem, $option = array()) {
 				});
                                 
 			</script>
-                        <script>
-						//$(document).mousedown(refreshImage);
-						$("#videos_obj_code").keyup(refreshImage);
-						function refreshImage(){
-							$("#videos_obj_code_img").attr("src","http://www.youtube.com/embed/"+$("#videos_obj_code").val()).show();
-						}
-						</script>
 EOF;
 	}
 }

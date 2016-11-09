@@ -1,9 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => '보고서',
-  'main_title' => '보고서',
-  'download' => '다운로드',
-);
-$userLang = array (
-);
-?>

@@ -32,6 +32,7 @@ class gallerys extends VSFObject{
             global $vsMenu;
 		if(!$code) return;
 		$strIds = $vsMenu->getChildrenIdInTree($this->getCategories());
+		//$this->condition="galleryCatId in ({$strIds}) and galleryCode = '{$code}'";
 		$this->condition="galleryCatId in ({$strIds}) and galleryCode = '{$code}'";
 		$this->getOneObjectsByCondition();
 
@@ -74,24 +75,25 @@ class gallerys extends VSFObject{
 		unset ( $this );
 	}
         function getAlbumByCode1($code= null,$group=0) {
-            global $vsMenu,$vsSettings,$bw;
+            global $vsMenu,$vsSettings,$bw,$DB;
      
           $strIds = $vsMenu->getChildrenIdInTree($this->getCategories());
+          
+//          $this->getFieldsString()==""?$this->setFieldsString("*"):$this->setFieldsString($this->getFieldsString().", vsf_file.*");
           $this->setFieldsString("galleryId, vsf_file.*");
           $this->setTableName("rel_gallery_file LEFT JOIN vsf_gallery ON galleryId = relId LEFT JOIN vsf_file ON objectId = fileId");
           $this->setOrder("fileIndex ASC,fileId DESC");
           
          
-          if ($code) $condi .=" galleryCode = '{$code}'";
+          if ($code)
+          	$condi .=" galleryCode = '{$code}' and fileId is not NULL ";
           else $code = "common";
-          
-          if($vsSettings->getSystemKey("gallerys_use_categroup_".$code, 1, $code))
-          		$condi .= " and galleryCatId in ({$strIds})";
-          	
+          if($vsSettings->getSystemKey("gallerys_use_categroup_".$code,0,$code))
+          	$condi .= " and galleryCatId in ({$strIds}) and fileId is not NULL ";
           $this->getCondition() == "" ? $this->setCondition($condi): $this->setCondition($this->getCondition()." and ".$condi) ;
 
           $result = $this->getArrayByCondition();
-        
+   
           $count = 0;
           foreach ($result as $obj){
                     $file = new File();
@@ -103,7 +105,7 @@ class gallerys extends VSFObject{
                     $this->arrayObj[$obj['galleryId']][$obj['fileId']] = $file;
               }
           }
-  		return $this->arrayObj;
+  return $this->arrayObj;
 
  }
 }

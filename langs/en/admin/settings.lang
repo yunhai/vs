@@ -35,6 +35,8 @@ $lang = array (
   'group_title' => 'Setting Group',
   'delete_error' => 'Delete error',
   'delete_successful' => 'Delete successful',
+  'insert_error' => 'Insert error',
+  'title_empty' => 'Systemsetting title can not be blank!',
 );
 $userLang = array (
 );

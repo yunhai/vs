@@ -1,7 +1,7 @@
 <?php  
 // Handle all error of application
 try {
-  
+ 
 	// Initialize configuration
 	$INFO = array ();
 	require ROOT_PATH . "conf_global.php";
@@ -36,7 +36,7 @@ try {
 	//--------------------------------
 	// Make CONSTANT
 	//--------------------------------
-    
+        
 	define ( 'SQL_PREFIX', $DB->obj ['sql_tbl_prefix'] );
 	define ( 'SQL_DRIVER', $INFO ['sql_driver'] );
         
@@ -83,7 +83,6 @@ try {
 		$vsStd->requireFile(CORE_PATH."users/users.php");
 		$vsUser = new users();
 	}
-
 	// Starting session
 	$vsSess = new VSFSession();
 	$vsStd->requireFile(CORE_PATH . "modules/modules.php");
@@ -120,7 +119,7 @@ try {
 	
 	global $search_module;
  	if($vsSettings->getSystemKey('searchs_function', 1, 'global'))
-		$search_module = array("products","news","abouts","brand","services","thuvien");
+	$search_module = array("products","news","abouts","promotions","recruitments","advisorys","services","projects");
 		
 	$vsStd->requireFile(CORE_PATH.'languages/languages.php');
 	$languages = new languages();
@@ -137,6 +136,7 @@ try {
 	$bw->vars ['upload_url'] = (isset($bw->vars ['upload_url']) && $bw->vars['upload_url']) ? $bw->vars ['upload_url'] : $bw->vars['board_url'].'/uploads';
        
 	
+ 
 	if (USE_SHUTDOWN and $bw->input ['act'] != 'task') {
 		chdir(ROOT_PATH);
 		$ROOT_PATH = getcwd();
@@ -161,9 +161,8 @@ try {
 		}
 		$thread = "public";
 	}
-	$vsStd->requireFile(LIBS_PATH . 'Addon.class.php');
+$vsStd->requireFile(LIBS_PATH . 'Addon.class.php');
 	$addon = new Addon();
-	
 	// Update language for new display
 	$vsLang->setCurrentArea($vsModule->obj->getClass());
 	$runmeFilePath = $vsModule->obj->getClass() . "/" . $vsModule->obj->getClass() . "_".$thread.".php";
@@ -203,6 +202,7 @@ try {
 	$vsPrint->pageTitle = $vsLang->getWords('pageTitle',mb_strtoupper($vsModule->obj->getClass(),"UTF-8"));
 	
 	
+	
 	$vsStd->requireFile($vsSkin->obj->getFolder()."/GlobalLoad.php");
 
 	if($vsUser->result['status']) {
@@ -210,6 +210,7 @@ try {
 	}else {
 		$runme->setOutput($vsTemplate->global_template->PermissionDenied($vsUser->result['message']));
 	}
+	
 }
 catch (Exception $e) {
 	//===========================================================================
@@ -245,7 +246,7 @@ if(isset($bw->input['ajax']) && $bw->input['debug']!=1) {
 	if(!$bw->show_callback)
 		print $vsTemplate->global_template->importantAjaxCallBack();
 	$vsPrint->lastestProject();
-	exit();
+	$vsPrint->_finish();
 }
 
 $vsPrint->addOutput($runme->getOutput());

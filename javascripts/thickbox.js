@@ -10,12 +10,13 @@ var tb_pathToImage = "images/loadingAnimation.gif";
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
 //on page load call tb_init
+/* nho mo ra khi su dung
 $(document).ready(function(){   
 	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 	imgLoader = new Image();// preload image
 //	imgLoader.src = tb_pathToImage;
 });
-
+*/
 //add thickbox to href & area elements that have a class of .thickbox
 function tb_init(domChunk){
 	$(domChunk).click(function(){

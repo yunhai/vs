@@ -3,6 +3,7 @@ class orders_install{
 	public $query = "";
 	public $version = "3.3.4.1";
 	public $build = "628";
+	public $moduleTitle = "orders";
 	
 	function Install() {
 		$this->query[] = "DROP TABLE IF EXISTS `".SQL_PREFIX."order`;";

@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'comments',
+  'main_title' => 'comments',
+  'news_thanks_message' => 'Mã xác nhận không đúng!',
+  '{$module}_thanks_message' => 'Cám ơn bạn đã đóng góp ý kiến. Ý kiến của bạn đã được chuyển đến bộ phận chức năng xem xét.',
+);
+$userLang = array (
+);
+?>

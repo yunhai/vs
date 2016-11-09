@@ -21,9 +21,10 @@
 	margin-right: 1px;
 	padding-left: 5px;
 	margin-left: 5px;
+	width: 90px;
 }
 
-.comment_option p label {
+.comment_option div label {
 	display: block;
 	float: left;
 	font-weight: bold;
@@ -60,10 +61,12 @@
 	line-height: 20px;
 	width: 335px;
 	margin-bottom: 3px;
+	padding: 0px;
 }
 
 .comment_panel p textarea {
 	width: 335px;
+	padding: 0px;
 }
 .divbu{
 	 overflow-y: scroll;
@@ -80,4 +83,8 @@
 .bt_header{
 	padding: 5px;
 	 font-weight: bold;
+}
+
+.comment_option div{
+	height: 20px;
 }

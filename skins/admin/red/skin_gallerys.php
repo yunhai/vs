@@ -8,10 +8,20 @@ class skin_gallerys extends skin_objectadmin{
 function addOtionList($obj) {
 		global $vsLang, $bw,$vsSettings,$tableName;
     	$BWHTML .= <<<EOF
-                
+        <if=" $vsSettings->getSystemKey($bw->input[0].'_array_image',1, $bw->input[0], 1, 1)">        
    		<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('gallerys/display-file/{$obj->getId()}','auto{$obj->getId()}')">
-       	{$vsLang->getWords('global_album','Album')}
+       	<if="$obj->getCode()=='video'">
+			{$vsLang->getWords('video','Video')}
+		<else />
+    	{$vsLang->getWords('global_album','Album')}
+    	</if>
    		</a>
+   		</if>
+   		<if=" $vsSettings->getSystemKey($bw->input[0].'_comment',0, $bw->input[0], 1, 1)">
+                    <a onclick="vsf.popupGet('comments/display_panel_popup_comment/{$bw->input[0]}/{$obj->getId()}','comment-panel-callback', 520,500)"  class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" >
+                            {$vsLang->getWords('comment','Comments')}
+                    </a>
+                </if>
               
 EOF;
             return $BWHTML;
@@ -19,7 +29,7 @@ EOF;
 	
         
 function addEditObjForm($objItem, $option = array()) {
-		global $vsLang, $bw,$vsSettings,$tableName;
+		global $vsLang, $bw,$vsSettings,$tableName,$langObject;
 		$BWHTML .= <<<EOF
 			<div id="error-message" name="error-message"></div>
 			<form id='add-edit-obj-form' name="add-edit-obj-form" method="POST" enctype='multipart/form-data'>
@@ -57,7 +67,7 @@ function addEditObjForm($objItem, $option = array()) {
 						</tr>
 						</if>
 
-                                                <if="$vsSettings->getSystemKey($bw->input[0].'_code',0, $bw->input[0])">
+                       	<if="$vsSettings->getSystemKey($bw->input[0].'_code',0, $bw->input[0])">
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
 								{$vsLang->getWords('obj_Code', 'Code')}:
@@ -75,8 +85,8 @@ function addEditObjForm($objItem, $option = array()) {
 							</td>
 							<td width="170" colspan="3">
 								<input size="10" class="numeric" name="{$tableName}Index" value="{$objItem->getIndex()}" />
-                                                                <span style="margin-right: 20px;margin-left:40px">{$vsLang->getWords('obj_Status', 'Status')}</span>
-                                                                <label>{$vsLang->getWords('status_display','Display')}</label>
+                              	<span style="margin-right: 20px;margin-left:40px">{$vsLang->getWords('obj_Status', 'Status')}</span>
+                              	<label>{$vsLang->getWords('status_display','Display')}</label>
 
 								<input name="{$tableName}Status" id="{$tableName}Status1" value='1' class='c_noneWidth' type="radio" checked />
 
@@ -92,6 +102,7 @@ function addEditObjForm($objItem, $option = array()) {
 						</tr>
 						
 						<if="$vsSettings->getSystemKey($bw->input[0].'_image',1, $bw->input[0])">
+						<if="$bw->input['module']!='video'">
 						<tr class='smalltitle'>
 							<td class="label_obj">
 								{$vsLang->getWords('obj_image_link', "Link")}:
@@ -110,7 +121,7 @@ function addEditObjForm($objItem, $option = array()) {
 								</if>
 							</td>
 						</tr>
-
+						</if>
 						<tr class='smalltitle'>
 							<td class="label_obj">
 								{$vsLang->getWords('obj_image_file', "File")}:
@@ -120,9 +131,43 @@ function addEditObjForm($objItem, $option = array()) {
 								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
 								 <!--{$vsSettings->getSystemKey($bw->input[0]."_image_timthumb_size","(size:100x100px)", $bw->input[0])}-->
 							</td>
+							<if="$bw->input['module']=='video'">
+							<td colspan="2">
+								{$objItem->createImageCache($objItem->getImage(), 100, 50)}
+								<br/>
+								<if=" $objItem->getImage() && $vsSettings->getSystemKey($bw->input[0].'_image_delete',1, $bw->input[0]) ">
+								<input type="checkbox" name="deleteImage" id="deleteImage" />
+								<label for="deleteImage">{$vsLang->getWords('delete_image','Delete Image')}</lable>
+								</if>
+							</td>
+							</if>
 						</tr>						
 						</if>
+						<if=" $vsSettings->getSystemKey($bw->input[0].'_file',1, $bw->input[0]) ">
+						<tr class='smalltitle'>
+							<td class="label_obj">
+								{$langObject['itemObjFileupload']}:
+							</td>
+							<td>
+								<input size="27" type="file" name="{$tableName}Fileupload" id="{$tableName}Fileupload" /><br />
+                               	{$vsSettings->getSystemKey($bw->input[0]."_file_type","(loại file: .doc,.pdf,.zip,.rar)", $bw->input[0])}
+							</td>
+                          	<td style="width:500px">
+                           	{$objItem->getFUllImage($option['file'],$objItem->getFileupload(),'deleteFileupload')}
+                           	</td>
+						</tr>
 						
+						</if>
+						<if=" $vsSettings->getSystemKey($bw->input[0].'_intro',1, $bw->input[0]) ">
+						<tr class='smalltitle'>
+							<td class="label_obj" width="75">
+								{$langObject['itemObjIntro']}:
+							</td>
+							<td colspan="3" valgin="left">
+								{$objItem->getIntro()}
+							</td>
+						</tr>
+						</if>
 						
 						
 						
@@ -319,8 +364,12 @@ EOF;
 	}
 	
 	function displayFile($option){
+	
 		return $BWHTML .= <<<EOF
 			<div id="dialog" title="Dialog Title">
+				<if="$option['obj']">
+				<div style="padding: 4px 15px 4px 25px;font-weight:bold;">Sản phẩm {$option['obj']->getTitle()}</div>
+				</if>
 				<div class='left-cell'><div id='file-form' >{$option['file-form']}</div></div>
 				<div id="file-panel" >{$option['file-list']}</div>
 			</div>	
@@ -330,6 +379,7 @@ EOF;
 	function addEditFileForm($form = array(), $file,$album) {
 		global $bw, $vsLang, $vsSettings;
 		$BWHTML = "";
+		
 		if(!$album->getCode())
 			$album->setCode(common);
 			
@@ -344,7 +394,7 @@ EOF;
 			<div class="ui-widget ui-widget-content ui-corner-all">
 				<div class="ui-title  ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 				<span class="ui-dialog-title">
-					<if="$album->getCode()=='videohome'">
+					<if="$album->getCode()=='video'">
 						{$vsLang->getWords('video_upload_add_video',"Thêm video")}:
 					<else />
 						{$form['title']}
@@ -362,7 +412,7 @@ EOF;
 					<if="$vsSettings->getSystemKey($album->getCode().'_file_title',1,$album->getCode())">
 					<tr>
 						<td class="normalcell" width="100">
-						<if="$album->getCode()=='videohome'">
+						<if="$album->getCode()=='video'">
 						{$vsLang->getWords('video_upload_form_name',"Tên video")}:
 						<else />
 							{$vsLang->getWords('file_upload_form_name',"File	name")}:
@@ -380,7 +430,7 @@ EOF;
 					</if>
 					<tr>
 						<td class="normalcell">
-						<if="$album->getCode()=='videohome'">
+						<if="$album->getCode()=='video'">
 							{$vsLang->getWords('video_upload_form_source',"File video")}:
 						<else />
 							{$vsLang->getWords('file_upload_form_source',"Source")}:
@@ -392,7 +442,7 @@ EOF;
 					<if="$vsSettings->getSystemKey($album->getCode().'_file_intro',0,$album->getCode())">
 					<tr>
 						<td class="normalcell" width="100">{$vsLang->getWords('file_url',"File	Intro")}:</td>
-						<td class="normalcell" width="300"><textarea name="fileIntro">{$file->getIntro()}</textarea></td>
+						<td class="normalcell" width="300"><textarea  name="fileIntro">{$file->getIntro()}</textarea></td>
 					</tr>
 					</if>
 					
@@ -434,12 +484,13 @@ EOF;
 						<td class="normalcell" width="300">{$vsSettings->getSystemKey($album->getCode().'_size','741x256',$album->getCode())}</td>
 					</tr>
 					</if>
-					<if="$album->getCode()=='image_promotions'">
-					<tr>
-						<td class="normalcell" width="100">Lưu ý:</td>
-						<td class="normalcell" width="300">Chỉ up những hình ảnh có đuôi.png và nền trong suốt</td>
-					</tr>
+					<if="$album->getCode()=='video'">
+						<tr>
+						<td class="normalcell" width="100">Dung lượng tối đa:</td>
+						<td class="normalcell" width="300">{$vsSettings->getSystemKey($album->getCode().'_dungluong_video','30MB',$album->getCode())}</td>
+						</tr>
 					</if>
+					
 					<tr>
 						<td class="ui-dialog-buttonpanel" align="right" colspan="2">
 							<input class="ui-state-default ui-corner-all" type="submit" name="submit" value="{$form ['formSubmit']}" /> {$form ['switchform']}

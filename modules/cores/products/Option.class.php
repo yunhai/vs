@@ -1,8 +1,8 @@
 <?php
 class Option extends BasicObject {
 	private $default = NULL;
-//	private $price = NULL;
-//	private $priceOld = NULL;
+	
+	private $priceOld = NULL;
 	private $productId = NULL;
 	
 	function __construct() {

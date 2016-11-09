@@ -6,6 +6,8 @@ class Support extends BasicObject {
 	private $imageOffline = null;
 	private $imageOnline = null;
 	private $avatar = null;
+	private $name			= null;
+	private $phone			= null;
 	
 	function convertToDB() {
 		isset ( $this->id ) ? ($dbobj ['supportId'] = $this->id) : '';
@@ -18,6 +20,9 @@ class Support extends BasicObject {
 		isset ( $this->index ) ? ($dbobj ['supportIndex'] = $this->index) : '';
 		isset ( $this->status ) ? ($dbobj ['supportStatus'] = $this->status) : '';
 		isset ( $this->profile ) ? ($dbobj ['supportProfile'] = serialize ( $this->profile )) : '';
+		isset ( $this->name )	? ($dbobj ['supportName']		= $this->name ) : '';
+		isset ( $this->phone )	? ($dbobj ['supportPhone']		= $this->phone ) : '';
+	
 		return $dbobj;
 	
 	}
@@ -35,6 +40,7 @@ class Support extends BasicObject {
 		isset ( $object ['supportImageOffline'] ) ? $this->setImageOffline ( $object ['supportImageOffline'] ) : '';
 		isset ( $object ['supportImageOnline'] ) ? $this->setImageOnline ( $object ['supportImageOnline'] ) : '';
 		isset ( $object ['supportName'] ) ? $this->setName ( $object ['supportName'] ) : '';
+		isset ( $object ['supportPhone'] ) ? $this->setPhone ( $object ['supportPhone'] ) : '';
 		isset ( $object ['supportIntro'] ) ? $this->setIntro ( $object ['supportIntro'] ) : '';
 		isset ( $object ['supportPosition'] ) ? $this->setPosition ( $object ['supportPosition'] ) : '';
 	}
@@ -164,6 +170,7 @@ class Support extends BasicObject {
 	 * @return array object $this->groups of User class
 	 */
 	public function getName() {
+		
 		return $this->profile ['supportName'];
 	
 	}
@@ -174,6 +181,12 @@ class Support extends BasicObject {
 		$parser->pp_nl2br = 0;
 		
 		return $parser->post_db_parse ( $this->profile ['supportIntro'] );
+	}
+	
+	public function getPhone() {
+		
+		return $this->profile ['supportPhone'];
+	
 	}
 	/**
 	 *
@@ -188,6 +201,9 @@ class Support extends BasicObject {
 	 */
 	public function setName($value = '') {
 		$this->profile ['supportName'] = $value;
+	}
+	public function setPhone($value = '') {
+		$this->profile ['supportPhone'] = $value;
 	}
 	/**
 	 *
@@ -205,14 +221,17 @@ class Support extends BasicObject {
 	}
 	
 	function showYahoo() {
-		global $bw, $vsMenu, $vsPrint;
+		global $bw, $vsMenu, $vsPrint,$gloablnickol;
 		
 		$rand = str_replace ( ".", "", $this->getNick () . rand ( 1, 100 ) );
 		$BWHTML .= <<<EOF
 			<a  href="ymsgr:sendIM?{$this->getNick()}" title="{$this->getNick()}" rel="nofollow">
 				<img id='yahooimagenick{$rand}'  style='vertical-align:middle;border:none;' alt="" /></a>			
 EOF;
-
+		$gloablnickol .= <<<EOF
+			<a  href="ymsgr:sendIM?{$this->getNick()}" title="{$this->getNick()}" rel="nofollow">
+				<img id='yahooimagenick1{$rand}'  style='vertical-align:middle;border:none;' alt="" /></a>			
+EOF;
 		if ($this->fileOnl) {
 //			$image = $vsMenu->getCategoryById ( $this->imageOnline );
 			
@@ -231,10 +250,15 @@ EOF;
 							$('#yahooimagenick{$rand}').attr({ 
 								  src:  \"{$imageOnlinepath}\"
 								});
+							$('#yahooimagenick1{$rand}').attr({ 
+								  src:  \"{$imageOnlinepath}\"
+								});
 						}
 						else{
 							$('#yahooimagenick{$rand}').attr({ 
-							
+								  src:  \"{$imageOfflinepath}\"
+								});
+							$('#yahooimagenick1{$rand}').attr({ 
 								  src:  \"{$imageOfflinepath}\"
 								});
 						}
@@ -246,12 +270,16 @@ EOF;
 	}
 	
 	function showSkype() {
-		global $bw, $vsMenu, $vsPrint;
+		global $bw, $vsMenu, $vsPrint,$gloablnickol;
 		$rand = $this->getNick () . rand ( 1, 100 );
 		$rand = str_replace ( ".", "", $rand );
 		$BWHTML .= <<<EOF
 		<a  href="skype:{$this->getNick()}?chat" title="{$this->getNick()}" rel="nofollow">
-				<img id='skypeimagenick{$rand}'  style='vertical-align:middle;border:none;' alt="" /></a>				
+				<img id='skypeimagenick{$rand}'  style='vertical-align:middle;border:none;' alt="" />{$this->getName()}</a>				
+EOF;
+		$gloablnickol .= <<<EOF
+		<a  href="skype:{$this->getNick()}?chat" title="{$this->getNick()}" rel="nofollow">
+				<img id='skypeimagenick1{$rand}'  style='vertical-align:middle;border:none;' alt="" />{$this->getName()}</a>				
 EOF;
 		if ($this->fileOnl) {
 //			$image = $vsMenu->getCategoryById ( $this->imageOnline );
@@ -271,10 +299,16 @@ EOF;
 									$('#skypeimagenick{$rand}').attr({ 
 										  src: \"{$imageOnlinepath}\"
 										});
+									$('#skypeimagenick1{$rand}').attr({ 
+										  src: \"{$imageOnlinepath}\"
+										});
 								}
 								else
 								{
 									$('#skypeimagenick{$rand}').attr({ 
+										  src: \"{$imageOfflinepath}\"
+										});
+									$('#skypeimagenick1{$rand}').attr({ 
 										  src: \"{$imageOfflinepath}\"
 										});
 								}
@@ -283,6 +317,8 @@ EOF;
 	    	" );
 		return $BWHTML;
 	}
+	
+
 	
 	function showPhone($srcImage) {
 		if (file_exists ( $srcImage ))
@@ -312,6 +348,8 @@ EOF;
 		
 		return $this->showPhone ();
 	}
+	
+	
 	function __destruct() {
 		unset ( $this->id );
 		unset ( $this->nick );

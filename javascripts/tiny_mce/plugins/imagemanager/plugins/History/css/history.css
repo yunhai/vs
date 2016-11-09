@@ -1,1 +1,3 @@
-#folders .special li a.history { background: url(../img/clock.png) no-repeat; }
+#folders .special li a.history {
+	background: url(../img/clock.png) no-repeat;
+}

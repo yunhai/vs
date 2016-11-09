@@ -53,7 +53,10 @@ class advisorys_admin extends ObjectAdmin{
 			case 'replyProcess':
 					$this->replyProcess($bw->input[2], $bw->input[3]);
 				break;		
-				
+			case 'insertSearch-objlist-bt' :
+				$this->model->insertSearch ();	
+				$this->getObjList ();
+				break;	
 			default:
 				$this->loadDefault();
 		}

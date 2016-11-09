@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 // File type contstants
@@ -116,11 +116,11 @@ class Moxiecode_Logger {
 
 		// Is KB
 		if (strpos((strtolower($size)), "k") > 0)
-			$logMaxSizeBytes *= 1024;
+		$logMaxSizeBytes *= 1024;
 
 		// Is MB
 		if (strpos((strtolower($size)), "m") > 0)
-			$logMaxSizeBytes *= (1024 * 1024);
+		$logMaxSizeBytes *= (1024 * 1024);
 
 		$this->_maxSizeBytes = $logMaxSizeBytes;
 		$this->_maxSize = $size;
@@ -187,7 +187,7 @@ class Moxiecode_Logger {
 		$roll = false;
 
 		if ($level < $this->_level)
-			return;
+		return;
 
 		$logFile = $this->toOSPath($this->_path . "/" . $this->_filename);
 
@@ -226,7 +226,7 @@ class Moxiecode_Logger {
 			$size = @filesize($logFile);
 
 			if ($size + strlen($message) > $this->_maxSizeBytes)
-				$roll = true;
+			$roll = true;
 		}
 
 		// Roll if the size is right
@@ -236,7 +236,7 @@ class Moxiecode_Logger {
 				$nfile = $this->toOSPath($logFile . "." . ($i+1));
 
 				if (@file_exists($rfile))
-					@rename($rfile, $nfile);
+				@rename($rfile, $nfile);
 			}
 
 			@rename($logFile, $this->toOSPath($logFile . ".1"));
@@ -244,7 +244,7 @@ class Moxiecode_Logger {
 			// Delete last logfile
 			$delfile = $this->toOSPath($logFile . "." . ($this->_maxFiles + 1));
 			if (@file_exists($delfile))
-				@unlink($delfile);
+			@unlink($delfile);
 		}
 
 		// Append log line

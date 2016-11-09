@@ -42,17 +42,20 @@ class admins extends VSFObject {
 
 	function checkViewPermission($module="",$action="") {
 		global $vsStd;
+		
+		$module = $module ? $module : 'admins';
 		$permFilePath = CORE_PATH .$module . "/" . $module .".perm.php";
-		// $vsModule->obj->getClass() . "/" . $vsModule->obj->getClass() . ".perm.php";
-		if($vsStd->requireFile($permFilePath)) {
-			$permClass=$module."_perm";
-			$permClass=new $permClass;
-			if(method_exists($permClass,'getAdminPermission')) {
-				return  $this->checkPermission($permClass->getAdminPermission(),$module,$action);
-			}
+
+		if($vsStd->requireFile($permFilePath)){
+			$permClass = $module."_perm";
+			$permClass = new $permClass;
+			
+			if(method_exists($permClass, 'getAdminPermission'))
+				return $this->checkPermission($permClass->getAdminPermission(), $module, $action);
 		}
 		return true;
 	}
+	
 	public function checkPermission($permission=array(),$module="",$action="") {
 		global $bw, $vsUser, $vsLang;
 		$this->result['status'] = true;
@@ -60,19 +63,18 @@ class admins extends VSFObject {
 		// If this admin is in root groups
 		// return true to allow all actions
 		$userPermission = array();
+		
 		if(count($vsUser->obj->getGroups()))
 		foreach ($vsUser->obj->getGroups() as $group) {
 			if($group->getId() == $bw->vars['root_admin_groups']) return true;
-			if(is_array($group->getPermissions())){
+			if(is_array($group->getPermissions()))
 				$userPermission = array_merge($group->getPermissions(), $userPermission);
-			}
 		}
-
 		$thisPath = $module."/".$action;
 		// If the module require to authorize for this action isset($permission[1][$thisPath])
 		// And if this user is not allowed for this permission $userPermission[$thisPath]
 		// return false
-		if(!$userPermission[$thisPath] && isset($permission[1][$action]) ) {
+		if(!$userPermission[$thisPath] || !isset($permission[1][$action]) ) {
 			$this->result['status'] = false;
 			$this->result['message'] = sprintf($vsLang->getWords('global_permission_denied',"<b>Cảnh báo truy cập!</b> Bạn không có quyền truy cập vào chức năng này.<br />Vui lòng liên hệ người quản trị để biết thêm thông tin. <br/> <b>'%s'</b> in <b>'%s'</b>"),$permission[1][$bw->input[action]],$permission[0]);
 		}
@@ -100,8 +102,10 @@ class admins extends VSFObject {
 			$this->result['message'] = $vsLang->getWords('admin_wrong_password','Password is incorrect!');
 			return;
 		}
+		
 		$this->vsRelation->setObjectId($this->obj->getId());
 		$this->vsRelation->setTableName($this->getRelTableName());
+		
 		$groupStr=$this->vsRelation->getRelByObject(1);
 		if(!$groupStr)
 		{
@@ -185,7 +189,7 @@ class admins extends VSFObject {
 	}
 
 	function checkRoot($user=null) {
-		global $bw,$vsUser;
+		global $bw, $vsUser;
 		if(!is_object($user))
 		$user=$vsUser->obj;
 		$arrGroup=$user->getGroups();
@@ -212,9 +216,9 @@ class admins extends VSFObject {
 		}
 		else {
 			$this->sessions->setCondition("sessionCode='".$vsUser->sessions->obj->getCode()."'");
-			$this->sessions->getObjectsByCondition();
-				
-			if(!$this->sessions->result['status']) {
+			$result = $this->sessions->getObjectsByCondition();
+
+			if(!$this->sessions->result['status'] || !$result) {
 				$vsModule->obj->setClass('admins'); // Admin session time out
 				$bw->input[2] = "timeout";
 				$bw->input['action'] = "login";

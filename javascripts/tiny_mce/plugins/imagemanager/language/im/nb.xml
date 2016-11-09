@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <language-pack>
 	<header>
-		<!-- Please fill in contact information (author & email), we might contact you when we are doing updates -->
-		<!-- You will also have the chance to participate in beta releases of new versions -->
+		<!--
+			Please fill in contact information (author & email), we might contact
+			you when we are doing updates
+		-->
+		<!--
+			You will also have the chance to participate in beta releases of new
+			versions
+		-->
 		<author>Knut B. Jacobsen (knut.jacobsen@gmail.com) +47 900 80 241</author>
 		<version minor="2" major="1" releasedate="2007-05-07" />
 		<description>
-			This is the Norwegian (bokmål) language pack for the MCImageManager.
+			This is the Norwegian (bokmål) language pack for the
+			MCImageManager.
 		</description>
 	</header>
 
@@ -65,7 +72,7 @@
 
 			<!-- delete -->
 			<item name="delete_failed">Kunne ikke slette fil(er).</item>
-			
+
 			<!-- image edit -->
 			<item name="crop_failed">Kunne ikke beskjære bildet.</item>
 			<item name="resize_failed">Kunne ikke endre størrelsen på bildet.</item>
@@ -112,7 +119,8 @@
 			<item name="keyboard_next">Tastatur snarvei: SPACE,N,RIGHTARROW,PAGE DOWN</item>
 			<item name="keyboard_prev">Tastatur snarvei: P,LEFTARROW,PAGE UP</item>
 			<item name="dimensions">Dimensjoner</item>
-			<item name="confirm_remove_favorite">Er det sikkert at du vil fjerne dette fra din favorittliste?</item>
+			<item name="confirm_remove_favorite">Er det sikkert at du vil fjerne dette fra din
+				favorittliste?</item>
 		</group>
 
 		<group target="createdir">
@@ -156,12 +164,13 @@
 			<item name="horizontal">Horisontalt</item>
 			<item name="vertical">Vertikalt</item>
 			<item name="saving_wait">Lagrer bilde, vent...</item>
-			<item name="confirm_revert">Er det sikkert at du vil reversere til sist lagrede bilde?</item>
+			<item name="confirm_revert">Er det sikkert at du vil reversere til sist lagrede
+				bilde?</item>
 			<item name="loading">Laster bilde, vent...</item>
 		</group>
 
 		<group target="tinymce">
-			<item name="insertimage_desc">Innsett bilde</item>	
+			<item name="insertimage_desc">Innsett bilde</item>
 		</group>
 	</language>
 </language-pack>

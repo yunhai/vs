@@ -53,7 +53,6 @@ class PostParser {
 
 	function post_db_parse($t="")
 	{
-           
 		global $bw, $DB;
 		if ( $this->pp_do_html )
 		$t = $this->post_db_parse_html( $t );

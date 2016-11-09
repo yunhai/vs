@@ -4,7 +4,7 @@
  *
  * @author Moxiecode
  * @site http://www.moxieforge.com/
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  * @licence LGPL
  * @ignore
  */
@@ -38,10 +38,10 @@ class Moxiecode_CSSCompressor {
 			'charset' => 'UTF-8',
 			'convert_urls' => true,
 			'name' => ''
-		);
+			);
 
-		$this->_settings = array_merge($default, $settings);
-		$this->_lastUpdate = 0;
+			$this->_settings = array_merge($default, $settings);
+			$this->_lastUpdate = 0;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Moxiecode_CSSCompressor {
 		$mtime = @filemtime($path);
 
 		if ($mtime > $this->_lastUpdate)
-			$this->_lastUpdate = $mtime;
+		$this->_lastUpdate = $mtime;
 	}
 
 	/**
@@ -76,15 +76,15 @@ class Moxiecode_CSSCompressor {
 		$key = "";
 
 		foreach ($this->_items as $item)
-			$key .= $item[1];
+		$key .= $item[1];
 
 		// Setup some variables
 		$cacheFile = $this->_settings['cache_dir'] . "/";
 
 		if ($this->_settings['name'])
-			$cacheFile .= preg_replace('/[^a-z0-9_]/i', '', $this->_settings['name']);
+		$cacheFile .= preg_replace('/[^a-z0-9_]/i', '', $this->_settings['name']);
 		else
-			$cacheFile .= md5($key);
+		$cacheFile .= md5($key);
 
 		$supportsGzip = false;
 		$content = "";
@@ -92,14 +92,14 @@ class Moxiecode_CSSCompressor {
 
 		// Check if it supports gzip
 		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-			$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
+		$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
 		if ($this->_settings['gzip_compress'] && (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('gzencode') && !ini_get('zlib.output_compression')) {
 			$enc = in_array('x-gzip', $encodings) ? "x-gzip" : "gzip";
 			$supportsGzip = true;
 			$cacheFile .= ".gz";
 		} else
-			$cacheFile .= ".css";
+		$cacheFile .= ".css";
 
 		// Set headers
 		header("Content-type: text/css;charset=" . $this->_settings['charset']);
@@ -110,7 +110,7 @@ class Moxiecode_CSSCompressor {
 		// Use cached file
 		if ($this->_settings['disk_cache'] && file_exists($cacheFile) && @filemtime($cacheFile) == $this->_lastUpdate) {
 			if ($supportsGzip)
-				header("Content-Encoding: " . $enc);
+			header("Content-Encoding: " . $enc);
 
 			echo $this->_getFileContents($cacheFile);
 			return;
@@ -119,19 +119,19 @@ class Moxiecode_CSSCompressor {
 		// Load content
 		foreach ($this->_items as $item) {
 			if ($item[0] == 'file')
-				$chunk = $this->_getFileContents($item[1]);
+			$chunk = $this->_getFileContents($item[1]);
 			else
-				$chunk = $item[1];
+			$chunk = $item[1];
 
 			// Remove UTF-8 BOM
 			if (substr($chunk, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf))
-				$chunk = substr($chunk, 3);
+			$chunk = substr($chunk, 3);
 
 			if (!preg_match('/[\r\n]$/', $chunk))
-				$chunk .= "\n";
+			$chunk .= "\n";
 
 			if ($this->_settings['remove_whitespace'] && $item[2])
-				$chunk = $this->_removeWhiteSpace($chunk);
+			$chunk = $this->_removeWhiteSpace($chunk);
 
 			// Convert urls
 			if ($this->_settings['convert_urls']) {
@@ -151,12 +151,12 @@ class Moxiecode_CSSCompressor {
 		// Write cache file
 		if ($this->_settings['disk_cache']) {
 			if (!is_dir($this->_settings['cache_dir']))
-				@mkdir($this->_settings['cache_dir']);
+			@mkdir($this->_settings['cache_dir']);
 
 			$this->_putFileContents($cacheFile, $content);
 
 			if (@file_exists($cacheFile))
-				@touch($cacheFile, $this->_lastUpdate);
+			@touch($cacheFile, $this->_lastUpdate);
 		}
 
 		// Output content to client
@@ -192,7 +192,7 @@ class Moxiecode_CSSCompressor {
 
 	function _putFileContents($path, $content) {
 		if (function_exists("file_put_contents"))
-			return @file_put_contents($path, $content);
+		return @file_put_contents($path, $content);
 
 		$fp = @fopen($path, "wb");
 		if ($fp) {
@@ -205,18 +205,18 @@ class Moxiecode_CSSCompressor {
 		$path = realpath($path);
 
 		if (!$path || !@is_file($path))
-			return "";
+		return "";
 
 		if (function_exists("file_get_contents"))
-			return @file_get_contents($path);
+		return @file_get_contents($path);
 
 		$content = "";
 		$fp = @fopen($path, "r");
 		if (!$fp)
-			return "";
+		return "";
 
 		while (!feof($fp))
-			$content .= fread($fp, 1024);
+		$content .= fread($fp, 1024);
 
 		fclose($fp);
 
@@ -228,15 +228,15 @@ class Moxiecode_CSSCompressor {
 
 		// Hours
 		if (strpos($time, "h") != false)
-			$multipel = 60 * 60;
+		$multipel = 60 * 60;
 
 		// Days
 		if (strpos($time, "d") != false)
-			$multipel = 24 * 60 * 60;
+		$multipel = 24 * 60 * 60;
 
 		// Months
 		if (strpos($time, "m") != false)
-			$multipel = 24 * 60 * 60 * 30;
+		$multipel = 24 * 60 * 60 * 30;
 
 		// Trim string
 		return intval($time) * $multipel;

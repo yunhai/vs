@@ -2,168 +2,210 @@
 
 class products_public extends ObjectPublic{
 	function __construct(){
-            global $vsTemplate,$donvi,$vsMenu;
+            global $vsTemplate;
             parent::__construct('products', CORE_PATH.'products/', 'products');
-            $this->html = $vsTemplate->load_template('skin_products');
-          
+           $this->html = $vsTemplate->load_template('skin_products');
+           $this->getListBrand();
+	}
+
+	function auto_run() {
+		global $bw;
+
+		switch ($bw->input['action']) {
+			case 'detail':
+				$this->showDetail($bw->input[2]);
+				break;
+
+			case 'category':
+				$this->showCategory($bw->input[2]);
+				break;
+			case 'search':
+				$this->loadSearch();
+				break;
+			case 'filter':
+				$this->showFilter();
+				break;
+			default:
+				$this->showDefault();
+				break;
+		}
+	}
+	
+	function showFilter(){
+		global $vsSettings,$vsMenu,$bw,$vsTemplate,$vsCom,$vsLang;
+               
+		$categories = $this->model->getCategories();
+       	$strIds = $vsMenu->getChildrenIdInTree($categories);   
+       	if($bw->input[2] == 'hot')
+       		$cond = " and {$this->tableName}Status = 3";
+       	else 
+       		$cond = " and {$this->tableName}Status > 0";
+       	$this->model->setFieldsString("{$this->tableName}Title, {$this->tableName}Image, {$this->tableName}Id, {$this->tableName}Intro,{$this->tableName}CatId,{$this->tableName}PostDate");
+		$this->model->setCondition(" {$this->tableName}CatId in ({$strIds}) and {$this->tableName}Id not in ({$bw->input[3]}) ".$cond);
+		$this->model->setOrder("{$this->tableName}Index DESC, {$this->tableName}Id DESC");
+		$size  = $vsSettings->getSystemKey("{$bw->input[0]}_user_item_quality",10,$bw->input[0]);
+		$option = $this->model->getPageList($bw->input['module'], 1, $size);
+		if($option['pageList'])
+        	$this->model->convertFileObject($option['pageList'],$bw->input['module']);
+    	
+   		
+     	$option['title'] = $vsLang->getWordsGlobal("global_products_".$bw->input[2],"sản phẩm mới");
+        $this->model->getNavigator();
+    	return $this->output = $this->html->showDefault($option);
+	}
+	
+	function getListBrand(){
+   		global $vsStd,$vsMenu,$opt;
+      	$vsStd->requireFile(CORE_PATH."pages/pages.php");
+       	$pages = new pages();
+      
+      	$categories = $vsMenu->getCategoryGroup('brands');
+       	$strIds = $vsMenu->getChildrenIdInTree($categories);
+      	$opt['brand']= $categories->getChildren();
+       	$pages->setCondition("pageStatus > 0 and pageCatId in ({$strIds})");
+      	$pages->setOrder("pageCatId ASC ");
+      	$opt['color'] = $pages->getObjectsByCondition();
+       	$color = $pages->getObjectsByCondition('getCatId',1);
+ 
+     	if($opt['color']){
+     		$pages->convertFileObject($opt['color'],'brands');
+        	foreach($opt['color'] as $menu)
+          		$menu->img = $menu->createImageCache($menu->file,12,11,1);
+     	}
+
+  
 	}
 	
 	
-//	function auto_run() {
-//		global $bw, $vsPrint;
-//		
-//		switch ($bw->input['action']) {
-//			case 'detail':
-//					$this->showDetail($bw->input[2]);
-//				break;
-//			case 'category':
-//					$this->showCategory($bw->input[2]);
-//				break;
-//				
-//			case 'search':
-//					$this->search();
-//				break;
-//                        case 'comment':
-//					$this->writeComment();
-//				break;    
-//			default:
-//					$this->showDefault();
-//				break;
-//		}
-//	}
-//	
-//function writeComment(){
-//		global $vsStd, $vsPrint, $bw, $vsLang,$DB;
-//		$vsStd->requireFile(CORE_PATH."comments/comments.php");
-//		$vsStd->requireFile(ROOT_PATH."captcha/securimage.php");
-//		$image = new Securimage();
-//		if(!$image->check($bw->input['commentSecurity'])) {
-//			$bw->input['message'] = $vsLang->getWords('thank_message','Security code doesnot match');
-//			unset($bw->input[3]);
-//			$com = new Comment();
-//			$profile['email'] = $bw->input['commentEmail'];
-//			$bw->input['commentProfile']= serialize($profile); 
-//			$com->convertToObject($bw->input);
-//			return $this->showDetail($bw->input[2],$com);
-//		}
-//		$query = explode('-',$bw->input[2]);
-//		$objId = abs(intval($query[count($query)-1]));
-//		$bw->input['commentObjId'] = $objId;
-//		$bw->input['commentCatId'] = $bw->input['cat'];
-//
-//		$comments = new comments();
-//		$result = $comments->writeComment();
-//		
-//		if($result['status']){
-//			$bw->input['message'] = $vsLang->getWords("comment_successful","Your feedback has been sent");
-//		}
-//		else {
-//			$bw->input[1] = 'detail';
-//			unset($bw->input[3]);
-//			$bw->input['message'] = $vsLang->getWords("comment_fail","Xảy ra lỗi trong quá trình gửi phản hổi");
-//		}
-//		
-//		$this->showDetail($bw->input[2]);
-//		
-//	}	
-//function showDetail($objId,$com=NULL){
-//		global $vsPrint, $vsLang, $bw,$vsMenu,$vsTemplate,$vsSettings,$vsStd;              
-//		$query = explode('-',$objId);
-//		$Id = intval($query[count($query)-1]);
-////                $cond = "{$this->tableName}MtUrl = '{$objId}'";
-//                if($Id)$cond.="  {$this->tableName}Id = {$Id}";
-////                $this->model->setOrder("{$this->tableName}MtUrl DESC");
-//		$this->model->setCondition($cond);
-//		$obj=$this->model->getOneObjectsByCondition();
-//     	if(!$obj) return $vsPrint->redirect_screen($vsLang->getWords('global_no_item','KhÃ´ng cÃ³ dá»¯ liá»‡u theo yÃªu cáº§u'));
-//		$this->model->convertFileObject(array($obj),$bw->input['module']);
-//                
-//		
-//		$this->model->getNavigator($obj->getCatId());
-//
-//		$option['cate'] =  $vsMenu->getCategoryById($obj->getCatId());
-//		
-//		$cat = $vsMenu->getCategoryById($obj->getCatId());
-//		$ids=$vsMenu->getChildrenIdInTree($cat);
-//
-//		$this->model->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}PostDate,{$this->tableName}CatId,{$this->tableName}Intro,{$this->tableName}Price,{$this->tableName}HotPrice,{$this->tableName}Manu");
-////		$this->model->setOrder("{$this->tableName}Index Desc, {$this->tableName}Id Desc");
-//       	
-//    	$size =  $vsSettings->getSystemKey("{$this->tableName}_user_list_number_other",10,$bw->input['module']);
-//		$this->model->setLimit(array(0,$size));
-//		if($ids)
-//			$this->model->setCondition("{$this->tableName}Id <> {$obj->getId()} and {$this->tableName}Status >0 and {$this->tableName}CatId in ( {$ids})");
-//
-//   		$option['other'] = $this->model->getObjectsByCondition();
-//                if($option['other'])
-//                    $this->model->convertFileObject($option['other'],$bw->input['module']);
-//                $option['img'] =$this->model->getarrayGallery($obj->getId(),$bw->input['module']);
-//   		
-//		//comment 
-//		
-//			$this->model->vsRelation->setTableName('products_comments');
-//			$this->model->vsRelation->setObjectId($Id);
-//			$this->model->vsRelation->setRelId(NULL);
-//			$this->model->vsRelation->setFieldsString("relId");
-//			$strIds = $this->model->vsRelation->getRelByObject();
-//			$vsStd->requireFile(CORE_PATH."comments/comments.php");
-//		        $comments = new comments();
-//			if($strIds){
-//				
-//				$comments->setCondition("commentId in (".$strIds.") AND commentCatId in (".$obj->getCatId().") AND commentStatus > 0");
-//				$total = $comments->getNumberOfObject();
-//				$size = $vsSettings->getSystemKey('comment_simple_cat_quality', 4, $bw->input[0], 0, 0);
-//				$comment['comment'] = $comments->getPageList($bw->input['module'].'/detail/'.$objId.'/',3,$size);
-//				
-//			}
-//		
-//			$comment['count_comment'] = $total?$total:0;
-//			$comment['message']  = $bw->input['message'];
-//			if($com)$comment['com'] = $com;
-//			else $comment['com'] = new Comment();
-//		//$obj->createSeo();
-//    		$this->output = $this->html->showDetail($obj,$option,$comment);
-//		
-// 
-//	}	
-//	function showCategory($catId){
-//		global $vsPrint,$bw,$vsSettings, $vsMenu,$vsTemplate;
-//               
-//		$query = explode('-',$catId);
-//		$idCate = abs(intval($query[count($query)-1]));
-//		$categories = $this->model->getCategories();
-//                
-//		if(!intval($idCate)){
-//			$strIds = $vsMenu->getChildrenIdInTree( $categories);
-//		}else{
-//			$result = $vsMenu->extractNodeInTree($idCate, $categories->getChildren());
-//			if($result)
-//			//$strIds = implode (",", $result['ids']);
-//			$strIds = $vsMenu->getChildrenIdInTree( $result['category']);
-//		}
-//             
-//		if($strIds)
-//			$this->model->setCondition($this->model->getCategoryField().' in ('. $strIds. ") and {$this->tableName}Status > 0 ");
-//		
-//		$this->model->setFieldsString("{$this->tableName}Title, {$this->tableName}Image, {$this->tableName}Id, {$this->tableName}Intro, {$this->tableName}CatId,{$this->tableName}PostDate,{$this->tableName}Price,{$this->tableName}HotPrice,{$this->tableName}Manu");       
-//		
-////		$this->model->setOrder("{$this->tableName}Status Desc,{$this->tableName}Index Asc,{$this->tableName}Id Desc");
-//		$size  = $vsSettings->getSystemKey("{$bw->input[0]}_user_item_quality",7,$bw->input[0]);
-//		
-//    	$option = $this->model->getPageList($bw->input['module']."/category/".$catId."/", 3, $size);
-//                $this->model->getNavigator($idCate);
-//      	if($option['pageList'])
-//        	$this->model->convertFileObject($option['pageList'],$bw->input['module']);
-//                
-//      	
-//		$option['cate'] =  $vsMenu->getCategoryById($idCate);
-//		$option['parentcate'] =  $vsMenu->getCategoryById($option['cate']->getParentId());
-//		$vsPrint->mainTitle = $vsPrint->pageTitle =  $result['category']->getTitle();
-//		
-//    	return $this->output = $this->html->showDefault($option);
-//	}
-        
-        
+function showDetail($objId){
+		global $vsPrint, $vsLang, $bw,$vsMenu,$vsTemplate,$opt;  
+		
+		         
+		$query = explode('-',$objId);
+		$objId = intval($query[count($query)-1]);
+		if(!$objId) return $vsPrint->redirect_screen($vsLang->getWords('global_no_item','Không có dữ liệu theo yêu cầu!'));
+		$obj=$this->model->getObjectById($objId);
+		$this->model->convertFileObject(array($obj),$bw->input['module']);
+		$cat=$this->model->vsMenu->getCategoryById($obj->getCatId());
+		$this->model->getNavigator($obj->getCatId());
+		
+      	$option['brand']=$this->model->vsMenu->getCategoryById($obj->getBrand());  
+		$option['gallery'] = $this->model->getarrayGallery($obj->getId(),$bw->input['module']);
+
+		$option['cate'] =  $vsMenu->getCategoryById($obj->getCatId());
+	
+		$vsPrint->mainTitle = $vsPrint->pageTitle = $obj->getTitle();
+	
+		$option['other'] = $this->model->getOtherList($obj);
+		$this->model->convertFileObject($option['other'],$bw->input['module']);
+	
+		$obj->createSeo();
+	
+		$this->output = $this->html->showDetail($obj,$option);
+	}
+	
+	function showDetail_listcolor($objId){
+		global $vsPrint, $vsLang, $bw,$vsMenu,$vsTemplate,$opt;  
+		
+		         
+		$query = explode('-',$objId);
+		$objId = intval($query[count($query)-1]);
+		if(!$objId) return $vsPrint->redirect_screen($vsLang->getWords('global_no_item','Không có dữ liệu theo yêu cầu!'));
+		$obj=$this->model->getObjectById($objId);
+		$this->model->convertFileObject(array($obj),$bw->input['module']);
+		$cat=$this->model->vsMenu->getCategoryById($obj->getCatId());
+		$this->model->getNavigator($obj->getCatId());
+		
+		if($obj->getBrand()){
+        	$pages = new pages();
+          	$pages->setCondition("pageStatus > 0 and pageId in ({$obj->getBrand()})");
+          	$list = $pages->getObjectsByCondition('getCatId',1);
+              
+         	if($list)
+           		foreach($opt['brand'] as $key => $val){
+              		if($list[$key]){
+                    	$opt['brand'][$key]->list = $list[$key];
+                  	}else{
+                      	unset ($opt['brand'][$key]);
+                 	}
+          		}
+     	}else{
+				$opt['brand'] = array();
+		}
+		$option['gallery'] = $this->model->getarrayGallery($obj->getId(),$bw->input['module']);
+		
+		reset($opt['color']);
+		$listcolor = $obj->getListColor();
+	
+		
+
+       	if($bw->input['color'])$color= $opt['color'][$bw->input['color']];
+     
+      	if(!$color) {
+      		$current = current($listcolor);
+      		$color = $current;
+      	}
+     	$bw->input['color'] = $color->getId();
+    
+       	if($obj->getColor()){
+        	$link = "gallery/{$color->getColorTitle()}_{$color->getId()}/";
+        	$len = strlen($link);
+          	foreach($option['gallery'] as $key => $img){
+            	$str = substr($img->getPath(), 0,$len);
+            	if($str!=$link){
+                	unset ($option['gallery'][$key]);
+             	}
+          	}
+
+     	}else{
+         	unset ($option['gallery']);
+     	}	
+     	
+        $option['current'] = $color;	
+       
+		$option['cate'] =  $vsMenu->getCategoryById($obj->getCatId());
+		
+		
+        	
+		$vsPrint->mainTitle = $vsPrint->pageTitle = $obj->getTitle();
+	
+		$option['other'] = $this->model->getOtherList($obj);
+		$this->model->convertFileObject($option['other'],$bw->input['module']);
+	
+		//$obj->createSeo();
+	
+		$this->output = $this->html->showDetail($obj,$option);
+	}
+	
+	function loadSearch(){
+		global $vsSettings,$vsMenu,$bw,$vsLang,$DB,$vsPrint;
+		if($bw->input['keySearch'])
+			$keywords=strtolower(VSFTextCode::removeAccent(trim($bw->input['keySearch'])));
+		else 
+			$keywords=strtolower(VSFTextCode::removeAccent(trim($bw->input[2])));
+		$keywords = strtolower(VSFTextCode::removeAccent(trim($keywords)));	
+		$categories = $this->model->getCategories();
+       	$strIds = $vsMenu->getChildrenIdInTree($categories);
+       	
+		$where = " and ({$this->tableName}ClearSearch like '%".$keywords."%' or {$this->tableName}Title like '%".$keywords."%' or {$this->tableName}Content like '%".$keywords."%' or {$this->tableName}Intro like '%".$keywords."%')";
+		$size  = $vsSettings->getSystemKey("{$bw->input[0]}_user_item_quality",16,$bw->input[0]);
+		$this->model->setFieldsString("{$this->tableName}Title, {$this->tableName}Image, {$this->tableName}Id, {$this->tableName}CatId,{$this->tableName}Price");
+		$this->model->setCondition("{$this->tableName}Status > 0 and {$this->tableName}CatId in ($strIds)".$where);
+		$this->model->setOrder("{$this->tableName}Id DESC");
+		
+		$option = $this->model->getPageList($bw->input['module']."/search/{$keywords}", 3, $size);
+
+    	$this->model->getNavigator();
+      	$vsPrint->mainTitle = $vsPrint->pageTitle = $option['title_search'] = $vsLang->getWords($bw->input['module'].'_search_result','Result search');
+      	if ($option['pageList'])
+     		$this->model->convertFileObject($option['pageList'],$bw->input['module']);
+     	else 
+     		$option['error_search'] = $vsLang->getWords($bw->input['module'].'_search_emty','Không tìm thấy dữ liệu theo yêu cầu. Vui lòng nhập từ khóa khác!');
+     		
+	
+        return $this->output = $this->html->showCategory($option);
+	}
+	
 }
 
 ?>

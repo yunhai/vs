@@ -1,0 +1,68 @@
+ul.accordion{
+    width:961px;
+	height:350px;
+	overflow:hidden;
+}
+ul.accordion li{
+    float:left;
+    width:240px;
+    height:350px;
+    display:block;
+    position:relative;
+    overflow:hidden;
+}
+ul.accordion li .heading{
+   position:absolute;
+   left:0;
+   top:0;
+   z-index:2;
+   width:67px;
+   height:350px;
+}
+/*ul.accordion li .description{
+    position:absolute;
+    width:700px;
+    height:auto;
+	top:0px;
+    left:0px;
+    display:none;
+	background:url(../images/description_bg.png) repeat;
+	padding-left:77px;
+}
+ul.accordion li .description a{
+	float:left;
+	width:100px;
+	color:#fff;
+	text-align:center;
+	height:60px;
+	margin-right:22px;
+	font-size:13px;
+	font-weight:bold;
+	overflow: hidden;
+}*/
+ul.accordion li .description a img{
+	width:100px;
+	height:60px;
+}
+ul.accordion li .description a span{
+	display:block;
+	/*height:30px;
+	line-height:30px;*/
+	height:60px;
+	line-height:60px
+}
+ul.accordion li.bg1 .heading{
+    background:url(../images/phongkhach_title.png) no-repeat 0px 0px;
+}
+ul.accordion li.bg2 .heading{
+    background:url(../images/phongngu_title.png) no-repeat  0px 0px;
+}
+ul.accordion li.bg3 .heading{
+    background:url(../images/phongan_title.png) no-repeat 0px 0px;
+}
+ul.accordion li.bg4 .heading{
+    background:url(../images/trangtri_title.png) no-repeat 0px 0px;
+}
+ul.accordion li:hover .heading{
+	background-position:0px -350px;
+}

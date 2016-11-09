@@ -1,8 +1,8 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Góp ý',
-  'main_title' => 'Góp ý',
-  'tab_advisorys_comment' => 'Góp ý',
+  'pageTitle' => 'Hỗ trợ khách hàng',
+  'main_title' => 'Hỗ trợ khách hàng',
+  'tab_advisorys_comment' => 'Hỗ trợ khách hàng',
   'tab_advisorys_content' => 'Nội dung',
   'advisory_TableTittle' => 'Danh sách hỏi đáp',
   'advisory_multiDelete' => 'Xóa mục đã chọn',
@@ -94,7 +94,7 @@ $lang = array (
   'pages_addPageItem_AddMore' => 'Bạn có muốn thêm một trang khác?',
   'pages_editPageItem_Successful' => 'Bạn đã chỉnh sửa thành công&#33;',
   'tab_advisorys_setting' => 'advisorys Settings',
-  'tab_obj_objes_advisorys' => 'advisorys',
+  'tab_obj_objes_advisorys' => 'Hỗ trợ khách hàng',
 );
 $userLang = array (
 );

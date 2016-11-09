@@ -11,13 +11,13 @@
 	text-decoration: none;
 }
 .highslide img {
-	border: 2px solid silver;
+	/*border: 2px solid silver;*/
 }
 .highslide:hover img {
 	border-color: gray;
 }
 .highslide-active-anchor img {
-	visibility: hidden;
+	/*visibility: hidden;*/
 }
 .highslide-gallery .highslide-active-anchor img {
 	border-color: black;
@@ -67,7 +67,7 @@ a.highslide-full-expand {
    height: 34px;
 }
 .highslide-loading {
-	display: block;
+	display: none;
 	color: black;
 	font-size: 9px;
 	font-weight: bold;

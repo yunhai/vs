@@ -139,9 +139,10 @@ class files_admin
 		$objName = VSFTextCode::removeAccent(trim($objName), "_");
 		$path = $bw->input[fileFolder]?$bw->input[fileFolder]:"messages/";
 		$filepath = UPLOAD_PATH.$path.$objName."_".$time;
-		if(!is_dir(UPLOAD_PATH.$path))
-			mkdir(UPLOAD_PATH.$path, 0777, true );
-
+		if(!is_dir(UPLOAD_PATH.$path)){
+			mkdir(UPLOAD_PATH.$path, 0750, true );
+			chmod(UPLOAD_PATH.$path, 0750);
+		}
 		$input = fopen("php://input", "r");
    		$target = fopen($filepath.".".$objext, "w");
 		$fileSize = stream_copy_to_stream($input, $target);
@@ -157,7 +158,7 @@ class files_admin
 		$this->module->obj->setUploadTime($time);
 
 		$this->module->insertObject();
-
+		@chmod($this->module->obj->getPathView ( 0 ),0775);
                 if($bw->input['albumId']&&$this->module->obj->getId()){
                         $vsRelation =  new VSFRelationship();
 			$vsRelation->setObjectId($this->module->obj->getId());

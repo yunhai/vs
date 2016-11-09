@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Đối tác',
+  'main_title' => 'Đối tác',
+  'group_global_module' => 'global',
+  'err_products_search_blank' => 'Vui lòng nhập thông tin cần search:please!!!!!',
+);
+$userLang = array (
+);
+?>

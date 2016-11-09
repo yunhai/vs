@@ -25,6 +25,7 @@ $lang = array (
   'alias_edit_title' => 'Edit A Alias',
   'component_switch_bt' => 'Switch to Add Form',
   'develop_get_obj_success' => 'Execute successful',
+  'alias_detail' => 'Detail',
 );
 $userLang = array (
 );

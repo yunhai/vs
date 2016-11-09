@@ -15,7 +15,7 @@ class Contact extends BasicObject{
 		$dbobj = parent::convertToDB('contact');
 		
 		isset ( $this->name ) 			? ($dbobj ['contactName'] 			= $this->name) 				: '';//name
-		isset ( $this->profile ) 		? ($dbobj ['contactProfile'] 		= $this->profile) 			: '';//profile		
+		isset ( $this->profile ) 		? ($dbobj ['contactProfile'] 		= serialize ( $this->profile )) 			: '';//profile		
 		isset ( $this->email ) 			? ($dbobj ['contactEmail'] 			= $this->email) 			: '';//email
 		isset ( $this->type ) 			? ($dbobj ['contactType'] 			= $this->type) 				: '';//type	
 		isset ( $this->postdate ) 		? ($dbobj ['contactPostDate'] 		= $this->postdate) 			: '';//postdate
@@ -33,7 +33,7 @@ class Contact extends BasicObject{
 		
 		isset ( $object ['contactEmail'] ) 		? $this->setEmail ( $object ['contactEmail'] ) 			: '';
 		isset ( $object ['contactProfile'] ) 	? $this->setProfile ( $object ['contactProfile'] ) 		: '';
-		
+		isset ( $object ['contactAddress'] ) 		? $this->setAddress( $object ['contactAddress'] ) 			: '';
 		isset ( $object ['contactPostDate'] ) 	? $this->setPostDate ( $object ['contactPostDate'] ) 	: '';
 		isset ( $object ['contactIsReply'] ) 	? $this->setIsReply ( $object ['contactIsReply'] ) 		: '';
 		isset ( $object ['contactName'] ) 		? $this->setName ( $object ['contactName'] ) 			: '';
@@ -64,7 +64,7 @@ class Contact extends BasicObject{
 			}
 		}
 		
-		
+	
 		return $this->result['status'];
 	}
 	
@@ -108,11 +108,16 @@ class Contact extends BasicObject{
 
 
 	public function setPhone($phone) {
-		$this->phone = $phone;
+		
+//			$profile = $this->getProfile();
+//			$this->phone = $profile['contactPhone'];
+			$this->profile['contactPhone']= $phone;
+		
+		
 	}
 
 	public function getPhone() {
-		return $this->phone;
+		return $this->profile['contactPhone'];
 	}
 
 
@@ -122,7 +127,12 @@ class Contact extends BasicObject{
 
 
 	public function setAddress($address) {
-		$this->address = $address;
+		
+//			$profile = $this->getProfile();
+//			$this->address = $profile['contactAddress'];
+			$this->profile['contactAddress']= $address;
+		
+		
 	}
 
 	public function setEmail($email) {
@@ -130,7 +140,7 @@ class Contact extends BasicObject{
 	}
 
 	public function setProfile($profile) {
-		$this->profile = $profile;
+		$this->profile = unserialize($profile);
 	}
 
 	public function getIsReply() {
@@ -138,7 +148,7 @@ class Contact extends BasicObject{
 	}
 
 	public function getAddress() {
-		return $this->address;
+		return $this->profile['contactAddress'];
 	}
 
 

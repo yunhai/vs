@@ -416,18 +416,21 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
 	
 	function getNavigator($idCate=0){
 		global $bw,$vsLang,$vsMenu,$vsTemplate,$vsPrint;
-                $re = "<a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$bw->base_url}/'><span itemprop=\"title\">{$vsLang->getWords('global_hni', 'HNI')}</span></a>";
-                
+    	$array = array("news","promotions","products","services","quality");
+    	//$re = "<a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$bw->base_url}home/'>{$vsLang->getWordsGlobal('global_home', 'Trang chủ')}</a> ";
+    	$re = "";
+   		if(in_array($bw->input['module'],$array))
+      		$re .= "<a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$bw->base_url}{$bw->input['module']}/'><span itemprop=\"title\" class='title'>{$vsLang->getWords('pageTitle', 'sangpm')}</span></a> ";
+    	else 
+      		$re .= "<a href='{$bw->base_url}{$bw->input['module']}/'>{$vsLang->getWords('pageTitle', 'sangpm')}</a> ";
     	if($idCate){
        		$result = $vsMenu->extractNodeInTree($idCate, $this->getCategories()->getChildren());
-                     
          	if($result['ids']){//
            		$result['ids'] = array_reverse($result['ids']);
-                        $javascript ="<script>var urlcate ='{$result['category']->getCatUrl($bw->input['module'])}'</script>";
+           		$javascript ="<script>var urlcate ='{$result['category']->getCatUrl($bw->input['module'])}'</script>";
              	foreach($result['ids'] as $b){
               		$Obj = $vsMenu->getCategoryById($b);
-                 	if($Obj)$re.= "     <a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$Obj->getCatUrl($bw->input['module'])}'><span>  {$Obj->getTitle()}</span></a>";
-//                        if($Obj)$re.= "   >>   <a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$Obj->getCatUrl($bw->input['module'])}'>  <span itemprop=\"title\" class='sub'>{$Obj->getTitle()}</span></a>";
+                 	if($Obj)$re.= " <span>\</span> <a itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\" itemprop=\"url\" href='{$Obj->getCatUrl($bw->input['module'])}' class='sub'>  <span itemprop=\"title\">{$Obj->getTitle()}</span></a>";
              	}
       		}
     	}
@@ -437,7 +440,9 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
       	return $re;
 
 	}
-        
+    
+	
+	
 	function convertFileObject($array,$module){
 		global $imgfile,$vsFile,$vsLang;
 		
@@ -497,23 +502,23 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
          foreach ($option as $obj) {
          	if($obj->record==NULL){
             	$DB->do_insert("search",$obj->convertSearchDB());
-         	}  
+         	}
+         
          } 
 
 	}
 	
-        public function getOtherList($obj,$me) {
+        public function getOtherList($obj) {
 		global  $vsSettings,$vsMenu,$bw;
-      
+
 		$cat=$vsMenu->getCategoryById($obj->getCatId());
 		$ids=$vsMenu->getChildrenIdInTree($cat);
 
-		//$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}CatId,{$this->tableName}Intro,{$this->tableName}PostDate");
+		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}CatId,{$this->tableName}Intro,{$this->tableName}PostDate");
 		$this->setOrder("{$this->tableName}Index Desc, {$this->tableName}Id Desc");
-                $this->condition = " {$this->tableName}Status >0";
-//                if(!$me) 
-                    $this->condition.=" and {$this->tableName}Id  <> {$obj->getId()} and {$this->tableName}CatId in ({$obj->getCatId()}) ";
-                $size =  $vsSettings->getSystemKey("{$this->tableName}_user_list_number_other",10,$bw->input['module']);
+      	$this->condition = "{$this->tableName}Id <> {$obj->getId()} and {$this->tableName}Status >0";
+     	$size =  $vsSettings->getSystemKey("{$bw->input['module']}_user_list_number_other",10,$bw->input['module']);
+
 		$this->setLimit(array(0,$size));
 		if($ids)
 		$this->condition .= " and {$this->tableName}CatId in ( {$ids})";
@@ -521,11 +526,29 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
 		return $this->getObjectsByCondition();
 	}
 	
-	public function getHotList($limit=1) {
-            global $vsMenu;
-        if(!$ids)    
-            $ids=$vsMenu->getChildrenIdInTree($this->getCategories());
+	public function getOtherListProduct($obj) {
+		global  $vsSettings,$vsMenu,$bw;
 
+		$cat=$vsMenu->getCategoryById($obj->getCatId());
+		$ids=$vsMenu->getChildrenIdInTree($cat);
+
+		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}CatId,{$this->tableName}Intro,{$this->tableName}Price,{$this->tableName}HotPrice,{$this->tableName}Module");
+		$this->setOrder("{$this->tableName}Index Desc, {$this->tableName}Id Desc");
+      	$this->condition = "{$this->tableName}Id <> {$obj->getId()} and {$this->tableName}Status >0";
+     	$size =  $vsSettings->getSystemKey("{$this->tableName}_user_list_number_other",10,$bw->input['module']);
+		$this->setLimit(array(0,$size));
+		if($ids)
+		$this->condition .= " and {$this->tableName}CatId in ( {$ids})";
+
+		return $this->getObjectsByCondition();
+	}
+	
+	public function getHotList($module="pages",$limit=1) {
+            global $vsMenu;
+        
+		$categories = $vsMenu->getCategoryGroup($module);
+      	$ids = $vsMenu->getChildrenIdInTree($categories);
+      	
         $this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}PostDate,{$this->tableName}CatId,{$this->tableName}Intro");
 		$this->setOrder("{$this->tableName}Id Desc,{$this->tableName}Index Desc");
         $this->setCondition("{$this->tableName}CatId in ( {$ids}) and {$this->tableName}Status > 0");
@@ -799,15 +822,15 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
 		else $categories = $this->getCategories();
 		$strIds = $vsMenu->getChildrenIdInTree($categories);
 		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image");
-                $this->setLimit(array(0, $limit));
-                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
-                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
-                if($this->getCondition())
+   		$this->setLimit(array(0, $limit));
+       	$this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
+   		$cond = "{$this->tableName}Status ={$status} and {$this->tableName}CatId in ({$strIds}) ";
+       	if($this->getCondition())
         	$cond .= " and ".$this->getCondition();
 		$this->setCondition ( $cond );
-                $list = $this->getObjectsByCondition();
-                if($list)
-                    $this->convertFileObject($list,$module);
+    	$list = $this->getObjectsByCondition();
+      	if($list)
+       		$this->convertFileObject($list,$module);
 
 		return $list;
 	}
@@ -820,9 +843,9 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
 		$strIds = $vsMenu->getChildrenIdInTree($categories);
 		$this->setCondition("{$this->tableName}Code='".$code."' AND {$this->tableName}CatId in (".$strIds.") AND {$this->tableName}Status > 0");
 		$this->setLimit(array(0, $limit));
-                $list = $this->getOneObjectsByCondition();
-//                if($list)
-//                    $this->convertFileObject($list,$module);
+                $list = $this->getObjectsByCondition();
+                if($list)
+                    $this->convertFileObject($list,$module);
 
 		return $list;
 	}
@@ -841,28 +864,66 @@ function getObjectsByCondition($method = 'getId', $group = 0) {
 	public function getCategories() {
 		return $this->categories;
 	}
-        
-         function getObjPageCate($module = "",$status = 1,$limit = 10) {
-		global $vsMenu;
-		if($module)
-			$categories = $this->vsMenu->getCategoryGroup($module);
-		else $categories = $this->getCategories();
-                
-                $option['cate']=$categories->getChildren();
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image");
-                $this->setLimit(array(0, $limit));
-                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
-                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
-                if($this->getCondition())
-        	$cond .= " and ".$this->getCondition();
-		$this->setCondition ( $cond );
-                $list = $this->getObjectsByCondition();
-                if($list)
-                    $this->convertFileObject($list,$module);
-                $option['item']=$list;
-		return $option;
-	}
 
+	function createRSS($id=""){
+            global $vsMenu,$vsStd,$vsLang,$bw;
+            $vsStd->requireFile(UTILS_PATH."/class_rss.php");
+            $rss = new VSSRss();
+
+            $categories = $this->getCategories();
+            if($id){
+                $result = $vsMenu->extractNodeInTree($id, $categories->getChildren());
+                if($result){
+                    $strIds = trim($idCate.",".$vsMenu->getChildrenIdInTree($result['category']),",");
+                    $rss->cate =$result['category'];
+                }
+            }
+            if(!$strIds){
+                $strIds = $vsMenu->getChildrenIdInTree($categories);
+                $rss->cate =$categories;
+            }
+               $this->setFieldsString("{$this->tableName}Title,{$this->tableName}Image,{$this->tableName}Id,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}CatId");
+      
+        
+            $this->setOrder("{$this->tableName}Index ASC,{$this->tableName}Id DESC");
+            $this->setCondition("{$this->tableName}Status > 0 and {$this->tableName}CatId in ({$strIds})");
+            $this->setLimit(array(0,10));
+            $arr = $this->getObjectsByCondition();
+           	$this->convertFileObject($arr,$bw->input['module']);
+            $rss->arrayObj = $arr;
+            $rss->buildRss();
+           	print "<script>alert('".$vsLang->getWordsGlobal("alert_RSS","Bạn đã tạo RSS thành công")."')</script>";
+
+        }
 	
+function multiInsert($data){
+		global $vsLang, $DB;
+		if(!is_array($data)){
+			$this->result['status'] = $vsLang->getWords('system_error_multi_insert_no_data','No data to insert');
+			return $this->result['status'] = false; 
+		}
+		if(!$DB->insert_multi_record($this->tableName, $data)){
+			$this->result['status'] = $vsLang->getWords('system_error_multi_insert_execute','error while execute query');
+			return $this->result['status'] = false; 
+		}
+		return true;
+	}
+	
+	function singleInsert($data, &$returnId = 0){
+		global $DB, $vsLang;
+		
+		$this->result['status'] = true;
+		if(!is_array($data)){
+			$this->result['status'] = $vsLang->getWords('system_error_single_insert_no_data','No data to insert');
+			return $this->result['status'] = false; 
+		}
+		
+		if(!$DB->do_insert($this->tableName, $data)){
+			$this->result['status'] = $vsLang->getWords('system_error_single_insert_execute','error while execute query');
+			return $this->result['status'] = false; 
+		}
+		
+		$returnId = $DB->get_insert_id();
+		return true;
+	}
 }

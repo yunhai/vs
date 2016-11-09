@@ -254,7 +254,6 @@ class VSFRelationship  extends VSFObject{
 			while($rel) {
 				 $relId .= $rel['relId'].',';
 				 if($advance) $this->arrval[$rel['relId']] = $rel;
-				 if($advance==2) $this->arrval[$rel['objectId']] = $rel;
 				 $rel = $DB->fetch_row();
 			}
 			return trim($relId,',');

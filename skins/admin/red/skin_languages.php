@@ -219,7 +219,7 @@ $BWHTML .= <<<EOF
 			    <td align="center">{$show['adminDefault']}</td>
 			    <td align="center">
 					<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:deleted('deleteLang',{$show['langId']},'{$show['langName']}','langlist')" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to delete this {$bw->input[0]}")}'>{$vsLang->getWords('global_del','Xóa')}</a>
-			        {$show['defimg']}
+			       
 			    </td>
 		    </tr>
 		    

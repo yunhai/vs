@@ -1,36 +1,78 @@
 <?php
-
-	class Page extends BasicObject{  
+class Page extends BasicObject{ 
+		private $cleanContent = NULL; 
+		private $fileupload = NULL;
+		private $module = NULL; 
+		
 		function __construct(){
 			parent::__construct();
 	    }
 	    function __destruct(){
 	    	parent::__destruct();
-	    	
+	    	unset ( $this->fileupload );
+	    	unset ( $this->cleanContent);
 	    }
   		function convertToDB() {
+  			global $bw;
        		$dbobj = parent::convertToDB('page');
         	isset ( $this->postdate )     ? ($dbobj ["pagePostDate"] = $this->postdate) : "";
-                isset ( $this->icon )     ? ($dbobj ["pageIcon"] = $this->icon) : "";
-                if(isset ( $this->intro ) || isset($this->content) || isset ( $this->title )){
-                            $cleanContent = VSFTextCode::removeAccent($this->title)." ";
-                            $cleanContent .= VSFTextCode::removeAccent(strip_tags($this->getIntro()))." ";
-                            $cleanContent.= VSFTextCode::removeAccent(strip_tags($this->getContent()));	
-                            $dbobj ['pageCleanContent'] = strtolower($cleanContent);	
-            }
+        	isset ( $this->fileupload)	? ($dbobj ['pageFileupload']	 = $this->fileupload) : '';
+        	isset ( $this->module )     ? ($dbobj ["pageModule"] = $this->module) : "";
+
+        	
+        	isset ( $this->cleanContent )  ? ($dbobj ['pageCleanContent']       = $this->cleanContent) : '';
+            if(isset ( $this->intro ) || isset($this->content) || isset ( $this->title )){
+			$cleanContent = VSFTextCode::removeAccent($this->title)." ";
+			$cleanContent .= VSFTextCode::removeAccent(strip_tags($this->getIntro()))." ";
+			$cleanContent.= VSFTextCode::removeAccent(strip_tags($this->getContent()));	
+			$dbobj ['pageCleanContent'] = $cleanContent;	
+        }
 		return $dbobj;
 		}
 		
 		function convertToObject($object) {
-                    global $vsFile,$DB;
-                    parent::convertToObject($object,'page');
-                    isset ( $object ["pagePostDate"] )  ? $this->setPostDate($object ["pagePostDate"])              : '';
-                    isset ( $object ["pageIcon"] )  ? $this->icon=$object ["pageIcon"]              : '';
+       		global $vsFile,$DB,$bw;
+           	parent::convertToObject($object,'page');
+           	isset ( $object ['pageIntroImage'] )   ? $this->setImage( $object ['pageIntroImage'] ) : '';
+          	isset ( $object ["pagePostDate"] )  ? $this->setPostDate($object ["pagePostDate"])              : '';
+          	isset ( $object ['pageFileupload'] )   ? $this->setFileupload( $object ['pageFileupload'] ) : '';
+           	isset ( $object ['pageCleanContent'] )   ? $this->setCleanContent ( $object ['pageCleanContent'] ) : '';
+           	isset ( $object ["pageModule"] )  ? $this->setModule($object ["pageModule"])              : '';
+       
+           	
 		}
-		public $icon;
-                public function getPicon(){
-                   if($this->icon)return $this->icon;
-                    return "main_title_service";
-                }
-	}
+		
+		public function getCleanContent() {
+			return $this->cleanContent;
+		}
+	
+		public function setCleanContent($cleanSearch) {
+			$this->cleanContent = $cleanSearch;
+		}
+		
+		public function setFileupload($file) {
+			$this->fileupload = $file;
+		}
+	
+	  	public function getFileupload() {
+			return $this->fileupload;
+		}
+		
+		public function getFUllImage($arr=array(),$id=0,$dele="deleteImage") {
+			global $vsLang;
+			if($arr[$id]){
+	       	return "{$vsLang->getWordsGlobal('obj_deletefile','Delete')} :<input type='checkbox' name='{$dele}' id='{$dele}' />{$arr[$id]->getTitle()}.{$arr[$id]->getType()}";
+	      	}
+		}
+		
+		
+		
+	public function getModule() {
+			return $this->module;
+		}
+	
+		public function setModule($module) {
+			$this->module = $module;
+		}
+}
 ?>

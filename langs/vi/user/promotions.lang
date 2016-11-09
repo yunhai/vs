@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Khuyến mãi',
+  'main_title' => 'Khuyến mãi',
+  'promotion_pagetitle' => 'Khuyến mãi',
+  'promotions_other' => 'Các khuyến mãi khác',
+);
+$userLang = array (
+);
+?>

@@ -15,9 +15,8 @@ class News extends BasicObject {
 	}
 	public function convertToDB() {
 		$dbobj = parent::convertToDB('news');
-                isset ( $this->postdate )     ? ($dbobj ["newsPostDate"] = $this->postdate) : "";
-                 isset ( $this->title )     ? ($dbobj ["newsCleanTitle"] = strtolower(VSFTextCode::removeAccent($this->title))) : "";
-                return $dbobj;
+        isset ( $this->postdate )     ? ($dbobj ["newsPostDate"] = $this->postdate) : "";
+       	return $dbobj;
 	}
 	function convertToObject($object) {
 		global $vsMenu;
@@ -42,9 +41,6 @@ class News extends BasicObject {
 		return $this->hits;
 	}
 
-	 public function getPicon(){
-                   
-                    return "main_title_text";
-                }
+	
 
 }

@@ -143,17 +143,38 @@ class VSFPagination {
 		
                 if(APPLICATION_TYPE=='user'){
                     if($nCurrentPage<$nTotalPage&&$nCurrentPage>1){
-                        $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
-                        $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /></a>';
+                    if($this->ajax){
+//					print "<script type='text/javascript'>vsf.get('{$this->url}{$this->p_TotalPage}','{$this->callbackobjectId}')</script>";
+						$strPre = "<a href=\"javascript:vsf.get('".$this->text['p_Sub'].($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')>".'<img src="'.$bw->vars['img_url']."/page_prev.jpg\" /></a> ";
+						$strNext = "<a href=\"javascript:vsf.get('".$this->text['p_Sub'].($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')>".'<img src='.$bw->vars['img_url'].'/page_next.jpg\" /></a> ';
+						
+					}else{
+	                        $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
+	                        $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /></a>';
+					}
                     }
                     else
                         if($nCurrentPage==1){
+                        	if($this->ajax){
+//					print "<script type='text/javascript'>vsf.get('{$this->url}{$this->p_TotalPage}','{$this->callbackobjectId}')</script>";
+						$strPre = "<a href=\"javascript:vsf.get('".$this->url.$this->text['p_Sub'].'1'.$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')\">".'<img src="'.$bw->vars['img_url']."/page_prev.jpg\" /></a> ";
+						$strNext = "<a href=\"javascript:vsf.get('".$this->url.$this->text['p_Sub'].'2'.$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')\">".'<img src="'.$bw->vars['img_url']."/page_next.jpg\" /></a> ";
+						
+					}else{
                             $strPre = '<a href="'.$this->url.$this->text['p_Sub'].'1'.$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
                             $strNext = '<a href="'.$this->url.$this->text['p_Sub'].'2'.$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /></a>';
+					}
                         }
                         if($nCurrentPage==$nTotalPage){
+                        	if($this->ajax){
+//					print "<script type='text/javascript'>vsf.get('{$this->url}{$this->p_TotalPage}','{$this->callbackobjectId}')</script>";
+						$strPre = "<a href=\"javascript:vsf.get('".$this->url.$this->text['p_Sub'].($nTotalPage-1).$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')\">".'<img src="'.$bw->vars['img_url']."/page_prev.jpg\" /></a> ";
+						$strNext = "<a href=\"javascript:vsf.get('".$this->url.$this->text['p_Sub'].($nTotalPage).$this->p_EndingBy.$bw->input['advance']."','".$this->callbackobjectId."')\">".'<img src="'.$bw->vars['img_url']."/page_next.jpg\" /></a> ";
+						
+					}else{
                             $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage-1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
                             $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /> </a>';
+					}
                         }
                 }
 

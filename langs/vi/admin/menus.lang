@@ -67,7 +67,7 @@ $lang = array (
   'delete_object_success' => 'Delete object successfully&#33;',
   'err_category_delete_unempty' => '&lt;br /&gt;Here are several category cannot be deleted due to being unempty&#33; Please delete its children first.',
   'pages_deleteConfirm' => 'Bạn có chắc chắn để xóa các trang?',
-  'menu_bt_switch_add' => 'Thêm bảng',
+  'menu_bt_switch_add' => 'Thêm danh mục',
   'null_title' => 'Tiêu đề không được để trống&#33;&#33;&#33;',
   'category_realstatus_value' => 'Giá trị',
   'category_realtypes_value' => 'Giá trị',
@@ -88,9 +88,10 @@ $lang = array (
   'page_delparentcate' => 'Không thể xóa danh mục cha. Muốn xóa danh mục này, bạn phải xóa danh mục con trước!',
   'hide_obj_only_cate' => 'Chỉ chọn một category!',
   'page_emptycateincate' => 'Danh mục cha không thể sửa vào danh mục con!',
-  'category_image_bt' => 'Image',
-  'category_products_value' => 'Value',
-  'category_picon_value' => 'Value',
+  'category_image_bt' => 'Hình ảnh',
+  'category_constructions_value' => 'Value',
+  'menu_permmission' => 'Quản lý quyền Menu',
+  'obj_image_image_preview' => 'Preview',
 );
 $userLang = array (
 );

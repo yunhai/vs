@@ -1,7 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'tcgallery',
-  'main_title' => 'tcgallery',
-);
-$userLang = array();
-?>

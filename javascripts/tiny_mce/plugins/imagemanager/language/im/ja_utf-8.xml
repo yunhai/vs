@@ -4,7 +4,8 @@
 		<author>Moxiecode Systems AB</author>
 		<version minor="1" major="0" releasedate="2005-09-27" />
 		<description>
-			This is the japanese unicode language pack for the MCImageManager.
+			This is the japanese unicode language pack for the
+			MCImageManager.
 		</description>
 	</header>
 
@@ -87,10 +88,10 @@
 
 		<group target="preview">
 			<item name="title">プレビュー</item>
-			<item name="prev">前</item>	
-			<item name="next">次</item>	
-			<item name="keyboard_next">ショートカットキー: スペース,N,→,次のページへ</item>	
-			<item name="keyboard_prev">ショートカットキー: P,←,前のページへ</item>	
+			<item name="prev">前</item>
+			<item name="next">次</item>
+			<item name="keyboard_next">ショートカットキー: スペース,N,→,次のページへ</item>
+			<item name="keyboard_prev">ショートカットキー: P,←,前のページへ</item>
 		</group>
 	</language>
 </language-pack>

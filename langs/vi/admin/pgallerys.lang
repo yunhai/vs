@@ -1,8 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Hướng dẫn',
-  'main_title' => 'Hướng dẫn',
-);
-$userLang = array (
-);
-?>

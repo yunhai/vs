@@ -4,7 +4,7 @@
  *
  * @package MCImageManager.authenicators
  * @author Moxiecode
- * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2005-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 // Include Joomla bootstrap logic
@@ -39,7 +39,7 @@ chdir("mambots/editors/mosce/jscripts/tiny_mce/plugins/imagemanager/");
  * @package MCImageManager.Authenticators
  */
 class MamboAuthenticatorImpl extends BaseAuthenticator {
-    /**#@+
+	/**#@+
 	 * @access public
 	 */
 

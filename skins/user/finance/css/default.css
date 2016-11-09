@@ -1,20 +1,42 @@
+@font-face {
+    font-family: 'MyriadProCondRegular';
+    src: url('../javascripts/myriadpro-cond.eot');
+    src: url('../javascripts/myriadpro-cond.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/myriadpro-cond.woff') format('woff'),
+         url('../javascripts/myriadpro-cond.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'MyriadProCondBold';
+    src: url('../javascripts/myriadpro-boldcond.eot');
+    src: url('../javascripts/myriadpro-boldcond.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/myriadpro-boldcond.woff') format('woff'),
+         url('../javascripts/myriadpro-boldcond.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
 *{
 	padding:0px;
 	margin:0px;
 }
-html{
-		background:url(../images/bg.jpg) repeat;	
-}
 body{
-	font-size:12px;
-	color:#464546;
-	line-height:18px;
-	text-align:justify;	
 	font-family:Arial, Helvetica, sans-serif;
-
+	font-size:12px;
+	color:#0e0d0c;
+	line-height:18px;
+	text-align:justify;
+	background:#fff url(../images/bg.jpg) repeat-x top center;	
+	position:relative;
 }
 #wrapper{
-	width:1000px;
+	width:961px;
 	margin:auto;
 	overflow:hidden;
 }
@@ -59,32 +81,24 @@ table{
 - Nếu thẻ <img/> đặt trong một thẻ khác mà hình ảnh quá nhỏ thì phải có thuộc tính font-size:1px trong thẻ chứa <img/>
 
 * ---------------------------Qui tắc đặt tên--------------*/
-a:hover{
-	text-decoration:underline;
-}
-.page,.simplePagerNav{
+.page{
 	text-align:right;
-	position:absolute;
-	right:0px;
-	top:2px;
-	padding-right:5px;
+	padding:7px 10px 7px 0px;
+	background: #ECEBEB;
+	margin-bottom: 10px;
 }
-.simplePagerNav li{
-    list-style: none;
-    display: inline;
-    margin-left: 10px;
- }
-.page a,.simplePagerNav a{
-
-	color:#848282;
-	padding:1px 5px;
-	line-height:14px;
-	background:#fff;
+.page a{
+color:#000;
+padding:1px 8px 1px 4px;
+background:url(../images/page_line.jpg) no-repeat right center;
 }
-.page a:hover,.page a.active,.simplePagerNav a:hover,.simplePagerNav  li.currentPage a{
-	background:url(../images/page_bg.png) repeat-x;
-	text-decoration:none;
+.page a:hover,.page a.active{
+	color:#ff3028;
+	font-weight:bold;
 }
 .page img{
 	vertical-align:middle;
+	vertical-align:top\0;
+	padding-top:5px\0;
 }
+

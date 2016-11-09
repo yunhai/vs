@@ -1,8 +1,8 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Khách hàng',
-  'main_title' => 'Khách hàng',
-  'tab_obj_objes' => 'Khách hàng',
+  'pageTitle' => 'Đối tác',
+  'main_title' => 'Đối tác',
+  'tab_obj_objes' => 'Đối tác',
   'tab_partners_SS' => 'System Settings',
   'category_showle_title_header' => 'Danh mục',
   'category_chosen' => 'Chọn danh mục',
@@ -64,17 +64,15 @@ $lang = array (
   'obj_image_link' => 'Link',
   'delete_image' => 'Xóa hình',
   'obj_image_file' => 'File',
-  'tab_obj_objes_partners' => 'Khách hàng',
+  'tab_obj_objes_partners' => 'Đối tác',
   'pages_addPageItem_Successful' => 'Thêm trang mới thành công&#33;',
   'pages_addPageItem_AddMore' => 'Bạn có thêm trang khác?',
   'pages_editPageItem_Successful' => 'Chính sửa nội dung trang thành công&#33;',
   'tab_obj_objes_weblinks' => 'Liên kết web',
-  'tab_obj_objes_weblink' => 'Liên kết',
-  'tab_obj_objes_bannerhome' => 'Flash trang chủ',
-  'tab_obj_objes_slidebottom' => 'Đối tác',
-  'tab_obj_objes_download' => 'download',
-  'tab_obj_objes_banner' => 'Slide trang trong',
-  'tab_obj_objes_slidehome' => 'Slide trang chủ',
+  'count_table_condition_fail' => 'There is no item in table!',
+  'tab_obj_objes_banner' => 'Banner',
+  'menu_permmission' => 'Quản lý quyền Menu',
+  'sf_code' => 'Mã sản phẩm',
 );
 $userLang = array (
 );
