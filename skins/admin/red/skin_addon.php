@@ -46,7 +46,6 @@ $(document).ready(function() {
 	$('#form-user-language').submit(function() {
 		var action='{$bw->base_url}languages/switch/'+$('#language-list').val()+'/';
 		$('#form-user-language').attr('action',action);
-//		vsf.submitForm($(this),"languages/switch/"+$('#user-language-list').val()+'/','maincontent');
 		return true;
 	});
 });
@@ -56,6 +55,6 @@ EOF;
 		return $BWHTML;
 	}
 
+	
 }
 ?>
-

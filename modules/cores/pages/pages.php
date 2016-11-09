@@ -2,14 +2,12 @@
 
 global $vsStd;
 $vsStd->requireFile(CORE_PATH . "pages/Page.class.php");
-
 class pages extends VSFObject {
 	public $obj;
 	function __construct() {
 		global $vsMenu, $vsStd,$DB,$bw;
-		parent::__construct();
-                
-		$this->categoryField 	= "pageCatId";
+		parent::__construct ();
+                $this->categoryField 	= "pageCatId";
 		$this->primaryField     = "pageId";
 		$this->basicClassName   = "Page";
 		$this->tableName        = 'page';
@@ -21,10 +19,21 @@ class pages extends VSFObject {
 		unset($this);
 	}
 	
-   	public function getCategoryField() {
-		return $this->categoryField;
-	}
+	function getGalleryCode($module = "") {
+		global $vsMenu,$keyacc;
+
+		$categories = $this->vsMenu->getCategoryGroup('quangcao');			
 	
+		$strIds = $vsMenu->getChildrenIdInTree($categories);		
+		
+		$this->setCondition ( "pageStatus >0 and pageCatId in ({$strIds}) and pageCode = '{$keyacc}'" );
+                $item = $this->getOneObjectsByCondition();
+                if($item)
+                    $array= $this->getarrayGallery($item->getId(),"quangcao");
+               
+		if(is_array($array))return $array;
+		return array();
+	}
 	function getMenuList() {
 		global $vsMenu;
 		
@@ -75,21 +84,6 @@ class pages extends VSFObject {
 		return $vsMenu->displaySelectBox($category->getChildren(), $option );
 	}
 	
-	// get all obj by module
-	function getAllObjByModule($module="pages") {
-		global $bw, $vsSettings, $vsMenu;
-		
-		$categories = $vsMenu->getCategoryGroup($module);
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		
-		$cond = $this->getCondition();
-		if($cond) $cond .= " AND ";
-		$this->setCondition("pageCatId in (".$strIds.") AND pageStatus > 0".$cond);
-		
-		$this->setOrder('pageIndex');
-		return $this->getObjectsByCondition();
-	}
-	
 	// get page obj in an module.
 	function getObjByModule($module="pages", $url="", $pIndex = 2, $size = 10) {
 		global $bw, $vsSettings, $vsMenu;
@@ -117,24 +111,24 @@ class pages extends VSFObject {
 				$this->setLimit ( array (0, $size ) );
 				return $this->getObjectsByCondition ();
 			}
+		
 	}
 	
 	function getObjSpecial($module = "") {
 		global $vsMenu;
 		if($module)
-			$categories = $this->vsMenu->getCategoryGroup($module);			
+		$categories = $this->vsMenu->getCategoryGroup($module);			
 		else $categories = $this->getCategories();
 		
 		$strIds = $vsMenu->getChildrenIdInTree($categories);	
 		
 		$this->setFieldsString('pageId,pageTitle,pageIntro,pageContent,pagePostDate,pageImage');
-       //	$this->setTableName ("page left join vsf_file on pageImage = fileId");
 		$this->setCondition ( "pageStatus = 2 and pageCatId in ({$strIds})" );
 		
 		return $this->getOneObjectsByCondition();
 	}
 	
-	function getarrayGallery1($id = ""){
+	public function getarrayGallery1($id = ""){
 		global $vsStd,$DB;
 		
 		$this->setFieldsString("pageId,pageTitle,pageIntro,pageContent,pageImage, vsf_file.*");
@@ -152,21 +146,15 @@ class pages extends VSFObject {
 
 	}
 
-
-	function getObjByCode($code, $module = ""){
-		global $vsMenu;
-
-		if($module) $categories = $vsMenu->getCategoryGroup($module);			
-		else $categories = $this->getCategories();
-		
-		$strIds = $vsMenu->getChildrenIdInTree($categories);	
-		$this->setCondition("pageCode='".$code."' AND pageCatId in (".$strIds.") AND pageStatus > 0");
-		$this->setLimit(array(0, 1));
-		$result = $this->getObjectsByCondition();
-		return $current = current($result);
-	}
+    public function getPageByCode($code = ''){
+    	if(!$code) return NULL; 
+    	$this->setCondition('pageCode ="'.$code.'" AND pageStatus > 0');
+    	$temp = $this->getObjectsByCondition();
+    	reset($temp);
+    	return current($temp);
+    }    
 	
-	public function getPagemenu($key = 'pages'){
+        public function getPagemenu($key = 'pages'){
 		global $vsStd,$bw,$vsMenu;
                 $categories = $vsMenu->getCategoryGroup($key);
 		$strIds = $vsMenu->getChildrenIdInTree($categories);
@@ -177,6 +165,48 @@ class pages extends VSFObject {
 		return $this->buildLi($key,$list);
 	}
 
+        public function buildLi($key = 'pages',$list=array()){
+        	global $vsMenu,$bw,$vsLang,$vsPrint;
+                $re ="";
+		if(count($list)){
+			$re ="<h3>{$vsPrint->pageTitle}</h3>
+                                <ul id='menu' class='imenu'>";
+			foreach( $list as $obj){
+				$re .= "<li><a href='{$obj->getUrl($key)}' title='{$obj->getTitle()}'>{$obj->getTitle()}</a></li>";
+			}
+			$re .= "</ul>";
+		}
+                return $re;
+        }
+        
+         function getObjPageCate($module = "",$status = 1,$limit = 10) {
+		global $vsMenu;
+		if($module)
+			$categories = $this->vsMenu->getCategoryGroup($module);
+		else $categories = $this->getCategories();
+                
+                $option['cate']=$categories->getChildren();
+		$strIds = $vsMenu->getChildrenIdInTree($categories);
+		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image");
+                $this->setLimit(array(0, $limit));
+                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
+                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
+                if($this->getCondition())
+        	$cond .= " and ".$this->getCondition();
+		$this->setCondition ( $cond );
+                $list = $this->getObjectsByCondition();
+                if($list){
+                    $this->convertFileObject($list,$module);
+                    $option['big']= current($list);
+                    unset($list[$option['big']->getId()]);
+                    if(count($list)>2){
+                        $option['links']=  array_splice($list,0,2);
+                        $option['imglinks'] = $list;
+                    }else $option['links'] = $list;
+                
+                }
+		return $option;
+	}
 	
 }
 ?>

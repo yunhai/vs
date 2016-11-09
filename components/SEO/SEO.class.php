@@ -4,12 +4,26 @@ class SEO extends BasicObject{
 	private $aliasUrl 	= NULL;
 	private $realUrl 	= NULL;
 	private $keyword 	= NULL;
-	private $obj		= NULL;
-	private $module		= NULL;
-	
 	public $title 	= NULL;
 	public $type 	= NULL;
 	
+
+
+
+
+	/**
+	 * @return the $type
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param $type the $type to set
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
 
 	function __construct() {
 		parent::__construct();
@@ -23,16 +37,14 @@ class SEO extends BasicObject{
 
 	}
 
-	function convertToDB() {
+	public function convertToDB() {
 		isset($this->id)        	? ($dbobj['seoId'] 				= $this->id) 		: '';
-		isset($this->aliasUrl)      ? ($dbobj['seoAliasUrl'] 		= $this->aliasUrl) 	: '';
-		isset($this->realUrl)       ? ($dbobj['seoRealUrl'] 		= $this->realUrl) 	: '';
+		isset($this->aliasUrl)      ? ($dbobj['seoAliasUrl'] 		= trim($this->aliasUrl,"/")) 	: '';
+		isset($this->realUrl)       ? ($dbobj['seoRealUrl'] 		= trim($this->realUrl,"/") )	: '';
 		isset($this->keyword)       ? ($dbobj['seoKeyword'] 		= $this->keyword) 	: '';
 		isset($this->intro)        	? ($dbobj['seoIntro'] 			= $this->intro) 	: '';
 		isset($this->title)        	? ($dbobj['seoTitle'] 			= $this->title) 	: '';
-		isset($this->type)        	? ($dbobj['seoType'] 			= $this->type) 		: '';
-		isset($this->obj)        	? ($dbobj['seoObj'] 			= $this->obj) 		: '';
-		isset($this->module)        ? ($dbobj['seoModule'] 			= $this->module) 	: '';
+		isset($this->type)        	? ($dbobj['seoType'] 			= $this->type) 	: '';
 		return $dbobj;
 	}
 
@@ -45,78 +57,48 @@ class SEO extends BasicObject{
 		isset ( $object ['seoIntro'] ) 		? $this->setIntro( $object ['seoIntro'] ) 		: '';
 		isset ( $object ['seoTitle'] ) 		? $this->setTitle( $object ['seoTitle'] ) 		: '';
 		isset ( $object ['seoType'] ) 		? $this->setType( $object ['seoType'] ) 		: '';
-		isset ( $object ['seoObj'] ) 		? $this->setObj( $object ['seoObj'] ) 			: '';
-		isset ( $object ['seoModule'] ) 	? $this->setModule( $object ['seoModule'] ) 	: '';
+
 	}
-	
-	function getAliasUrl() {
+
+	public function getAliasUrl() {
 		return $this->aliasUrl;
 	}
-	
 
-	function getRealUrl() {
-		return $this->realUrl;
-	}
-	
-
-	function getKeyword() {
+	public function getKeyword() {
 		return $this->keyword;
 	}
-	
 
-	function getObj() {
-		return $this->obj;
+	public function getRealUrl() {
+		return $this->realUrl;
 	}
-	
 
-	function getModule() {
-		return $this->module;
-	}
-	
-
-	function getTitle() {
-		return $this->title;
-	}
-	
-
-	function getType() {
-		return $this->type;
-	}
-	
-
-	function setAliasUrl($aliasUrl) {
+	public function setAliasUrl($aliasUrl) {
 		$this->aliasUrl = $aliasUrl;
 	}
-	
 
-	function setRealUrl($realUrl) {
-		$this->realUrl = $realUrl;
-	}
-	
 
-	function setKeyword($keyword) {
+	public function setKeyword($keyword) {
 		$this->keyword = $keyword;
 	}
-	
 
-	function setObj($obj) {
-		$this->obj = $obj;
+	public function setRealUrl($realUrl) {
+		$this->realUrl = $realUrl;
 	}
-	
-
-	function setModule($module) {
-		$this->module = $module;
+	public function getTitle() {
+		return $this->title;
 	}
-	
 
-	function setTitle($title) {
+	public function setTitle($title) {
 		$this->title = $title;
 	}
-	
-
-	function setType($type) {
-		$this->type = $type;
+        
+        function validate() {
+		$status = true;
+		if ($this->aliasUrl == "" && $this->realUrl == "") {
+			$this->message .= " title can not be blank!";
+			$status = false;
+		}
+		return $status;
 	}
-
 }
 ?>

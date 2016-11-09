@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'subcribes',
+  'main_title' => 'subcribes',
+);
+$userLang = array();
+?>

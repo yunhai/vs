@@ -1,0 +1,37 @@
+<?php
+$lang = array (
+  'pageTitle' => '제품',
+  'main_title' => '제품',
+  'news_title' => '뉴스',
+  'products_title' => '제품',
+  'product_price' => '가격',
+  'product_price_unit' => 'VNĐ',
+  'other_news' => '다른 소식',
+  'callprice' => 'Call',
+  'products_other' => '동일한 제품',
+  'product_search' => '제품 검색',
+  'home_giaban' => '가격',
+  'home_giaKm' => '가격 KM',
+  'home_dathang' => '순서',
+  'Cac_tin_khac' => '다른 소식',
+  'cacsanphamcungloai' => '동일한 제품',
+  'nhasanxuat' => '제조 업체',
+  'dathang' => '순서',
+  'giaban' => '가격',
+  'giaKm' => ' 가격 KM',
+  'goiphanhoi' => '의견 보내기',
+  'xemphanhoi' => '피드백',
+  'chiase' => '공유',
+  'feeback_fullname' => '이름',
+  'feeback_email' => 'Email',
+  'err_comment_name_blank' => '이름을 입력하십시오!',
+  'err_commnet_email_blank' => '올바른 이메일 형식을 입력하세요!',
+  'err_comment_title_blank' => '제목을 입력하세요!',
+  'err_comment_code_blank' => '확인 코드를 입력하세요!',
+  'err_commnet_content_blank' => '텍스트 리뷰를 입력하십시오!',
+  'thank_message' => '보안 코드가 올바르지 않습니다',
+  'comment_successful' => '귀하의 의견을 보냈습니다',
+);
+$userLang = array (
+);
+?>

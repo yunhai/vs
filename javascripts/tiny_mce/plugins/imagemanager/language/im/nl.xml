@@ -15,8 +15,7 @@
 			<item name="refresh">Verversen</item>
 			<item name="upload">Upload een nieuwe afbeelding</item>
 			<item name="error_no_access">Fout: Er zijn geen schrijfrechten voor deze map.</item>
-			<item name="error_delete_failed">Fout: U heeft geen rechten om deze actie uit te
-				voeren.</item>
+			<item name="error_delete_failed">Fout: U heeft geen rechten om deze actie uit te voeren.</item>
 		</group>
 
 		<group target="createdir">
@@ -30,8 +29,7 @@
 			<item name="button_cancel">Annuleren</item>
 			<item name="error_missing_name">Fout: U moet een map naam opgeven.</item>
 			<item name="error_select_template">Fout: U moet een map template selecteren.</item>
-			<item name="error_template_missing">Fout: De geselecteerde template kan niet worden
-				gevonden.</item>
+			<item name="error_template_missing">Fout: De geselecteerde template kan niet worden gevonden.</item>
 			<item name="error_invalid_name">Fout: Deze map naam is niet toegestaan.</item>
 			<item name="error_exists">Fout: Er bestaat reeds een map met deze naam.</item>
 		</group>
@@ -44,17 +42,15 @@
 			<item name="max_upload_size">Maximale upload grootte:</item>
 			<item name="file_to_upload">Bestand voor uploaden:</item>
 			<item name="as_file_name">Als bestandsnaam:</item>
-			<item name="required_filename">Er dient een naam voor het te uploaden bestand te
-				worden gespecificeerd.</item>
+			<item name="required_filename">Er dient een naam voor het te uploaden bestand te worden gespecificeerd.</item>
 			<item name="button_upload">Uploaden</item>
 			<item name="button_add_upload">Toevoegen upload</item>
 			<item name="button_cancel">Annuleren</item>
 			<item name="error_exists">Fout: Er bestaat reeds een bestand met deze naam.</item>
-			<item name="error_to_large">Fout: Het bestand dat u probeert te uploaden is te
-				groot.</item>
+			<item name="error_to_large">Fout: Het bestand dat u probeert te uploaden is te groot.</item>
 			<item name="remove">Verwijderen</item>
 		</group>
-
+		
 		<group target="images">
 			<item name="title">Moxiecode Image Manager</item>
 			<item name="subtitle">Image Manager</item>
@@ -73,8 +69,7 @@
 			<item name="jpg">JPEG afbeelding</item>
 			<item name="gif">GIF afbeelding</item>
 			<item name="tif">TIFF afbeelding</item>
-			<item name="editwriteaccess">Geen schrijfrechten, tijdelijke bestanden kunnen niet
-				worden aangemaakt.</item>
+			<item name="editwriteaccess">Geen schrijfrechten, tijdelijke bestanden kunnen niet worden aangemaakt.</item>
 			<item name="loading">Laden van informatie...</item>
 		</group>
 
@@ -90,21 +85,19 @@
 			<item name="top">t:</item>
 			<item name="width">b:</item>
 			<item name="height">h:</item>
-			<item name="error_selection">Gebruik de selectie functie om een gedeelte bij te
-				snijden.</item>
-			<item name="error_resize">U moet een hoogte en breedte specificeren als u het
-				formaat van de afbeelding aan wilt passen.</item>
+			<item name="error_selection">Gebruik de selectie functie om een gedeelte bij te snijden.</item>
+			<item name="error_resize">U moet een hoogte en breedte specificeren als u het formaat van de afbeelding aan wilt passen.</item>
 			<item name="filename">Bestandsnaam:</item>
 		</group>
 
 		<group target="preview">
 			<item name="title">Bekijken</item>
-			<item name="prev">Afbeelding bekijken</item>
+			<item name="prev">Afbeelding bekijken</item>	
 			<item name="next">Volgende afbeelding</item>
 			<item name="first">Eerste afbeelding</item>
 			<item name="last">Laatste afbeelding</item>
-			<item name="keyboard_next">Toetsenbord sneltoets: SPACE,N,RIGHTARROW,PAGE DOWN</item>
-			<item name="keyboard_prev">Toetsenbord sneltoets: P,LEFTARROW,PAGE UP</item>
+			<item name="keyboard_next">Toetsenbord sneltoets: SPACE,N,RIGHTARROW,PAGE DOWN</item>	
+			<item name="keyboard_prev">Toetsenbord sneltoets: P,LEFTARROW,PAGE UP</item>	
 		</group>
 	</language>
 </language-pack>

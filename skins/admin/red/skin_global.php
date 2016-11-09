@@ -23,8 +23,7 @@ EOF;
 		global $bw;
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
-		<script type="text/javascript" src='{$bw->vars['js']}/{$file}.js'></script>
-
+<script type="text/javascript" src='{$bw->vars['board_url']}/javascripts/{$file}.js'></script>
 
 EOF;
 		return $BWHTML;
@@ -32,7 +31,7 @@ EOF;
 
 	function addJavaScript($script = "") {
 		$BWHTML .= <<<EOF
-<script type="text/javascript">
+<script language="javascript" type="text/javascript">
 {$script}
 </script>
 
@@ -98,15 +97,16 @@ EOF;
 	//===========================================================================
 	function vs_global() {
 		global $bw, $vsUser, $vsLang;
-		
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 		<if=" !$vsUser->obj->getId() ">
 			{$this->SITE_MAIN_CONTENT}
 		<else />
 		<center>
-			<a href="{$bw->vars ['board_url']}/admin.php" class="buttom_back_cd">Trở lại trang chủ</a>
-			<a href="{$bw->vars ['board_url']}"style="right:0px;left:auto;padding-left:25px;" class="buttom_back_cd logo_cd">VS FRAMEWORK 3.0.0</a>
+			<a target="_blank" href="{$bw->vars ['board_url']}" class="buttom_back_cd" title="{$bw->vars ['global_websitename']}">Trở lại trang chủ</a>
+			<a target="_blank" href="http://www.vietsol.net" style="right:0px;left:auto;padding-left:25px;" class="buttom_back_cd logo_cd" title="{$vsLang->getWords('global_vietsolution_full','Công ty TNHH Thương Mại Điện Tử Giải Pháp Việt')}">
+				{$vsLang->getWordsGlobal('global_version', 'VS FRAMEWORK 4.0')}
+			</a>
 			<div id="vsf-wrapper-container">
 			<div id="vsf-wrapper" align="center">
 			<!-- BEGIN OF HEADER -->
@@ -120,7 +120,7 @@ EOF;
 					<ul>
 						<if=" $this->ADMIN_TOP_MENU ">
 						<foreach="$this->ADMIN_TOP_MENU as $menu">
-						<li class="{$menu->getClassActive()}"><a href="{$menu->getUrl(0)}" title="{$menu->getTitle()}" >{$menu->getTitle()}</a>
+						<li ><a href="{$menu->getUrl(0)}" title="{$menu->getTitle()}" >{$menu->getTitle()}</a>
 							<if="$menu->isDropdown&&count($menu->children)">
 			                    <ul>
 			                    <foreach="$menu->children as $obj">
@@ -159,7 +159,11 @@ EOF;
 			<!-- BEGIN OF FOOTER -->
 			<div id="footer">
 			    <img src="{$bw->vars['img_url']}/vsfooter-leftimg.jpg" style="float:left;" height="25" width="25" alt="vs" />
-			    <span>{$vsLang->getWordsGlobal('global_copyrights', 'Copyright VS Framework 4.0 by Viet Solution Commerce')}</span>
+			    <span>
+			    	<a href="http://www.vietsol.net" title="{$vsLang->getWords('global_vietsolution_full','Công ty TNHH Thương Mại Điện Tử Giải Pháp Việt')}" style="color:#000;">
+			    		{$vsLang->getWordsGlobal('global_copyrights', 'Copyright VS Framework 4.0 by Viet Solution Commerce')}
+			    	</a>
+			    </span>
 			    <img src="{$bw->vars['img_url']}/vsfooter-rightimg.jpg" style="float:right;" height="25" width="245" alt="vs" />
 			</div>
 			<!-- END OF FOOTER -->

@@ -1,104 +1,121 @@
  <?php
- 
-/*
- +-----------------------------------------------------------------------------
- |   VS FRAMEWORK 3.0.0
- |	Author: BabyWolf
- |	Homepage: http://vietsol.net
- |	If you use this code, please don't delete these comment line!
- |	Start Date: 21/09/2004
- |	Finish Date: 22/09/2004
- |	Version 2.0.0 Start Date: 07/02/2007
- |	Version 3.0.0 Start Date: 03/29/2009
- +-----------------------------------------------------------------------------
- */
-if(!defined( 'IN_VSF')){
-	print "<h1>Permission denied!</h1>You cannot access this area. (VS Framework is powered by <a href=\"http://www.vietsol.net\">Viet Solution webdesign company</a>)";
-	exit();
-}
-
-require_once(CORE_PATH."pages/pages.php");
-class pages_public{
-	protected $html;
-	protected $module;
-	protected $output;
-	
+class pages_public extends ObjectPublic{
 	function __construct(){
-		global $vsTemplate,$bw,$vsModule;
-		$this->html = $vsTemplate->load_template('skin_pages');
-		$this->module = new pages();
+            global $incon,$vsMenu;
+		parent::__construct('pages', CORE_PATH.'pages/', 'pages');
+                $incon = $vsMenu->getCategoryGroup('picon')->getChildren();
 	}
+        function auto_run() {
+		global $bw;
 
-	function auto_run(){
-		global $bw, $vsSettings, $vsTemplate;
-
-		switch($bw->input['action']){
+		switch ($bw->input['action']) {
 			case 'detail':
-					$this->loadDetail($bw->input[2]);
+				$this->showDetail($bw->input[2]);
 				break;
-				
-			case 'category':
-					$this->loadCategory($bw->input[2]);
-				break;
-
-                        case 'service' :
-                                $this->showService($bw->input[2]);
+                        case 'form':
+                                $this->output = $this->html->getForm();
                                 break;
-                            
+			case 'category':
+				$this->showCategory($bw->input[2]);
+				break;
+                        case 'searchs':
+                            $this->showSearch();
+                            break;
+                        case 'send' :
+					$this->sendContact ();
+				break;
+			
+			case 'thanks' :
+					$this->thankContact();
+				break;
 			default:
-					$this->loadDefault();
+				$this->showDefault();
 				break;
 		}
 	}
+        function sendContact() {
+		global $bw, $vsLang, $vsSettings, $vsPrint, $vsStd,$DB;
+		$vsStd->requireFile ( CORE_PATH . 'contacts/contacts.php' );
+		$vsStd->requireFile ( CORE_PATH . 'files/files.php' );
+		$this->model = new contacts ();
+		$file = new files ();
+		
+			$vsStd->requireFile(ROOT_PATH."captcha/securimage.php");
+			$image = new Securimage();
+			if(!$image->check($bw->input['contactSecurity'])) {
+				$message = $vsLang->getWords('thank_message','Security code doesnot match');
+				$vsPrint->redirect_screen($message, "{$bw->input['module']}/form"); 
+			}
+		
+		
+			$bw->input['contactPostDate'] = time();
+			$bw->input['contactType'] = 1;	
+			$default_profile = array(
+									"contactAddress" 	=> $bw->input['noio'],
+									"contactPhone"		=> $bw->input['dienthoai'],
+									"contactMobile"		=> $bw->input ['didong'],
+									"contactCountry"	=> $bw->input ['quoctich'],
+									"contactStatus" 	=> $bw->input ['tinhtranghonnhan'],
+									"contactBirth" 		=> $bw->input ['day']."-".$bw->input ['month']."-".$bw->input ['year']
+							);
 
-        function showService($pageId){
-            global $vsPrint, $vsLang, $bw,$vsSettings,$vsTemplate,$vsStd,$vsMenu;
-            
-            $categories = $vsMenu->getCategoryGroup($bw->input['module']);
-            $strIds = $vsMenu->getChildrenIdInTree($categories);
-            $this->module->setOrder('pageIndex ASC,pageId DESC');
-            $this->module->setCondition("pageCatId in ({$strIds}) and pageStatus > 0 ");
-            $this->module->setTableName ("page left join vsf_file on pageImage = fileId");
-            $list = $this->module->getObjectsByCondition();
-            if(count($list)==0) return $this->output ="no data";
-           if($pageId){
-                $query = explode('-',$pageId);
-                $pageId = intval($query[count($query)-1]);
-                $option['show'] = $list[$pageId];
-           }
-           if(!$option['show'])$option['show']=current($list);
-           unset ($list[$option['show']->getId()]);
-           $option['other'] = $list;
-           $vsPrint->mainTitle = $vsPrint->pageTitle = $option['show']->getTitle();
-          
-           $this->output = $this->html->showService($option);
+			$infoupload = $file->uploadFile('fileupload',$bw->input['module']);
+			$bw->input['contactFileId'] = $infoupload['fileId'];
+			$bw->input ['contactProfile'] = serialize($default_profile);
+                        
+			$this->model->obj->convertToObject($bw->input);
+                        $this->model->obj->setContent($this->getContentRecruiment($default_profile));
+			$result = $this->model->insertObject();
+		
+			if($vsSettings->getSystemKey("recruitment_sendMail", 1, "contacts"))
+				$this->sentContactByEmail($default_profile,$infoupload['objfile']);
+			
+			if ($this->model->error != "")
+			return $this->sendContactError();
+		
+			$this->thankcontact("{$bw->input['module']}/form");
 	}
-
-	function loadDefault(){
-            global $vsPrint, $vsLang, $bw,$vsSettings,$vsTemplate,$vsStd,$vsMenu;
-            if($vsSettings->getSystemKey($bw->input['module'].'_show_cate_first', 0, $bw->input['module'], 1, 1))return $this->loadCategory();
-            $categories = $vsMenu->getCategoryGroup($bw->input['module']);
-            $strIds = $vsMenu->getChildrenIdInTree($categories);
-            $size = $vsSettings->getSystemKey($bw->input['module'].'_user_item_quality', 10, $bw->input['module'],1);
-            $this->module->setFieldsString('pageId,pageTitle,pageIntro,pagePostDate,pageImage,vsf_file.*');
-            $this->module->setCondition("pageCatId in ({$strIds}) and pageStatus > 0");
-            $this->module->setOrder('pageIndex, pageId DESC');
-            $this->module->setTableName ("page left join vsf_file on pageImage = fileId");
-            $option = $this->module->getPageList($bw->input['module']."/", 1, $size);
-            $option['cate'] = $categories->getChildren();
-            $this->output = $this->html->loadDefault($option);
-	}
-
-
 	
-	
+	function sentContactByEmail($addon_profile,$file) {
+		global $vsStd, $vsLang, $bw, $vsSettings;
 
-	function setOutput($out){
-		return $this->output = $out;
+		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
+		$this->email = new Emailer ();
+		
+		$message = $this->getContentRecruiment($addon_profile);
+		$f = file_get_contents($bw->base_url."uploads/".$file->getPath().$file->getName()."_{$file->getUploadTime()}".".".$file->getType(), true);
+		$this->email->setTo ($vsSettings->getSystemKey("recruitment_emailrecerver", "baochau@vietsol.net", "recruitment"));
+		$this->email->addAttachment($f,$file->getName()."_{$file->getUploadTime()}".".".$file->getType(),"application/force-download");
+		$this->email->setFrom ( $this->model->obj->getEmail (), $this->model->obj->getTitle () );
+		$this->email->setSubject($vsLang->getWords($bw->input['recruitment'].'_position', 'Vị trí dự tuyển').":  {$this->model->obj->getTitle()}");
+		$this->email->setBody ( $message );
+		
+		$this->email->sendMail ();
 	}
-
-	function getOutput(){
-		return $this->output;
+        function getContentRecruiment($addon_profile=array()){
+            global $vsLang;
+            $message = "<strong>{$vsLang->getWords($bw->input['recruitment']."_position", "Vị trí dự tuyển")}:</strong> {$this->model->obj->getTitle()} <br />";
+				$message .= "<p><strong>{$vsLang->getWords($bw->input['recruitment']."_fullname", "Họ tên")}:</strong> {$this->model->obj->getName()}<br />";
+				$message .= "</p><p><strong>{$vsLang->getWords($bw->input['module']."_birth", "Ngày sinh")}: </strong>" . $addon_profile ["contactBirth"];
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_country", "Quốc tịch")}: </strong>" . $addon_profile ["contactCountry"]; 
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_status", "Tình trạng hôn nhân")}: </strong>" . $addon_profile ["contactStatus"];
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_address", "Địa chỉ nơi ở")}: </strong>" . $addon_profile ["contactAddress"] . "<br />";
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_phone", "Điện thoại")}: </strong>" . $addon_profile ["contactPhone"] . "<br />";
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_mobile", "Số di động")}: </strong>" . $addon_profile ["contactMobile"] . "<br />";
+				$message .= "</p><p><br /><strong>{$vsLang->getWords($bw->input['recruitment']."_email", "Địa chỉ Email")}: </strong> {$this->model->obj->getEmail()}<br />";
+				$message .= "</p><p><br /><strong>{$vsLang->getWords('contactSubject','Subject:')}: </strong> {$this->model->obj->getTitle()}<br /></p>";
+                                return $message;
+        }
+	
+	function thankcontact($url="recruitment") {
+		global $vsLang, $vsPrint;
+		$text = $vsLang->getWords('contact_redirectText', 'Thankyou! Your message have been sent.');
+		$this->output = $this->html->thankyou ( $text, $url );
+	}
+	
+	function sendContactError() {
+		global $vsLang;
+		$this->output = $vsLang->getWords ( 'contact_sendContentError', 'The following errors were found! Unknow!' );
 	}
 }
 ?>

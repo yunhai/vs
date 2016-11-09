@@ -6,6 +6,7 @@ class Admin extends BasicObject{
 	private $lastLogin 	= NULL;
 	private $joinDate 	= NULL;
 	private $groups 	= NULL;
+        private $email          = NULL;
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +18,7 @@ class Admin extends BasicObject{
 		unset($this->password);
 		unset($this->lastLogin);
 		unset($this->joinDate);
-
+                unset($this->email);
 	}
 
 	public function addGroup($group) {
@@ -32,6 +33,9 @@ class Admin extends BasicObject{
 	public function getGroups() {
 		return $this->groups;
 	}
+        public function getEmail() {
+		return $this->email;
+	}
 
 	public function getMainGroup() {
 		if(!count($this->groups))
@@ -45,6 +49,10 @@ class Admin extends BasicObject{
 	 */
 	public function setGroups($groups=array()) {
 		$this->groups = $groups;
+	}
+        
+        public function setEmail($email="") {
+		$this->email = $email;
 	}
 
 	public function getName() {
@@ -109,6 +117,7 @@ class Admin extends BasicObject{
 		isset ( $this->joinDate ) 	? ($dbobj ['adminJoinDate'] 	= $this->joinDate) 	: '';
 		isset ( $this->status )		? ($dbobj ['adminStatus'] 		= $this->status) 	: '';
 		isset ( $this->index ) 		? ($dbobj ['adminIndex'] 		= $this->index) 	: '';
+                isset ( $this->email ) 		? ($dbobj ['adminEmail'] 		= $this->email) 	: '';
 		return $dbobj;
 	}
 	/**
@@ -125,7 +134,17 @@ class Admin extends BasicObject{
 		isset ( $object ['adminJoinDate'] ) 	? $this->setJoinDate ( $object ['adminJoinDate'] ) 	: '';
 		isset ( $object ['adminStatus'] )		? $this->setStatus ( $object ['adminStatus'] ) 		: '';
 		isset ( $object ['adminIndex'] )		? $this->setIndex( $object ['adminIndex'] ) 		: '';
+                isset ( $object ['adminEmail'] )		? $this->setEmail( $object ['adminEmail'] ) 		: '';
 	}
+	
+	function validate() {
+	  $status = true;
+	  if ($this->name == "") {
+	   $this->message .= " title can not be blank!";
+	   $status = false;
+	  }
+	  return $status;
+	 }
 }
 
 ?>

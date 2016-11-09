@@ -12,39 +12,43 @@ class VSFSkin extends skins {
 		$this->javaDir = $this->obj->getFolder () . "/javascripts/";
 	}
 
-	function __destruct() {}
-	
+	function __destruct() {
+	}
 	function show() {
 		echo $this->wrapper;
 	}
-	
 	function loadWrapper() {
 		global $bw, $vsLang;
-		return $this->wrapper = <<<EOF
+		if(APPLICATION_TYPE != 'admin')$bs = "<base href='{$bw->vars['board_url']}/' />";
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="vi" lang="vi">
 			<head>
 			<title>{$this->TITLE}</title>
-			<meta http-equiv="Content-Language" content="en-us" />
+			<meta http-equiv="Content-Language" content="vi" />
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<META HTTP-EQUIV="Content-Language" CONTENT="EN">
-			<META NAME="author" CONTENT="VIET SOLUTION JSC">
-			<META NAME="distribution" CONTENT="Global">
-			<META HTTP-EQUIV="Expires" CONTENT="{$this->EXPIRED}">
-			<META NAME="revisit-after" CONTENT="1 days">
-			<META NAME="copyright" CONTENT="VIET SOLUTION JSC">
+			<META name="Language" content="Vietnamese">
+			<META NAME="author" CONTENT="Viet Solution">
+			<META NAME="copyright" CONTENT="CRPAOA 2006">
 			<META NAME="robots" CONTENT="FOLLOW,INDEX">
+			{$bs1}
 			<link rel="shortcut icon" href="{$this->SHORTCUT}" type="image/x-icon" />
 			{$this->GENERATOR}
 			{$this->CSS}
 			{$this->JAVASCRIPT_TOP}
 			</head>
-			<body >
+			<body>
 			{$this->BOARD}
+
 			</body> 
+			
+<script type="text/javascript" src="http://sdscdn.userreport.com/popup.min.js"></script>
+<script type="text/javascript">try { _bvt.initSite('259289d8-8a41-4f87-821b-118b9929d8c8'); } catch(err) {}</script> 
 			</html>
-			{$this->JAVASCRIPT_BOTTOM}
+			{$this->JAVASCRIPT_BOTTOM }
 EOF;
+			return $this->wrapper = $BWHTML;
 	}
 }
 ?>

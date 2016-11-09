@@ -53,6 +53,7 @@ class PostParser {
 
 	function post_db_parse($t="")
 	{
+           
 		global $bw, $DB;
 		if ( $this->pp_do_html )
 		$t = $this->post_db_parse_html( $t );
@@ -136,7 +137,6 @@ class PostParser {
 		$t = str_replace( "&gt;"    , ">", $t );
 		$t = str_replace( "&lt;"    , "<", $t );
 		$t = str_replace( "&quot;"  , '"', $t );
-
 		//-------------------------------------
 		// Take a crack at parsing some of the nasties
 		// NOTE: THIS IS NOT DESIGNED AS A FOOLPROOF METHOD

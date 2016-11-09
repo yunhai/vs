@@ -1,0 +1,14 @@
+<?php
+$lang = array (
+  'pageTitle' => '골프 지식',
+  'main_title' => '골프 지식',
+  'Cac_tin_khac' => '다른 소식',
+  'xemchitiet' => '세부',
+  'print_sendFullname' => '당신은 그들의 이름을 기입해야합니다!',
+  'print_sendEmail' => '당신이 보낸 이메일에 작성해야합니다!',
+  'ngaydangtin' => '날짜',
+  'cactinkhac' => '다른 소식',
+);
+$userLang = array (
+);
+?>

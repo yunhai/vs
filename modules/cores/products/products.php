@@ -1,59 +1,57 @@
 <?php
+//require_once(CORE_PATH."products/options.php");
 require_once(CORE_PATH."products/Product.class.php");
 class products extends VSFObject {
-	public $obj;
-	protected $categoryField 	="";
-	protected $relTableName 	="";
-	protected $categories 		= array();
-	
+        public $obj;
+        public $service 			=null;
 	function __construct(){
-		$this->requireFileUseFull();
+            global $vsMenu,$bw;
+            $this->requireFileUseFull();
 		parent::__construct();
 		$this->categoryField 	= "productCatId";
 		$this->primaryField 	= 'productId';
 		$this->basicClassName 	= 'Product';
-		$this->tableName 		= 'product';
-		
-		$this->relTableName 	= "product_category";
-		$this->obj = $this->createBasicObject();
-		$this->fields = $this->obj->convertToDB();
-		$this->categories = array();
-         $this->categories = $this->vsMenu->getCategoryGroup(strtolower($this->tableName."s"));
-	}
-	
-	/**
-	 * @param $categories the $categories to set
-	 */
-	/**
-	 * @return the $relTableName
-	 */
-	public function getRelTableName() {
-		return $this->relTableName;
+		$this->tableName 	= 'product';
+		$this->obj              = $this->createBasicObject();
+		$this->obj              =&$this->basicObject;
+		$this->fields           = $this->obj->convertToDB();
+		$this->categories       = array();
+		$this->categories       = $vsMenu->getCategoryGroup(strtolower($bw->input['module']));
+
 	}
 
-	/**
-	 * @param $relTableName the $relTableName to set
-	 */
-	public function setRelTableName($relTableName) {
-		$this->relTableName = $relTableName;
-	}
-
-	public function setCategories($categories) {
-		$this->categories = $categories;
-	}
-	
+	 function getObjPageCate($module = "",$status = 1,$limit = 10) {
+		global $vsMenu;
+		if($module)
+			$categories = $this->vsMenu->getCategoryGroup($module);
+		else $categories = $this->getCategories();
+                
+                $option['cate']=$categories->getChildren();
+		$strIds = $vsMenu->getChildrenIdInTree($categories);
+		$this->setFieldsString("{$this->tableName}Id,{$this->tableName}Title,{$this->tableName}Intro,{$this->tableName}PostDate,{$this->tableName}Image,{$this->tableName}Price,{$this->tableName}HotPrice");
+                $this->setLimit(array(0, $limit));
+                $this->setOrder("{$this->tableName}Index ASC , {$this->tableName}Id DESC");
+                $cond = "{$this->tableName}Status >={$status} and {$this->tableName}CatId in ({$strIds}) ";
+                if($this->getCondition())
+        	$cond .= " and ".$this->getCondition();
+		$this->setCondition ( $cond );
+                $list = $this->getObjectsByCondition();
+                if($list)
+                    $this->convertFileObject($list,$module);
+                $option['item']=$list;
+		return $option;
+	} 
+        
 	function requireFileUseFull() {
 		global $vsStd;
 		$vsStd->requireFile(UTILS_PATH."TextCode.class.php");
 	}
 
-	/**
-	 * @param $categoryField the $categoryField to set
-	 */
 	public function setCategoryField($categoryField) {
 		$this->categoryField = $categoryField;
 	}
 
+	
 	/**
 	 * @return the $categories
 	 */
@@ -64,72 +62,144 @@ class products extends VSFObject {
 	/**
 	 * @return the $categoryField
 	 */
-	public function getCategoryField() {
-		return $this->categoryField;
-	}
-	/**
-	 * @return the $categoryField
-	 */
+	
 	public function getListWithCat($treeCat) {
-		if(!is_object($treeCat)) return false;
-		
-		global $vsSettings;
-		$ids = $this->vsMenu->getChildrenIdInTree($treeCat);
+       	global $vsMenu;
+            
+       	if(!is_object($treeCat)) return false;
+		$ids=$vsMenu->getChildrenIdInTree($treeCat);
 		if($ids) $this->condition = "productCatId in ( {$ids})";
-		$this->limit = array(0, $vsSettings->getSystemKey('product_listCat_Quality', 10, 'products'));
+		$this->setOrder("productIndex Desc, productId Desc");
+		$this->limit=array(0,30);
 		return $this->getObjectsByCondition();
 	}
-	
-	/**
-	 * @return the $categoryField
-	 */
+
+
 	public function getOtherList($obj) {
-		$cat=$this->vsMenu->getCategoryById($obj->getCatId());
-		$ids=$this->vsMenu->getChildrenIdInTree($cat);
-		$this->condition = "productId <> {$obj->getId()}";
+		global  $vsSettings,$vsMenu;
+
+		$cat=$vsMenu->getCategoryById($obj->getCatId());
+		$ids=$vsMenu->getChildrenIdInTree($cat);
+		
+		$this->setFieldsString('productId,productTitle,productImage,productPostDate, productPrice,productHotPrice');
+//		$this->setOrder("productIndex Desc, productId Desc");
+                $this->condition = "productId <> {$obj->getId()} and productStatus >0";
+               // $this->setTableName ("product left join vsf_file on productImage = fileId");
+                $size =  8;$vsSettings->getSystemKey("{$bw->input['module']}_user_list_number_other",9);
+		$this->setLimit(array(0,$size));
 		if($ids)
-			$this->condition .= " and productCatId in ( {$ids})";
+		$this->condition .= " and productCatId in ( {$ids})";
+
 		return $this->getObjectsByCondition();
 	}
 	
-	/**
-	 * @return the $categoryField
-	 */
-	public function getHotList() {
-		global $vsSettings;
-		$ids=$this->vsMenu->getChildrenIdInTree($this->getCategories());
-		$this->condition .= " productStatus > 0 and productCatId in ( {$ids})";
-		$this->setOrder("productIndex DESC, productId DESC");
-		$this->setLimit(array(0,$vsSettings->getSystemKey('product_hotList_Quality', 10, 'products')));
+	public function getOtherListHome($obj) {
+		global  $vsSettings,$vsMenu;
+		$cat=$vsMenu->getCategoryById($obj->getCatId());
+		$ids=$vsMenu->getChildrenIdInTree($cat);
+		
+		$this->setFieldsString('productId,productTitle,productImage,vsf_file.*');
+		$this->setOrder("productIndex Desc, productId Desc");
+                $this->condition = "productId <> {$obj->getId()} and productStatus >0";
+                $this->setTableName ("product left join vsf_file on productImage = fileId");
+                $size =  $vsSettings->getSystemKey("product_user_list_number_other_home",2);
+		$this->setLimit(array(0,$size));
+		if($ids)
+		$this->condition .= " and productCatId in ( {$ids})";
+		
+		return $this->getObjectsByCondition();
+	}
+
+	
+	public function getHomeList($ids,$limit) {
+            global $vsMenu;
+   		if(!$ids)
+     	$ids=$vsMenu->getChildrenIdInTree($this->getCategories());
+
+        $this->setFieldsString('productId,productTitle,productIntro,productImage');
+		$this->setOrder('productId Desc,productIndex Desc');
+        $this->setCondition("productCatId in ({$ids}) and productStatus = 2");
+        if($limit)
+      	$this->setLimit(array(0, $limit));
+       	return $this->getObjectsByCondition();       
+	}
+	
+	function getLastest($limit=1){
+		$this->condition .= " productStatus > 0 ";
+		$this->setOrder("productId DESC");
+		$this->setLimit(array(0, $limit));
 		return $this->getObjectsByCondition();
 	}
 	
-	function __destruct(){	
+	function __destruct(){
 		unset($this);
-	}	
-	
-	function delete($ids = 0) {
+	}
+
+	function deleteObjInCategory($catIds = 0){
 		global $vsStd;
-		$this->createMessageSuccess($this->vsLang->getWords('product_delete_by_id_success', "Deleted product successfully!"));
-		// Get objects information
-		$this->fieldsString = "productImage";
-		$this->condition = "productId IN (".$ids .")";
-		$list = $this->getObjectsByCondition();
+		
+		$query = "SELECT productId, productImage from vsf_product where productCatId in(".$catIds.")";
+		$list = $this->executeQuery($query, 0);
+
 		if(!count($list)) return false;
-		// Delete product data
-		$this->condition = "productId IN (".$ids .")";
+		
+		$this->condition = "productCatId IN (".$catIds.")";
 		if(!$this->deleteObjectByCondition()) return false;
-		foreach ($list as $product){
-			$this->vsFile->deleteFile($product->getImage());
-		}	
-		unset($product);
-		unset($list);
+		
+		foreach ($list as $product)
+			$this->vsFile->deleteFile($product['productImage']);
+
 		return true;
 	}
-	
-	public function updateStatus($ids, $status){
-		$this->setCondition("productId IN (". $ids.")");
-		return $this->updateObjectByCondition($status);
+
+        function createRSS($id=""){
+            global $vsMenu,$vsStd,$vsLang;
+            $vsStd->requireFile(UTILS_PATH."/class_rss.php");
+            $rss = new VSSRss();
+
+            $categories = $this->getCategories();
+            if($id){
+                $result = $vsMenu->extractNodeInTree($id, $categories->getChildren());
+                if($result){
+                    $strIds = trim($idCate.",".$vsMenu->getChildrenIdInTree($result['category']),",");
+                    $rss->cate =$result['category'];
+                }
+            }
+            if(!$strIds){
+                $strIds = $vsMenu->getChildrenIdInTree($categories);
+                $rss->cate =$categories;
+            }
+               $this->setFieldsString("productTitle,productImage,productId,productIntro,productPostDate,productPrice,productHotPrice,productCatId,vsf_file.*");
+               $this->setTableName ("product left join vsf_file on productImage = fileId");
+        
+            $this->setOrder("productIndex ASC,productId DESC");
+            $this->setCondition("productStatus > 0 and productCatId in ({$strIds})");
+            $this->setLimit(array(0,4));
+            $arr = $this->getObjectsByCondition();
+           
+            $rss->arrayObj = $arr;
+            $rss->buildRss();
+           	//print "<script>alert('".$vsLang->getWordsGlobal("alert_RSS","Bạn đã tạo RSS thành công")."')</script>";
+
+        }
+
+	function buildCacheProduct() {
+		// Only build cache for user menus
+		$this->obj->setStatus(1);
+		
+		$list =$this->getArrayByCondition("product");
+
+		$cache_content  = "<?php\n";
+		$cache_content .= "\$arrayTreeMenu = ".var_export($arrayTreeMenu,true).";\n";
+		
+		$cache_content .= "?>";
+		$cache_path = CACHE_PATH."menus.cache";
+		$cache_content = preg_replace('/\s\s+/', '', $cache_content);
+		$file = fopen($cache_path, "w");
+		fwrite($file, $cache_content);
+		fclose($file);
 	}
+        
+       
 }
 ?>

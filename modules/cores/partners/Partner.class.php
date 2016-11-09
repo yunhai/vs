@@ -1,86 +1,70 @@
 <?php
 class Partner extends BasicObject{
 	private $address 	= NULL;
-	private $fileId 	= NULL;
 	private $expTime 	= NULL;
-	private $price		= NULL;
+    private $begTime 	= NULL;
+	
 	private $website 	= NULL;
 	private $hits 		= NULL;
 	private $position	= NULL;
-	public $top 		= 0;
-	public $center 		= 0;
-	public $right 		= 0;
-	public $bottom 		= 0;
-	public $left 		= 0;
 	public $message 	= NULL;
+        public $clearsearch 	= NULL;
+        private $fileId         = NULL;
 
 	public function convertToDB() {
-		isset ( $this->catId ) 			? ($dbobj ['partnerCatId'] 		= $this->getCatId()) 		: '';
-		isset ( $this->id ) 			? ($dbobj ['partnerId'] 		= $this->id) 				: '';
-		isset ( $this->title ) 			? ($dbobj ['partnerTitle'] 		= $this->title) 			: '';
-		isset ( $this->intro ) 			? ($dbobj ['partnerIntro'] 		= $this->intro) 			: '';
+                $dbobj = parent::convertToDB('partner');
 		isset ( $this->website ) 		? ($dbobj ['partnerWebsite'] 	= $this->website) 			: '';
 		isset ( $this->expTime ) 		? ($dbobj ['partnerExpTime']	= $this->expTime) 			: '';
+                isset ( $this->begTime ) 		? ($dbobj ['partnerBeginTime']	= $this->begTime) 			: '';
 		isset ( $this->address ) 		? ($dbobj ['partnerAddress']	= $this->address) 			: '';
-		isset ( $this->content ) 		? ($dbobj ['partnerContent'] 	= $this->content) 			: '';
-		isset ( $this->index ) 			? ($dbobj ['partnerIndex'] 		= $this->index) 			: '';
-		isset ( $this->fileId ) 		? ($dbobj ['partnerFileId'] 	= $this->fileId) 			: '';
 		isset ( $this->hits ) 			? ($dbobj ['partnerHits'] 		= $this->hits) 				: '';
-		isset ( $this->status ) 		? ($dbobj ['partnerStatus'] 	= $this->status) 			: '';
 		isset ( $this->price ) 			? ($dbobj ['partnerPrice'] 		= $this->price) 			: '';
-
-		$posStr = "@";
-		$posStr .= $this->top;
-		$posStr .= $this->right;
-		$posStr .= $this->center;
-		$posStr .= $this->bottom;
-		$posStr .= $this->left;
-		$dbobj['partnerPosition'] = $posStr;
-
+                isset ( $this->position ) 			? ($dbobj ['partnerPosition'] 		= $this->position) 			: '';
+                if(isset ( $this->intro ) || isset($this->content) || isset ( $this->title )){
+			$cleanContent = VSFTextCode::removeAccent($this->title)." ";
+			$cleanContent .= VSFTextCode::removeAccent(strip_tags($this->getIntro()))." ";
+			$cleanContent.= VSFTextCode::removeAccent(strip_tags($this->getContent()));
+			$dbobj ['partnerClearSearch'] = $cleanContent;
+		}
 		return $dbobj;
 	}
 
 	function convertToObject($object) {
-		isset ( $object ['partnerId'] ) 		? $this->setId ( $object ['partnerId'] ) 				: '';
-		isset ( $object ['partnerCatId'] ) 		? $this->setCatId ( $object ['partnerCatId'] ) 			: '';
-		isset ( $object ['partnerTitle'] ) 		? $this->setTitle ( $object ['partnerTitle'] ) 			: '';
-		isset ( $object ['partnerIntro'] ) 		? $this->setIntro ( $object ['partnerIntro'] ) 			: '';
+                parent::convertToObject($object,'partner');
 		isset ( $object ['partnerWebsite'] ) 	? $this->setWebsite( $object ['partnerWebsite'] ) 		: '';
 		isset ( $object ['partnerAddress'] ) 	? $this->setAddress ( $object ['partnerAddress'] ) 		: '';
-		isset ( $object ['partnerPrice'] ) 		? $this->setPrice ( $object ['partnerPrice'] ) 			: '';
+		isset ( $object ['partnerPrice'] ) 	? $this->setPrice ( $object ['partnerPrice'] ) 			: '';
 		isset ( $object ['partnerExpTime'] ) 	? $this->setExpTime ( $object ['partnerExpTime'] ) 		: '';
+                isset ( $object ['partnerBeginTime'] ) 	? $this->setBeginTime ( $object ['partnerBeginTime'] ) 		: '';
 		isset ( $object ['partnerFileId'] ) 	? $this->setFileId ( $object ['partnerFileId'] ) 		: '';
-		isset ( $object ['partnerIndex'] ) 		? $this->setIndex ( $object ['partnerIndex'] ) 			: '';
-		isset ( $object ['partnerContent'] )	? $this->setContent ( $object ['partnerContent'] ) 		: '';
-		isset ( $object ['partnerHits'] ) 		? $this->setHits ( $object ['partnerHits'] ) 			: '';
-		isset ( $object ['partnerStatus'] ) 	? $this->setStatus ( $object ['partnerStatus'] ) 		: '';
+		isset ( $object ['partnerHits'] ) 	? $this->setHits ( $object ['partnerHits'] ) 			: '';
 		isset ( $object ['partnerPosition'] ) 	? $this->setPosition ( $object ['partnerPosition'] ) 	: '';
-		if($object['partnerPosition'])
-		{
-			$posString		= trim($object['partnerPosition'],'@');
-			$this->top 		= $posString[0];
-			$this->right 	= $posString[1];
-			$this->center 	= $posString[2];
-			$this->bottom 	= $posString[3];
-			$this->left 	= $posString[4];
-		}
-	}
-	/**
-	 * @return the $latitude
-	 */
+                isset ( $object ['partnerClearSearch'] )? $this->setClearSearch ( $object ['partnerClearSearch'] ) 	: '';
+                
 
+
+	}
+	
 	/**
 	 * @return unknown
 	 */
-	public function getPosition($position="top") {
-		return $this->$position;
+	public function getPosition() {
+		return $this->position;
+	}
+
+        public function getFileId() {
+		return $this->fileId;
+	}
+
+        public function setFileId($position) {
+		$this->fileId = $position;
 	}
 
 	/**
 	 * @param unknown_type $position
 	 */
 	public function setPosition($position) {
-		$this->$position = 1;
+		$this->position = $position;
 	}
 
 	public function getAddress() {
@@ -109,19 +93,8 @@ class Partner extends BasicObject{
 		$this->hits = $hits;
 	}
 
-	/**
-	 * @param $fileId the $fileId to set
-	 */
-	public function setFileId($fileId) {
-		$this->fileId = $fileId;
-	}
-
-	/**
-	 * @return the $url
-	 */
-	public function getUrl() {
-		global $bw;
-		return $bw->base_url . 'partners/detail/' . $this->getTitle ( true ) . '-' . $this->getId () . '/';
+        public function setClearSearch($clear) {
+		$this->clearsearch = $clear;
 	}
 
 	/**
@@ -132,17 +105,20 @@ class Partner extends BasicObject{
 	}
 
 	/**
-	 * @return the $fileId
-	 */
-	public function getFileId() {
-		return $this->fileId;
-	}
-
-	/**
 	 * @return the $expTime
 	 */
-	public function getExpTime() {
-		return $this->expTime;
+	public function getExpTime($format = NULL) {
+		if($format&& $this->expTime){
+			$datetime= new VSFDateTime();
+			return $datetime->getDate($this->expTime, $format);
+		}
+	}
+
+        public function getBeginTime($format = NULL) {
+		if($format&& $this->begTime){
+			$datetime= new VSFDateTime();
+			return $datetime->getDate($this->begTime, $format);
+		}
 	}
 
 	/**
@@ -152,10 +128,13 @@ class Partner extends BasicObject{
 		return $this->price;
 	}
 
+
+
 	/**
 	 * @return the $website
 	 */
 	public function getWebsite() {
+		
 		return "http://".str_replace("http://","",$this->website);
 	}
 
@@ -164,6 +143,9 @@ class Partner extends BasicObject{
 	 */
 	public function setExpTime($expTime) {
 		$this->expTime = $expTime;
+	}
+        public function setBeginTime($begTime) {
+		$this->begTime = $begTime;
 	}
 
 	/**
@@ -180,13 +162,26 @@ class Partner extends BasicObject{
 		$this->website = $website;
 	}
 
-	function validate() {
-		$status = true;
-		if ($this->title == "") {
-			$this->message .= "partner title can not be blank!";
-			$status = false;
-		}
-		return $status;
-	}
+        public function createNoImage(){
+            return '<img src="utils/timthumb.php?src=images/noimage.jpg&amp;w=250&amp;h=150&amp;zc=0" alt="no-image">';
+        }
+        
+        function showImagePartner( $width=100, $height=100,$type=0, $ishref=1, $noimage=0){
+            global $vsFile, $bw,$vsStd;
+           $RET ="";
+            if($this->file && file_exists ( $this->file->getPathView (0) ))
+                    if($ishref){
+            $RET .= <<<EOF
+                <a href="{$this->getUrl('partners')}" title="{$this->title}">
+                                    {$this->createImageCache($this->file, $width, $height, $type, $noimage)}
+                </a>
+                {$enddiv}
+EOF;
+            }else{
+                        return $this->createImageCache($this->file, $width, $height, $type, $noimage);
+            }
+
+                                    return $RET;
+        }
 
 }

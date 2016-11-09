@@ -1,287 +1,193 @@
 <?php
-/*
-+-----------------------------------------------------------------------------
-|   VSF version 3.0.0.0
-|	Author: BabyWolf
-|	Homepage: http://www.vietsol.net
-|	If you use this code, please don't delete these comment lines!
-|	Start Date: 10/21/2007
-|	Finish Date: 10/21/2007
-|	Modified Start Date: 10/27/2007
-|	Modified Finish Date: 10/28/2007
-|	News Description: This News is for management all newses in system.
-+-----------------------------------------------------------------------------
-*/
-require_once(CORE_PATH."products/products.php");
-
-class products_admin {
-	protected $html = "";
-	protected $module;
-	
-	protected $output = "";
-	
-	public function __construct(){
-		global $vsTemplate;
-		$this->module = new products();
-        $this->html = $vsTemplate->load_template('skin_products');
+class products_admin extends ObjectAdmin{
+	function __construct(){
+            global $vsTemplate;
+		parent::__construct('products', CORE_PATH.'products/', 'products');
+                 //$this->html = $vsTemplate->load_template('skin_products');
+	}
         
-        
-	}
-	
-	function auto_run() {
-		global $bw;
-		switch($bw->input[1]){
-			case 'delete-checked-obj':
-					$this->module->delete(rtrim($bw->input['checkedObj'],","));
-				break;
-					
-			case 'visible-checked-obj':
-					$this->checkShowAll(1);
-				break;
-				
-			case 'hide-checked-obj':
-					$this->checkShowAll(0);
-				break;
-				
-			case 'display-obj-tab':
-					$this->displayObjTab();
-				break;
-				
-			case 'display-obj-list':					
-					$this->getObjList($bw->input[2], $this->module->result['message']);
-				break;
-			
-			case 'add-edit-obj-form':
-					$this->addEditObjForm($bw->input[2]);
-				break;
-				
-			case 'add-edit-obj-process':
-					$this->addEditObjProcess();
-				break;
-				
-			case 'delete-obj':
-					$this->module->delete($bw->input[2]);
-				break;
-				
-			default:
-				$this->loadDefault();
-		}
-	}
-	function checkShowAll($val = 0){
-		global $bw;
-	
-		$this->module->setCondition("productId in ({$bw->input[2]})");
-		$this->module->updateObjectByCondition(array('productStatus'=>$val));
-		return $this->output = $this->getObjList($bw->input[3]);
-		
-	}	
-	
-	function displayObjTab() {
-		$option['categoryList'] = $this->getCategoryBox();
-		$option['objList'] 	= $this->getObjList();
-   
-		$this->output = $this->html->displayObjTab($option);
-	}
-			
-	function getObjList($catId='', $message=""){
-		global $bw, $vsStd ,$vsSettings;
-		if($bw->input['pageCate'])	{
-			$catId = $bw->input['pageCate'];
-			$bw->input[2] = $bw->input['pageCate'];
-		}
-		if($bw->input['pageIndex'])	$bw->input[3]=$bw->input['pageIndex'];
-		$catId = intval($catId);
-		$categories = $this->module->getCategories();
+       function getObjList($catId = '', $message = "") {
+		global $bw, $vsSettings,$vsRelation;
+		$catId = intval ( $catId );
+              
+		$categories = $this->model->getCategories ();
+		if ($bw->input ['pageCate'])
+			$bw->input [2] = $catId = $bw->input ['pageCate'];
+		if ($bw->input ['pageIndex'])
+			$bw->input [3] = $bw->input ['pageIndex'];
 		
 		// Check if the catIds is specified
 		// If not just get all product
-		if(!intval($catId)){
-			$strIds = $this->module->vsMenu->getChildrenIdInTree($categories);
-		}else{
-			$result = $this->module->vsMenu->extractNodeInTree($catId, $categories->getChildren());
-			if($result)
-			$strIds = trim($catId.",".$this->module->vsMenu->getChildrenIdInTree($result['category']),",");
+		if (intval ( $catId )) {
+			$result = $this->model->vsMenu->extractNodeInTree ( $catId, $categories->getChildren () );
+			if ($result)
+				$strIds = trim ( $catId . "," . $this->model->vsMenu->getChildrenIdInTree ( $result ['category'] ), "," );
 		}
-		
+                str_replace(".html", "", $bw->input['vs']);
+		if (! $strIds)
+			$strIds = $this->model->vsMenu->getChildrenIdInTree ( $categories );		
 		// Set the condition to get all product in specified category and its chidlren
-		if($strIds)
-			$this->module->setCondition($this->module->getCategoryField().' in ('. $strIds. ')');
+		$this->model->setCondition ( $this->model->getCategoryField () . " in (" . $strIds . ") and {$this->tableName}Status > -1" );
 		
-		$total = $this->module->getNumberOfObject();		
-	
-		$size =  $vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);		
-
+		$size = $vsSettings->getSystemKey ( "admin_{$bw->input[0]}_list_number", 10 );
 		
-		$option=$this->module->getPageList("{$bw->input[0]}/display-obj-list/{$catId}", 3,$size,1,'obj-panel');
-		$option['message'] = $message;
-		$option['categoryId'] = $catId; 
-		return $this->output = $this->html->objListHtml($this->module->getArrayObj(), $option);
+		$option = $this->model->getPageList ( "{$bw->input[0]}/display-obj-list/{$catId}", 3, $size, 1, 'obj-panel' );
+		$option['forecastcomment'] = array();
+   		if(count($option['pageList'])){
+       		$listkey = implode(",", array_keys($option['pageList']));
+          	$vsRelation->setTableName('products_comments');
+          	$vsRelation->objectId = $listkey;
+           	$vsRelation->getRelByObject(2);
+            
+          	if($vsRelation->arrval)
+           	$option['forecastcomment'] = array_keys($vsRelation->arrval);
+              
+       	}
+       
+		$option ['message'] = $message;
+		$option ['categoryId'] = $catId;
+            
+		return $this->output = $this->html->objListHtml ( $this->model->getArrayObj (), $option );
+	} 
+        
+        
+	function addEditObjForm($objId = 0, $option = array()) {
+		global $vsLang, $vsStd, $bw, $vsPrint,$vsSettings,$search_module,$langObject;
+		
+     	$option['skey'] = $bw->input['module'];
+		$obj = $this->model->createBasicObject ();
+		$option ['formSubmit'] = $langObject['itemFormAddButton'];
+		$option ['formTitle'] = $langObject['itemFormAdd'];
+		if ($objId) {
+			$option ['formSubmit'] = $langObject['itemFormEditButton'];
+			$option ['formTitle'] = $langObject['itemFormEdit'];
+			$obj = $this->model->getObjectById ( $objId ,1);
+		} 
+              
+		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
+		$vsStd->requireFile ( JAVASCRIPT_PATH . "/tiny_mce/tinyMCE.php" );
+		$editor = new tinyMCE ();
+		
+		if($vsSettings->getSystemKey($option['skey'].'_intro_editor', 1, $option['skey'])){
+		$editor->setWidth ( '100%' );
+		$editor->setHeight ( '150px' );
+		$editor->setToolbar ( 'narrow' );
+		$editor->setTheme ( "advanced" );
+		$editor->setInstanceName ( "{$this->tableName}Intro" );
+		$editor->setValue ( $obj->getIntro () );
+		$obj->setIntro ( $editor->createHtml () );
+                }else
+			$obj->setIntro ('<textarea name="'.$this->tableName.'Intro" style="width:100%;height:100px;">'. strip_tags($obj->getIntro()) .'</textarea>');
+                   
+		$editor->setWidth ( '100%' );
+		$editor->setHeight ( '350px' );
+		$editor->setToolbar ( 'full' );
+		$editor->setTheme ( "advanced" );
+		$editor->setInstanceName ( "{$this->tableName}Content" );
+		if($obj->getContent()){
+			$editor->setValue($obj->getContent());
+		}else{
+			$val=$vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1);
+			if(!is_numeric($val)){
+				$editor->setValue($vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1));
+			}
+					
+		}
+		$obj->setContent ( $editor->createHtml () );
+		
+		return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
 	
-	function addEditObjForm($objId=0, $option=array()){
-		global $vsLang, $vsStd,$bw ,$vsSettings, $vsPrint;
-	
-		$vsSettings->getSystemKey($bw->input[0].'_title',1);
-		$vsSettings->getSystemKey($bw->input[0].'_index',1);
-		$vsSettings->getSystemKey($bw->input[0].'_status',1);
-		$vsSettings->getSystemKey($bw->input[0].'_intro',1);
-		$vsSettings->getSystemKey($bw->input[0].'_code',1);
-		$vsSettings->getSystemKey($bw->input[0].'_price',1);
-		$vsSettings->getSystemKey($bw->input[0].'_content',1);
-		$vsSettings->getSystemKey($bw->input[0].'_image',1);
-		
-		$obj = $this->module->createBasicObject();
-		$option['formSubmit'] = $vsLang->getWords('obj_EditObjFormButton_Add', 'Add');
-		$option['formTitle']  = $vsLang->getWords('obj_EditObjFormTitile_Add', "Add {$bw->input[0]}");
-				
-		if($objId){
-			$option['formSubmit'] = $vsLang->getWords('obj_EditObjFormButton_Edit', 'Edit');
-			$option['formTitle']  = $vsLang->getWords('obj_EditObjFormTitile_Edit', "Edit {$bw->input[0]}");
-			$obj = $this->module->getObjectById($objId);
-			$option['categoryId'] = $obj->getCategory();
-		}
-		
-		
-		$vsPrint->addJavaScriptFile("tiny_mce/tiny_mce");
-		$vsStd->requireFile(JAVASCRIPT_PATH."/tiny_mce/tinyMCE.php");
-		
-		$editor = new tinyMCE();
-		
-		$editor->setWidth('375px');
-		$editor->setHeight('150px');
-		$editor->setToolbar('narrow');
-		$editor->setTheme("advanced");
-		$editor->setInstanceName('productIntro');
-		$editor->setValue($obj->getIntro());
-		$obj->setIntro($editor->createHtml());
-		
-		
-		$editor->setWidth('100%');
-		$editor->setHeight('350px');
-		$editor->setToolbar('full');
-		$editor->setTheme("advanced");
-		$editor->setInstanceName('productContent');
-		$editor->setValue($obj->getContent());
-		$obj->setContent($editor->createHtml());
-		
-		
-		return $this->output = $this->html->addEditObjForm($obj, $option);
-	}
-	
-	function addEditObjProcess(){
-		global $bw, $vsStd, $vsLang ,$vsSettings;
-	
-		
-		$bw->input['productStatus'] = $bw->input['productStatus']? 1:0;
-		if(!$bw->input['productCatId'])
-			$bw->input['productCatId']=$this->module->getCategories()->getId();
+	function addEditObjProcess() {
+		global $bw, $vsStd, $vsLang, $vsFile,$DB,$vsSettings,$search_module,$langObject;
 
-		if($bw->input['fileId'])
-			$bw->input['productImage']=$bw->input['fileId'];
-		elseif($bw->input['txtlink']){
-			$bw->input['productImage']=$this->module->vsFile->copyFile($bw->input['txtlink'],$bw->input[0]);
-		}
-	
+		$bw->input ["{$this->tableName}Status"] = $bw->input ["{$this->tableName}Status"] ? $bw->input ["{$this->tableName}Status"] : 0;
+                $bw->input ["{$this->tableName}Hot"] = $bw->input ["{$this->tableName}Hot"] ? $bw->input ["{$this->tableName}Hot"] : 0;
+                $bw->input ["{$this->tableName}Manu"] = $bw->input ["{$this->tableName}Manu"] ? $bw->input ["{$this->tableName}Manu"] : 0;
+		
+		if (! $bw->input ["{$this->tableName}CatId"])
+			$bw->input ["{$this->tableName}CatId"] = $this->model->getCategories ()->getId ();
+                        
+		if ($bw->input ['fileId'])
+			$bw->input ["{$this->tableName}Image"] = $bw->input ['fileId'];
+                elseif($bw->input['txtlink'])
+			$bw->input["{$this->tableName}Image"]=$vsFile->copyFile($bw->input["txtlink"],$bw->input[0]);
+		
 		// If there is Object Id passed, processing updating Object
-		if($bw->input['productId']){
-			$obj = $this->module->getObjectById($bw->input['productId']);
-			$imageOld =$obj->getImage();
-			if(!$obj){
-				$this->alertMessage();
+		if ($bw->input ["{$this->tableName}Id"]) {
+			$obj = $this->model->getObjectById ( $bw->input ["{$this->tableName}Id"] );
+                        
+			$imageOld = $obj->getImage ();
+                        if($bw->input['deleteImage']){
+				$imageOld = $obj->getImage();
+				if($imageOld) $vsFile->deleteFile($imageOld);
+				if(!$bw->input["{$this->tableName}Image"]) $bw->input["{$this->tableName}Image"] = 0;
 			}
-			$objUpdate = $this->module->createBasicObject();
-			$objUpdate->convertToObject($bw->input);
-		
-			$this->module->updateObjectById($objUpdate);
-		
-			if(!$this->module->result['status']){
-				$this->module->reportError();
+			
+			$objUpdate = $this->model->createBasicObject ();
+			$objUpdate->convertToObject ( $bw->input );
+                       
+			$this->model->updateObjectById ( $objUpdate );
+			if ($this->model->result ['status']) {
+				$alert = $langObject['itemEditSuccess'];
+				$javascript = <<<EOF
+						<script type='text/javascript'>
+							jAlert(
+								"{$alert}",
+								"{$bw->vars['global_websitename']} Dialog"
+							);
+						</script>
+EOF;
 			}
-		}
-		else{
-			$bw->input['productPostDate'] = time();
-			$this->module->obj->convertToObject($bw->input);
-			$this->module->insertObject($this->module->obj);
-		}
-		
-				
-		if($imageOld&&$bw->input['fileId']){
-			$this->module->files->deleteFile($imageOld);
-		}
-		
-		if($vsSettings->getSystemKey("{$bw->input[0]}_multi_cat", 1) && $this->module->result['status']){
-//			$vsSettings->getSystemKey("{$bw->input[0]}_multi_cat", 1)
-		
-			$vsStd->requireFile(LIBS_PATH."Relationship.class.php");
-			$rel = new VSFRelationship();
-			$rel->setObjectId($this->module->obj->getId());
-			$rel->setRelId($bw->input['productCatId']);
-			$rel->setTableName($this->module->getRelTableName());
-			$rel->insertRel();
-		}
-		
-		
-		$this->alertMessage();
-	}
-	
-	function alertMessage() {
-		global $bw ;
-		
-		print 	"<script>
-					vsf.alert('{$this->module->result['message']}');
-					vsf.get('{$bw->input[0]}/display-obj-list/{$bw->input['pageCate']}/{$bw->input['pageIndex']}', 'obj-panel')
-				</script>";	
-		return true;
-	}
-	
-	function getCategoryBox($message = "") {
-		global $bw, $vsMenu, $vsSettings;
-		$data['message'] = $message;
-
-		$option = array('listStyle' => "| - -",
-						'id'		=> "obj-category",
-						'size'		=> 10,
+		} else {
+            $bw->input["{$this->tableName}PostDate"] = time();           
+			$this->model->obj->convertToObject ( $bw->input );
+			
+			$this->model->insertObject ( $this->model->obj );
+			if ($this->model->result ['status']) {
+				$confirmContent = $langObject['itemAddSuccess'] . '\n' . $langObject['itemAddAnother'] ." ?";
+				$javascript = <<<EOF
+					<script type='text/javascript'>
+						jConfirm(
+							"{$confirmContent}",
+							'{$bw->vars['global_websitename']} Dialog',
+							function(r){
+								if(r){
+									vsf.get("{$bw->input[0]}/add-edit-obj-form/&pageIndex={$bw->input['pageIndex']}&pageCate={$bw->input['pageCate']}",'obj-panel');
+								}
+							}
 						);
-						
-		if($vsSettings->getSystemKey("{$bw->input[0]}_multi_cat", 1)) $option['multiple'] = "multiple";
-		$menu = new Menu();
-		$menu = $this->module->getCategories();
-		$data['html'] = $vsMenu->displaySelectBox($menu->getChildren(), $option);
+					</script>
+EOF;
+			}
+		}
+		if ($imageOld && $bw->input ['fileId']) {
+			$vsFile->deleteFile ( $imageOld );
+		}
 		
-		return $this->html->categoryList($data);
-	}
+        //convert to Search
+				if (in_array($bw->input['module'], $search_module)){
+                    if($bw->input['searchRecord']){
+                        $vsStd->requireFile(CORE_PATH."searchs/searchs.php");
+                        $search = new searchs();
+                        $search->setCondition("searchRecord  = ".$bw->input['searchRecord']);
+                        $search->updateObjectByCondition($this->model->obj->convertSearchDB());
+                    }
+                    elseif(isset ($bw->input['searchRecord'])){
+                        $DB->do_insert("search",$this->model->obj->convertSearchDB());
+                    }
+		}
+		      
+        //end convert to Search
+		$cat = $bw->input ['pageCate'] ? $bw->input ['pageCate'] : $bw->input ['pageCatId'];
+		$lang = new languages();
 	
-	function loadDefault() {
-		global $vsPrint;
-		
-		$vsPrint->addJavaScriptFile("tiny_mce/tiny_mce");
-		
-		$vsPrint->addJavaScriptString('init_tab','
-			$(document).ready(function(){
-    			$("#page_tabs").tabs({
-    				cache: false
-    			});
-  			});
-		');
-		
-		$this->setOutput($this->html->managerObjHtml());
-	}
-	
-	
-	public function getHtml() {
-		return $this->html;
-	}
-	
-	public function getOutput() {
-		return $this->output;
-	}
-	
-	public function setHtml($html) {
-		$this->html = $html;
-	}
-	
-	public function setOutput($output) {
-		$this->output = $output;
+		foreach ($lang->arrayLang as $value) {
+			$vsFile->buildCacheFile ( $bw->input ['module'],$value->getFoldername() );;
+		}
+//                if($bw->input['module']=='products')
+//                        $this->model->createRSS();
+		return $this->output = $javascript . $this->getObjList ();
 	}
 }
 ?>

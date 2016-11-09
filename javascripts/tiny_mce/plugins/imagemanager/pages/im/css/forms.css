@@ -1,26 +1,26 @@
 /* Forms */
-	/* ########################################################## */
-form {
-	margin: 0px;
-	padding: 0px;
+/* ########################################################## */
+
+form { 
+	margin:0px;
+	padding:0px;
 }
 
-select {
-	font: 100% tahoma;
+select { 
+	font:100% tahoma;
 }
 
-input.file,input.text {
-	font: 90% tahoma, arial, sans-serif;
+input.file, input.text {
+	font:90% tahoma, arial, sans-serif;
 }
 
 /* Submit buttons */
-input.submit,.button {
-	width: 94px;
-	height: 26px;
-	padding: 0 0 2px;
-	border: 0;
-	background: url('../img/submit-grey.png') no-repeat;
-	font: normal 100%/ 100% tahoma, arial, sans-serif;
+
+input.submit, .button { 
+	width:94px; height:26px;
+	padding:0 0 2px; border:0;
+	background:url('../img/submit-grey.png') no-repeat;
+	font:normal 100%/100% tahoma, arial, sans-serif; 
 	text-align: center;
 	text-decoration: none;
 }
@@ -30,14 +30,14 @@ input.submit,.button {
 	color: gray;
 }
 
-input.default {
-	background: url('../img/submit-default.png') no-repeat;
-	font-weight: bold;
+input.default { 
+	background:url('../img/submit-default.png') no-repeat;
+	font-weight:bold;
 }
 
-input.cancel {
-	background: url('../img/submit-grey.png') no-repeat;
-	font-weight: normal;
+input.cancel { 
+	background:url('../img/submit-grey.png') no-repeat;
+	font-weight:normal;
 }
 
 a.button {

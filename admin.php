@@ -18,8 +18,8 @@
 require_once "./constant.php";
 
 // Application constant
-define ( 'SKIN_PATH'	, 'skins/admin/' );
-define ( 'LANG_PATH'	, ROOT_PATH . 'langs/admin/' );
+define ( 'SKIN_PATH', 'skins/admin/' );
+define ( 'LANG_PATH', ROOT_PATH . 'langs/admin/' );
 define ( 'APPLICATION_TYPE', 'admin' );
 require_once LIBS_PATH."Debug.class.php";
 

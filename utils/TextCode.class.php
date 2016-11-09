@@ -53,13 +53,13 @@ class VSFTextCode {
 		);
 	}
 	
-	function removeAccent($strAccent = "", $sepchar = "") {
+	function removeAccent($strAccent = "", $sepchar = "",$remove_special=true) {
 		
-		$strfrom 	= " Á À Ả Ã Ạ Â Ấ Ầ Ẩ Ẫ Ậ Ă Ắ Ằ Ẳ Ẵ Ặ Đ É È Ẻ Ẽ Ẹ Ê Ế Ề Ể Ễ Ệ Í Ì Ỉ Ĩ Ị Ó Ò Ỏ Õ Ọ Ơ Ớ Ờ Ở Ỡ Ợ Ô Ố Ồ Ổ Õ Ộ Ú Ù Ủ Ũ Ụ Ư Ứ Ừ Ử Ữ Ự Ý Ỳ Ỷ Ỹ Ỵ ";
-		$strto		= " A A A A A A A A A A A A A A A A A D E E E E E E E E E E E I I I I I O O O O O O O O O O O O O O O O O U U U U U U U U U U U Y Y Y Y Y ";
+		$strfrom 	= " Á À Ả Ã Ạ Â Ấ Ầ Ẩ Ẫ Ậ Ă Ắ Ằ Ẳ Ẵ Ặ Đ É È Ẻ Ẽ Ẹ Ê Ế Ề Ể Ễ Ệ Í Ì Ỉ Ĩ Ị Ó Ò Ỏ Õ Ọ Ơ Ớ Ờ Ở Ỡ Ợ Ô Ố Ồ Ổ Õ Ộ Ú Ù Ủ Ũ Ụ Ư Ứ Ừ Ử Ữ Ự Ý Ỳ Ỷ Ỹ Ỵ";
+		$strto		= " A A A A A A A A A A A A A A A A A D E E E E E E E E E E E I I I I I O O O O O O O O O O O O O O O O O U U U U U U U U U U U Y Y Y Y Y";
 		
-		$strfrom 	.= "á à ả ã ạ â ấ ầ ẩ ẫ ậ ă ắ ằ ẳ ẵ ặ đ é è ẻ ẽ ẹ ê ế ề ể ễ ệ í ì ỉ ĩ ị ó ò ỏ õ ọ ơ ớ ờ ở ỡ ợ ô ố ồ ổ ỗ ộ ú ù ủ ũ ụ ư ứ ừ ử ữ ự ý ỳ ỷ ỹ ỵ";
-		$strto		.= "a a a a a a a a a a a a a a a a a d e e e e e e e e e e e i i i i i o o o o o o o o o o o o o o o o o u u u u u u u u u u u y y y y y";
+		$strfrom 	.= " á à ả ã ạ â ấ ầ ẩ ẫ ậ ă ắ ằ ẳ ẵ ặ đ é è ẻ ẽ ẹ ê ế ề ể ễ ệ í ì ỉ ĩ ị ó ò ỏ õ ọ ơ ớ ờ ở ỡ ợ ô ố ồ ổ ỗ ộ ú ù ủ ũ ụ ư ứ ừ ử ữ ự ý ỳ ỷ ỹ ỵ";
+		$strto		.= " a a a a a a a a a a a a a a a a a d e e e e e e e e e e e i i i i i o o o o o o o o o o o o o o o o o u u u u u u u u u u u y y y y y";
 
 		$fromarr = explode(" ", $strfrom);
 		$toarr = explode(" ", $strto);
@@ -70,13 +70,18 @@ class VSFTextCode {
 		}
 
 		$strNoAccent = strtr($strAccent,$dicarr);
-				
-		// Remove special character
-		$specialchar = ", . ? : ! < > & * ^ % $ # @ ; ' ( ) { } [ ] + ~ = - 39 /";
-		$specialchar .= "&acute; &grave; &circ; &tilde; &cedil; &ring; &uml; &amp; &quot;";
-		$specialcharArr = explode(" ",$specialchar);
-		$strNoAccent = str_replace($specialcharArr,"",$strNoAccent);
-		
+		$strNoAccent=preg_replace("/\s+/"," ",$strNoAccent);
+		$strNoAccent=preg_replace("/^\s+/","",$strNoAccent);
+		$strNoAccent=preg_replace("/\s+$/","",$strNoAccent);
+		$strNoAccent=str_replace('"',"",$strNoAccent);
+		if($remove_special){
+			// Remove special character
+			
+			$specialchar .= "&acute; &grave; &circ; &tilde; &cedil; &ring; &uml; &amp; &quot; ";
+			$specialchar  .= ", . ? : ! < > & * ^ % $ # @ ; ' ( ) { } [ ] + ~ = - 39 / 33";
+			$specialcharArr = explode(" ",$specialchar);
+			$strNoAccent = str_replace($specialcharArr,"",$strNoAccent);
+		}
 		if($sepchar) {
 			$strNoAccent = str_replace(" ",$sepchar, $strNoAccent);
 			$strNoAccent = str_replace($sepchar.$sepchar,$sepchar,$strNoAccent);
@@ -100,7 +105,7 @@ class VSFTextCode {
 	    	$position = strrpos($result," "); //find position of last space
 	    	if($position)
 	    		$result = substr($result,0,$position); //cut string again at last space if there are space in the result above    	
-	    	$result .= ' ...';
+	    	//$result .= ' ...';
 	    }
 	    else {
 	    	$result = $string;    	
@@ -156,5 +161,104 @@ class VSFTextCode {
     	return $txt;
     	
     }
+	function htmlRemove($text, $htmlRemove = array()) {
+		$tags = array ("<!DOCTYPE>", "<a>", "<abbr>", "<acronym>", "<address>", "<applet>", "<area>", "<b>", "<base>", "<basefont>", "<bdo>", "<big>", "<blockquote>", "<body>", "<br>", "<button>", "<caption>", "<center>", "<cite>", "<code>", "<col>", "<colgroup>", "<dd>", "<del>", "<dfn>", "<dir>", "<div>", "<dl>", "<dt>", "<em>", "<fieldset>", "<font>", "<form>", "<frame>", "<frameset>", "<h1>", "<h2>", "<h3>", "<h4>", "<h5>", "<h6>", "<head>", "<hr>", "<html>", "<i>", "<iframe>", "<img>", "<input>", "<ins>", "<isindex>", "<kbd>", "<label>", "<legend>", "<li>", "<link>", "<map>", "<menu>", "<meta>", "<noframes>", "<noscript>", "<object>", "<ol>", "<optgroup>", "<option>", "<p>", "<param>", "<pre>", "<q>", "<s>", "<samp>", "<script>", "<select>", "<small>", "<span>", "<strike>", "<strong>", "<style>", "<sub>", "<sup>", "<table>", "<tbody>", "<td>", "<textarea>", "<tfoot>", "<th>", "<thead>", "<title>", "<tr>", "<tt>", "<u>", "<ul>", "<var>", "<xmp>" );
+		if (is_array ( $htmlRemove )) {
+			foreach ( $htmlRemove as $value ) {
+				$mix = array_search ( strtolower($value), $tags );
+				if (! ($mix === FALSE)) {
+					unset ( $tags [$mix] );
+				}
+			}
+		
+		}
+		return strip_tags ( $text, implode ( "", $tags ) );
+	}
+	function FilterUrl($content) {
+//	    return preg_replace_callback("/\<a href=['\"](.+?)[\"'].*\>(.+?)\<\/a\>/si", array("VSFTextCode",'my_nofollow_callback'), $content);
+	    return preg_replace_callback("/<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>/siU", array("VSFTextCode",'my_nofollow_callback'), $content);
+	    
+	}
+
+        function removeTags( $text )
+    {
+    $text = preg_replace(
+        array(
+          // Remove invisible content
+            '@<head[^>]*?>.*?</head>@siu',
+            '@<style[^>]*?>.*?</style>@siu',
+            '@<script[^>]*?.*?</script>@siu',
+            '@<object[^>]*?.*?</object>@siu',
+            '@<embed[^>]*?.*?</embed>@siu',
+            '@<applet[^>]*?.*?</applet>@siu',
+            '@<noframes[^>]*?.*?</noframes>@siu',
+            '@<noscript[^>]*?.*?</noscript>@siu',
+            '@<noembed[^>]*?.*?</noembed>@siu',
+          // Add line breaks before and after blocks
+            '@</?((address)|(blockquote)|(center)|(del))@iu',
+            '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+            '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+            '@</?((table)|(th)|(td)|(caption))@iu',
+            '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+            '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+            '@</?((frameset)|(frame)|(iframe))@iu',
+        ),
+        array(
+            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+            "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
+            "\n\$0", "\n\$0",
+        ),
+        $text );
+    return strip_tags( $text );
+}
+
+	function my_nofollow_callback($matches) {
+		static $linklist=NULL;
+		//0 full link
+		//1 quote
+		//2 href
+		//3 text link
+		if($linklist===NULL){
+			$linklist=array();
+			$xmlDoc = new DOMDocument ();
+			$xmlDoc->load ( UTILS_PATH . "domain_filter.xml" );
+			$x = $xmlDoc->documentElement;
+			foreach ($x->childNodes  as $value) {
+				if($value->nodeName!="#text"){
+					$linklist[]=array($value->nodeName,$value->nodeValue);
+				} 
+			}
+		}
+		foreach ($linklist as $item) {
+			$link=$item[1];
+			$index=$item[0];
+			$link = preg_quote ( $link, '/' );
+			$link = str_replace ( "\*", "(.*?)", $link );
+			$tmp=$matches[2];
+			if (preg_match ( '/' . $link . '/i', $tmp )) {
+				if($index=="blacklink"){
+					$matches[2]="http://*****";
+					$rel[]="nofollow";
+					$title="Black link! contact admin@vinabooking.vn";
+				}
+				if($index=="viplink"){
+					$color="color:#ff0000 !important;";
+					$rel[]="follow";
+				}
+				if($index=="followlink"){
+					$rel[]="follow";
+				}
+			}
+		}
+		if(count($rel))
+		$_rel=implode(",",$rel);
+		else $_rel="nofollow"; 
+		if(!$title)
+		$title=strip_tags("Xem chi tiết {$matches[3]}");
+		return "<a href='{$matches[2]}' style='$color' rel='$_rel' title='$title'  >{$matches[3]}</a>";
+		
+	}
+	
+	
 	
 }

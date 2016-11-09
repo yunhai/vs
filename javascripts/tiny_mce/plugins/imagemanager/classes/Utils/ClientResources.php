@@ -5,7 +5,7 @@
  * @version 1.0
  * @author Moxiecode
  * @site http://www.moxieforge.com/
- * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  * @licence LGPL
  * @ignore
  */
@@ -42,7 +42,7 @@ class Moxiecode_ClientResources {
 
 		foreach ($files as $file) {
 			if ($file->getId() == $file_id)
-			return $file;
+				return $file;
 		}
 
 		return null;
@@ -56,19 +56,19 @@ class Moxiecode_ClientResources {
 		$this->_path = dirname($xml_file);
 
 		if (!file_exists($xml_file))
-		return;
+			return;
 
 		$fp = @fopen($xml_file, "r");
 		if ($fp) {
 			$data = '';
 
 			while (!feof($fp))
-			$data .= fread($fp, 8192);
+				$data .= fread($fp, 8192);
 
 			fclose($fp);
 
 			if (ini_get("magic_quotes_gpc"))
-			$data = stripslashes($data);
+				$data = stripslashes($data);
 		}
 
 		$this->_parser = xml_parser_create('UTF-8');
@@ -77,7 +77,7 @@ class Moxiecode_ClientResources {
 		xml_parser_set_option($this->_parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
 
 		if (!xml_parse($this->_parser, $data, true))
-		trigger_error(sprintf("Language pack loading failed, XML error: %s at line %d.", xml_error_string(xml_get_error_code($this->_parser)), xml_get_current_line_number($this->_parser)), E_USER_ERROR);
+			trigger_error(sprintf("Language pack loading failed, XML error: %s at line %d.", xml_error_string(xml_get_error_code($this->_parser)), xml_get_current_line_number($this->_parser)), E_USER_ERROR);
 
 		xml_parser_free($this->_parser);
 	}
@@ -88,7 +88,7 @@ class Moxiecode_ClientResources {
 		switch ($name) {
 			case "RESOURCES":
 				if (!$this->_debug)
-				$this->_debug = isset($attrs["DEBUG"]) && $attrs["DEBUG"] == 'yes';
+					$this->_debug = isset($attrs["DEBUG"]) && $attrs["DEBUG"] == 'yes';
 
 				break;
 
@@ -96,17 +96,17 @@ class Moxiecode_ClientResources {
 				$this->_packageID = isset($attrs["ID"]) ? $attrs["ID"] : 'noid';
 
 				if (!isset($this->_files[$this->_packageID]))
-				$this->_files[$this->_packageID] = array();
-				break;
+					$this->_files[$this->_packageID] = array();
+			break;
 
 			case "FILE":
 				$this->_files[$this->_packageID][] = new Moxiecode_ClientResourceFile(
-				isset($attrs["ID"]) ? $attrs["ID"] : "",
-				str_replace("\\", DIRECTORY_SEPARATOR, $this->_path . '/' . $attrs["PATH"]),
-				!isset($attrs["KEEPWHITESPACE"]) || $attrs["KEEPWHITESPACE"] != "yes",
-				isset($attrs["TYPE"]) ? $attrs["TYPE"] : ''
+					isset($attrs["ID"]) ? $attrs["ID"] : "",
+					str_replace("\\", DIRECTORY_SEPARATOR, $this->_path . '/' . $attrs["PATH"]),
+					!isset($attrs["KEEPWHITESPACE"]) || $attrs["KEEPWHITESPACE"] != "yes",
+					isset($attrs["TYPE"]) ? $attrs["TYPE"] : ''
 				);
-				break;
+			break;
 		}
 	}
 

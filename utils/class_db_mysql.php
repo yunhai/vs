@@ -96,9 +96,7 @@ class db_driver {
         {
 			$this->connection_id = mysql_connect( $this->obj['sql_host'] ,
 												  $this->obj['sql_user'] ,
-												  $this->obj['sql_pass'] ,
-												  1,
-												  131072
+												  $this->obj['sql_pass'] 
 												);
 		}
 		
@@ -292,14 +290,13 @@ class db_driver {
     	if ( isset($a['delete']) && $a['delete'] )
     		$this->simple_delete( $a['delete'], $a['where'] );
     	
-    	if ( isset($a['groupby']) )
-    	{
+    	if ( isset($a['order']) && $a['order'] )
+    		$this->simple_order( $a['order'] );
+    	elseif ( isset($a['groupby']) )
     		$this->simple_groupby( $a['groupby'] );
     		if ( $a['having'] )
 	    		$this->simple_having( $a['having'] );
-    	}	
-    	if ( isset($a['order']) && $a['order'] )
-    		$this->simple_order( $a['order'] );
+	    	
     	if ( isset($a['limit']) && is_array( $a['limit'] ) )
     		$this->simple_limit( $a['limit'][0], $a['limit'][1] );
     	if($this->show_query)
@@ -428,6 +425,7 @@ class db_driver {
     /*========================================================================*/
     
     function query($the_query, $bypass=0) {
+    	
     	//--------------------------------------
         // Change the table prefix if needed
         //--------------------------------------
@@ -583,12 +581,9 @@ class db_driver {
 	// ADD FIELD
 	/*========================================================================*/
 	
-	function sql_add_field( $table, $field_name, $field_type, $field_default="" )
+	function sql_add_field( $table, $field_name, $field_type, $field_default="''" )
 	{
-		$query = "ALTER TABLE ".SQL_PREFIX."{$table} ADD $field_name $field_type ";
-		if(!empty($field_default)) $query .= " default {$field_default}";
-		$this->query( $query );
-		
+		$this->query( "ALTER TABLE ".SQL_PREFIX."{$table} ADD $field_name $field_type default {$field_default}" );
 	}
 	
 	/*========================================================================*/
@@ -779,9 +774,6 @@ class db_driver {
     	if ($this->require)
 			$vsStd->boink_it($bw->vars['board_url']);
     	else 
-    	if($bw->input['json']){
-    		$out=json_encode(array("error"=>htmlspecialchars($the_error)));
-    	}else{
     		$out = "<html><head><title>VIET SOLUTION Database Error</title>
     		   <style>P,BODY{ font-family:arial,sans-serif; font-size:11px; }</style></head><body>
     		   &nbsp;<br><br><blockquote><b>There appears to be an error with the database.</b><br>
@@ -789,7 +781,7 @@ class db_driver {
     		   <br><br><b>Error Returned</b><br>
     		   <form name='mysql'><textarea rows=\"15\" cols=\"60\">".htmlspecialchars($the_error)."</textarea></form><br>We apologise for any inconvenience</blockquote></body></html>";
     		   
-    	}
+    
         echo($out);
         die("");
     }

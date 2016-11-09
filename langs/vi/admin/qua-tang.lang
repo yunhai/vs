@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'qua-tang',
+  'main_title' => 'qua-tang',
+);
+$userLang = array();
+?>

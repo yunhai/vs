@@ -1,0 +1,12 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Hình ảnh hội nghị',
+  'main_title' => 'Hình ảnh hội nghị',
+  'err_contact_name_blank' => 'Vui lòng nhập họ tên!',
+  'err_contact_album' => 'Nhập tên Album mà bạn cần tìm!',
+  'gloabal_no_album' => 'Không tìm thấy album bạn cần!',
+  'pagetendangnhap' => 'Tên đăng nhập',
+);
+$userLang = array (
+);
+?>

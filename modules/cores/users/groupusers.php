@@ -17,7 +17,7 @@ class groupusers extends VSFObject {
 	function setRelTableName($relTableName) {
 		$this->relTableName = $relTableName;
 	}
-	
+
 	function __construct(){
 		parent::__construct();
 		$this->primaryField 	= 'groupId';
@@ -29,7 +29,7 @@ class groupusers extends VSFObject {
 	}
 	function getGroupById($id) {
 		if (!intval($id))
-			return $this->obj;
+		return $this->obj;
 		return $this->arrayObj[$id];
 	}
 }

@@ -1,18 +1,28 @@
 <?php
 class Module extends BasicObject{
+	/**
+	 * change menu to array modules to insert database
+	 * @return array $dbobj
+	 *
+	 */
 	public function convertToDB() {
 		isset ( $this->id ) 		? ($dbobj ['moduleId'] 			= $this->id) 			: '';
 		isset ( $this->title ) 		? ($dbobj ['moduleTitle'] 		= $this->title) 		: '';
 		isset ( $this->class ) 		? ($dbobj ['moduleClass'] 		= trim($this->class)) 	: '';
-		isset ( $this->admin ) 		? ($dbobj ['moduleIsAdmin'] 	= $this->admin) 		: '';
+		isset ( $this->admin ) 		? ($dbobj ['moduleIsAdmin']             = $this->admin) 		: '';
 		isset ( $this->user ) 		? ($dbobj ['moduleIsUser'] 		= $this->user) 			: '';
 		isset ( $this->intro )		? ($dbobj ['moduleIntro'] 		= $this->intro) 		: '';
-		isset ( $this->virtual )	? ($dbobj ['moduleVirtual'] 	= $this->virtual) 		: '';
-		isset ( $this->version ) 	? ($dbobj ['moduleVersion'] 	= str_replace(".","",$this->version)) 	: '';
-		isset ( $this->parent )     ? ($dbobj ['moduleParent']    = $this->parent) 		: '';
+		isset ( $this->virtual )	? ($dbobj ['moduleVirtual']             = $this->virtual) 		: '';
+                isset ( $this->parent )         ? ($dbobj ['moduleParent']             = $this->parent) 		: '';
+		isset ( $this->version ) 	? ($dbobj ['moduleVersion']             = str_replace(".","",$this->version)) 	: '';
 		return $dbobj;
 	}
-	
+	/**
+	 * change menu from database object to Module object
+	 * @param array $dbobj Database object
+	 * @return void
+	 *
+	 */
 	function convertToObject($object) {
 		global $vsMenu;
 		isset ( $object ['moduleId'] ) 		? $this->setId 		( $object ['moduleId'] ) 		: '';
@@ -22,7 +32,7 @@ class Module extends BasicObject{
 		isset ( $object ['moduleIsUser'] ) 	? $this->setUser 	( $object ['moduleIsUser'] ) 	: '';
 		isset ( $object ['moduleIntro'] )	? $this->setIntro 	( $object ['moduleIntro'] ) 	: '';
 		isset ( $object ['moduleVirtual'] )	? $this->setVirtual ( $object ['moduleVirtual'] ) 	: '';
-		isset ( $object ['moduleParent'] )	? $this->setParent ( $object ['moduleParent'] ) 	: '';
+                isset ( $object ['moduleParent'] )	? $this->setParent ( $object ['moduleParent'] ) 	: '';
 		isset ( $object ['moduleVersion'] ) ? $this->setVersion ( intval($object['moduleVersion'][0]).".".intval($object['moduleVersion'][1]).".".intval($object['moduleVersion'][2]).".".intval($object['moduleVersion'][3]) ) : $this->setVersion (0);
 	}
 	function validate() {
@@ -46,12 +56,33 @@ class Module extends BasicObject{
 	private $version 		= NULL;
 	private $installed 		= NULL;
 	private $virtual 		= NULL;
-	private $parent			= NULL;
+        private $parent                 = NULL;
 
+        
+        /**
+	 * @return the $virtual
+	 */
+	public function getParent() {
+		return $this->parent ;
+	}
+
+	/**
+	 * @param $virtual the $virtual to set
+	 */
+	public function setParent($parent ) {
+		$this->parent  = $parent ;
+	}
+        
+	/**
+	 * @return the $virtual
+	 */
 	public function getVirtual() {
 		return $this->virtual;
 	}
 
+	/**
+	 * @param $virtual the $virtual to set
+	 */
 	public function setVirtual($virtual) {
 		$this->virtual = $virtual;
 	}
@@ -68,26 +99,46 @@ class Module extends BasicObject{
 		unset($this->version);
 	}
 
+	/**
+	 * @return unknown
+	 */
 	public function getInstalled() {
 		return $this->installed;
 	}
 
+	/**
+	 * @param unknown_type $installed
+	 */
 	public function setInstalled($installed=-1) {
 		$this->installed = $installed;
 	}
 
+	/**
+	 * @return unknown
+	 */
 	public function getAdmin() {
 		return $this->admin;
 	}
 
+	/**
+	 * @return unknown
+	 */
 	public function getClass() {
 		return $this->class;
 	}
 
+	/**
+	 * @return unknown
+	 */
 	public function getUser() {
 		return $this->user;
 	}
 
+	/**
+	 * get Version of the Module object
+	 * @return assign version to Module object
+	 *
+	 */
 	public function getVersion() {
 		return $this->version;
 	}
@@ -97,23 +148,25 @@ class Module extends BasicObject{
 		$this->version = $version;
 	}
 
+	/**
+	 * @param unknown_type $admin
+	 */
 	public function setAdmin($admin) {
 		$this->admin = $admin;
 	}
 
+	/**
+	 * @param unknown_type $class
+	 */
 	public function setClass($class) {
 		$this->class = strtolower($class);
 	}
 
+	/**
+	 * @param unknown_type $user
+	 */
 	public function setUser($user) {
 		$this->user = $user;
-	}
-	public function getParent() {
-		return $this->parent;
-	}
-
-	public function setParent($parent) {
-		$this->parent = $parent;
 	}
 
 }

@@ -9,13 +9,13 @@ class skins extends VSFObject {
 		$this->primaryField = 'skinId';
 		$this->tableName = 'skin';
 		$this->basicClassName = 'Skin';
-		$this->obj 			= $this->createBasicObject();
-		$this->obj	=&$this->basicObject;
+		$this->obj 	= $this->createBasicObject();
+		$this->obj	= &$this->basicObject;
 		$this->cache_path="./cache/cache_skins.php";
 		if($vsModule->obj->getClass()=='skins')
-		$this->getObjectsByCondition();
+			$this->getObjectsByCondition();
 		else
-		$this->createSkinCache();
+			$this->createSkinCache();
 	}
 
 	function __destruct() {
@@ -23,13 +23,14 @@ class skins extends VSFObject {
 
 	function createSkinCache(){
 		global $vsSettings;
-		if( file_exists($this->cache_path) &&$vsSettings->getSystemKey('use_cache_skin_wrapper',1,'global', 1, 0))
-		{
+		if( file_exists($this->cache_path) && $vsSettings->getSystemKey('use_cache_skin_wrapper', 1, 'global', 0, 1)){
+			$arraySkin = array();
 			require_once ($this->cache_path);
-			return $this->arrayObj=$arraySkin;// cái này tự động được require $arraySkin
+			return $this->arrayObj = $arraySkin;
 		}
 		$this->writeCache();
 	}
+	
 	function writeCache() {
 		$this->condition = 'skinDefault=1';
 		$this->getObjectsByCondition("getIsAdmin");

@@ -7,14 +7,15 @@ class orderItems extends VSFObject {
 		parent::__construct();
 		$this->primaryField 	= 'itemId';
 		$this->basicClassName 	= 'OrderItem';
-		$this->tableName 		= 'order_item';
-		
+		$this->tableName 	= 'order_item';
 		$this->obj = $this->createBasicObject();
 		$this->fields = $this->obj->convertToDB();
 	}
 	
 	function __destruct(){	
 		unset($this);
-	}
+	}	
+	
+
 }
 ?>

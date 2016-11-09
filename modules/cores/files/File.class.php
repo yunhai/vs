@@ -16,12 +16,11 @@ class File extends BasicObject{
 		}
 		return $status;
 	}
-
 	function __construct() {
 		parent::__construct();
 	}
-
 	function convertToDB() {
+	
 		isset ( $this->id ) 		? ($dbobj ['fileId'] 			= $this->id) 			: '';
 		isset ( $this->title ) 		? ($dbobj ['fileTitle'] 		= $this->title) 		: '';
 		isset ( $this->module ) 	? ($dbobj ['fileModule'] 		= $this->module) 		: '';
@@ -36,8 +35,15 @@ class File extends BasicObject{
 		isset ( $this->uploadTime ) ? ($dbobj ['fileUploadTime'] 	= $this->uploadTime) 	: '';
 		return $dbobj;
 	}
-
+function showImageVideo(){
+            global $bw;
+            $src = UPLOAD_PATH."{$this->getPath()}{$this->getName()}_{$this->uploadTime}.png";
+            if(!file_exists($src))
+            $src= $bw->vars['img_url']."/video_media1.jpg";
+            return '<img src="'.$bw->vars['board_url'].'/utils/timthumb.php?src='.$src.'&amp;w=166&amp;h=126&amp;zc=1" >';
+        }
 	function convertToObject($object = array()) {
+
 		isset ( $object ['fileId'] ) 			? $this->setId($object ['fileId']) 					: '';
 		isset ( $object ['fileTitle'] ) 		? $this->setTitle($object ['fileTitle']) 			: '';
 		isset ( $object ['fileIntro'] ) 		? $this->setIntro($object ['fileIntro']) 			: '';
@@ -52,15 +58,91 @@ class File extends BasicObject{
 		isset ( $object ['fileUploadTime'] ) 	? $this->setUploadTime($object ['fileUploadTime']) 	: '';
 	}
 	
+	function __set_state($array=array()) {
+		$file = new File();
+		foreach ($array as $key => $value) {
+			$file->$key = $value;
+		}
+		return $file;
+	}
+	function getModule() {
+		return $this->module;
+	}
 
-	function show($width=150, $height=150, $divId=null){
-		global $bw, $vsPrint;
+	function getType() {
+		return $this->type;
+	}
+
+	function getSize() {
+		return $this->size;
+	}
+
+	function getUploadTime() {
+		return $this->uploadTime;
+	}
+
+	function getPath() {
+		return $this->path;
+	}
+	function getUrl() {
+		return $this->url;
+	}
+	function setUrl($path) {
+		$this->url = $path;
+	}
+	function getTitle(){
+		return ltrim($this->title,"~");
+	}
+
+	function setModule($module) {
+		$this->module = $module;
+	}
+
+	function setType($type) {
+		$this->type = $type;
+	}
+
+	function setSize($size) {
+		$this->size = $size;
+	}
+
+	function setUploadTime($uploadTime) {
+		$this->uploadTime = $uploadTime;
+	}
+
+	function setPath($path) {
+		$this->path = $path;
+	}
+
+	function setName($name) {
+		$this->name = $name;
+	}
+
+	function getName(){
+		return ltrim($this->name,"~");
+	}
+
+//	function getPathView($type=true) {
+//		global $bw;
+//
+//		if(!$type) return UPLOAD_PATH . "{$this->path}{$this->getName()}_{$this->uploadTime}.{$this->type}";
+//		return $bw->vars['board_url']."/uploads/".$this->path.$this->getName().'_'.$this->uploadTime.'.'.$this->type;
+//	}
+	
+	function getPathView($type=2) {
+		global $bw;
+		if(!$type) return UPLOAD_PATH . "{$this->path}{$this->getName()}_{$this->uploadTime}.{$this->type}";
+		if($type==1) return "{$this->path}{$this->getName()}_{$this->uploadTime}.{$this->type}";
+		return $bw->vars['upload_url']."/".$this->path.$this->getName().'_'.$this->uploadTime.'.'.$this->type;
+	}
+	
+	function show($width=150, $height=150,$divId=null){
+		global $bw,$vsPrint;
 		if(stristr("doc pdf docx xlxs ", $this->type))
-			return "<div>".$this->getName().".".$this->getType()."</div>";
+		return "<div>".$this->getName().".".$this->getType()."</div>";
 		
 		if(stristr("jpg gif png", $this->type))
-			return "<img src='{$bw->vars['board_url']}/utils/timthumb.php?src={$this->getPathView()}&w=$width&h=$height&zc=1' alt='{$this->getName()}' />";
-		
+		return "<img src='{$bw->vars['board_url']}/utils/timthumb.php?src={$this->getPathView()}&w=$width&h=$height&zc=1' alt='{$this->getName()}' />";
 		if($this->type=="swf")
 			return <<<EOF
 			<object height="$height" width="$width" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
@@ -124,73 +206,6 @@ EOF;
 			$bw->jsflv="";
 			return $BWHTML;
 		}
-		
-		return $this->getName().".".$this->getType();
 	}
-	
-	function getModule() {
-		return $this->module;
-	}
-
-	function getType() {
-		return $this->type;
-	}
-
-	function getSize() {
-		return $this->size;
-	}
-
-	function getUploadTime() {
-		return $this->uploadTime;
-	}
-
-	function getPath() {
-		return $this->path;
-	}
-	function getUrl() {
-		return $this->url;
-	}
-	function setUrl($path) {
-		$this->url = $path;
-	}
-	function getTitle(){
-		return ltrim($this->title,"~");
-	}
-
-	function setModule($module) {
-		$this->module = $module;
-	}
-
-	function setType($type) {
-		$this->type = $type;
-	}
-
-	function setSize($size) {
-		$this->size = $size;
-	}
-
-	function setUploadTime($uploadTime) {
-		$this->uploadTime = $uploadTime;
-	}
-
-	function setPath($path) {
-		$this->path = $path;
-	}
-
-	function setName($name) {
-		$this->name = $name;
-	}
-
-	function getName(){
-		return ltrim($this->name,"~");
-	}
-
-	function getPathView($type=true) {
-		global $bw;
-
-		if(!$type) return UPLOAD_PATH . "{$this->path}{$this->getName()}_{$this->uploadTime}.{$this->type}";
-		return $bw->vars['board_url']."/uploads/".$this->path.$this->getName().'_'.$this->uploadTime.'.'.$this->type;
-	}
-
 }
 ?>

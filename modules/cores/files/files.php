@@ -17,8 +17,7 @@ class files extends VSFObject {
 		$this->primaryField = 'fileId';
 		$this->basicClassName = 'File';
 		$this->tableName = 'file';
-		$this->obj = &$this->createBasicObject();
-		
+		$this->obj = $this->createBasicObject ();
 		$this->objType = new filetypes ();
 		$this->rootPath = ROOT_PATH . "uploads/";
 	}
@@ -27,32 +26,29 @@ class files extends VSFObject {
 		unset ( $this );
 	}
 
-	
 	function deleteFile($id = 0) {
 		global $vsLang, $DB;
-		$this->result['status'] = true;
-		
-		if(!$id) return $this->result ['status'] = false;
-		
-		$this->setCondition ( "fileId in ($id)");
-		$arrFile = $this->getObjectsByCondition ();
-		
+		$this->result ['status'] = true;
+		if (! $id)
+		return $this->result ['status'] = false;
 		$this->setCondition ( "fileId in ($id)" );
-		if (! $this->result ['status']) return;
-		$this->deleteObjectByCondition();
-		
+		$arrFile = $this->getObjectsByCondition ();
+		$this->setCondition ( "fileId in ($id)" );
+		if (! $this->result ['status'])
+		return;
+		$this->deleteObjectByCondition ();
 		foreach ( $arrFile as $file ) {
 			$this->currentPath = $file->getPath ();
 			@unlink ( $file->getPathView ( false ) );
 		}
+
 	}
 
 	function convertVideoToFlv($source, $des, $extension = '') {
-		global $_SERVER;
+		global $bw;
 		$dynamic_path = $_SERVER ['DOCUMENT_ROOT'];
 
-		if (! file_exists ( $source ))
-		return false;
+		if (! file_exists ( $source )) return false;
 		else if ($extension == '') {
 			$fileNameParts = explode ( ".", $source );
 			$extension = end ( $fileNameParts );
@@ -64,28 +60,34 @@ class files extends VSFObject {
 		$desimg=str_replace('flv','png',$desvideo);
 		$fileNameParts = explode( "/", $desimg );
 		$name = end( $fileNameParts );
-		//$desimg=str_replace($name,"{$name}",$desimg);
-		exec ( "ffmpeg -y -i " . $sourcevideo . " -vframes 1 -ss 00:00:05 -an -vcodec png -f rawvideo -s 800x600 " . $desimg  );
+
+		exec ( "/usr/bin/ffmpeg -y -i " . $sourcevideo . " -vframes 1 -ss 00:00:05 -an -vcodec png -f rawvideo -s 416x250 " . $desimg );
+		chmod($desimg, 0775);
+		
+		
 		if ($extension == "wav") {
-			exec ( "ffmpeg -i $sourcevideo -acodec mp3 -ab 128k $desvideo" );
+			exec ( "/usr/bin/ffmpeg -i $sourcevideo -acodec mp3 -ab 128k $desvideo" );
 			if (file_exists ( $des ))
 			return true;
 		}
+		
 		if ($extension == "wmv") {
-			exec ( "ffmpeg -i " . $sourcevideo . " -sameq -acodec libmp3lame -ar 22050 -ab 32 -f flv -s 320x240 " . $desvideo );
+			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -sameq -acodec libmp3lame -ar 22050 -ab 32 -f flv -s 416x250 " . $desvideo );
 			if (file_exists ( $des ))
 			return true;
 
 		} elseif ($extension == "mp4") {
-			exec ( "ffmpeg -i " . $sourcevideo . " -ar 22050 -ab 32 -acodec libmp3lame -r 25 -f flv -b 400 -s 320x240 " . $desvideo );
+			exec ( "/usr/bin/ffmpeg -i " . $sourcevideo . " -ar 22050 -ab 32 -acodec libmp3lame -r 25 -f flv -b 400 -s 416x250 " . $desvideo );
 			if (file_exists ( $des ))
 			return true;
 		}
 
 		if ($extension == "avi" || $extension == "mpg" || $extension == "mpeg" || $extension == "mov") {
-			exec ( "ffmpeg -i $sourcevideo -ar 22050 -ab 32 -f flv -s 320x240 $desvideo" );
-			if (file_exists ( $des ))
-			return true;
+			exec ( "/usr/bin/ffmpeg -i $sourcevideo -ar 22050 -ab 32 -f flv -s 416x250 $desvideo" );
+			if(file_exists($des)){
+				chmod($desvideo, 0775);
+				return true;
+			}
 		}
 
 		return false;
@@ -122,21 +124,20 @@ class files extends VSFObject {
 	 * @param integer $id the id of file in databases
 	 * @return array error if fail and file streaming if success
 	 */
-	function downloadFile($id = 0, $prefix = 1) {
-		global $vsStd, $vsLang, $bw;
+	function downloadFile($id = 0) {
+		global $vsStd, $vsLang, $bw,$DB;
 
 		$this->obj = $this->getObjectById ( intval($id) );
-	
-		if (! $this->result ['status']) return;
+		
+		if (! $this->result ['status'])
+		return;
 
 		$this->result ['message'] = $vsLang->getWords ( 'file_download_success', "Download file successfully!" );
 		$this->result ['status'] = true;
 
 		// Output file name
-		if($prefix)
-			$objName = VSFTextCode::removeAccent($bw->vars['global_websitename'] . " " . $this->obj->getTitle (), "-" ). ".". $this->obj->getType ();
-		else $objName = VSFTextCode::removeAccent($this->obj->getTitle(), "-"). ".". $this->obj->getType ();
-		
+		$objName = VSFTextCode::removeAccent ( $bw->vars ['global_websitename'] . " " . $this->obj->getTitle (), "-" ). ".". $this->obj->getType ();
+
 		if (file_exists ( $this->obj->getPathView (0) )) {
 			header ( 'Content-Description: File Transfer' );
 			header ( 'Content-Type: application/octet-stream' );
@@ -149,12 +150,9 @@ class files extends VSFObject {
 			ob_clean ();
 			flush ();
 			readfile ( $this->obj->getPathView() );
-			exit();
+			exit ();
 		}
-
-		$this->result ['status'] = false;
-		$this->result ['message'] = $vsLang->getWords ( 'file_download_not_exist', "The file you want to download does not exist" );
-	}
+        }
 
 	function getFileInfo($fileName) {
 		$imageDim = getimagesize($fileName);
@@ -195,15 +193,13 @@ class files extends VSFObject {
 	 */
 	function copyFile($sourceName, $pathFile = "") {
 		global $vsStd, $bw;
-		
-		
-		$checkFile = $this->getFileInfo($sourceName);
+		$checkFile=$this->getFileInfo($sourceName);
 		if(!is_array($checkFile))
 		return false;
 		$time = time ();
-		if (! is_dir ( $this->rootPath . $pathFile ))
+		if (! is_dir ( $this->rootPath . $pathFile )) {
 			mkdir ( $this->rootPath . $pathFile, 0777, true );
-			
+		}
 		$arrayEx= explode('/',$sourceName);
 		$fileName=$arrayEx[count($arrayEx)-1];
 		$arrayName= explode('.',$fileName);
@@ -211,14 +207,12 @@ class files extends VSFObject {
 		$vsStd->requireFile ( UTILS_PATH . "TextCode.class.php" );
 		$objName = VSFTextCode::removeAccent( trim ( $objName ), "_" );
 
-		if(!copy($sourceName,UPLOAD_PATH."/{$pathFile}/{$objName}_{$time}.{$arrayName[1]}"))
+		if(!copy($sourceName,UPLOAD_PATH."/{$pathFile}/{$objName}_{$time}.{$arrayName[1]}")) {
 			return false;
-		$size = $this->formatbytes(UPLOAD_PATH."/{$pathFile}/{$objName}_{$time}.{$arrayName[1]}");
-		
-		if($size<0) return false;
-		
-
-		
+		}
+		$size=$this->formatbytes(UPLOAD_PATH."/{$pathFile}/{$objName}_{$time}.{$arrayName[1]}");
+		if($size<0)
+		return false;
 		$this->obj->setPath ( rtrim ( $pathFile, '/' ) . "/" );
 		$this->obj->setModule ( $bw->input [0] );
 		$this->obj->setSize ($size);
@@ -233,10 +227,7 @@ class files extends VSFObject {
 		}
 		$this->obj->setTitle ( '~'.$objName );
 		$this->obj->setName ( '~'.$objName );
-		
-		$this->obj->setId(NULL);
-		$this->insertObject();
-
+		$this->insertObject ();
 		return $this->obj->getId();
 	}
 	/**
@@ -251,7 +242,7 @@ class files extends VSFObject {
 		$time = time ();
 
 		if (! is_dir ( $this->rootPath . $pathFile )) {
-			mkdir ( $this->rootPath . $pathFile, 0777, true );
+			mkdir ( $this->rootPath . $pathFile, 0775, true );
 		}
 
 		$objName = str_replace ( substr ( $_FILES [$uploadName] ['name'], strrpos ( $_FILES [$uploadName] ['name'], '.' ) ), "", $_FILES [$uploadName] ['name'] );
@@ -290,24 +281,81 @@ class files extends VSFObject {
 			$this->obj->setPath ( rtrim ( $pathFile, '/' ) . "/" );
 			$this->obj->setModule ( $bw->input ['table'] );
 			$this->obj->setSize ( $_FILES [$uploadName] ['size'] );
-			$this->obj->setTitle ( '~'.$objName );
+                        if($this->obj->getTitle()=="" or $this->obj->getTitle()=="undefined")
+                            $this->obj->setTitle ( '~'.$objName );
 			$this->obj->setName ( '~'.$objName );
 			$this->obj->setType ( $this->getFileExtension ( $_FILES [$uploadName] ['name'] ) );
 			$this->obj->setUploadTime ( $time );
-			@chmod($this->obj->getPathView ( false ),0777);
+			@chmod($this->obj->getPathView ( 0 ),0775);
 			if (stristr ( "wmv mpg mpeg avi mp4 flv", $this->obj->getType () )) {
 				$desFile = UPLOAD_PATH . "{$this->obj->getPath()}{$objName}_{$this->obj->getUploadTime()}.flv";
 
-				if ($this->convertVideoToFlv ( $this->obj->getPathView ( false ), $desFile, $this->obj->getType () )) {
-					@unlink ( $this->obj->getPathView ( false ) );
+				if ($this->convertVideoToFlv ( $this->obj->getPathView ( 0 ), $desFile, $this->obj->getType () )) {
+					@unlink ( $this->obj->getPathView ( 0 ) );
 					$this->obj->setType ( "flv" );
 				}
 			}
-			$this->insertObject();
+			$this->insertObject ();
 		}
+//		$bw->show_callback=1;
+//                if($bw->input['ajax'])
+//                    print "{error: '" . $message . "',success:true,fileId: '{$this->obj->getId()}'}";
+//                else return $this->obj;
+                
+        $bw->show_callback=1;
+		if($bw->input['ajax']){
+		print "{error: '" . $message . "',fileId: '{$this->obj->getId()}'}";
+		exit();
+		}
+		$info_upload = array("error" 	=> $message,
+							"fileId"		=> $this->obj->getId(),
+							"objfile"		=> $this->obj
+						);
 		
-		$bw->show_callback = 1;
-		if($bw->input['ajax']) print "{error: '" . $message . "',fileId: '{$this->obj->getId()}'}";
-		else return $this->obj->getId();
+		return $info_upload;
+	}
+	
+	function buildCacheFile($module,$lang) {
+		// Only build cache for user menus
+		global $DB,$vsLang;
+		$this->makeFilefolder($vsLang->currentLang->getFoldername());
+//		$name = $module;
+//		if($vsLang->currentLang->getFoldername()!='vi'){
+//			$name=$module
+//		}
+		$this->setCondition("fileModule = '{$module}'");
+		$list =$this->getArrayByCondition();
+		//$list =$this->getObjectsByCondition();
+		
+		$vars = array();
+		foreach($list as $element)
+			$vars[$element['fileId']] = $element;
+			//$vars[$element->getId()] = $element;
+	
+		$cache_content  = "<?php\n";
+		$cache_content .= "\$arrayFile = ".var_export($vars,true).";\n";
+		
+		$cache_content .= "?>";
+		if(!$lang)$lang = $vsLang->currentLang->getFoldername();
+		$cache_path = CACHE_PATH."file/".$lang."/".$module.".cache";
+		$cache_content = preg_replace('/\s\s+/', '', $cache_content);
+		$file = fopen($cache_path, "w");
+		fwrite($file, $cache_content);
+		fclose($file);
+		unset($vars);
+	}
+	
+	function makeFilefolder($name){
+		$linkname = CACHE_PATH."file/".$name;
+		if(!is_dir($linkname))
+		{
+			mkdir($linkname, 0777, true);
+			
+			return 1;
+		}else {
+			$this->result ['message'].=" folder[".$name."] has been exits";
+			return;
+		}
+			
 	}
 }

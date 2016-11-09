@@ -22,6 +22,7 @@
  This plugin is dual-licensed under the GNU General Public License and the MIT License and
  is copyright 2008 A Beautiful Site, LLC. 
 */
+
 (function($) {
 	
 	$.alerts = {
@@ -70,11 +71,7 @@
 			$("BODY").append(
 			  '<div id="popup_container" style="overflow: hidden; display: block; position: fixed; z-index: 1021; outline-color: -moz-use-text-color; outline-style: none; outline-width: 0px; height: auto; width: 300px; top: 320px; left: 350.5px;" class="ui-dialog ui-widget ui-widget-content ui-corner-all" tabindex="-1">' +
 			  	'<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" unselectable="on" style="-moz-user-select: none;">'+
-      '<span id="ui-dialog-title-dialog" class="ui-dialog-title" unselectable="on" style="-moz-user-select: none;">'+'</span>'+
-	  '<a href="#" class="ui-dialog-titlebar-close ui-corner-all" unselectable="on" style="-moz-user-select: none;"><span class="ui-icon ui-icon-closethick" unselectable="on" style="-moz-user-select: none;">close</span></a>'+
-      
-  ' </div>'+
-			    
+      '<span id="ui-dialog-title-dialog" class="ui-dialog-title" unselectable="on" style="-moz-user-select: none;">'+'</span></div>'+
 			    '<div id="popup_content">' +
 			      '<div id="popup_message" class="ui-dialog-content ui-widget-content"></div>' +
 				'</div>' +
@@ -87,7 +84,8 @@
 			
 			$("#popup_container").css({
 				zIndex: 9999,
-				width:350
+				width:350,
+				position: pos
 			});
 			$("#ui-dialog-title-dialog").text(title);
 			$('.ui-dialog-titlebar-close').attr('role', 'button')
@@ -217,7 +215,7 @@
 			if( left < 0 ) left = 0;
 			
 			// IE6 fix
-			if( $.browser.msie && parseInt($.browser.version) <= 6 ) top = top + $(window).scrollTop();
+//			if( $.browser.msie && parseInt($.browser.version) <= 6 ) top = top + $(window).scrollTop();
 			
 			$("#popup_container").css({
 				top: top + 'px',

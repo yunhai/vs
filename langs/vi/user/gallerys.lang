@@ -1,0 +1,11 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Gallerys',
+  'main_title' => 'Gallerys',
+  'err_contact_album' => 'Nhập tên Album mà bạn cần tìm!',
+  'gloabal_no_album' => 'Không tìm thấy album bạn cần!',
+  'pagetendangnhap' => 'Tên đăng nhập',
+);
+$userLang = array (
+);
+?>

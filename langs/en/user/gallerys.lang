@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'gallerys',
+  'main_title' => 'gallerys',
+);
+$userLang = array();
+?>

@@ -152,6 +152,7 @@ class urlalias_admin {
 		$this->module->getAllSEOObject();
 		$vsStd->requireFile(LIBS_PATH ."Pagination.class.php");
 		$size =  $vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);
+                if($bw->input['pIndex'])$bw->input[2] = $bw->input['pIndex'];
 		$pagination = new VSFPagination();
 		$pagination->ajax=1;
 		$pagination->callbackobjectId='urlCurrent';
@@ -173,6 +174,7 @@ class urlalias_admin {
 
 	function addEditObjForm($formtype='add') {
 		global $bw,$vsLang;
+                
 		$form['formType'] = $formtype;
 		$form['submit'] = $vsLang->getWords("alias_{$formtype}_bt",ucfirst($formtype));
 		$form['title'] = $vsLang->getWords("alias_add_title","Add More Alias");

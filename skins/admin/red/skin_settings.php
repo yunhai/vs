@@ -1,6 +1,6 @@
 <?php
 class skin_settings {
-	
+
 	function loadRequiredJavascript(){
 		global $bw, $vsLang;
 		$BWHTML .= <<<EOF
@@ -9,53 +9,40 @@ class skin_settings {
 					if(typeof(pIndex)=='undefined') pIndex = 1;
 					vsf.get('settings/editForm/'+catId+'/'+objId+'/&pIndex='+pIndex,'setting-table');
 				}
-				
+
 				function addSetting(catId, pIndex){
 					if(typeof(pIndex)=='undefined') pIndex = 1;
 					vsf.get('settings/editForm/'+catId+'/'+'/&pIndex='+pIndex,'setting-table');
 				}
-			
+
 				function deleteObj(catId, pIndex){
 					if(typeof(pIndex)=='undefined') pIndex = 1
+                                    if(vsf.checkValue())
 					jConfirm(
-						'{$vsLang->getWords("delete_confirm","Are you sure to delete these settings information?")}', 
+						'{$vsLang->getWords("delete_confirm","Are you sure to delete these settings information?")}',
 					 	'{$bw->vars['global_websitename']} Dialog',
 					 	function(r){
 							if(r){
-								var flag=true; var jsonStr = "";
-								
-								$("input[type=checkbox]").each(function(){
-									if($(this).hasClass('myCheckbox'+catId)){
-										flag=false;
-										if(this.checked) jsonStr += $(this).val()+',';
-									}
-								});
-								
-							  	if(flag){
-							  		jAlert(
-							  			"{$vsLang->getWords('delete_confirm_NoItem', 'You haven\'t choose any items!')}",
-							  			"{$vsLang->getWords('global_alert','Notice')}"
-						  			);
-							  		return false;
-								}
-							  	jsonStr = jsonStr.substr(0,jsonStr.lastIndexOf(','));							  	
-							  	
+								var jsonStr = "";
+                                                                jsonStr = $('#checked-obj1').val();
 								vsf.get('settings/deleteObj/'+catId+'/'+jsonStr+'/&pIndex='+pIndex,'setting-table');
 								return false;
 							}
 					 	}
 		             );
-				}
-				function closeSetting(catId){
-					vsf.get('settings/getObjList/'+catId,'setting-table');
+			}
+				function closeSetting(catId, pIndex){
+                                        if(typeof(pIndex)=='undefined') pIndex = 1
+					return vsf.get('settings/getObjList/'+catId+'/&pIndex='+pIndex,'setting-table');
+
 				}
 
-				
-			</script>	
+
+			</script>
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function moduleObjTab($option) {
 		global $vsLang;
 		$BWHTML = <<<EOF
@@ -72,7 +59,7 @@ EOF;
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function loadJS(){
 		global $bw, $vsLang;
 		$BWHTML .= <<<EOF
@@ -80,57 +67,44 @@ EOF;
 				function closeSetting(){
 					vsf.get('settings/moduleObjTab/{$bw->input[2]}','content_all_vsf');
 				}
-				
+
 				function editSetting(objId, catId, pIndex){
+
 					if(typeof(pIndex)=='undefined') pIndex = 1;
 					vsf.get('settings/editForm/'+catId+'/'+objId+'/&type=moduleObj&pIndex='+pIndex,'objForm');
 				}
-				
+
 				function addSetting(catId, pIndex){
 					if(typeof(pIndex)=='undefined') pIndex = 1;
 					vsf.get('settings/editForm/'+catId+'/&type=moduleObj&pIndex='+pIndex,'objForm');
 				}
-			
+
 				function deleteObj(catId, pIndex){
+                                        
 					if(typeof(pIndex)=='undefined') pIndex = 1
+                                    if(vsf.checkValue())
 					jConfirm(
-						'{$vsLang->getWords("delete_confirm","Are you sure to delete these settings information?")}', 
+						'{$vsLang->getWords("delete_confirm","Are you sure to delete these settings information?")}',
 					 	'{$bw->vars['global_websitename']} Dialog',
 					 	function(r){
 							if(r){
-								var flag=true; var jsonStr = "";
-								
-								$("input[type=checkbox]").each(function(){
-									if($(this).hasClass('myCheckbox'+catId)){
-										flag=false;
-										if(this.checked) jsonStr += $(this).val()+',';
-									}
-								});
-								
-							  	if(flag){
-							  		jAlert(
-							  			"{$vsLang->getWords('delete_confirm_NoItem', 'You haven\'t choose any items!')}",
-							  			"{$vsLang->getWords('global_alert','Notice')}"
-						  			);
-							  		return false;
-								}
-							  	jsonStr = jsonStr.substr(0,jsonStr.lastIndexOf(','));							  	
-							  	
+								var jsonStr = "";
+                                                                jsonStr = $('#checked-obj1').val();
 								vsf.get('settings/deleteObj/'+catId+'/'+jsonStr+'/&pIndex='+pIndex,'setting-table');
 								return false;
 							}
 					 	}
 		             );
-				}
+			}
 
-			</script>	
+			</script>
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function editForm($obj, $option) {
 		global $bw, $vsUser, $vsLang;
-		
+             
 		$BWHTML = <<<EOF
 			<form id="editForm" method="post" style="width:290px;">
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
@@ -143,6 +117,7 @@ EOF;
 						</p>
 					</div>
 					<input type="hidden" name="settingId" value="{$obj->getId()}"/>
+					<input type="hidden" name="pIndex" value="{$bw->input['pIndex']}"/>
 					<input type="hidden" name="type" value="{$option['type']}"/>
 					<table class="ui-dialog-content ui-widget-content" cellpadding="1" cellspacing="1" >
 						<tr>
@@ -166,7 +141,7 @@ EOF;
 						<tr>
 						    <td>{$vsLang->getWords('description_label','Description')}:</td>
 						    <td><input name="settingIntro" value="{$obj->getIntro()}" /></td>
-						</tr>						
+						</tr>
 						<tr>
 						    <td>{$vsLang->getWords('value_label','Value')}:</td>
 						    <td><input name="settingValue" value="{$obj->getValue()}" /></td>
@@ -217,9 +192,9 @@ EOF;
 					</table>
 				</div>
 			</form>
-			
+
 			<script>
-			
+
 				$('#editForm').submit(function(){
 					<if=" $option['type'] ">
 						vsf.submitForm($('#editForm'),'settings/editObj/','content_all_vsf');
@@ -228,24 +203,24 @@ EOF;
 					</if>
 					return false;
 				});
-				
+
 				$(document).ready(function(){
 					vsf.jSelect({$obj->getCatId()}, 'settingCatId');
 					vsf.jSelect({$obj->getType()}, 'settingType');
 					vsf.jSelect('{$option['catId']}', 'settingCatId');
-					
+
 					<if=" $vsUser->checkRoot() ">
 						vsf.jCheckbox('{$obj->getRoot()}', 'settingRoot');
 					</if>
-					
+
 					$('#closeSetting').click(function(){
-						closeSetting('{$obj->getCatId()}');
+						closeSetting('{$obj->getCatId()}','{$bw->input['pIndex']}');
 					});
-					
+
 					<if=" $option['type'] ">
 						$('#settingCatId').attr('disabled','disabled');
 					</if>
-				
+
 					$('#settingOrder').keypress(
 			            function(event) {
 			                //Allow only backspace and delete
@@ -261,11 +236,12 @@ EOF;
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function objListHtml($option) {
 		global $vsLang,$vsUser;
 		$BWHTML = "";
 		$BWHTML = <<<EOF
+                        <input type="hidden" name="checkedObj" id="checked-obj" value="" />
 			<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 				<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 					<span class='ui-dialog-title'>{$option['cat']['title']}</span>
@@ -285,10 +261,10 @@ EOF;
 				<div class="message">{$option['message']}</div>
 				<table class="ui-widget-content" cellpadding="1" cellspacing="1" width="100%">
 				    <thead>
-                                        
+
 				    	<tr>
-					    	<th width="20">					    	
-					    		<input type="checkbox" onclick="checkAll()" onclicktext="checkAll()" name="all" />
+					    	<th width="20">
+					    		<input type="checkbox" onclick="vsf.checkAll()"  name="all" />
 					    	</th>
 					        <th width="400">
 								{$vsLang->getWords('name_lable','Name')}</th>
@@ -301,12 +277,12 @@ EOF;
 				        </tr>
 				    </thead>
 				    <tbody>
-                                    
+
 				    <if=" $option['pageList'] ">
 				    <foreach="$option['pageList'] as $obj">
 					    <tr>
 							<td width="20px">
-								<input value="{$obj->getId()}" type="checkbox" onclicktext="checkObject({$option['cat']['id']});" onclick="checkObject({$option['cat']['id']});" class="myCheckbox{$option['cat']['id']}" />
+								<input value="{$obj->getId()}" type="checkbox"  onclick="vsf.checkObject();" class="myCheckbox{$option['cat']['id']}" />
 							</td>
 						    <td>
 						    	<a href="javascript:editSetting({$obj->getId()},{$option['cat']['id']}, {$option['pIndex']})" title="Click here to edit this setting information." class='editObj'>
@@ -329,46 +305,16 @@ EOF;
 			        </tr>
 			        </if>
 					</tbody>
-				</table>			
+				</table>
 			</div>
 			
-			<script type='text/javascript'>
-				function checkAll() {
-					var checked_status = $("input[name=all]:checked").length;
-					var checkedString = '';
-					$("input[type=checkbox]").each(function(){
-						if($(this).hasClass('myCheckbox{$option['cat']['id']}')){
-						this.checked = checked_status;
-						if(checked_status) checkedString += $(this).val()+',';
-						}
-					});
-					$("span[acaica=myCheckbox{$option['cat']['id']}]").each(function(){
-						if(checked_status)
-							this.style.backgroundPosition = "0 -50px";
-						else this.style.backgroundPosition = "0 0";
-					});
-					$('#checked-obj').val(checkedString);
-				}
-				
-			    function checkObject() {
-					var checkedString = '';
-					$("input[type=checkbox]").each(function(){
-						if($(this).hasClass('myCheckbox{$option['cat']['id']}')){
-							if(this.checked) checkedString += $(this).val()+',';
-						}
-					});
-					checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
-					$('#checked-obj').val(checkedString);
-				}
-			</script>
-
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function displayObjTab($listObj, $arrayCat, $message="") {
 		global $vsLang;
-		
+
 		$BWHTML = <<<EOF
 		<div id="content_all_vsf">
 			<div id="setting-cate" class="left-cell">
@@ -401,7 +347,7 @@ EOF;
 EOF;
 		return $BWHTML;
 	}
-	
+
 	function loadDefault(){
 		global $bw, $vsLang;
 
@@ -413,7 +359,7 @@ EOF;
 			        		<span>{$vsLang->getWords('tab_obj_objes',"{$bw->input[0]}")}</span>
 						</a>
 			        </li>
-			        
+
 					<li class="ui-state-default ui-corner-top">
 			        	<a href="{$bw->base_url}menus/display-category-tab/settings/&ajax=1">
 			        		<span>{$vsLang->getWords('tab_obj_categories','Categories')}</span>
@@ -422,7 +368,7 @@ EOF;
 				</ul>
 			</div>
 EOF;
-		return $BWHTML;		
+		return $BWHTML;
 	}
 }
 ?>

@@ -1,9 +1,16 @@
 <?php
 $lang = array (
-  'pageTitle' => 'news',
-  'main_title' => 'news',
-  'group_global_module' => 'global',
-  'read_more' => 'Continue Reading [+]',
-  'other_news' => 'Other news',
+  'pageTitle' => 'Industrial',
+  'main_title' => 'Industrial',
+  'about_pagetitle' => 'GIỚI THIỆU CÔNG TY',
+  'news_title' => 'News',
+  'other_news' => 'Others news',
+  'cactinkhac' => 'Others news',
+  'ngaydangtin' => 'Postdate',
+  'Cac_tin_khac' => 'Others news',
+  'module_chitiet' => 'Detail',
+  'xemchitiet' => 'xem chi tiết',
+);
+$userLang = array (
 );
 ?>

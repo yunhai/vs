@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'dich-vu',
+  'main_title' => 'dich-vu',
+);
+$userLang = array();
+?>

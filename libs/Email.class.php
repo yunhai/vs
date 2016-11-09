@@ -346,7 +346,7 @@ class Emailer implements interfaceEmail
 	 * @access	private
 	 * @var 	boolean
 	 */
-	private $wrap_brackets	= true;
+	private $wrap_brackets	= false;
 	
 	/**
 	 * Default email method (mail or smtp)
@@ -416,7 +416,7 @@ class Emailer implements interfaceEmail
 				'smtp_user' => $bw->vars['email_smtp_user'],
 				'smtp_pass' => $bw->vars['email_smtp_password'],
 		        'smtp_helo' => 'EHLO',
-		        'wrap_brackets' => true);
+		        'wrap_brackets' => false);
 		
 		$this->mail_method		= ( $opts['method'] AND in_array( strtolower($opts['method']), array( 'smtp', 'mail' ) ) )  ? strtolower($opts['method']) : 'mail';
 		$this->temp_dump		= ( isset($opts['debug']) AND $opts['debug'] ) ? 1 : 0;
@@ -429,7 +429,7 @@ class Emailer implements interfaceEmail
 		$this->smtp_user		= ( isset($opts['smtp_user']) AND $opts['smtp_user'] ) ? $opts['smtp_user'] : '';
 		$this->smtp_pass		= ( isset($opts['smtp_pass']) AND $opts['smtp_pass'] ) ? $opts['smtp_pass'] : '';
 		$this->smtp_helo		= ( isset($opts['smtp_helo']) AND $opts['smtp_helo'] ) ? $opts['smtp_helo'] : 'HELO';
-		$this->wrap_brackets	= true;//( isset($opts['wrap_brackets']) AND $opts['wrap_brackets'] ) ? true : false;
+		$this->wrap_brackets	= ( isset($opts['wrap_brackets']) AND $opts['wrap_brackets'] ) ? true : false;
 		$this->extra_opts		= ( isset($opts['extra_opts']) AND $opts['extra_opts'] ) ? $opts['extra_opts'] : '';
 		
 		if( $this->mail_method == 'smtp' )

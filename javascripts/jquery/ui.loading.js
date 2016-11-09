@@ -26,6 +26,7 @@
 
         loading: function(message,image) {
             if( message == null ) message = 'Hệ thống đang xử lý vui lòng chờ...';
+            if(image==null) image = boardUrl+"/styles/images/loading.gif";
             $.loadings.show( message,image);
         },
 
@@ -39,7 +40,7 @@
                 "<div  id='imgLOAD' style='text-align:center;display:block;position:fixed;padding:10px;z-index:1002;' align='center'"+
                 "</div><div id='WholePage'></div>");
 
-            $("#imgLOAD").append("<b>"+msg+"</b><br /><br /><img src='"+image+"' alt='' >");
+            $("#imgLOAD").append("<b>"+msg+"</b><br /><br /><img src='"+image+"' alt='' />");
             // IE6 Fix
             var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed';
 

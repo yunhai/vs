@@ -1,6 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'events',
-  'main_title' => 'events',
-);
-?>

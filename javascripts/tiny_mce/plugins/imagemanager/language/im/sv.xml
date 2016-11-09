@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <language-pack>
 	<header>
-		<!--
-			Please fill in contact information (author & email), we might contact
-			you when we are doing updates
-		-->
-		<!--
-			You will also have the chance to participate in beta releases of new
-			versions
-		-->
+		<!-- Please fill in contact information (author & email), we might contact you when we are doing updates -->
+		<!-- You will also have the chance to participate in beta releases of new versions -->
 		<author>Moxiecode Systems AB (spam@moxiecode.com)</author>
 		<version minor="3" major="0" releasedate="2007-05-07" />
 		<description>
@@ -55,8 +49,7 @@
 
 		<group target="error">
 			<!-- common -->
-			<item name="demo">Denna operation är inte tillåten i demostrations
-				läget.</item>
+			<item name="demo">Denna operation är inte tillåten i demostrations läget.</item>
 			<item name="no_filesystem">Kunde inte hitta filsystem för: {path}.</item>
 			<item name="no_access">Inga rättigheter till katalogen/filen.</item>
 			<item name="no_write_access">Inga skrivrättigheter till katalogen/filen.</item>
@@ -69,8 +62,7 @@
 			<item name="createdir_failed">Kunde inte skapa katalog.</item>
 
 			<!-- upload -->
-			<item name="upload_failed">Kunde inte ladda up fil, kolla så den har
-				skrivaccess.</item>
+			<item name="upload_failed">Kunde inte ladda up fil, kolla så den har skrivaccess.</item>
 			<item name="file_exists">En fil med det angivna namnet finns redan.</item>
 			<item name="error_to_large">Filen du försöker ladda upp är för stor.</item>
 
@@ -83,7 +75,7 @@
 			<item name="rotate_failed">Kunde inte rotera bilden.</item>
 			<item name="flip_failed">Kunde inte spegelvända bilden.</item>
 			<item name="save_failed">Kunde inte spara bilden.</item>
-
+	
 			<!-- Legacy items -->
 			<item name="remove_favorite_failed">Kunde inte radera favoriten.</item>
 		</group>
@@ -154,19 +146,15 @@
 			<item name="button_upload">Ladda upp</item>
 			<item name="browse">Lägg till fil(er)</item>
 			<item name="progress">Laddar upp fil, var god vänta...</item>
-			<item name="upload_warn">Filer håller på att laddas upp, är du säker på att du
-				vill avbryta?</item>
-			<item name="statusrow">Du har {files} filer (totalt {size}) som väntar på
-				att få bli uppladdade.</item>
-			<item name="progressinfo">{loaded} av {total} uppladdade med hastigheten
-				{speed}/s.</item>
+			<item name="upload_warn">Filer håller på att laddas upp, är du säker på att du vill avbryta?</item>
+			<item name="statusrow">Du har {files} filer (totalt {size}) som väntar på att få bli uppladdade.</item>
+			<item name="progressinfo">{loaded} av {total} uppladdade med hastigheten {speed}/s.</item>
 			<item name="abort">Avbryt uppladdning</item>
 			<item name="add_more">Lägg till fler?</item>
 			<item name="upload_to_server">Ladda upp till servern</item>
 			<item name="cancelled">Upladdningen avbruten</item>
 			<item name="choose_files">Välj filer</item>
-			<item name="basic_upload">Om du har problem att ladda upp kan du alltid använda
-				den {a}enkla upladdaren{/a}.</item>
+			<item name="basic_upload">Om du har problem att ladda upp kan du alltid använda den {a}enkla upladdaren{/a}.</item>
 			<item name="remove">Radera</item>
 			<item name="file">Fil</item>
 			<item name="size">Storlek</item>
@@ -193,17 +181,15 @@
 			<item name="horizontal">Horizontell</item>
 			<item name="vertical">Vertical</item>
 			<item name="saving_wait">Sparar bild, vad god vänta...</item>
-			<item name="confirm_revert">Är du säker på att du vill återgår till den senast
-				sparade bild versionen?</item>
+			<item name="confirm_revert">Är du säker på att du vill återgår till den senast sparade bild versionen?</item>
 			<item name="loading">Laddar bilden, var god vänta...</item>
-			<item name="confirm_no_save">Är du säker på att du inte vill spara förändringarna
-				du gjorde på bilden?</item>
+			<item name="confirm_no_save">Är du säker på att du inte vill spara förändringarna du gjorde på bilden?</item>
 		</group>
 
 		<group target="tinymce">
 			<item name="insertimage_desc">Infoga bild</item>
-			<item name="replaceimage_desc">Byt bild</item>
-			<item name="editimage_desc">Redigera bild</item>
+			<item name="replaceimage_desc">Byt bild</item>	
+			<item name="editimage_desc">Redigera bild</item>	
 		</group>
 
 		<group target="favorites">

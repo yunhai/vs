@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'members',
+  'main_title' => 'members',
+  'module_chitiet' => 'Detail',
+);
+$userLang = array (
+);
+?>

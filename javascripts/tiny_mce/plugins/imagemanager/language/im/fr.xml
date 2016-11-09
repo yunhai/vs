@@ -4,7 +4,7 @@
 		<author>Francis THOMAS (frato@lecentre.net)</author>
 		<version minor="1" major="0" releasedate="2007-06-12" />
 		<description>
-			This is the french language pack for the MCImageManager.
+			This is the french language pack for the MCImageManager.
 		</description>
 	</header>
 
@@ -30,10 +30,9 @@
 			<item name="confirm_no">Non</item>
 			<item name="prev">préc.</item>
 			<item name="next">suiv.</item>
-			<item name="image_data">Récupération des informations de l'image,
-				patientez...</item>
+			<item name="image_data">Récupération des informations de l'image, patientez...</item>
 		</group>
-
+		
 		<group target="button">
 			<!-- think about the length of the text -->
 			<item name="create">Créer</item>
@@ -41,19 +40,16 @@
 			<item name="apply">Valider</item>
 			<item name="save">Enregistrer</item>
 		</group>
-
+		
 		<group target="error">
 			<!-- common -->
 			<item name="demo">Action interdite en mode démonstration.</item>
 			<item name="no_filesystem">Aucun fichier trouvé pour le chemin : {path}.</item>
-			<item name="no_access">Vous ne disposez pas des droits sur ce
-				dossier/fichier.</item>
-			<item name="no_write_access">Vous ne disposez pas des droits en écriture sur ce
-				dossier.</item>
+			<item name="no_access">Vous ne disposez pas des droits sur ce dossier/fichier.</item>
+			<item name="no_write_access">Vous ne disposez pas des droits en écriture sur ce dossier.</item>
 			<item name="file_not_exists">Le fichier/dossier n'a pas été trouvé.</item>
 			<item name="invalid_filename">Nom de fichier non valide.</item>
-			<item name="remove_favorite_failed">Impossible de supprimer le favoris de votre liste de
-				favoris.</item>
+			<item name="remove_favorite_failed">Impossible de supprimer le favoris de votre liste de favoris.</item>
 
 			<!-- create dir -->
 			<item name="template_missing">Le template sélectionné n'existe pas.</item>
@@ -61,15 +57,13 @@
 			<item name="createdir_failed">Erreur, impossible de créer le dossier.</item>
 
 			<!-- upload -->
-			<item name="upload_failed">Upload annulée, vérifiez les droits en écriture sur
-				le dossier.</item>
+			<item name="upload_failed">Upload annulée, vérifiez les droits en écriture sur le dossier.</item>
 			<item name="file_exists">Un fichier du même nom existe déjà.</item>
-			<item name="error_to_large">Le fichier que vous essayez de charger est trop
-				volumineux.</item>
+			<item name="error_to_large">Le fichier que vous essayez de charger est trop volumineux.</item>
 
 			<!-- delete -->
 			<item name="delete_failed">Suppression impossible.</item>
-
+			
 			<!-- image edit -->
 			<item name="crop_failed">Erreur, recadrage impossible.</item>
 			<item name="resize_failed">Erreur, redimensionnement impossible.</item>
@@ -77,7 +71,7 @@
 			<item name="flip_failed">Retournement impossible.</item>
 			<item name="save_failed">Enregistrement impossible.</item>
 		</group>
-
+		
 		<group target="message">
 			<!-- common -->
 			<item name="save_success">Fichier enregistré.</item>
@@ -98,14 +92,14 @@
 			<item name="rotate_success">Rotation terminée.</item>
 			<item name="flip_success">Retournement terminé.</item>
 		</group>
-
+		
 		<group target="panel">
 			<item name="categories">Catégories</item>
 			<item name="folders">Dossiers</item>
 			<item name="favorites">Favoris</item>
 			<item name="history">Historique</item>
 		</group>
-
+		
 		<group target="view">
 			<item name="title">Affichage</item>
 			<item name="mode">Type d'affichage</item>
@@ -116,10 +110,9 @@
 			<item name="keyboard_next">Suivant</item>
 			<item name="keyboard_prev">Précédent</item>
 			<item name="dimensions">Dimensions</item>
-			<item name="confirm_remove_favorite">Voulez-vous vraiment retirer cette image de vos
-				favoris ?</item>
+			<item name="confirm_remove_favorite">Voulez-vous vraiment retirer cette image de vos favoris ?</item>
 		</group>
-
+				
 		<group target="createdir">
 			<item name="title">Créer dossier</item>
 			<item name="description">Insérez le nom du dossier à créer.</item>
@@ -166,7 +159,7 @@
 		</group>
 
 		<group target="tinymce">
-			<item name="insertimage_desc">Insérer image</item>
+			<item name="insertimage_desc">Insérer image</item>	
 		</group>
 	</language>
-</language-pack>
+</language-pack>

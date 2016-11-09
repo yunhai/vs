@@ -1,5 +1,5 @@
 <?php
-class Menu extends BasicObject{  
+class Menu extends BasicObject{
 	public $langId 		= NULL;
 	public $id 			= NULL;
 	public $url			= NULL;
@@ -21,13 +21,11 @@ class Menu extends BasicObject{
 	public $fileId 		= NULL;
 	public $backup 		= NULL;
 	public $children 	= array();
-	public function __clone(){
-		
-	}
+
 	function getBackup() {
 		return $this->backup;
 	}
-	
+
 	function setBackup($backup) {
 		$this->backup = $backup;
 	}
@@ -48,7 +46,6 @@ class Menu extends BasicObject{
 		isset ( $this->level )		? ($dbobj ['menuLevel'] 		= $this->level) 		: '';
 		isset ( $this->fileId )		? ($dbobj ['menuFileId'] 		= $this->fileId) 		: '';
 		isset ( $this->backup )		? ($dbobj ['menuBackup'] 		= $this->backup) 		: '';
-		isset ( $this->seoId ) 			? ($dbobj ['seoId'] 	= $this->getSeoId()) 		: '';
 		$posStr = "@";
 		$posStr .= $this->top;
 		$posStr .= $this->right;
@@ -58,8 +55,9 @@ class Menu extends BasicObject{
 		$dbobj['menuPosition'] = $posStr;
 		return $dbobj;
 	}
-	 
+
 	function convertToObject($object) {
+                parent::convertToObject($object);
 		isset ( $object ['menuId'] ) 		? $this->setId 		( $object ['menuId'] ) 			: '';
 		isset ( $object ['langId'] ) 		? $this->setLangId 	( $object ['langId'] ) 			: '';
 		isset ( $object ['menuTitle'] ) 	? $this->setTitle 	( $object ['menuTitle'] ) 		: '';
@@ -75,7 +73,6 @@ class Menu extends BasicObject{
 		isset ( $object ['menuLevel'] )		? $this->setLevel 	( $object ['menuLevel'] ) 		: '';
 		isset ( $object ['menuFileId'] )	? $this->setFileId 	( $object ['menuFileId'] ) 		: '';
 		isset ( $object ['menuBackup'] )	? $this->setBackup 	( $object ['menuBackup'] ) 		: '';
-		isset ( $object ['seoId'] ) 		? $this->setSeoId ( $object ['seoId'] ) 				: '';
 		if($object['menuPosition'])
 		{
 			$posString		= trim($object['menuPosition'],'@');
@@ -86,7 +83,7 @@ class Menu extends BasicObject{
 			$this->main 	= $posString[4];
 		}
 	}
-	
+
 	function validate() {
 		$status = true;
 		if ($this->title == "") {
@@ -95,30 +92,53 @@ class Menu extends BasicObject{
 		}
 		return $status;
 	}
-	function getUrl($real=true) {
+        
+	function getUrl($real=true,$other=0) {
 		global $bw;
 		if($real)
-			return $this->url;
+		return $this->url;
+                
 		if($this->type){
 			return $this->url;
 		}
+                if(APPLICATION_TYPE=="user"&&$this->url&&$other) {                    
+                    return $bw->main_url.rtrim($this->url,"/")."/";
+                }
+                if(APPLICATION_TYPE=="user"&&$this->url) {                    
+                    return $bw->base_url.rtrim($this->url,"/")."/";
+                }
 		return $bw->base_url.$this->url;
 	}
+        
 	function getUrlCategory() {
 		global $bw;
-		return $bw->base_url.$this->url."/category/".$this->id;
+		return $bw->base_url.$this->url."/category/".strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-')). '-' . $this->id.'/';
 	}
-	function getClassActive() {
+	
+	
+	function getUrlRSS() {
 		global $bw;
-		if($this->url==$bw->input['vs']||$this->url==$bw->input[0]){
-			return 'active';
-		}
+		return $bw->vars['board_url']."/rss/".strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-')). '-' . $this->id.'.rss';
 	}
+	
+	function getClassActive($class = 'active selected'){
+		global $bw,$keyacc;
+
+		if($this->url){
+			if(strpos(trim($bw->input['vs']), trim($this->url,"/ "))===0) return $class;
+		}elseif($bw->input['module']=="home") return $class;
+		 
+		if($bw->input['vs']=="home" && trim($this->url,"/") == trim($bw->vars['board_url'],"/"))return $class;
+                
+                if($this->url==$keyacc)return $class;
+		return $this->active;
+	}
+	
 
 	function getFileId() {
 		return $this->fileId;
 	}
-	 
+
 	function setFileId($fileId) {
 		$this->fileId = $fileId;
 	}
@@ -126,31 +146,31 @@ class Menu extends BasicObject{
 	function __construct(){
 		parent::__construct();
 	}
-	
+
 	function __destruct(){
-	unset( $this->langId );
-	unset( $this->id );
-	unset( $this->url );
-	unset( $this->title );
-	unset( $this->status );
-	unset( $this->index );
-	unset( $this->alt );
-	unset( $this->parentId );
-	unset( $this->isLink  );
-	unset( $this->isDropdown  );
-	unset( $this->isAdmin );
-	unset( $this->level );
-	unset( $this->type  );
-	unset( $this->top );
-	unset( $this->main  );
-	unset( $this->right  );
-	unset( $this->bottom  );
-	unset( $this->left  );
-	unset( $this->fileId  );
-	unset( $this->backup );
-	unset( $this->children );
+		unset( $this->langId );
+		unset( $this->id );
+		unset( $this->url );
+		unset( $this->title );
+		unset( $this->status );
+		unset( $this->index );
+		unset( $this->alt );
+		unset( $this->parentId );
+		unset( $this->isLink  );
+		unset( $this->isDropdown  );
+		unset( $this->isAdmin );
+		unset( $this->level );
+		unset( $this->type  );
+		unset( $this->top );
+		unset( $this->main  );
+		unset( $this->right  );
+		unset( $this->bottom  );
+		unset( $this->left  );
+		unset( $this->fileId  );
+		unset( $this->backup );
+		unset( $this->children );
 	}
-	
+
 	function __set_state($array=array()) {
 		$menu = new Menu();
 		foreach ($array as $key => $value) {
@@ -158,20 +178,20 @@ class Menu extends BasicObject{
 		}
 		return $menu;
 	}
-	
+
 	function setLangId($langId=0) {
 		$this->langId = intval($langId);
 	}
-	
+
 	function getLangId() {
-		return $this->langId;	
+		return $this->langId;
 	}
-	
+
 	function setChild($menu) {
 		$this->children[$menu->getId()]	= $menu;
 	}
-	
-	
+
+
 	function &getChildren() {
 		return $this->children;
 	}
@@ -183,43 +203,43 @@ class Menu extends BasicObject{
 	function getIsAdmin() {
 		return $this->isAdmin;
 	}
-	
+
 	function getIsDropdown() {
 		return $this->isDropdown;
 	}
-	
+
 	function getIsLink() {
 		return $this->isLink;
 	}
-	
+
 	function getValue() {
 		return $this->isLink;
 	}
-	 
+
 	function getLevel() {
 		return $this->level;
 	}
-	 
+
 	function getUtilitys() {
 		if(is_array($this->isDropdown))
-			return $this->isDropdown;
+		return $this->isDropdown;
 		if($this->isDropdown)
-			return explode(',',$this->isDropdown);
+		return explode(',',$this->isDropdown);
 		return array();
 	}
-	 
+
 	function getBenefits() {
 		if(is_array($this->isLink))
-			return $this->isLink;
+		return $this->isLink;
 		if($this->isLink)
-			return explode(',',$this->isLink);
+		return explode(',',$this->isLink);
 		return array();
-	}	
+	}
 
 	function getParentId() {
 		return $this->parentId;
 	}
-	 
+
 	function getPosition($position="top") {
 		return $this->$position;
 	}
@@ -227,118 +247,74 @@ class Menu extends BasicObject{
 	function getType() {
 		return $this->type;
 	}
-	 
+
 	function get_type_unit() {
 		if(is_array($this->alt))
-			return $this->alt;
+		return $this->alt;
 		return $this->alt?$this->alt=unserialize($this->alt):'';
 		return array();
 	}
-	
+
 	function get_areas_type() {
 		if(is_array($this->fileId))
-			return $this->fileId;
+		return $this->fileId;
 		return $this->fileId?$this->fileId=explode(',',$this->fileId):'';
 		return array();
 	}
-	
+
 	function getCatUrl($module) {
 		global $bw;
-		return "{$bw->vars['board_url']}/{$module}/category/".$this->getId ();
+		return "{$bw->vars['board_url']}/{$module}/category/".strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-')). '-' . $this->id.'/';
 	}
-	
-	 // $alt
+
+	// $alt
 	function setAlt($alt) {
 		$this->alt = $alt;
 	}
-	
-	 // $isAdmin
+
+	// $isAdmin
 	function setIsAdmin($isAdmin) {
 		$this->isAdmin = $isAdmin;
 	}
-	
-	 // $isDropdown
+
+	// $isDropdown
 	function setIsDropdown($isDropdown) {
 		$this->isDropdown = $isDropdown;
 	}
-	
-	 // $isLink
+
+	// $isLink
 	function setIsLink($isLink) {
 		$this->isLink = $isLink;
 	}
-	 
+
 	function setLevel($level) {
 		$this->level = $level;
 	}
-	
-	 // $parentId
+
+	// $parentId
 	function setParentId($parentId) {
 		$this->parentId = intval($parentId);
 	}
-	
-	 // $position
+
+	// $position
 	function setPosition($position) {
 		if(!$position)
-			return;
+		return;
 		$this->$position = 1;
 	}
-	
-	 // $type
+
+	// $type
 	function setType($type) {
 		$this->type = $type;
 	}
-	/**
-	 * for seo only if you not understand please contact tuyenbui@vietsol.net
-	 */
-	public $seoId=Null;
-	/**
-	 * @return the $seoId
-	 */
-	public function getSeoId() {
-		return $this->seoId;
-	}
-
-	/**
-	 * @param $seoId the $seoId to set
-	 */
-	public function setSeoId($seoId) {
-		$this->seoId = $seoId;
-	}
-	public function getRealUrl($fullPath=true) {
-		global $bw,$vsMenu,$vsSettings;
-		$cate=$vsMenu->arrayCategory[$this->getId()];
-		
-		if(is_object($cate)){//cate
-			$tree=$vsMenu->extractNodeInTree($this->getId(),$vsMenu->arrayTreeCategory);
-			$rootCate=$vsMenu->arrayCategory[$tree[ids][count($tree[ids])-2]];
-			//echo $vsSettings->getSystemKey($rootCate->getUrl()."_category_url",$this->getUrl()."/category/",$rootCate->getUrl());
-			$url=$vsSettings->getSystemKey($rootCate->getUrl()."_category_url",$this->getUrl()."/category/",$rootCate->getUrl());
-		}else{//menu
-			$url=$this->getUrl();
-		}
-		if($fullPath){
-				return $bw->base_url.$url.$this->getId();
-			
-		}else{
-				return $url.$this->getId();
-		}
-	}
-	public function getAliasUrl($fullPath=true) {
-		global $vsStd,$bw;
-		if($this->seoId){
-			$vsStd->requireFile(COM_PATH.'SEO/SEO.php');
-			$seo=new COM_SEO();
-			$seoObj=$seo->getObjectById($this->seoId);
-			if(is_object($seoObj)){
-				if($fullPath){
-					return $bw->base_url.$seoObj->getAliasUrl();
-				}else{
-					return $seoObj->getAliasUrl();
-				}
-			}
-		}
-		return $this->getRealUrl($fullPath);
-	}
 	
+	function getChildrenLi(){
+            $re ="";
+            if($this->children){
+                foreach($this->children as $obj)
+                      $re .= "<li><a href='{$obj->getUrl(0)}' title='{$obj->getTitle()}' target='_blank'>{$obj->getTitle()}</a></li>";
+            }
+            return $re;
+        }
 }
 ?>

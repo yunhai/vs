@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Dịch vụ',
+  'main_title' => 'Dịch vụ',
+  'xemchitiet' => 'xem chi tiết',
+);
+$userLang = array (
+);
+?>

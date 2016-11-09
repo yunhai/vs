@@ -4,7 +4,7 @@
  *
  * @package MCImageManager.authenicators
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2005-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 // Include Joomla bootstrap logic
@@ -30,7 +30,7 @@ if ($mamboUser->id == 0) {
 	$mamboUser = new mosUser($database);
 	$mamboUser->id = intval(mosGetParam($_SESSION, 'session_user_id', ''));
 	$mamboUser->username = strval(mosGetParam($_SESSION, 'session_username', ''));
-	$mamboUser->usertype = strval(mosGetParam($_SESSION, 'session_usertype', ''));
+	$mamboUser->usertype = strval(mosGetParam($_SESSION, 'session_usertype', '')); 
 }
 
 chdir($mcOldCWD);
@@ -41,7 +41,7 @@ chdir($mcOldCWD);
  * @package MCImageManager.Authenticators
  */
 class Moxiecode_JoomlaAuthenticator extends Moxiecode_ManagerPlugin {
-	/**#@+
+    /**#@+
 	 * @access public
 	 */
 
@@ -58,13 +58,13 @@ class Moxiecode_JoomlaAuthenticator extends Moxiecode_ManagerPlugin {
 
 		// Not logged in
 		if ($mamboUser->id == 0)
-		return false;
+			return false;
 
 		// Replace ${user} in all config values
 		foreach ($config as $key => $value) {
 			// Skip replaceing {$user} in true/false stuff
 			if ($value === true || $value === false)
-			continue;
+				continue;
 
 			$value = str_replace('${user}', $mamboUser->username, $value);
 			$config[$key] = $value;
@@ -76,12 +76,12 @@ class Moxiecode_JoomlaAuthenticator extends Moxiecode_ManagerPlugin {
 		$rootPathItems = explode('=', $rootPathItems[0]);
 
 		if (count($rootPathItems) > 1)
-		$rootPath = $rootPathItems[1];
+			$rootPath = $rootPathItems[1];
 		else
-		$rootPath = $rootPathItems[0];
+			$rootPath = $rootPathItems[0];
 
 		if (!file_exists($rootPath))
-		@mkdir($rootPath);
+			@mkdir($rootPath);
 
 		// Is one of the valid user names
 		return preg_match($config['JoomlaAuthenticator.valid_users'], $mamboUser->username);

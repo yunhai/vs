@@ -2,116 +2,139 @@
 class class_ultilities{
 	function __construct(){
 		global $vsStd, $vsSkin;
-		$vsStd->requireFile($vsSkin->obj->getFolder()."/skin_utilities.php" );
-		$this->html = new skin_utilities();
+
 	}
-	 
-	/* For Capchar Only*/
-	function supplyIdentifyId($type=1){
-		global $DB;
-		$temp=(60*10);
-		$r_date = time()-$temp;
-
-		$DB->simple_delete('identify','identifyTime<'.$r_date); // Remove old reg requests from the DB
-		$DB->simple_exec();
-
-		$identifyId = md5(uniqid((microtime())));// Set a new Id for this reg request
-		mt_srand((double) microtime() * 1000000);
-			
-		$identifyCode = mt_rand(100000,999999);
-		if($type){
-			$inputs=array(
-								'length'	=> 6,
-						   		'uselower'	=> 1,
-						   		'useupper'	=> 1,
-							   	'usespecial'=> 1,
-							   	'usenumbers'=> 1,
-			);
-			$identifyCode = $this->supplyRandomString($inputs);
-		}
-			
-		$identifyArray = array(	'identifyId'			=> $identifyId,
-							 		'identifyCode'			=> $identifyCode,
-							 		'identifyTime'			=> time(),
-		);
-		$DB->do_insert('identify',$identifyArray);
-		return $identifyId;
-	}
-
-	function supplyRandomString($inputs,$prefix=""){
-		$charset = "";
-		$identifyCode = $prefix;
-			
-		$length = $inputs['length'];
-		srand((double)microtime() * rand(1000000, 9999999));
-
-		if ($inputs['uselower'] == 1) $charset .= "abcdefghijkmnopqrstuvwxyz";
-		if ($inputs['useupper'] == 1) $charset .= "ABCDEFGHIJKLMNPQRSTUVWXYZ";
-		if ($inputs['usenumbers'] == 1) $charset .= "0123456789";
-
-		while($length > 0){
-			$identifyCode .= $charset[rand(0, strlen($charset)-1)];
-			$length--;
-		}
-
-		return $identifyCode;
-	}
-
-	function supplyIdentifyCodeByIndentifyId($identifyId){
-		global $DB;
-		$DB->simple_construct(array('select'	=> 'identifyCode',
-										'from'		=> 'identify',
-										'where'		=> "identifyId='{$identifyId}'",
-		)
-		);
-		$DB->simple_exec();
-			
-			
-		if(!$row = $DB->fetch_row()) return false;
-		return $row['identifyCode'];
-	}
-	/* End For Capchar Only*/
-
 
 
 
 	/* For Weather and Currency Only*/
-	function getWeatherFromVNExpress($location='HCM'){
-		global $vsStd;
+	function getWeatherFromVNExpress($array = array()){
+		global $vsStd, $DB;
+
+		$query = "select count(*) as count from vsf_util_weather where weatherGetTime > ". (time() - 43200) ."";
+		$DB->cur_query = $query;
+		$DB->simple_exec();
+		$record = $DB->fetch_row();
+
+
+		if($record['count'] >= count($array)){
+			$query = "select * from vsf_util_weather where weatherGetTime > ". (time() - 43200) ."";
+			$DB->cur_query = $query;
+			$DB->simple_exec();
+			$record = $DB->fetch_row();
+			$weather = array();
+			while($record){
+				$weather[$record['weatherCityCode']]['weatherCityCode'] = $record['weatherCityCode'];
+				$weather[$record['weatherCityCode']]['weatherCity'] = $record['weatherCity'];
+		  		$weather[$record['weatherCityCode']]['weatherTemp'] = $record['weatherTemp'];
+		  		$weather[$record['weatherCityCode']]['weatherImage'] = $record['weatherImage'];
+                                $weather[$record['weatherCityCode']]['weatherDes'] = $record['weatherDesc'];
+				$record = $DB->fetch_row();
+			}
+			return $weather;
+		}
+		if(!$record['count']){
+			$query = "TRUNCATE TABLE vsf_util_weather ";
+			$DB->query($query);
+		}
+
 		$vsStd->requireFile(UTILS_PATH.'class_xml.php');
-			
+		$time = time();
+		$return = array();
+		foreach($array as $location){
+			$return[$location['city']] = $this->mainWeatherFromVNExpress($location['city'], $time, $location['name']);
+		}
+		return $return;
+	}
+
+	function mainWeatherFromVNExpress($location='HCM', $time=0, $name=""){
+		global $vsStd, $DB;
 		$myXML = new class_xml();
 		$xmlFile = "http://vnexpress.net/ListFile/Weather/{$location}.xml";
 
-		$myXML->xml_parse_document(file_get_contents($xmlFile));
+		$content = @file_get_contents($xmlFile);
+		if($content){
+		$myXML->xml_parse_document($content);
 		$array = current($myXML->xml_array);
-			
-		return $this->html->weatherFromVNExpressHTML($array);
+
+		$return['weatherCityCode'] = $location;
+		$return['weatherCity'] = $name;
+  		$return['weatherTemp'] = substr($array['AdImg1']['VALUE'],0,1). substr($array['AdImg2']['VALUE'],0,1);
+  		$return['weatherImage'] = "http://vnexpress.net/Images/Weather/".trim($array['AdImg']['VALUE']);
+		$return['weatherDesc'] = trim($array['Weather']['VALUE']);
+		$return['weatherGetTime'] = $time;
+
+		$DB->do_insert('util_weather',$return);
+
+
+		return $return;
+		}
 	}
 
-	function getWeatherFromGoogle($location='Ho Chi Minh', $language='vi'){
+	function getCurrencyFormVietcombank($array= array(), $time=0){
+		global $vsStd,$DB;
+
+		$query = "select count(*) as count from vsf_util_exchange where exchangeGetTime > ". (time() - 43200) ."";
+		$DB->cur_query = $query;
+		$DB->simple_exec();
+		$record = $DB->fetch_row();
+               
+		if($record['count'] >= count($array)){
+			$query = "select * from vsf_util_exchange where exchangeGetTime > ". (time() - 43200) ."";
+			$DB->cur_query = $query;
+			$DB->simple_exec();
+			$record = $DB->fetch_row();
+			while($record){
+				$exchange[$record['exchangeCode']]['exchangeCode'] = $record['exchangeCode'];
+		  		$exchange[$record['exchangeCode']]['exchangeName'] = $record['exchangeName'];
+		  		$exchange[$record['exchangeCode']]['exchangeBuy'] = $record['exchangeBuy'];
+				$exchange[$record['exchangeCode']]['exchangeTranfer'] = $record['exchangeTranfer'];
+				$exchange[$record['exchangeCode']]['exchangeSell'] = $record['exchangeSell'];
+
+				$record = $DB->fetch_row();
+			}
+			return $exchange;
+		}
+
+		if(!$record['count']){
+			$query = "TRUNCATE TABLE vsf_util_exchange ";
+			$DB->query($query);
+		}
+
+		$vsStd->requireFile(UTILS_PATH.'class_xml.php');
+		$myXML = new class_xml();
+		$xmlFile = "http://www.vietcombank.com.vn/ExchangeRates/ExrateXML.aspx";
+
+		$myXML->xml_parse_document(file_get_contents($xmlFile));
+		$temp = current($myXML->xml_array);
+
+  		foreach($temp['Exrate'] as $key=>$currency){
+  			$return = array();
+			$return['exchangeCode'] = $currency['ATTRIBUTES']['CurrencyCode'];
+	  		$return['exchangeName'] = $currency['ATTRIBUTES']['CurrencyName'];
+	  		$return['exchangeBuy'] = $currency['ATTRIBUTES']['Buy'];
+			$return['exchangeTranfer'] = $currency['ATTRIBUTES']['Transfer'];
+			$return['exchangeSell'] = $currency['ATTRIBUTES']['Sell'];
+			$return['exchangeGetTime'] = $time;
+			$DB->do_insert('util_exchange',$return);
+
+			$exchange[$return['exchangeCode']] = $return;
+  		}
+		return $exchange;
+	}
+
+	function getCurrencyFormVietcombank2(){
 		global $vsStd;
 		$vsStd->requireFile(UTILS_PATH.'class_xml.php');
 
 		$myXML = new class_xml();
-		$xmlFile = './docs/google_weather.xml';
-			
-		if(!file_exists($xmlFile)){
-			if(fopen($xmlFile, "w")){
-				$location = str_replace(' ','%20',$location);
-				$current = utf8_encode(file_get_contents("http://www.google.com.vn/ig/api?weather={$location}&hl={$language}"));
-				file_put_contents($xmlFile, $current);
-			}
-			else return false;
-		}
+		$xmlFile = "http://www.vietcombank.com.vn/ExchangeRates/ExrateXML.aspx";
 
 		$myXML->xml_parse_document(file_get_contents($xmlFile));
 		$array = current($myXML->xml_array);
+		return $array;
 
-		return $this->html->weatherFromGoogleHTML($array['weather']['current_conditions']);
 	}
-
-
 
 	function getCurrencyFromGoogleCode($option){
 		$script = 'up_fromcur='.$option['from'].'&amp;up_tocur='.$option['to'].'&amp;up_minimsg1=0&amp;synd=open&amp;';
@@ -123,7 +146,7 @@ EOF;
 
 	function getCurrencyFromThanhNien(){
 		$htmlFile = './docs/thanhnien.currency.html';
-			
+
 		if(!file_exists($htmlFile)){
 			if(fopen($htmlFile, "w")){
 				$current = (file_get_contents("http://www.thanhnien.com.vn/_layouts/NgoaiTe.aspx"));
@@ -133,11 +156,11 @@ EOF;
 		}
 
 		$currencyContent = file_get_contents($htmlFile);
-			
+
 		$begin = strpos($currencyContent,'<div id="PgTable" class="pageview">');
 		$end   = strpos($currencyContent,'<div id="PgChart" class="pageview" style="display:none;">');
 		$currencyContent = substr($currencyContent, $begin, $end-$begin);
-			
+
 		return $this->html->currencyFromThanhNienHTML($currencyContent);
 	}
 
@@ -145,23 +168,7 @@ EOF;
 		return $this->html->currencyFromVNExpressHTML();
 	}
 
-	function getCurrencyFormVietcombank(){
-		global $vsStd;
-		$vsStd->requireFile(UTILS_PATH.'class_xml.php');
-			
-		$myXML = new class_xml();
-		$xmlFile = "http://www.vietcombank.com.vn/ExchangeRates/ExrateXML.aspx";
 
-		$myXML->xml_parse_document(file_get_contents($xmlFile));
-		$array = current($myXML->xml_array);
-
-		$option['time'] = $array['DateTime']['VALUE'];
-			
-		foreach($array['Exrate'] as $element)
-		$option['content'].=$this->html->currencyFromVietcombankHTML($element);
-
-		return $this->html->currencyFromVietcombankContainerHTML($option);
-	}
 
 
 	function getGoldFormVNExpress(){
@@ -170,7 +177,7 @@ EOF;
 
 	function getGoldFormThanhNien(){
 		$htmlFile = './docs/thanhnien.gold.html';
-			
+
 		if(!file_exists($htmlFile)){
 			if(fopen($htmlFile, "w")){
 				$current = (file_get_contents("http://www.thanhnien.com.vn/_layouts/giavang.aspx"));
@@ -181,7 +188,7 @@ EOF;
 
 		$currencyContent = file_get_contents($htmlFile);
 		return $this->html->goldFromThanhNienHTML($currencyContent);
-			
+
 	}
 	/* For Weather and Currency Only*/
 

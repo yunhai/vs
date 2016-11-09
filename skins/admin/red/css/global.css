@@ -180,6 +180,14 @@ th{
 	background:#CCCCCC;
 	font-weight:bold;
 	white-space:nowrap;
+	height:25px;
+}
+td.cursor{
+	cursor: pointer;
+}
+td.cursor a{
+	color: #CA59AA !important;
+	font-weight:bold;
 }
 	/*
 	*	================================================
@@ -1043,7 +1051,7 @@ a{
 
 .nickicon{
 	float:left;
-	width:auto;
+	width:60px;
 }
 
 .frm-input {
@@ -1072,12 +1080,37 @@ a{
 #file{
 	display: none !important;
 }
-
-#closePageForm, #deleteVirtual{
-	color:red;
-	cursor:pointer;
-	float:right;
+a.active{
+	color: red !important;
 }
-.editObj{
+
+
+
+/* tables */
+table.tablesorter thead tr .header {
+	background-image: url(../images/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color:#8DBDD8;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../images/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../images/desc.gif);
+}
+
+.editObj {
 	color: #CA59AA !important;
+}
+
+.closeObj{
+	float:right;
+	cursor:pointer;
+}
+.ui-widget-content select option .main_title_service{
+background-image: url(../images/dichvu_icon.png);
 }

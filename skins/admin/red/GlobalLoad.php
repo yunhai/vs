@@ -14,22 +14,35 @@ class GlobalLoad {
 	 * @return void
 	 */
 	function addDefaultScript() {
-		global $vsPrint, $vsUser, $bw, $vsLang;
+		global $vsPrint, $vsUser, $bw,$vsLang;
 		
 		$vsPrint->addJavaScriptFile ( 'jquery', 1 );
-		if(!$vsUser->obj->getId()) return false;
-			
+		if (! $vsUser->obj->getId ())
+			return;
 		$vsPrint->addJavaScriptString ( 'global_var', '
     			var vs = {};
     		    var ajaxfile = "admin.php";
 				var noimage=0;
 				var imgurl = "' . $bw->vars ['img_url'] . '/";
-				var global_website_choise = "' .$vsLang->getWordsGlobal('global_website_choise','You haven\'t choose any items !') . '";
 				var global_website_title = "' . $bw->vars ['global_websitename'] . '/";
+				var global_website_choise = "' .$vsLang->getWordsGlobal('global_website_choise','You haven\'t choose any items !') . '";
 				var boardUrl = "' . $bw->vars ['board_url'] . '";
 				var baseUrl  = "' . $bw->base_url . '";
-    	');
-		
+    		' );
+		 $vsPrint->addJavaScriptString ( 'global_var1', '
+    		$(document).ready(function(){
+               
+                $("#topmenu li a").each(function(){
+              
+                if(this.href == document.location.href){
+
+			$(this).parent("li").addClass("active selected");
+			$(this).parent().parent().parent("li").addClass("active selected");
+			
+		}
+});
+});
+    		' );
 		$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
 		$vsPrint->addJavaScriptFile ( 'vs.ajax' );
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.core' );
@@ -42,9 +55,14 @@ class GlobalLoad {
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.draggable' );
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.accordion' );
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.alerts' );
-		$vsPrint->addJavaScriptFile ( 'jquery/jquery.numeric' );
-		
-		$vsPrint->addJavaScriptFile ( 'backend/ddsmoothmenu' );
+		$vsPrint->addJavaScriptFile ( 'jquery.numeric' );
+		$vsPrint->addJavaScriptFile("jquery/jquery.tablesorter");
+                $vsPrint->addJavaScriptFile("fileuploader");
+
+		$vsPrint->addJavaScriptFile ( 'ddsmoothmenu' );
+                $vsPrint->addJavaScriptFile ( 'jquery/ui.datepicker' );
+
+		$vsPrint->addJavaScriptFile ( 'checkbox' );
 		$vsPrint->addJavaScriptString ( 'topmenu', '
     		$(document).ready(function(){
     			ddsmoothmenu.init({
@@ -78,7 +96,10 @@ class GlobalLoad {
 		//    	$vsPrint->addGlobalCSSFile('jquery/base/ui.all');
 		$vsPrint->addCSSFile ( 'global' );
 		$vsPrint->addCSSFile ( 'ceedos' );
-//		$vsPrint->addCSSFile ( 'input_style' );
+		$vsPrint->addCSSFile ( 'input_style' );
+                $vsPrint->addCSSFile ( 'fileuploader' );
+                $vsPrint->addCSSFile ( 'ui.datepicker' );
+                $vsPrint->addCSSFile ( 'comments' );
 		
 		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.core' );
 		$vsPrint->addGlobalCSSFile ( 'ddsmoothmenu' );
@@ -88,7 +109,7 @@ class GlobalLoad {
 		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.dialog' );
 		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.custom' );
 		
-//		$vsPrint->addCSSFile ( $vsModule->obj->getClass () );
+		$vsPrint->addCSSFile ( $vsModule->obj->getClass () );
 	}
 }
 

@@ -4,7 +4,7 @@
  *
  * @package CustomInfoExample
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -38,12 +38,12 @@ class Moxiecode_CustomInfoExample extends Moxiecode_ManagerPlugin {
 				$input['description'] = $file->getName() . " (" . $this->_getSizeStr($file->getLength()) . ")";
 				break;
 
-				// When the file is displayed in a more info dialog
+			// When the file is displayed in a more info dialog
 			case "info":
 				//$input['mycustomfield'] = strtoupper($file->getName());
 				break;
 
-				// When the file is listed
+			// When the file is listed
 			case "list":
 				//$input['mycustomfield'] = strtoupper($file->getName());
 				break;
@@ -62,11 +62,11 @@ class Moxiecode_CustomInfoExample extends Moxiecode_ManagerPlugin {
 	function _getSizeStr($size) {
 		// MB
 		if ($size > 1048576)
-		return round($size / 1048576, 1) . "MB";
+			return round($size / 1048576, 1) . "MB";
 
 		// KB
 		if ($size > 1024)
-		return round($size / 1024, 1) . "KB";
+			return round($size / 1024, 1) . "KB";
 
 		return trim($size) . "b";
 	}

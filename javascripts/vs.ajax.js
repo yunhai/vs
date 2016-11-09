@@ -1,5 +1,5 @@
 var vsf = {
-	get:function(act, id, params) {
+		get:function(act, id, options) {
 	// Luu Quang Vu
 	// ********************************************
 	// use to remove sub form
@@ -8,13 +8,11 @@ var vsf = {
 			$("#"+this.id).html('');
 	}));
 	// ********************************************
-	var tempparams = {vs: act, ajax:1};
-	params = $.extend({}, tempparams,  params);
-	
+	var params = {vs: act, ajax:1};
+	params = $.extend({}, params,  options);
 	var noimage = "";
 	if(typeof(noimage)=="undefine" || !noimage && id!='')
 		$("#"+id).html('<img src="'+imgurl+'loader.gif"/>');
-
 	$.get(ajaxfile,params,function(data){
 		if(id!='') {
 			data=data.replace("id=\""+id+"\"","");
@@ -30,16 +28,15 @@ var vsf = {
 popupGet:function(act, id, w, h) {
 	if(!this.isDefined(w)) w = 500;
 	if(!this.isDefined(h)) h = 500;
-	
 	if(!$("#"+id).html())
 		$("body").append("<div id='"+id+"' class='"+id+"' >	</div>");
 	vsf.get(act, id);
 	$(document).ready(function() {
 		$("#"+id).dialog({modal: true, width:w, height:h});
 		$("#"+id ).bind( "dialogclose", function(event, ui) {
-			$(this).remove(); 
+			$(this).remove();
 		});
-		var maxZ = Math.max.apply(null, $.map($('body > *'), function(e,n){
+		var maxZ = Math.max.apply(null,$.map($('body > *'), function(e,n){
 	           if($(e).css('position')=='absolute')
 	                return parseInt($(e).css('z-index'))||1 ;
 	           })
@@ -47,27 +44,29 @@ popupGet:function(act, id, w, h) {
 		 $("#"+id+",.ui-dialog,.ac_results").css("z-index",maxZ);
 	});
 },
+
+
 /**
  * if you not understand this problem please contact tuyenbui@vietsol.net
  */
-popupLightGet:function(act, id, options) {
+popupLightGet:function(act, id, w, h,options) {
 	var defaults={
-			resizable: false, 
+			resizable: false,
+			width:w,
+			height:h,
 			bgiframe: true,
 			modal: true
 	}
 	options = $.extend({}, defaults,  options);
-	if(!this.isDefined(options['weight'])) w = 500;
-	if(!this.isDefined(options['height'])) h = 500;
-	
+	if(!this.isDefined(w)) w = 500;
+	if(!this.isDefined(h)) h = 500;
 	if(!$("#"+id).html())
 		$("body").append("<div id='"+id+"' class='"+id+"' >	</div>");
-
-	vsf.get(act, id, options['params']);
+	vsf.get(act, id);
 	$(document).ready(function() {
 		$("#"+id).dialog(options);
 		$("#"+id ).bind( "dialogclose", function(event, ui) {
-			$(this).remove(); 
+			$(this).remove();
 		});
 		//if you understand this problem contact tuyenbui
 		var maxZ = Math.max.apply(null,$.map($('body > *'), function(e,n){
@@ -78,8 +77,7 @@ popupLightGet:function(act, id, options) {
 		 $("#"+id+",.ui-dialog,.ac_results").css("z-index",maxZ);
 	});
 },
-
-submitForm:function(obj, act, id, options) {
+submitForm:function(obj,act,id,options) {
 	var defaults={
 			json:false,
 			sucess: function(data) {
@@ -88,13 +86,14 @@ submitForm:function(obj, act, id, options) {
 					data=data.replace("id='"+id+"'","");
 					$("#"+id).html(data).css('display','none')
 					$("#"+id).fadeIn('slow');
+					$('#page_tabs').tabs();
 				}
 			}
 
 	}
 	options = $.extend({}, defaults,  options);
 	if(typeof(tinyMCE) != "undefined") tinyMCE.triggerSave();
-	if(id!='') 
+	if(id!='')
 		$("#"+id).html('<img src="'+imgurl+'loader.gif"/>');
 	var params = {
 			vs:act,
@@ -102,8 +101,7 @@ submitForm:function(obj, act, id, options) {
 	};
 	var count = 0;
 	obj
-	.find("input:radio:checked, input:checkbox:checked, input:text, input:hidden, input:password, input:submit, textarea, option:selected")
-//	.find("input[type='radio']:checked, input[checked], input[type='text'], input[type='hidden'], input[type='password'], input[type='submit'], option[selected], textarea")
+	.find("input[type='radio']:checked, input[checked], input[type='text'], input[type='hidden'], input[type='password'], input[type='submit'], option[selected], textarea")
 	.each(function() {
 		params[ this.name || this.id || this.parentNode.name || this.parentNode.id ] = this.value;
 	});
@@ -120,10 +118,10 @@ submitForm:function(obj, act, id, options) {
 				}
 		);
 	}
-},	
+},
 submitFormAllCheckBox:function(obj,act,id) {
 	if(typeof(tinyMCE) != "undefined") tinyMCE.triggerSave();
-	if(id!='') 
+	if(id!='')
 		$("#"+id).html('<img src="'+imgurl+'loader.gif"/>');
 	var params = {
 			vs:act,
@@ -154,7 +152,7 @@ removeForm:function(id){
 	$("#"+id).html('');
 },
 
-jSelect:function(the_value, idselect){
+jSelect:function(the_value,idselect){
 	$("#"+idselect+" option").each(function () {
 		if(the_value == $(this).val())
 			$(this).attr('selected','selected');
@@ -163,16 +161,18 @@ jSelect:function(the_value, idselect){
 
 
 jCheckbox:function(the_value,id){
-	if(!$('#'+id)) return;
+	if(!$('#'+id))
+		return;
 	if(the_value==$('#'+id).val()){
 		$('#'+id).attr('checked','checked');
 		return true;
 	}
-}, 
+},
 
 jRadio:function(the_value,name){
 	$("[name="+name+"]").each(function () {
-		if(the_value == $(this).val()){
+		if(the_value == $(this).val())
+		{
 			$(this).attr('checked','checked');
 		}
 	});
@@ -193,16 +193,23 @@ uploadFile:function( formId, module, action, objIdCallBack, fileFolder){
 			countFile ++;
 		}
 	});
-
 	if(countFile > 0){
 		$('#error-message').ajaxStart(function(){
 			$(this).html("<img src='skins/admin/blue/images/loader.gif' alt='loading' />");
 		});
-		var file = "";
+		var file = "";  
 		$("#"+formId).find("input[type='file']").each(function(){
 			if(this.value){
 				var name = this.name;
-				var uri = baseUrl+"files/uploadfile/&ajax=1&uploadName="+name+"&fileFolder="+fileFolder+"&table="+module;
+                                var filetitle = $("#"+formId).find("#fileTitle").val();
+                                    if(!filetitle||typeof(filetitle)=="undefined")filetitle='123';
+                                var fileindex = $("#"+formId).find("#fileIndex").val();
+                                    if(!fileindex||typeof(fileindex)=="undefined")fileindex='123';
+                                var fileurl = $("#"+formId).find("#fileUrl").val();
+                                    if(!fileurl||typeof(fileurl)=="undefined")fileurl='123';
+                                var fileintro = $("#"+formId).find("#fileIntro").val();
+                                    if(!fileintro||typeof(fileintro)=="undefined")fileintro='123';
+				var uri =baseUrl+"files/uploadfile/&ajax=1&uploadName="+name+"&fileFolder="+fileFolder+"&table="+module+"&fileTitle="+filetitle+"&fileIndex="+fileindex+"&fileUrl="+fileurl+"&fileIntro="+fileintro;
 				$.ajaxFileUpload({
 					url:uri,
 					secureuri:false,
@@ -254,46 +261,54 @@ uploadFile:function( formId, module, action, objIdCallBack, fileFolder){
 	});
 	return false;
 },
-
-checkAll:function(obj, callback){
-    if(!obj||typeof(obj)=="undefined") obj='myCheckbox';
+checkAll:function (clas,ret){
    
-    var checked_status = $("input[name=all]:checked").length;
-    var checkedString = '';
-    $("input[type=checkbox]").each(function(){
-	   this.checked = checked_status;
-	   if(checked_status) checkedString += $(this).val()+',';
-    });
-    
-    if(!callback||typeof(callback)=="undefined") callback='checked-obj';
-    $('#'+callback).val(checkedString.substr(0, checkedString.lastIndexOf(',')));
+        if(!clas||typeof(clas)=="undefined")clas='myCheckbox';
+        if(!ret||typeof(ret)=="undefined")ret='checked-obj';
+       
+	var checked_status = $("input[name=all]:checked").length;
+        var checkedString = '';
+        $("input[type=checkbox]").each(function(){
+               if($(this).hasClass(clas)){
+               this.checked = checked_status;
+               if(checked_status) checkedString += $(this).val()+',';
+               }
+        });
+        $("span[acaica="+clas+"]").each(function(){
+               if(checked_status)
+                      this.style.backgroundPosition = "0 -50px";
+               else this.style.backgroundPosition = "0 0";
+        });
+        checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
+        $('#'+ret).val(checkedString);
+       
 },
-checkObject:function (obj, cb){
+checkObject:function (clas,ret){
 
-        if(!obj||typeof(obj)=="undefined")	obj='myCheckbox';
-        if(!cb||typeof(cb)=="undefined")	cb='checked-obj';
+        if(!clas||typeof(clas)=="undefined")clas='myCheckbox';
+        if(!ret||typeof(ret)=="undefined")ret='checked-obj';
 
 	var checkedString = '';
         $("input[type=checkbox]").each(function(){
-               if($(this).hasClass(obj)){
+               if($(this).hasClass(clas)){
                       if(this.checked) checkedString += $(this).val()+',';
                }
         });
         checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
-        $('#'+cb).val(checkedString);
+        $('#'+ret).val(checkedString);
         
 },
-
-checkValue:function(cb){
-      if(!cb||typeof(cb)=="undefined") cb='checked-obj';
+checkValue:function (ret){
+      if(!ret||typeof(ret)=="undefined")ret='checked-obj';
      
-      if(!$('#'+cb).val() || $('#'+cb).val()=="") {
-            jAlert(
-                   global_website_choise ,
-                   global_website_title +" Dialog"
-            );
-            return false;
-     }
-     return true;
+	if(!$('#'+ret).val()||$('#'+ret).val()=="") {
+          
+                jAlert(
+                       global_website_choise ,
+                       global_website_title +" Dialog"
+                );
+                return false;
+         }
+         return true;
 }
 }

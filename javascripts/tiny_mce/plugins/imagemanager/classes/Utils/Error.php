@@ -4,12 +4,12 @@
  *
  * @package MCManager.utils
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 // Define it on PHP4
 if (!defined('E_STRICT'))
-define('E_STRICT', 2048);
+	define('E_STRICT', 2048);
 
 // Define error levels
 define('FATAL', E_USER_ERROR);
@@ -60,89 +60,89 @@ class Moxiecode_Error {
 			case E_USER_ERROR:
 				$error['title'] = "Fatal Error";
 				$error['break'] = true;
-				break;
+			break;
 
 			case E_USER_NOTICE:
 				$error['title'] = "Notice";
 				$error['break'] = false;
-				break;
+			break;
 
 			case E_USER_WARNING:
 				$error['title'] = "Warning";
 				$error['break'] = true;
-				break;
+			break;
 
 			case E_PARSE:
 				$error['title'] = "PHP Parse Error";
 				$error['break'] = true;
 
 				if ($log)
-				$log->fatal($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->fatal($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_ERROR:
 				$error['title'] = "PHP Error";
 				$error['break'] = true;
 
 				if ($log)
-				$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_WARNING:
 				$error['title'] = "PHP Warning";
 				$error['break'] = false;
 
 				if ($log)
-				$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_CORE_ERROR:
 				$error['title'] = "PHP Error : Core Error";
 				$error['break'] = true;
 
 				if ($log)
-				$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_CORE_WARNING:
 				$error['title'] = "PHP Error : Core Warning";
 				$error['break'] = true;
 
 				if ($log)
-				$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_COMPILE_ERROR:
 				$error['title'] = "PHP Error : Compile Error";
 				$error['break'] = true;
 
 				if ($log)
-				$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->error($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_COMPILE_WARNING:
 				$error['title'] = "PHP Error : Compile Warning";
 				$error['break'] = true;
 
 				if ($log)
-				$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->warn($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_NOTICE:
 				$error['title'] = "PHP Notice";
 				$error['break'] = false;
 
 				if ($log)
-				$log->info($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->info($error['title'] . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 
 			case E_STRICT:
 				$error['title'] = "PHP Strict";
 				$error['break'] = false;
 
 				if ($log)
-				$log->info($error['title'] . " (" . $errno . ")" . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
-				break;
+					$log->info($error['title'] . " (" . $errno . ")" . ", Msg: " . $error['errstr'] . " in " . $error['errfile'] . "(" . $error['errline'] . ")");
+			break;
 		}
 
 		// Add error number
@@ -167,7 +167,7 @@ function JSONErrorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
 
 	// Ignore these
 	if ($errno == E_STRICT)
-	return true;
+		return true;
 
 	// Just pass it through	to the class.
 	$data = $MCErrorHandler->handleError($errno, $errstr, $errfile, $errline, $errcontext);
@@ -204,7 +204,7 @@ function JSErrorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
 
 	// Ignore these
 	if ($errno == E_STRICT)
-	return true;
+		return true;
 
 	// Just pass it through	to the class.
 	$data = $MCErrorHandler->handleError($errno, $errstr, $errfile, $errline, $errcontext);
@@ -230,7 +230,7 @@ function StreamErrorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
 
 	// Ignore these
 	if ($errno == E_STRICT)
-	return true;
+		return true;
 
 	// Just pass it through	to the class.
 	$data = $MCErrorHandler->handleError($errno, $errstr, $errfile, $errline, $errcontext);
@@ -272,7 +272,7 @@ function HTMLErrorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
 
 	// Ignore these
 	if ($errno == E_STRICT)
-	return true;
+		return true;
 
 	// Just pass it through	to the class.
 	$data = $MCErrorHandler->handleError($errno, $errstr, $errfile, $errline, $errcontext);

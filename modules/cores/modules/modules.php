@@ -104,7 +104,6 @@ class modules extends VSFObject {
 	}
 	
 	function getModuleByIds($ids = 0){
-	
 		$lisname= "";
 		if($ids){
 			$this->setCondition("moduleId in ({$ids})");
@@ -112,15 +111,15 @@ class modules extends VSFObject {
 	
 			if(count($list))
 				foreach($list as $obj)
-				$lisname.=$obj->getClass().",";
+					$lisname .= $obj->getClass().",";
 		}
 		
 		return rtrim($lisname,',');
 	}
 
-	function getOptionModuleList($cond){
-		if($cond) $this->setCondition($cond);
-		return $this->getObjectsByCondition();
+	function getVirtualModuleList(){
+		$this->setCondition("moduleClass = 'virtual'");
+		$this->getObjectsByCondition();
 	}
 }
 ?>

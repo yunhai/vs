@@ -12,8 +12,8 @@ class skin_urlalias {
 		//--starthtml--//
 
 		$BWHTML .= <<<EOF
-<input type="hidden" name="checkedObj" id="checked-obj" value="" />
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+    <input type="hidden" name="checkedObj" id="checked-obj" value="" />
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
 	<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
     	<span class="ui-dialog-title">{$vsLang->getWords('alias_list','Current Alias')}</span>
     </div>
@@ -25,7 +25,7 @@ class skin_urlalias {
 			</a>
     	</li>
     	<li class="ui-state-default ui-corner-top">
-        	<a id="delete-objlist-bt" title="{$vsLang->getWords('pages_deletePage','Delete')}" onclick="deleteAll()" href="#">
+        	<a id="delete-objlist-bt" title="{$vsLang->getWords('pages_deletePage','Delete')}"  href="#">
         	{$vsLang->getWords('pages_deletePage','Delete')}
 			</a>
 		</li>
@@ -33,7 +33,7 @@ class skin_urlalias {
 	<table cellspacing="0" cellpadding="0" class="ui-dialog-content ui-widget-content" style="width:100%">
     	<thead >
     		<tr>
-    			<th width="15"><input type="checkbox" onclick="checkAll()" onclicktext="checkAll()" name="all" /></th>
+    			<th width="15"><input type="checkbox" onclick="vsf.checkAll()" name="all" /></th>
                <th>{$vsLang->getWords('alias_usrl','Alias url')}</th>
                <th>{$vsLang->getWords('alias_read_url','Real url')}</th>
                <th>{$vsLang->getWords('alias_keywords','Keywords')}</th>
@@ -51,13 +51,13 @@ class skin_urlalias {
 		</php>
 		<tr class="{$class}">
 			<td align="center">
-				<input type="checkbox" onclicktext="checkObject({$alias->getId()});" onclick="checkObject({$alias->getId()});" name="obj_{$alias->getId()}" value="{$alias->getId()}" class="myCheckbox" />
+				<input type="checkbox"  onclick="vsf.checkObject();" name="obj_{$alias->getId()}" value="{$alias->getId()}" class="myCheckbox" />
 			</td>
 			<td>{$alias->getAliasUrl()}<div class="desctext">{$alias->getTitle()}</div></td>
 			<td>{$alias->getRealUrl()}</td>
 			<td>{$alias->getKeyword()}</td>
 			<td>
-				<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:vsf.get('{$bw->input[0]}/editAlias/{$alias->getId()}/{$bw->input[2]}','urlForm');" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to edit this {$bw->input[0]}")}'>{$vsLang->getWords('global__edit','Edit')}</a> 
+				<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:vsf.get('{$bw->input[0]}/editAlias/{$alias->getId()}/{$bw->input[2]}/&pIndex={$bw->input[2]}','urlForm');" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to edit this {$bw->input[0]}")}'>{$vsLang->getWords('global__edit','Edit')}</a>
 			</td>
 			<td>
 				{$alias->typeText}
@@ -78,47 +78,12 @@ class skin_urlalias {
 	</table>
 </div>
 <script>
-
-function checkObject() {
-	var checkedString = '';
-	$("input[type=checkbox]").each(function(){
-		if($(this).hasClass('myCheckbox')){
-			if(this.checked) checkedString += $(this).val()+',';
-		}
-	});
-	checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
-	$('#checked-obj').val(checkedString);
+function addPage(){
+    return vsf.get('urlalias/addAlias/','urlForm');
 }
-
-function checkAll() {
-	var checked_status = $("input[name=all]:checked").length;
-	var checkedString = '';
-	$("input[type=checkbox]").each(function(){
-		if($(this).hasClass('myCheckbox')){
-		this.checked = checked_status;
-		if(checked_status) checkedString += $(this).val()+',';
-		}
-	});
-	$("span[acaica=myCheckbox]").each(function(){
-		if(checked_status)
-			this.style.backgroundPosition = "0 -50px";
-		else this.style.backgroundPosition = "0 0";
-	});
-	checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
-	$('#checked-obj').val(checkedString);
-}
-
-
-
 
 $('#delete-objlist-bt').click(function() {
-		if($('#checked-obj').val()=='') {
-			jAlert(
-				"{$vsLang->getWords('delete_obj_confirm_noitem', "You haven't choose any items to delete!")}",
-				"{$bw->vars['global_websitename']} Dialog"
-			);
-			return false;
-		}
+	if(vsf.checkValue())
 		jConfirm(
 			"{$vsLang->getWords('obj_delete_confirm', "Are you sure want to delete this {$bw->input[0]}?")}",
 			"{$bw->vars['global_websitename']} Dialog",
@@ -144,7 +109,7 @@ function showAddEditForm($form = array(), $alias) {
 		//--starthtml--//
 
 		$BWHTML .= <<<EOF
-<form  method="post" id="add_url_form">
+        <form  method="post" id="add_url_form">
 	<input type="hidden" name="formType" value="{$form['formType']}" />
 	<input type="hidden" name="seoId" value="{$alias->getId()}" />
 	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all vs-lbox">
@@ -238,7 +203,7 @@ EOF;
 		return $BWHTML;
 	}
 	function addEditObjForm($form = array(), $alias) {
-		global $vsLang;
+		global $vsLang,$bw;
 		if(!$alias->getType()) $alias->setType(0);
 		 
 		$check[$alias->getType()]="checked='checked'";
@@ -246,7 +211,8 @@ EOF;
 		//--starthtml--//
 
 		$BWHTML .= <<<EOF
-<form action="javascript:vsf.submitForm($('#addurl'),'urlalias/addEditObj','urlCurrent'); javascript:vsf.get('urlalias/addAlias/','urlForm');" method="post" id="addurl">
+        <form action="javascript:vsf.submitForm($('#addurl'),'urlalias/addEditObj','urlCurrent'); javascript:vsf.get('urlalias/addAlias/','urlForm');" method="post" id="addurl">
+        <input type="hidden" name="pIndex" value="{$bw->input['pIndex']}" />
 	<input type="hidden" name="formType" value="{$form['formType']}" />
 	<input type="hidden" name="seoId" value="{$alias->getId()}" />
 	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all vs-lbox">
@@ -283,21 +249,10 @@ EOF;
 				intro: $("input[name='seoIntro']"),
 				btnSm:$("input[type='submit']"),
 			}
-			
 			$(document).ready(function(){
-			var space="-";
 				f.aliasUrl.keyup(function(event){
-					if(e.keyCode==32){
-						var startPos = this.selectionStart;
-						var endPos = this.selectionEnd;
-						
-						var text = $(this).val().substring(0,this.selectionStart)+space+$(this).val().substring(this.selectionStart,$(this).val().length);
-						$(this).val(text);
-						this.selectionStart=startPos+space.length;
-						this.selectionEnd=startPos+space.length;		
-						return false;
-					}
-					
+					if(event.keyCode=='32')
+						$(this).val($(this).val().replace(' ','-'));
 				});
 			});
 			$("#addurl").submit(function(){

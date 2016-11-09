@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Quà tặng',
+  'main_title' => 'Quà tặng',
+  'cactinkhac2' => 'CÁC TIN KHÁC',
+);
+$userLang = array (
+);
+?>

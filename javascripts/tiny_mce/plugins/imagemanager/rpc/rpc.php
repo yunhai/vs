@@ -4,7 +4,7 @@
  *
  * @package MCManager.stream
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 // Set RPC response headers
@@ -17,7 +17,7 @@ header("Pragma: no-cache");
 
 // Use installer
 if (file_exists("../install"))
-die('{"result":null,"id":null,"error":{"errstr":"You need to run the installer or rename/remove the \\"install\\" directory.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
+	die('{"result":null,"id":null,"error":{"errstr":"You need to run the installer or rename/remove the \\"install\\" directory.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -36,15 +36,15 @@ $raw = "";
 
 // Try param
 if (isset($_POST["json_data"]))
-$raw = getRequestParam("json_data");
+	$raw = getRequestParam("json_data");
 
 // Try globals array
 if (!$raw && isset($_GLOBALS) && isset($_GLOBALS["HTTP_RAW_POST_DATA"]))
-$raw = $_GLOBALS["HTTP_RAW_POST_DATA"];
+	$raw = $_GLOBALS["HTTP_RAW_POST_DATA"];
 
 // Try globals variable
 if (!$raw && isset($HTTP_RAW_POST_DATA))
-$raw = $HTTP_RAW_POST_DATA;
+	$raw = $HTTP_RAW_POST_DATA;
 
 // Try stream
 if (!$raw) {
@@ -55,16 +55,16 @@ if (!$raw) {
 			$raw = "";
 
 			while (!feof($fp))
-			$raw = fread($fp, 1024);
+				$raw = fread($fp, 1024);
 
 			fclose($fp);
 		}
 	} else
-	$raw = "" . file_get_contents("php://input");
+		$raw = "" . file_get_contents("php://input");
 }
 
 if ($raw == "")
-die('{"result":null,"id":null,"error":{"errstr":"Could not get raw post data.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
+	die('{"result":null,"id":null,"error":{"errstr":"Could not get raw post data.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
 
 // Get JSON data
 $json = new Moxiecode_JSON();
@@ -80,7 +80,7 @@ $input['method'] = $chunks[1];
 $type = preg_replace("/[^a-z]/i", "", $type);
 
 if ($type == "")
-die('{"result":null,"id":null,"error":{"errstr":"No type set.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
+	die('{"result":null,"id":null,"error":{"errstr":"No type set.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
 
 // Include Base and Core and Config.
 $man = new Moxiecode_ManagerEngine($type);
@@ -95,7 +95,7 @@ $config =& $man->getConfig();
 $pluginPaths = $man->getPluginPaths();
 
 foreach ($pluginPaths as $path)
-require_once("../". $path);
+	require_once("../". $path);
 
 // Dispatch onInit event
 if ($man->isAuthenticated()) {
@@ -111,5 +111,5 @@ if ($man->isAuthenticated()) {
 	//header('Content-Length: ' . strlen($data));
 	die($data);
 } else
-die('{"result":{"login_url":"' . addslashes($config["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
+	die('{"result":{"login_url":"' . addslashes($config["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
 ?>

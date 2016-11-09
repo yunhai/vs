@@ -1,6 +1,34 @@
 <?php
 $lang = array (
-  'pageTitle' => 'home',
-  'main_title' => 'home',
+  'pageTitle' => 'Home',
+  'main_title' => 'Home',
+  'home_gioithieuchung' => 'general introduction',
+  'home_xemthem' => 'see more',
+  'home_duanmoi' => 'new projects',
+  'home_sangphamgolf' => 'New Golf Products',
+  'home_sanphamgolf' => 'Golf products',
+  'home_sanphamkhonggolf' => 'The product does not golf',
+  'home_thegioigolf' => 'World golf',
+  'home_kienthucgolf' => 'Knowledge of golf',
+  'home_products' => 'Golf products',
+  'home_' => 'Golf products',
+  'home_noproducts' => 'Golf products',
+  'home_worldgolf' => 'World golf',
+  'home_knowledge' => 'Knowledge of golf',
+  'callprice' => 'Call',
+  'home_giaban' => 'Price',
+  'home_giaKm' => 'Price KM',
+  'home_dathang' => 'Order',
+  'home_xemchitiet' => 'view detail',
+  'home_dautu' => 'investment',
+  'home_tintucsukien' => 'news - event',
+  'home_xemtatca' => 'View all',
+  'chitiet' => 'Detail',
+  'xemchitiet' => 'view detail',
+  'dichvu' => 'Service',
+  'lienheHNI' => 'Contact HNI',
+  'dieukhoansudung' => 'Điều khoản và Điều kiện',
+);
+$userLang = array (
 );
 ?>

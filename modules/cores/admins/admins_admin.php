@@ -31,7 +31,10 @@ class admins_admin
 		global $bw, $vsTemplate, $vsPrint;
 		$this->module = new admins();
 		$this->base_url = $bw->base_url;
+		$vsPrint->addJavaScriptFile('encryptor');
 		$vsPrint->addCSSFile('uvn-login');
+		$vsPrint->addJavaScriptFile ( 'jquery/thickbox' );
+        $vsPrint->addCSSFile ( 'thickbox' );
 		$this->html = $vsTemplate->load_template('skin_admins');
 		 
 	}
@@ -325,8 +328,9 @@ class admins_admin
 
 	function addEditAdmin() {
 		global $bw, $vsLang;
-
+               
 		$this->module->obj->setName($bw->input['adminName']);
+                $this->module->obj->setEmail($bw->input['adminEmail']);
 
 		
 		if($bw->input['formType']=='edit') {
@@ -342,7 +346,7 @@ class admins_admin
 		$bw->input['adminStatus']? $this->module->obj->setStatus(1):$this->module->obj->setStatus(0);
 		
 		$this->module->obj->setJoinDate(time());
-		$this->module->obj->setLastLogin(0);
+		$this->module->obj->setLastLogin(time());
 		$this->module->obj->getPassword();
 
 		if(($bw->input['formType'] == "add") || ($bw->input['formType'] == "edit" && $bw->input['adminName'] != $bw->input['oldName']) ){

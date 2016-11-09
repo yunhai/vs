@@ -434,15 +434,13 @@ class modules_admin {
 		$this->output = $this->html->modulesMain ($addformhtml,$modulehtml);
 	}
 
-	function getVirtualModuleList($message = "") {
-		global $vsStd;
+	function getVirtualModuleList() {
 
-		$this->module->setCondition("moduleVirtual=1");
+		$this->module->setCondition("moduleVirtual = 1");
+		$this->module->setOrder('moduleTitle');
 		$this->module->getObjectsByCondition();
 
-		$arrayModule = $this->module->getArrayObj();
-
-		return $arrayModule;
+		return $this->module->getArrayObj();
 	}
 }
 ?>

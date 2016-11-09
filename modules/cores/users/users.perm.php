@@ -2,10 +2,10 @@
 class users_perm {
 	function getAdminPermission() {
 		global $vsLang;
-		
+
 		$permission = array($vsLang->getWords('user_perms','Danh sách quyền của người dùng'),
-									array(
-										// group admin permission
+		array(
+		// group admin permission
 										'delete-user-group'		=> $vsLang->getWords('delete-user-group','Xóa nhóm người dùng'),
 										'edit-group'			=> $vsLang->getWords('edit-group','Sửa nhóm người dùng'),
 										'display-list-group'	=> $vsLang->getWords('display-list-group','Xem danh sách nhóm'),
@@ -14,7 +14,7 @@ class users_perm {
 										'savepermission'		=> $vsLang->getWords('savepermission','Lưu quyền'),
 										'getpermission'			=> $vsLang->getWords('getpermission','Kiểm tra quyền'),
 										'permission'			=> $vsLang->getWords('permission','Xem quyền'),
-										// admin permission
+		// admin permission
 										'edit-obj-form'			=> $vsLang->getWords('edit-obj-form','Sửa tài khoản'),
 										'add-obj-form'			=> $vsLang->getWords('add-obj-form','Thêm tài khoản'),
 										'hide-checked-obj'		=> $vsLang->getWords('hide-checked-obj','Khóa tài khoản'),
@@ -23,10 +23,10 @@ class users_perm {
 										'display-obj-list'		=> $vsLang->getWords('display-obj-list','Xem danh sách tài khoản'),
 										'delete-checked-obj'	=> $vsLang->getWords('delete-checked-obj','Xóa tài khoản'),
 										'display-obj-tab'		=> $vsLang->getWords('display-obj-tab','Vùng quản lý tài khoản'),
-										// access module
+		// access module
 										'default' 				=> $vsLang->getWords('default', 'Truy cập module')
-										)
-									);
+		)
+		);
 		return $permission;
 	}
 }

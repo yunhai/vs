@@ -15,8 +15,7 @@
 			<item name="refresh">Neu laden</item>
 			<item name="upload">Datei hochladen</item>
 			<item name="error_no_access">Fehler: Keine Schreibrechte für dieses Verzeichnis.</item>
-			<item name="error_delete_failed">Fehler: Ihre Rechte reichen nicht aus, um diese
-				Aktion durchzuführen.</item>
+			<item name="error_delete_failed">Fehler: Ihre Rechte reichen nicht aus, um diese Aktion durchzuführen.</item>
 		</group>
 
 		<group target="createdir">
@@ -28,20 +27,16 @@
 			<item name="create_in">Erstellen in:</item>
 			<item name="button_create">Erstellen</item>
 			<item name="button_cancel">Abbrechen</item>
-			<item name="error_missing_name">Fehler: Sie müssen einen Namen für das Verzeichnis
-				angeben.</item>
+			<item name="error_missing_name">Fehler: Sie müssen einen Namen für das Verzeichnis angeben.</item>
 			<item name="error_select_template">Fehler: Sie müssen eine Vorlage wählen.</item>
-			<item name="error_template_missing">Fehler: Die gewählte Vorlage konnte nicht gefunden
-				werden.</item>
+			<item name="error_template_missing">Fehler: Die gewählte Vorlage konnte nicht gefunden werden.</item>
 			<item name="error_invalid_name">Fehler: Der angegebene Verzeichnisname ist ungültig.</item>
-			<item name="error_exists">Fehler: Es existiert bereits ein Verzeichnis mit
-				diesem Namen.</item>
+			<item name="error_exists">Fehler: Es existiert bereits ein Verzeichnis mit diesem Namen.</item>
 		</group>
 
 		<group target="upload">
 			<item name="title">Hochladen</item>
-			<item name="description">Benutzen Sie das Formular, um neue Dateien
-				hochzuladen.</item>
+			<item name="description">Benutzen Sie das Formular, um neue Dateien hochzuladen.</item>
 			<item name="upload_in">Speichern in:</item>
 			<item name="valid_extensions">Gültige Dateitypen:</item>
 			<item name="max_upload_size">Max. Dateigröße:</item>
@@ -51,8 +46,7 @@
 			<item name="button_upload">Hochladen</item>
 			<item name="button_add_upload">Weitere Datei hochladen</item>
 			<item name="button_cancel">Abbrechen</item>
-			<item name="error_exists">Fehler: Es existiert bereits eine Datei mit diesem
-				Namen.</item>
+			<item name="error_exists">Fehler: Es existiert bereits eine Datei mit diesem Namen.</item>
 			<item name="error_to_large">Fehler: Die Datei ist zu gross.</item>
 			<item name="remove">Entfernen</item>
 		</group>
@@ -90,16 +84,15 @@
 			<item name="width">w:</item>
 			<item name="height">h:</item>
 			<item name="error_selection">Use the selection tool to select an area to crop.</item>
-			<item name="error_resize">You must insert a width and height in order to resize
-				the image.</item>
+			<item name="error_resize">You must insert a width and height in order to resize the image.</item>
 		</group>
 
 		<group target="preview">
 			<item name="title">Vorschau</item>
-			<item name="prev">zurück</item>
-			<item name="next">vor</item>
-			<item name="keyboard_next">Tastatur Kürzel: SPACE,N,RIGHTARROW,PAGE DOWN</item>
-			<item name="keyboard_prev">Tastatur Kürzel: P,LEFTARROW,PAGE UP</item>
+			<item name="prev">zurück</item>	
+			<item name="next">vor</item>	
+			<item name="keyboard_next">Tastatur Kürzel: SPACE,N,RIGHTARROW,PAGE DOWN</item>	
+			<item name="keyboard_prev">Tastatur Kürzel: P,LEFTARROW,PAGE UP</item>	
 		</group>
 	</language>
 </language-pack>

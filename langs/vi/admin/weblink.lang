@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'weblink',
+  'main_title' => 'weblink',
+);
+$userLang = array();
+?>

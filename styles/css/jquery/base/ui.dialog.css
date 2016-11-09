@@ -1,5 +1,12 @@
 /* Dialog
 ----------------------------------*/
+.ui-dialog .ui-title{
+	background: #31a5ff !important;
+	cursor: default !important;
+}
+.ui-dialog-modal{
+	padding:5px;
+}
 .ui-dialog { position: relative;margin-left:3px;border:1px #cccccc solid;background:url(images/bg_dialog_cd.jpg);margin-bottom:5px;}
 .ui-dialog .ui-dialog-titlebar { padding:4px 15px 4px 25px; position: relative;border-bottom:1px #ccc solid ; color:#333  }
 .ui-dialog .ui-dialog-titlebar .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }

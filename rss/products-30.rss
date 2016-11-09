@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+	<title>products - www.vietsol.net</title>
+	<link>http://localhost/dicgolf/products</link>
+	<description>products - www.vietsol.net</description>
+	<copyright>www.vietsol.net</copyright>
+	<generator>http://www.vietsol.net:http://localhost/dicgolf/rss</generator>
+	<item>
+		<title>Giày bít hậu 2</title>
+		<description><![CDATA[<img alt='undefined' src='http://localhost/dicgolf/utils/timthumb.php?src=http://localhost/dicgolf/uploads/products/img9_1322031599.jpg&w=0&h=109&zc=0'/>Giày bít hậu 2]]></description>
+		<pubDate>Thu, 11 Aug 2011 07:32:04 +0800</pubDate>
+		<link>http://localhost/dicgolf/products/detail/giay-bit-hau-2-14/</link>
+		<price>10000</Price>
+		<hotPrice>35000</hotPrice>
+	</item>
+	<item>
+		<title>Giày bít hậu 1</title>
+		<description><![CDATA[<img alt='undefined' src='http://localhost/dicgolf/utils/timthumb.php?src=http://localhost/dicgolf/uploads/products/img9_1322031620.jpg&w=0&h=109&zc=0'/>]]></description>
+		<pubDate>Thu, 11 Aug 2011 07:31:34 +0800</pubDate>
+		<link>http://localhost/dicgolf/products/detail/giay-bit-hau-1-13/</link>
+		<price></Price>
+		<hotPrice>0</hotPrice>
+	</item>
+	<item>
+		<title>Giày cột dây 5</title>
+		<description><![CDATA[]]></description>
+		<pubDate>Thu, 11 Aug 2011 07:22:44 +0800</pubDate>
+		<link>http://localhost/dicgolf/products/detail/giay-cot-day-5-12/</link>
+		<price>10000</Price>
+		<hotPrice>0</hotPrice>
+	</item>
+	<item>
+		<title>Giày cột dây 4</title>
+		<description><![CDATA[]]></description>
+		<pubDate>Thu, 11 Aug 2011 07:22:15 +0800</pubDate>
+		<link>http://localhost/dicgolf/products/detail/giay-cot-day-4-11/</link>
+		<price>10000</Price>
+		<hotPrice>0</hotPrice>
+	</item>
+
+</channel>
+</rss>

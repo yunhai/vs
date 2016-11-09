@@ -1,0 +1,17 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Trang chủ',
+  'main_title' => 'Trang chủ',
+  'home_xemchitiet' => 'xem chi tiết',
+  'home_dautu' => 'đầu tư',
+  'home_tintucsukien' => 'tin tức - sự kiện',
+  'home_xemtatca' => 'Xem tất cả',
+  'chitiet' => 'Chi tiết',
+  'lienheHNI' => 'Liên hệ với HNI',
+  'xemchitiet' => 'xem chi tiết',
+  'dichvu' => 'Dịch vụ',
+  'dieukhoansudung' => 'Điều khoản và Điều kiện',
+);
+$userLang = array (
+);
+?>

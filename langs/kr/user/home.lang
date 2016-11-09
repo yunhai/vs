@@ -1,0 +1,25 @@
+<?php
+$lang = array (
+  'pageTitle' => '홈',
+  'main_title' => '홈',
+  'home_gioithieuchung' => '일반적인 소개',
+  'home_xemthem' => '자세히보기',
+  'home_duanmoi' => '새로운 프로젝트',
+  'home_sangphamgolf' => '새로운 골프 제품',
+  'home_sanphamgolf' => '골프 상품',
+  'home_sanphamkhonggolf' => '이 제품은 골프를하지 않습니다',
+  'home_thegioigolf' => '월드 골프',
+  'home_kienthucgolf' => '골프 지식',
+  'home_products' => '골프 상품',
+  'home_' => '골프 상품',
+  'home_noproducts' => '골프 상품',
+  'home_worldgolf' => '월드 골프',
+  'home_knowledge' => '골프 지식',
+  'callprice' => 'Call',
+  'home_giaban' => '가격',
+  'home_giaKm' => '가격 KM',
+  'home_dathang' => '순서',
+);
+$userLang = array (
+);
+?>

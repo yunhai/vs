@@ -4,7 +4,7 @@ body {
 input.checkbox, input.radio{display:none }
 .checkbox, .radio {
 	width: 19px;
-	height: 25px;
+/*	height: 25px;*/
 	padding: 0 5px 0 0;
 }
 .checkbox {

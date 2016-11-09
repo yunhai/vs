@@ -3,7 +3,7 @@
 /*
 .ui-widget-content { border: 1px solid #aaaaaa; background: #eeeeee url(images/ui-bg_inset-hard_100_eeeeee_1x100.png) 50% bottom repeat-x; color: #222222; }
 */
-.ui-widget-content { color: #222222; }
+.ui-widget-content { background:#FFF; color: #222222; }
 .ui-widget-content a { color: #222222; }
 .ui-widget-header {color: #FFFFFF; font-weight: bold; }
 table.ui-widget-content{
@@ -264,6 +264,13 @@ table.ui-widget-content td{
 #popup_prompt {
 	margin: .5em 0em;
 }
+* html #popup_container { /* ie6 hack */
+						     position: absolute !important;
+						   	margin-top: expression(0 -   parseInt(this.offsetHeight/ 2) +   (
+							TBWindowMargin =   document.documentElement &&  
+							document.documentElement.scrollTop ||   document.body.scrollTop ) +  
+							'px' );
+					}
 * html #imgLOAD { /* ie6 hack */
 						     position: absolute !important;
 						   	margin-top: expression(0 -   parseInt(this.offsetHeight/ 2) +   (

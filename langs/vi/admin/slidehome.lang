@@ -1,0 +1,8 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Slide trang chủ',
+  'main_title' => 'Slide trang chủ',
+);
+$userLang = array (
+);
+?>

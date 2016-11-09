@@ -9,9 +9,9 @@ class VSFRelationship  extends VSFObject{
 	public $result 		= array();
 	public $arrayField 	= array();
 	
-	private $obj	= NULL;
-	private $relId 	= "";
-	private $objectId = "";
+	public $obj	= NULL;
+	public $relId 	= "";
+	public $objectId = "";
 	
 
 	
@@ -31,26 +31,30 @@ class VSFRelationship  extends VSFObject{
 		$this->resetParameter();
 	}
 	
-	function createBasicObject(){
-		if($this->basicClassName){
-			$this->obj = new $this->basicClassName();
-			return true;
-		}
-		return false;
-	}
-	
+//	function createBasicObject(){
+//		if($this->basicClassName){
+//			$this->obj = new $this->basicClassName();
+//			return true;
+//		}
+//		return false;
+//	}
+//	
 	function __construct() {
 		parent::__construct();
-		$this->createBasicObject();
+		$this->obj = $this->createBasicObject();
 	}
 	
 	function __destruct() {
 		unset($this->tableName);
 		unset($this->primaryField);
-		unset($this->basicClassName);
+//		unset($this->basicClassName);
 		unset($this->result);
 		unset($this->arrayField);
 		unset($this->arrval);
+		unset($this->obj);
+		unset($this->arrObj);
+		unset($this->relId);
+		unset($this->objectId);
 	}
 	
 	//fill $tableName $objectId $relId  and delete if we have full infomation about it
@@ -250,6 +254,7 @@ class VSFRelationship  extends VSFObject{
 			while($rel) {
 				 $relId .= $rel['relId'].',';
 				 if($advance) $this->arrval[$rel['relId']] = $rel;
+				 if($advance==2) $this->arrval[$rel['objectId']] = $rel;
 				 $rel = $DB->fetch_row();
 			}
 			return trim($relId,',');
@@ -262,7 +267,7 @@ class VSFRelationship  extends VSFObject{
 	}
 	
 	
-	function getRelationObjByOption($option = array(), $group = 0){
+	function getRelationObjByOption($option = array(), $group = 0, $advance = 1){
 		global $DB, $vsLang;
 		if(!$this->check_exitTable()){
 			$this->result['status'] = false;
@@ -285,21 +290,25 @@ class VSFRelationship  extends VSFObject{
 		while($rel){
 			$this->obj = clone $this->obj;
 			$this->obj->convertToObject($rel);
-			
+			$relId .= $rel['relId'].',';
 			if($group){
 				if($count){
 					$eval ="\$this->arrObj";
 					foreach($this->primaryField as $field)
-						$eval = $eval."['$rel[$field]']";
+						$eval = $eval."[$rel[$field]]";
 					eval($eval."=\$this->obj ;");
 				}else{
 					$this->arrObj[reset($rel)] = $this->obj;
+					if($advance) $this->arrval[$rel['relId']] = $rel;
 				} 
-			 }else $this->arrObj[] = $this->obj;
+			 }else{
+			 	if($advance) $this->arrval[$rel['relId']] = $rel;
+			 	$this->arrObj[$this->obj->getRelId()] = $this->obj;
+			 } 
 
 			 $rel = $DB->fetch_row();
 		}
-		return true;
+		return trim($relId,',');
 	}
 	
 	
@@ -398,7 +407,7 @@ class VSFRelationship  extends VSFObject{
 	function getSQLString(){
 		$advance = " , ";
 		foreach ($this->arrayField as $key => $value)
-			$advance .= $key." ".$value.", ";
+			$advance .= $key." ".$value['value']." ".$value['default'].", ";
 		
 		return "
 			CREATE TABLE `".SQL_PREFIX.$this->tableName."` (			  
@@ -463,9 +472,6 @@ class VSFRelationship  extends VSFObject{
 		return $this->arrObj;
 	}
 	
-	function setTableName($tableName){
-		$this->tableName = $tableName;
-	}
 /*
 	function setFieldName($fileName, $type) {
 		global $DB;
@@ -483,4 +489,42 @@ class VSFRelationship  extends VSFObject{
 			 return $this->$fileName;
 	}
 */
+	
+	function insertRel2($groupDelete=NULL, $advance = NULL, $empty = true){
+		global $DB, $bw;
+		$this->result['status'] == true;
+		$this->validateRelation();
+		
+		if(!$this->result['status']) return false;
+		
+		if(!$this->check_exitTable()) $this->createTable();
+		if($empty){
+			if($advance) $condition = $advance;
+			else{
+				if(is_string($this->objectId)||is_numeric($this->objectId))
+					$condition = $groupDelete ? "objectId in ({$this->objectId}) and relId in ({$groupDelete})":"objectId in ({$this->objectId})";
+				else $this->result['message'] .= "objectId is not a numberic";
+			}
+			
+			$DB->simple_delete($this->tableName, $condition);
+			$DB->simple_exec();
+		}
+		$array = explode(',',$this->relId);
+		
+		foreach ($array as $value) {
+			$array = array(
+						'relId'=>$value,
+						'objectId'=>$this->objectId,
+					);
+			if(count($this->arrayField))
+				$array = array_merge((array)$array, (array)$this->arrayField);
+			
+			$this->basicObject->convertToObject($array);
+			
+			$dbObj = $this->basicObject->convertToDB();
+			if($DB->do_insert($this->tableName, $dbObj)){
+				if($DB->query_id) $this->result['message'] .= "Insert value to table [".SQL_PREFIX.$this->tableName."] succcess";
+			}
+		}
+	}
 }

@@ -2,57 +2,45 @@
 #   when and only when document.php exists but no longer document.html
 <IfModule mod_rewrite.c>
   RewriteEngine on	
- 
-  RewriteCond %{HTTP_HOST} !^(www|js|style|upload).icampus.ipd
-  RewriteRule ^(.*)$ http://www.icampus.ipd/$1 [R=permanent,L]
+  RewriteBase /hoanglong
 
  
-  # Rewrite current-style URLs of the form 'index.php?q=x'.
-  # RewriteCond %{REQUEST_FILENAME} !-f
-  # RewriteCond %{REQUEST_FILENAME} !-d
-  # RewriteRule ^(.*)$ index.php?vs=$1 [L,QSA]
-  # RewriteRule ^cache/images/(.*)/([0-9]+)x([0-9]+)/(.*)$ /utils/timthumb.php?src=http://%{HTTP_HOST}/uploads/$1/$4&w=$2&h=$3&zc=1 [L,QSA]
-  
-  RewriteRule ^cache/images/([0-9]+)x([0-9]+)-([0-9]+)/(.*)$ utils/timthumb.php?src=$4&w=$1&h=$2&zc=$3 [L,QSA]
+
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteCond %{REQUEST_URI} !\..+$
   RewriteRule ^(.*)$ index.php?vs=$1 [L,QSA]
+
+  
 </IfModule>
 
-# Set Expires Headers
-<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
-Header set Expires "Thu, 15 Jan 2015 20:00:00 GMT"
-</FilesMatch>
-
-# Set the cache-control max-age
-# 1 year
-<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
-Header set Cache-Control "max-age=31449600, public"
-</FilesMatch>
-# 2 DAYS
-<FilesMatch "\.(xml|txt)$">
-Header set Cache-Control "max-age=172800, public, must-revalidate"
-</FilesMatch>
-# 4 HOURS
-<FilesMatch "\.(html|htm)$">
-Header set Cache-Control "max-age=14400, must-revalidate"
-</FilesMatch>
-
-
-
-# Turn off the Last Modified header except for html docs
-<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css)$">
-Header unset Last-Modified
-</FilesMatch>
-
-
-<IfModule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/html image/gif image/png image/jpeg text/plain text/xml text/css text/javascript application/x-javascript
-
-BrowserMatch ^Mozilla/4\.[0678] no-gzip
-BrowserMatch \bOpera !no-gzip
-Header append Vary User-Agent
+<IfModule mod_php5.c>
+  php_value post_max_size 32M
+  php_value upload_max_filesize 32M
+  php_value max_execution_time 800
+  php_value memory_limit 32M
 </IfModule>
 
-#php_flag display_errors off
-#php_flag display_errors off
+order allow,deny
+allow from all
+<FilesMatch "\.(php|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
+#deny from all
+</FilesMatch>
+<Files index.php>
+allow from all
+</Files>
+<Files admin.php>
+allow from all
+</Files>
+<Files info.php>
+allow from all
+</Files>
+<Files CheckOnline.Api.php>
+allow from all
+</Files>
+<Files timthumb.php>
+allow from all
+</Files>
+<Files securimage_show.php>
+allow from all
+</Files>

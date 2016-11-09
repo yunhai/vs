@@ -4,7 +4,7 @@
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 require_once($basepath . "FileSystems/BaseFileImpl.php");
@@ -61,7 +61,7 @@ class Moxiecode_RootFileImpl extends Moxiecode_BaseFileImpl {
 			}
 
 			if ($filter->accept($file))
-			$files[] = $file;
+				$files[] = $file;
 		}
 
 		return $files;

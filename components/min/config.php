@@ -110,7 +110,7 @@ $min_serveOptions['minApp']['groupsOnly'] = false;
 /**
  * Maximum # of files that can be specified in the "f" GET parameter
  */
-$min_serveOptions['minApp']['maxFiles'] = 105;
+$min_serveOptions['minApp']['maxFiles'] = 15;
 
 
 /**

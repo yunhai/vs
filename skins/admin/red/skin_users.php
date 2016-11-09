@@ -1,47 +1,27 @@
 <?php
 class skin_users {
-
-function MainPage() {
-global $bw, $vsLang,$vsSettings;
-$BWHTML = "";
-$BWHTML .= <<<EOF
+	
+	function MainPage() {
+		global $bw, $vsLang, $vsSettings;
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
+<script></script>
 <div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
 	<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all-inner">
     	<li class="ui-state-default ui-corner-top">
-        	<a href="{$bw->base_url}users/display-obj-tab/&ajax=1">
-				{$vsLang->getWords('tab_user_users','Users')}
-			</a>
-        </li>
-        
-        <if="$vsSettings->getSystemKey($bw->input[0].'_Group_tab', 1, 'users', 1, 1)">	
+        	<a href="{$bw->base_url}users/display-obj-tab/&ajax=1">{$vsLang->getWords('tab_user_users','Users')}</a></li>
+        <if="$vsSettings->getSystemKey($bw->input[0].'_Group_tab',1)">	
 		<li class="ui-state-default ui-corner-top">
         	<a href="{$bw->base_url}users/display-group-tab/&ajax=1">{$vsLang->getWords('tab_user_groups','User Groups')}</a></li>
-        </if>
-        
-        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab', 1, 'users', 1, 1)">	
+        </if>	
+        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab',1)">	
         <li class="ui-state-default ui-corner-top">
-        	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">
-				{$vsLang->getWords('tab_user_setting','Setting')}
-			</a>
-		</li>
-        </if>
-        
-        <if="$vsSettings->getSystemKey($bw->input[0].'_location_tab', 1, 'users', 1, 1)">	
+        	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">{$vsLang->getWords('tab_user_SS','SystemSetting')}</a></li>
+        </if>	
+        <if="$vsSettings->getSystemKey($bw->input[0].'_provice_tab',1)">	
         <li class="ui-state-default ui-corner-top">
-        	<a href="{$bw->base_url}menus/display-category-tab/location/&ajax=1">
-				{$vsLang->getWords('tab_user_location','Location')}
-			</a>
-		</li>
-        </if>
-        
-        <if="$vsSettings->getSystemKey($bw->input[0].'_relationship_tab', 1, 'users', 1, 1)">	
-        <li class="ui-state-default ui-corner-top">
-        	<a href="{$bw->base_url}menus/display-category-tab/relationship/&ajax=1">
-				{$vsLang->getWords('tab_user_relationship', 'Relationship')}
-			</a>
-		</li>
-        </if>
-        
+        	<a href="{$bw->base_url}menus/display-category-tab/provice/&ajax=1"><span>{$vsLang->getWords('tab_obj_categories_provice','categories-provice')}</span></a>
+        </if>	
 		<div class="clear"></div>
 </ul>
 <div class="clear"></div>
@@ -49,13 +29,13 @@ $BWHTML .= <<<EOF
 <div id="temp"></div>
 
 EOF;
-return $BWHTML;
-}
-
-function objListHtml($option) {
-global $vsLang,$bw;
-$BWHTML = "";
-$count = 0;
+		return $BWHTML;
+	}
+	
+	function objListHtml($option) {
+		global $vsLang, $bw,$vsSettings;
+		$BWHTML = "";
+		$count = 0;
 $BWHTML .= <<<EOF
 <script type='text/javascript'>
 
@@ -155,15 +135,19 @@ $BWHTML .= <<<EOF
 	        <li class="ui-state-default ui-corner-top" id="hide-objlist-bt"><a href="#" title="{$vsLang->getWords('hide_obj_alt_bt',"Hide selected {$bw->input[0]}")}">{$vsLang->getWords('hide_obj_bt','Hide')}</a></li>
 	        <li class="ui-state-default ui-corner-top" id="visible-objlist-bt"><a href="#" title="{$vsLang->getWords('visible_obj_alt_bt',"Visible selected {$bw->input[0]} ")}">{$vsLang->getWords('visible_obj_bt','Visible')}</a></li>
 	        <li class="ui-state-default ui-corner-top" id="delete-objlist-bt"><a href="#" title="{$vsLang->getWords('delete_obj_alt_bt',"Delete selected {$bw->input[0]}")}">{$vsLang->getWords('delete_obj_bt','Delete')}</a></li>
+	        <li class="ui-state-default ui-corner-top" id="export-objlist-bt"><a href="{$bw->base_url}users/export" title="{$vsLang->getWords('delete_obj_alt_bt',"Delete selected {$bw->input[0]}")}">{$vsLang->getWords('Expotre_bt','Exports Excels')}</a></li>
 	    </ul>
 		<table  cellpadding="1" cellspacing="1" style="width:100%">
 			<thead>
 				<tr>
 					<th width='10'>	<input type="checkbox" onclick="checkAllU()" onclicktext="checkAllU()" name="allU" /></th>
-					<th width='50'>{$vsLang->getWords('user_name_status',"Status")}</th>						
-					<th width='150'>{$vsLang->getWords('user_name_title',"	")}</th>
-					<th>{$vsLang->getWords('user_username_title',"Username")}</th>
-					<th width='100'>{$vsLang->getWords('user_join_date',"Joined date")}</th>
+					<th width='50'>{$vsLang->getWords('user_name_status',"Hiển thị")}</th>						
+					<th width='150'>{$vsLang->getWords('user_name_title',"Username")}</th>
+					<th>{$vsLang->getWords('user_email_title',"Email")}</th>
+					<th width='100'>{$vsLang->getWords('user_join_date',"Joined date")}	</th>
+					<if="$vsSettings->getSystemKey($bw->input[0].'_gift',1)">
+						<th width='60'>Đổi quà</th>
+					</if>
 				</tr>
 			</thead>
 			<tbody>
@@ -171,21 +155,31 @@ $BWHTML .= <<<EOF
 				<foreach="$option['pageList'] as $obj">
 					<php> 
 						$count++;
-						$class= 'even';
-						if($count%2) $class='old';
+						if($count%2)
+                               $class='old';
+                       	else $class= 'even';
            			</php>     
 			    	<tr class='$class'>
 						<td width='10'>
 							<input type="checkbox" onclicktext="checkObjectU({$obj->getId()});" onclick="checkObjectU({$obj->getId()});" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckboxU" />
 						</td>						
 						<td style="text-align:center">{$obj->getStatus('image')}</td>
+						<if="$obj->getDealer()">
+						<td style="font-weight:bold">
+						<else />
 						<td>
-							<a href="javascript:vsf.get('{$bw->input[0]}/edit-obj-form/{$obj->getId()}/','obj-panel')" title='{$vsLang->getWords('edit_obj_link_title',"Click here to edit")}' class='editObj'>
+						</if>
+							<a href="javascript:vsf.get('{$bw->input[0]}/edit-obj-form/{$obj->getId()}/','obj-panel')" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to edit this {$bw->input[0]}")}'>
                                {$obj->getName()}
                             </a>
                         </td>
-						<td>{$obj->getAlias()}</td>
+						<td>{$obj->getEmail()}</td>
 						<td width='75'>	{$obj->getJoindate("SHORT")}</td>
+						<if="$vsSettings->getSystemKey($bw->input[0].'_gift',1)">
+							<td align="center">
+										<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.popupGet('users/display-gift/{$obj->getId()}','panel3',587,500,'Đổi quà tặng')">Đổi quà</a>
+									</td>
+						</if>
 					</tr>
 				</foreach>
 				<tr>
@@ -197,63 +191,172 @@ $BWHTML .= <<<EOF
 	</div>
 </form>
 EOF;
-return $BWHTML;
-}
-
-
-function addEditObjForm($obj, $option = array()) {
-		global $vsLang, $bw,$vsSettings;
+		
+		return $BWHTML;
+	}
+	
+	function addEditObjForm($obj, $option = array()) {
+		global $vsLang, $bw, $vsSettings;
+	
 		$BWHTML .= <<<EOF
 			<div id="error-message" name="error-message"></div>
 			<form id='form-obj' name="add-edit-obj-form" method="POST"  enctype='multipart/form-data'>
 				<input type="hidden" name="userId" value="{$obj->getId()}" />
+				<input type="hidden" name="group" id="group" value="" />
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 						<span class="ui-dialog-title">{$option['formTitle']}</span>
 					</div>
 					<table class="ui-dialog-content ui-widget-content">
 						<tr>
-							<td class="label_obj">{$vsLang->getWords('obj_email', 'Email')}:</td>
-							<td colspan="2"><input size="25" name="userName" value="{$obj->getName()}" id="obj-title"/></td>
-						</tr>
-						<tr>
-							<td class="label_obj">{$vsLang->getWords('obj_password', 'Password')}:</td>
-							<td colspan="2"><input size="25" name="userPassword" id="obj-password"/></td>
-						</tr>
-						<tr>
-							<if="$vsSettings->getSystemKey($bw->input[0].'_adress',1,"users", 1, 1)">
-							<td class="label_obj">{$vsLang->getWords('obj_address', 'Address')}:</td>
-							<td colspan="2"><input size="25" name="userAddress" value="{$obj->getAddress()}" id="obj-address"/></td>
-							</if>
-						</tr>
-						<tr>
-							<if="$vsSettings->getSystemKey($bw->input[0].'_email', 1, 'users', 1, 1)">
-							<td class="label_obj">{$vsLang->getWords('obj_email', 'Email')}:</td>
-							<td colspan="2"><input size="25" name="userEmail" value="{$obj->getEmail()}" id="obj-email"/></td>
-							</if>
-						</tr>
-						<tr >
-							<if="$vsSettings->getSystemKey($bw->input[0].'_status', 1, 'users', 1, 1)">
-							<td class="label_obj">{$vsLang->getWords('obj_Status', 'Status')}:</td>
-							<td colspan="2"><input class='c_noneWidth' type="checkbox" name="userStatus" id="userStatus" value="1" style='margin-right:10px;'/></td>
-							</if>
-						</tr>
-						<tr >
-							<if="$vsSettings->getSystemKey($bw->input[0].'_fullName', 1, 'users', 1, 1)">
-							<td class="label_obj">{$vsLang->getWords('obj__fullName', 'Full Name')}:</td>
-							<td colspan="2"><input class='c_noneWidth' name="userFullName" {$obj->getFullName()} style='margin-right:10px;'/></td>
-							</if>
-						</tr>
-						<tr >
-							<if="$vsSettings->getSystemKey($bw->input[0].'_phone', 1, 'users', 1, 1)">
-							<td class="label_obj">{$vsLang->getWords('obj_phone', 'Phone')}:</td>
-							<td colspan="2"><input class='c_noneWidth' name="userPhone" {$obj->getPhone()} style='margin-right:10px;'/></td>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_name',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_name', 'User Name')}:</td>
+								<if="$obj->getName()">
+									<td colspan="2"><input size="25" type="text" name="userName"  value="{$obj->getName()}" id="obj-title" disabled /></td>
+								<else />
+									<td colspan="2"><input size="25" type="text" name="userName"  value="" id="obj-title"/></td>
+								</if>
 							</if>
 						</tr>
 						
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_password',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_password', 'Password')}:</td>
+							<td colspan="2"><input size="25" type="password" name="userPassword" value="" id="obj-password"/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_birthday',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_birthday', 'Birthday')}:</td>
+							<td colspan="2"><input size="25" type="text" name="userBirthday" value="{$obj->getBirthday()}" id="obj-birthday"/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_adress',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_address', 'Address')}:</td>
+							<td colspan="2"><input size="25" type="text" name="userAddress" value="{$obj->getAddress()}" id="obj-address"/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_email',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_email', 'Email')}:</td>
+							<td colspan="2"><input size="25" type="text" name="userEmail" value="{$obj->getEmail()}" id="obj-email"/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_province',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_province', 'Province')}:</td>
+							<td colspan="2">
+							<select class="tinh" id="userProvince" name="userProvince">
+			                	<option>- - - Vui lòng chọn - - -</option>
+			                	<if="$option['provice']->children">
+				                	<foreach="$option['provice']->children as $item">
+				                		<option>+-{$item->getTitle()}</option>
+				                	</foreach>
+			                	</if>
+			                </select>
+							</td>
+							</if>
+						</tr>
+						<tr >
+								<td class="label_obj">{$vsLang->getWords('obj__Dealer', 'Dealer')}:</td>
+								<td colspan="2">
+									<input class='c_noneWidth' type="checkbox" name="userDealer" id="userDealer" value='1' style='margin-right:10px;'/>
+								</td>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_status',1)">
+								<td class="label_obj">{$vsLang->getWords('obj_show', 'Hiển thị')}:</td>
+								<td colspan="3">
+									<input class='c_noneWidth' type="checkbox" name="userStatus" id="userStatus" value='1' style='margin-right:10px;'/>
+								</td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_firstName',1)">
+							<td class="label_obj">{$vsLang->getWords('obj__firstName', 'First Name')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userFirstName" value="{$obj->getFirstName()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_fullName',1)">
+							<td class="label_obj">{$vsLang->getWords('obj__fullName', 'Full Name')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userFullName" value="{$obj->getFullName()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_phone',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_phone', 'Phone')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userPhone" value="{$obj->getPhone()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_score',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_score', 'Score')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userScore" value="{$obj->getScore()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<!-- <tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_avatar',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_avatar', 'Avatar')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="File" name="userAvatar" style='margin-right:10px;' size="15"/></td>
+							</if>
+						</tr> -->
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_gender',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_gender', 'Gender')}:</td>
+							<td colspan="2">
+							{$vsLang->getWords('obj_female', 'Female')}   	<input class='c_noneWidth' type="radio" name="userGender"  checked value="0" style='margin-right:10px;'/>
+							{$vsLang->getWords('obj_male', 'Male')} 		<input class='c_noneWidth' type="radio" name="userGender"   value="1" style='margin-right:10px;'/>
+							<!-- <input class='c_noneWidth' type="text" name="userGender" value="{$obj->getGender()}" style='margin-right:10px;'/> -->
+							</td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_company',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_company', 'Company')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userCompany" value="{$obj->getCompany()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<!-- <tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_fax',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_fax', 'Fax')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userFax" value="{$obj->getFax()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr >
+							<if="$vsSettings->getSystemKey($bw->input[0].'_town',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_town', 'Town')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userTown" value="{$obj->getTown()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_city',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_city', 'City')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userCity" value="{$obj->getCity()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_skype',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_skype', 'Nick Skype')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userSkype" value="{$obj->getSkype()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_yahoo',1)">
+							<td class="label_obj">{$vsLang->getWords('obj_yahoo', 'Nick Yahoo')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userYahoo" value="{$obj->getYahoo()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
+						<tr>
+							<if="$vsSettings->getSystemKey($bw->input[0].'_mobile',1)">
+							<td class="label_obj">{$vsLang->getWords('obj__mobile', 'Mobile')}:</td>
+							<td colspan="2"><input class='c_noneWidth' type="text" name="userMobile" value="{$obj->getYahoo()}" style='margin-right:10px;'/></td>
+							</if>
+						</tr>
 						<if="$vsSettings->getSystemKey($bw->input[0].'_group',1)&&count($option['group'])">
 						<tr>
-							<td colspan="3" align="left"> {$vsLang->getWords('obj_group','Group')}</td>
+							<td colspan="3" align="left">	{$vsLang->getWords('obj_group','Group')}</td>
 						</tr>
 						<tr>
 							<td colspan="3" align="left">
@@ -261,13 +364,13 @@ function addEditObjForm($obj, $option = array()) {
 							<foreach="$option['group'] as $group">
 								<p style="width:130px" class="benifit">
 									<span>{$group->getTitle()}</span>
-									<input type="checkbox" value="{$group->getId()}" id="group{$group->getId()}" name="group[{$group->getId()}]" >
+									<input type="checkbox" class="myCheckboxG" value="{$group->getId()}" id="group{$group->getId()}" name="group[{$group->getId()}]" >
 								</p>
 							</foreach>		
 							</if>
 							</td>
 						</tr>
-						</if>
+						</if> -->
 						<tr>
 							<td class="ui-dialog-buttonpanel" colspan="4" align="center">
 								<input type="submit" name="submit" value="{$option['formSubmit']}" />
@@ -276,7 +379,18 @@ function addEditObjForm($obj, $option = array()) {
 					</table>
 				</div>
 			</form>
+			
 			<script language="javascript">
+				function checkObject() {
+					var checkedString = '';
+					$("input[type=checkbox]").each(function(){
+						if($(this).hasClass('myCheckboxG')){
+							if(this.checked) checkedString += $(this).val()+',';
+						}
+					});
+					checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
+					$('#group').val(checkedString);
+				}
 				function updateobjListHtml(categoryId){
 					vsf.get('{$bw->input[0]}/display-obj-list/'+categoryId+'/','obj-panel');
 				}
@@ -287,12 +401,17 @@ function addEditObjForm($obj, $option = array()) {
 					);
 				}
 				$(window).ready(function() {
+					vsf.jRadio('{$obj->getGender()}','userGender');
 					vsf.jCheckbox('{$obj->getStatus()}','userStatus');
+					vsf.jCheckbox('{$obj->getDealer()}','userDealer');
 					<if="count($option['cur_groups'])">
 						<foreach="$option['cur_groups'] as $key=>$group">
-						vsf.jCheckbox('{$key}','group{$key}');
+						vsf.jCheckbox('{$key}',"group{$key}");
 						</foreach>
 					</if>
+					<if="$obj->getProvince()">
+						vsf.jSelect("{$obj->getProvince()}",'userProvince');
+				 	</if>
 				});
 				$('#form-obj').submit(function(){
 					var flag  = true;
@@ -321,7 +440,7 @@ function addEditObjForm($obj, $option = array()) {
 						alertError(error);
 						return false;
 					}
-					
+					checkObject();
 					vsf.uploadFile("form-obj", "{$bw->input[0]}", "add-edit-obj", "obj-list","users");
 					vsf.get('users/add-obj-form','obj-panel');
 					return false;
@@ -329,12 +448,12 @@ function addEditObjForm($obj, $option = array()) {
 				
 			</script>
 EOF;
+		
 	}
 	
-	
-function mainUserHtml($userFormHTML,$usertable = "", $message = "") {
-$BWHTML = "";
-$BWHTML .= <<<EOF
+	function mainUserHtml($userFormHTML, $usertable = "", $message = "") {
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 <div id="vswrapper"></div>
 	{$message}
 <div class="left-cell" id="obj-panel">
@@ -345,13 +464,13 @@ $BWHTML .= <<<EOF
 </div>
 <div class="clear"></div>
 EOF;
-return $BWHTML;
-}
-
-function groupUserBox($groupOption=array()) {
-global $vsLang;
-$BWHTML = "";
-$BWHTML .= <<<EOF
+		return $BWHTML;
+	}
+	
+	function groupUserBox($groupOption = array()) {
+		global $vsLang;
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 <script type="text/javascript">
 	var chosenGroup = "";
 	$('#bt-view-user').click(function(){
@@ -406,19 +525,20 @@ $BWHTML .= <<<EOF
 	</table>
 </div>
 EOF;
-return $BWHTML;
-}
+		return $BWHTML;
+	}
+	
+	//------------------------------------------------
+	// USER GROUP ZONE
+	//------------------------------------------------
+	function groupTable($groupList = array(), $message = "") {
+		global $vsLang, $bw;
+		$count = 1;
+		$BWHTML = "";
+		//--starthtml--//
+		
 
-//------------------------------------------------
-// USER GROUP ZONE
-//------------------------------------------------
-function groupTable($groupList=array(), $message="") {
-global $vsLang,$bw;
-$count=1;
-$BWHTML = "";
-//--starthtml--//
-
-$BWHTML .= <<<EOF
+		$BWHTML .= <<<EOF
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
 <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 <span class="ui-dialog-title">{$vsLang->getWords('group_list','List of groups')}
@@ -521,18 +641,19 @@ jConfirm(
 }
 </script>
 EOF;
-//--endhtml--//
-return $BWHTML;
-}
+		//--endhtml--//
+		return $BWHTML;
+	}
+	
+	function addEditGroupForm($form = array(), $group) {
+		global $vsLang;
+		$BWHTML = "";
+		//--starthtml--//
+		
 
-function addEditGroupForm($form=array(), $group) {
-global $vsLang;
-$BWHTML = "";
-//--starthtml--//
-
-$switchButton = "";
-if($form['type']=='edit')
-$switchButton = <<<EOF
+		$switchButton = "";
+		if ($form ['type'] == 'edit')
+			$switchButton = <<<EOF
 	<script type="text/javascript">
 		$('#user-group-switch-bt').click(function() {
 		vsf.get('users/add-group','user-group-form');
@@ -568,7 +689,7 @@ $('#add-edit-group').submit(function() {
 		<table  cellpadding="0" cellspacing="0">
 			<tr>
 				<td>{$vsLang->getWords('group_header_name','Group name')}</td>
-				<td><input id="group-user-name" style="width:203px;" name="groupTitle" value="{$group->getTitle()}" /></td>
+				<td><input id="group-user-name" style="width:203px;" type="text" name="groupTitle" value="{$group->getTitle()}" /></td>
 			</tr>
 			<tr>
 				<td>{$vsLang->getWords('group_header_description','Description')}</td>
@@ -584,25 +705,26 @@ $('#add-edit-group').submit(function() {
 	</div>
 </form>
 EOF;
-//--endhtml--//
-return $BWHTML;	
-}
-
-function mainGroup($addEditGroupHTML="", $groupTableHTML="") {
-$BWHTML = "";
-$BWHTML .= <<<EOF
+		
+		//--endhtml--//
+		return $BWHTML;
+	}
+	
+	function mainGroup($addEditGroupHTML = "", $groupTableHTML = "") {
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 <div class="left-cell" id="user-group-form">{$addEditGroupHTML}</div>
 <div class="right-cell" id="user-group-table">{$groupTableHTML}</div>
 <div class="clear"></div>
 EOF;
-return $BWHTML;
-}
-
-function mainPermission($modulelist = "", $groupbox = "") {
-global $bw, $vsLang;
-$BWHTML = "";
-//--starthtml--//
-$BWHTML .= <<<EOF
+		return $BWHTML;
+	}
+	
+	function mainPermission($modulelist = "", $groupbox = "") {
+		global $bw, $vsLang;
+		$BWHTML = "";
+		//--starthtml--//
+		$BWHTML .= <<<EOF
 <script type="text/javascript">
 $('#bt_setperm').click(function() {
 var error = "";
@@ -639,14 +761,14 @@ vsf.get('users/getpermission/'+permModule+'/'+permGroup+'/','perm_list');
 <div id="perm_list" class="left-cell" style="width:210px !important; padding:0px 5px"></div>
 <div class="clear"></div>
 EOF;
-//--endhtml--//
-return $BWHTML;
-}
-
-function permGroupBox($groupOption = "",$message='') {
-global $vsLang;
-$BWHTML = "";
-$BWHTML .= <<<EOF
+		//--endhtml--//
+		return $BWHTML;
+	}
+	
+	function permGroupBox($groupOption = "", $message = '') {
+		global $vsLang;
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 <script type="text/javascript">
 var permGroup = "";
 $('#adminperm_group').change(function() {
@@ -677,7 +799,122 @@ permGroup = str;
 </table>
 </div>
 EOF;
-return $BWHTML;
-}
+		return $BWHTML;
+	}
+
+	/**
+	 * Gift
+	 */
+	
+	function addEditGiftForm($objItem,$option){
+		global $vsLang,$bw;
+		
+		$BWHTML .= <<<EOF
+			<div id="error-message" name="error-message"></div>
+			<form id='add-edit-opt-form' name="add-edit-opt-form" method="POST">
+				<input value="{$bw->input[2]}" type="hidden" name="userId">
+				<input value="{$objItem['objectId']}" type="hidden" name="objId">
+				<div class='ui-widget ui-widget-content ui-corner-all'>
+					<div class="ui-title ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+						<span class="ui-icon ui-icon-note"></span>
+						<span class="ui-dialog-title">{$option['formTitle']}</span>
+					</div>
+					<table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" style="width:100%;">
+						<tr class='smalltitle'>
+								<td >{$vsLang->getWords('obj_title_gift', 'Nội dung đổi quà')}:</td>
+								<td colspan="3"><input size="64%" type="text" name="giftInfo" value="{$objItem['giftInfo']}" id="giftInfo"/></td>
+						</tr>
+						<tr class='smalltitle'>
+							<td class="label_obj">{$vsLang->getWords('obj_tick', 'Điểm')}: </td>
+							<td><input size="40" type="text" name="giftTick" value="{$objItem['giftTick']}" class="numeric" /> (Vui lòng nhập số) </td>
+						</tr>
+						<!--<tr class='smalltitle'>
+							<td class="label_obj">{$vsLang->getWords('gift_list_sd', 'Số dư')}: </td>
+							<td><input size="40" type="text" name="giftBalance" value="{$objItem['giftBalance']}" class="numeric" /> (Vui lòng nhập số)</td>
+						</tr>-->
+						<tr class='smalltitle'>
+							<td class="ui-dialog-buttonpanel" colspan="4" align="center">
+								<input type="submit" name="submit" value="{$option['formSubmit']}"  />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			<script language="javascript">
+				$(window).ready(function() {
+					$("input.numeric").numeric();
+				});
+				$('#add-edit-opt-form').submit(function(){
+					var title = $("#giftInfo").val();
+					var flag = true;
+					var error = "";
+					if(title == 0 || title == ""){
+						error += "<li>{$vsLang->getWords('null_title', 'Tiêu đề không được trống !!!')}</li>";
+						flag  = false;
+					}
+					
+					if(!flag){
+						error = "<ul class='ul-popu'>" + error + "</ul>";
+						vsf.alert(error);
+						return false;
+					}
+					vsf.submitForm($("#add-edit-opt-form"), "users/add-edit-gift", "opt-panel");
+					vsf.get('users/add-edit-gift-form/{$bw->input[2]}','opt-form');
+					return false;
+				});
+			</script>
+EOF;
+	}
+	
+	function displayListGift($objItems){
+		global $vsLang;		
+		if(count($objItems)>9) $height = "235px";	
+		$BWHTMl .= <<<EOF
+			<div class='ui-widget ui-widget-content ui-corner-all' style="margin-top:15px;">
+				    <div class="ui-title ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+				        <span class="ui-icon ui-icon-note"></span>
+				        <span class="ui-dialog-title">{$vsLang->getWords('user_gift_title',"Danh sách đổi quà")}</span>
+				    </div>
+					<table cellspacing="1" cellpadding="1" id='objListHtmlTable' width="100%">
+						<thead>
+						    <tr>
+						        <th width="75">{$vsLang->getWords('gift_list_date', 'Ngày')}</th>
+						        <th>{$vsLang->getWords('gift_list_title', 'Nội dung')}</th>
+						        <th>{$vsLang->getWords('gift_list_tick', 'Điểm')}</th>
+						        <th width="75">{$vsLang->getWords('gift_list_sd', 'Số dư')}</th>
+						    </tr>
+						</thead>
+						<tbody style="height: $height;  overflow-x: hidden;">
+							<if="count($objItems)">
+								<foreach="$objItems as $key=>$gift">
+									<php>
+										$gift['giftDate'] = VSFDateTime::getDate($gift['giftDate'],"SHORT");
+									</php>
+									<tr class="$vsf_class">
+										<td style='text-align:center'>{$gift['giftDate']}</td>
+										<td>
+											<a href="javascript:;" onclick="vsf.get('users/edit-gift/{$gift['relId']}/{$gift['objectId']}','opt-form')" title="Chỉnh sửa">{$gift['giftInfo']}</a>
+										</td>
+										<td>
+											{$gift['giftTick']}
+										</td>
+										<td algin="center">{$gift["giftBalance"]}</td>
+									</tr>
+								</foreach>
+							</if>
+						</tbody>
+					</table>
+				</div>
+EOF;
+	}
+	
+	function displayGift($option){
+		$BWHTML .= <<<EOF
+			<div id="opt-form">{$option['objForm']}</div>
+			<div id="opt-panel">{$option['objList']}</div>
+			<div class="clear"></div>
+EOF;
+	}
+
 }
 ?>

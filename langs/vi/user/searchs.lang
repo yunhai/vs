@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Tìm kiếm',
+  'main_title' => 'Tìm kiếm',
+  'xemchitiet' => 'xem chi tiết',
+);
+$userLang = array (
+);
+?>

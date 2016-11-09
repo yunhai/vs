@@ -110,10 +110,67 @@ class files_admin
 			case 'displayfiles':
 				$this->displayFilePage();
 				break;
+                            
+          	case 'upload':
+				$this->upload();
+				break;
 			default:
 				$this->loadDefault();
 				break;
 		}
+	}
+
+        function upload(){
+		global $bw,$vsRelation;
+
+		$time = time();
+		$qqname = $bw->input['qqfile'];
+		$path = "messages";
+		$dot = strrpos($qqname, '.');
+		$objName = substr($qqname, 0, $dot);
+		$objext = substr($qqname, $dot+1);
+		$objext = strtolower($objext);
+		
+		$ext = array('gif', 'jpeg', 'jpg', 'png','doc','pdf', 'xls','mp3', 'docx', 'xlsx', 'zip', 'rar','swf','avi','mp4','mpg','wmv','flv','wav','wma');
+		if(!in_array($objext, $ext)){
+			return $this->output = "{error: 'File not allow',fileId: '0'}";
+		}
+
+		$objName = VSFTextCode::removeAccent(trim($objName), "_");
+		$path = $bw->input[fileFolder]?$bw->input[fileFolder]:"messages/";
+		$filepath = UPLOAD_PATH.$path.$objName."_".$time;
+		if(!is_dir(UPLOAD_PATH.$path))
+			mkdir(UPLOAD_PATH.$path, 0777, true );
+
+		$input = fopen("php://input", "r");
+   		$target = fopen($filepath.".".$objext, "w");
+		$fileSize = stream_copy_to_stream($input, $target);
+
+
+		$this->module->obj->convertToObject($bw->input);
+		$this->module->obj->setPath(rtrim($path, '/' ) . "/" );
+//		$this->module->obj->setModule("messages");
+		$this->module->obj->setSize($fileSize);
+		$this->module->obj->setTitle( '~'.$objName );
+		$this->module->obj->setName( '~'.$objName );
+		$this->module->obj->setType($objext);
+		$this->module->obj->setUploadTime($time);
+
+		$this->module->insertObject();
+
+                if($bw->input['albumId']&&$this->module->obj->getId()){
+                        $vsRelation =  new VSFRelationship();
+			$vsRelation->setObjectId($this->module->obj->getId());
+			$vsRelation->setRelId($bw->input['albumId']);
+			$vsRelation->setTableName('rel_gallery_file');
+			$vsRelation->insertRel();
+		}
+
+                if($bw->input['ajax']){
+                  echo "{error: '',success:true, fileId: '{$this->module->obj->getId()}'}";
+                  exit;
+                }
+		return $this->output = "{error: '',success:true, fileId: '{$this->module->obj->getId()}'}";
 	}
 
 	function viewFile() {

@@ -1,20 +1,20 @@
 <?php
 class GroupUser extends BasicObject{
 	private $permission = NULL;
-	
-	
+
+
 	function __construct() {
 		parent::__construct();
 	}
 	/**
-	 * 
+	 *
 	 */
 	public function __destruct() {
 		parent::__destruct();
 		unset($this->permission);
 	}
 
-	
+
 	/**
 	 * validate if GroupAdmin object is valid
 	 * @return void
@@ -58,7 +58,7 @@ class GroupUser extends BasicObject{
 	public function resetPermission() {
 		$this->permission = array();
 	}
-	
+
 	/**
 	 * set all Permission for GroupAdmin
 	 *
@@ -67,7 +67,7 @@ class GroupUser extends BasicObject{
 	public function setPermissions($permissions) {
 		$this->permission = $permissions;
 	}
-	
+
 	/**
 	 * get all Permissions of this GroupAdmin
 	 *
@@ -76,7 +76,7 @@ class GroupUser extends BasicObject{
 	public function getPermissions() {
 		return $this->permission;
 	}
-	
+
 	/**
 	 * get Permission of GroupAdmin
 	 *

@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'services',
+  'main_title' => 'services',
+);
+$userLang = array();
+?>

@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'tuyen-dung',
+  'main_title' => 'tuyen-dung',
+);
+$userLang = array();
+?>

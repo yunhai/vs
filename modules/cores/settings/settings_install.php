@@ -39,11 +39,11 @@ class settings_install {
 				('0','System Email','Example: admin@vietsol.net','admin@vietsol.net','text','global_systememail','0','0','global','0'),
 				('0','Cache for menus','Enable this for better performance. But everytime you add new menu for user, you have to build cache again.','Yes','radio','public_menu_cache','1','1','global','0'),
 				('0','SMTP user','Example: admin@vietsol.net','admin@vietsol.net','text','email_smtp_user','0','1','global','0'),
-				('0','SMTP Password','Example: 123456','123456','password','email_smtp_password','0','1','global','0'),
-				('0','Mail method','Use local PHP method or SMTP','Yes','radio','email_method','1','1','global','0'),
-				('0','SMTP host','Example: smtp.vietsol.net','smtp.valleytech.net','text','email_smtp_host','1','1','global','0'),
+				('0','SMTP Password','Example: 123456','123456','password','email_smtp_password','1','0','global','0'),
+				('0','Mail method','Use local PHP method or SMTP','Yes','radio','email_method','1','0','global','0'),
+				('0','SMTP host','Example: smtp.vietsol.net','localhost','text','email_smtp_host','1','0','global','0'),
 				('0','SMTP port','Example: 25','25','text','email_smtp_port','1','1','global','0'),
-				('0','Email Wrap Brackets','Email Wrap Brackets','Yes','radio','mail_wrap_brackets','1','1','global','0'),
+				('0','Email Wrap Brackets','Email Wrap Brackets','Yes','radio','mail_wrap_brackets','1','0','global','0'),
 				('0','Lifetime of Admin session','Number of minutes for admin time out (Example: 30 minutes)','30','text','admin_timeout','1','1','global','0'),
 				('0','Type of redirect','Use for different OS when you got problem with redirect feature','normal','text','header_redirect','1','0','global','0'),
 				('0','Admin default page','The first page when load admin system','products','text','admin_frontpage','1','1','global','0'),
@@ -53,7 +53,7 @@ class settings_install {
 				('0','Multi Languages for User','Multi Languages for User', 1,'text','user_multi_lang','1','1','global','0'),
 				('0','Multi Languages for Admin','Multi Languages for Admin', 0, 'text','admin_multi_lang','1','1','global','0'),
 				('0','Cache skin wrapper','Cache skin wrapper','1','text','use_cache_skin_wrapper','1','1','global','0'),
-				('0','Public menu cache','Public menu cache','1','text','public_menu_cache','1','2','global','0')
+				('0','Public menu cache','Public menu cache','1','text','public_menu_cache','1','1','global','0')
 		";
 	}
 

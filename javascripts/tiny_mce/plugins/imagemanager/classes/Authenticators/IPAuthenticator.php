@@ -4,7 +4,7 @@
  *
  * @package IPAuthenticator
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -35,10 +35,10 @@ class Moxiecode_IPAuthenticator extends Moxiecode_ManagerPlugin {
 			$ipRange = split('-', $ip);
 
 			if (count($ipRange) == 1 && $this->_ip2int($ipRange[0]) == $currentIP)
-			return true;
+				return true;
 
 			if (count($ipRange) == 2 && $currentIP >= $this->_ip2int($ipRange[0]) && $currentIP <= $this->_ip2int($ipRange[1]))
-			return true;
+				return true;
 		}
 
 		return false;

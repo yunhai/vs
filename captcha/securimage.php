@@ -525,10 +525,10 @@ class Securimage {
 
 		$this->gd_font_file  = 'gdfonts/automatic.gdf';
 		$this->use_gd_font   = false;
-		$this->gd_font_size  = 24;
+		$this->gd_font_size  = 30;
 		$this->text_x_start  = 15;
 
-		$this->ttf_file      = './AHGBold.ttf';
+		$this->ttf_file      = './arial.ttf';
 
 		$this->perturbation       = 0.75;
 		$this->iscale             = 5;

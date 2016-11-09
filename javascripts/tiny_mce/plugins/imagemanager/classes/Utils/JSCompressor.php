@@ -5,7 +5,7 @@
  * @version 1.0
  * @author Moxiecode
  * @site http://www.moxieforge.com/
- * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  * @licence LGPL
  * @ignore
  */
@@ -40,10 +40,10 @@ class Moxiecode_JSCompressor {
 			'patch_ie' => true,
 			'remove_firebug' => false,
 			'name' => ''
-			);
+		);
 
-			$this->_settings = array_merge($default, $settings);
-			$this->_lastUpdate = 0;
+		$this->_settings = array_merge($default, $settings);
+		$this->_lastUpdate = 0;
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Moxiecode_JSCompressor {
 		$mtime = @filemtime($path);
 
 		if ($mtime > $this->_lastUpdate)
-		$this->_lastUpdate = $mtime;
+			$this->_lastUpdate = $mtime;
 	}
 
 	/**
@@ -78,15 +78,15 @@ class Moxiecode_JSCompressor {
 		$key = "";
 
 		foreach ($this->_items as $item)
-		$key .= $item[1];
+			$key .= $item[1];
 
 		// Setup some variables
 		$cacheFile = $this->_settings['cache_dir'] . "/";
 
 		if ($this->_settings['name'])
-		$cacheFile .= preg_replace('/[^a-z0-9_]/i', '', $this->_settings['name']);
+			$cacheFile .= preg_replace('/[^a-z0-9_]/i', '', $this->_settings['name']);
 		else
-		$cacheFile .= md5($key);
+			$cacheFile .= md5($key);
 
 		$supportsGzip = false;
 		$content = "";
@@ -94,14 +94,14 @@ class Moxiecode_JSCompressor {
 
 		// Check if it supports gzip
 		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-		$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
+			$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
 		if ($this->_settings['gzip_compress'] && (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('gzencode') && !ini_get('zlib.output_compression')) {
 			$enc = in_array('x-gzip', $encodings) ? "x-gzip" : "gzip";
 			$supportsGzip = true;
 			$cacheFile .= ".gz";
 		} else
-		$cacheFile .= ".js";
+			$cacheFile .= ".js";
 
 		// Set headers
 		header("Content-type: text/javascript;charset=" . $this->_settings['charset']);
@@ -115,9 +115,9 @@ class Moxiecode_JSCompressor {
 			$url = $_SERVER["PHP_SELF"];
 
 			if (isset($_SERVER["QUERY_STRING"]) && $_SERVER["QUERY_STRING"])
-			$url .= "?" . $_SERVER["QUERY_STRING"] . "&gz=1";
+				$url .= "?" . $_SERVER["QUERY_STRING"] . "&gz=1";
 			else
-			$url .= "?gz=1";
+				$url .= "?gz=1";
 
 			// This script will ensure that the gzipped script gets loaded on IE versions with the Gzip request chunk bug
 
@@ -130,7 +130,7 @@ class Moxiecode_JSCompressor {
 		// Use cached file
 		if ($this->_settings['disk_cache'] && file_exists($cacheFile) && @filemtime($cacheFile) == $this->_lastUpdate) {
 			if ($supportsGzip)
-			header("Content-Encoding: " . $enc);
+				header("Content-Encoding: " . $enc);
 
 			echo $this->_getFileContents($cacheFile);
 			return;
@@ -139,26 +139,26 @@ class Moxiecode_JSCompressor {
 		// Load content
 		foreach ($this->_items as $item) {
 			if ($item[0] == 'file')
-			$chunk = $this->_getFileContents($item[1]);
+				$chunk = $this->_getFileContents($item[1]);
 			else
-			$chunk = $item[1];
+				$chunk = $item[1];
 
 			// Remove UTF-8 BOM
 			if (substr($chunk, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf))
-			$chunk = substr($chunk, 3);
+				$chunk = substr($chunk, 3);
 
 			if ($this->_settings['remove_whitespace'] && $item[2])
-			$chunk = $this->_removeWhiteSpace($chunk);
+				$chunk = $this->_removeWhiteSpace($chunk);
 
 			if (!$item[2])
-			$chunk = "\n" . $chunk . ";\n";
+				$chunk = "\n" . $chunk . ";\n";
 
 			$content .= $chunk;
 		}
 
 		// Remove firebug calls
 		if ($this->_settings['remove_firebug'])
-		$content = preg_replace('/console\\.[^;]+;/', '', $content);
+			$content = preg_replace('/console\\.[^;]+;/', '', $content);
 
 		// GZip content
 		if ($supportsGzip) {
@@ -169,12 +169,12 @@ class Moxiecode_JSCompressor {
 		// Write cache file
 		if ($this->_settings['disk_cache']) {
 			if (!is_dir($this->_settings['cache_dir']))
-			@mkdir($this->_settings['cache_dir']);
+				@mkdir($this->_settings['cache_dir']);
 
 			$this->_putFileContents($cacheFile, $content);
 
 			if (@file_exists($cacheFile))
-			@touch($cacheFile, $this->_lastUpdate);
+				@touch($cacheFile, $this->_lastUpdate);
 		}
 
 		// Output content to client
@@ -201,15 +201,15 @@ class Moxiecode_JSCompressor {
 		$content = preg_replace('/\s+/', ' ', $content);
 
 		// Restore strings and regexps
-		$content = preg_replace_callback('/ï¿½@([^ï¿½]+)ï¿½/', array(&$this, '_itemsToStr'), $content);
-		$content = preg_replace_callback('/ï¿½#([^ï¿½]+)ï¿½/', array(&$this, '_decode'), $content); // Restore all \/, \", \'
+		$content = preg_replace_callback('/¤@([^¤]+)¤/', array(&$this, '_itemsToStr'), $content);
+		$content = preg_replace_callback('/¤#([^¤]+)¤/', array(&$this, '_decode'), $content); // Restore all \/, \", \'
 
 		return $content;
 	}
 
 	function _putFileContents($path, $content) {
 		if (function_exists("file_put_contents"))
-		return @file_put_contents($path, $content);
+			return @file_put_contents($path, $content);
 
 		$fp = @fopen($path, "wb");
 		if ($fp) {
@@ -222,18 +222,18 @@ class Moxiecode_JSCompressor {
 		$path = realpath($path);
 
 		if (!$path || !@is_file($path))
-		return "";
+			return "";
 
 		if (function_exists("file_get_contents"))
-		return @file_get_contents($path);
+			return @file_get_contents($path);
 
 		$content = "";
 		$fp = @fopen($path, "r");
 		if (!$fp)
-		return "";
+			return "";
 
 		while (!feof($fp))
-		$content .= fread($fp, 1024);
+			$content .= fread($fp, 1024);
 
 		fclose($fp);
 
@@ -243,7 +243,7 @@ class Moxiecode_JSCompressor {
 	function _strToItems($matches) {
 		$this->_strings[] = $matches[0];
 
-		return 'ï¿½@' . ($this->_count++) . 'ï¿½';
+		return '¤@' . ($this->_count++) . '¤';
 	}
 
 	function _itemsToStr($matches) {
@@ -253,7 +253,7 @@ class Moxiecode_JSCompressor {
 	function _encode($matches) {
 		$this->_strings[] = $matches[0];
 
-		return 'ï¿½#' . ($this->_count++) . 'ï¿½';
+		return '¤#' . ($this->_count++) . '¤';
 	}
 
 	function _decode($matches) {
@@ -265,15 +265,15 @@ class Moxiecode_JSCompressor {
 
 		// Hours
 		if (strpos($time, "h") != false)
-		$multipel = 60 * 60;
+			$multipel = 60 * 60;
 
 		// Days
 		if (strpos($time, "d") != false)
-		$multipel = 24 * 60 * 60;
+			$multipel = 24 * 60 * 60;
 
 		// Months
 		if (strpos($time, "m") != false)
-		$multipel = 24 * 60 * 60 * 30;
+			$multipel = 24 * 60 * 60 * 30;
 
 		// Trim string
 		return intval($time) * $multipel;

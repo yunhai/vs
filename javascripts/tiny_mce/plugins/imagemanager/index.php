@@ -1,10 +1,10 @@
 <?php
 
 /*
- // Use specified session instead
- if (isset($_REQUEST['sessionid']))
- session_id($_REQUEST['sessionid']);
- */
+// Use specified session instead
+if (isset($_REQUEST['sessionid']))
+	session_id($_REQUEST['sessionid']);
+*/
 
 // Use install
 if (file_exists("install")) {
@@ -45,14 +45,14 @@ $man->dispatchEvent("onPreInit", array($type));
 $pluginPaths = $man->getPluginPaths();
 
 foreach ($pluginPaths as $path)
-require_once($path);
+	require_once($path);
 
 $config = $man->getConfig();
 
 $suffix = "";
 
 if ($domain)
-$suffix .= "?domain=" . $domain;
+	$suffix .= "?domain=" . $domain;
 
 // Dispatch onInit event
 if ($man->isAuthenticated()) {

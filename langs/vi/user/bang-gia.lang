@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Bảng giá dịch vụ',
+  'main_title' => 'Bảng giá dịch vụ',
+  'cactinkhac2' => 'CÁC TIN KHÁC',
+);
+$userLang = array (
+);
+?>

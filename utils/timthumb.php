@@ -11,7 +11,7 @@
     h: height
     zc: zoom crop (0 or 1)
     q: quality (default is 75 and max is 100)
-    
+
     HTML example: <img src="/scripts/timthumb.php?src=/images/whatever.jpg&w=150&h=200&zc=1" alt="" />
 */
 
@@ -22,7 +22,7 @@ $sizeLimits = array(
 );
 
 error_reporting(E_ALL);
-ini_set("display_errors", 1); 
+ini_set("display_errors", 1);
 */
 
 // check to see if GD function exist
@@ -67,7 +67,7 @@ $lastModified = filemtime($src);
 $new_width         = preg_replace("/[^0-9]+/", '', get_request('w', 0));
 $new_height     = preg_replace("/[^0-9]+/", '', get_request('h', 0));
 $zoom_crop         = preg_replace("/[^0-9]+/", '', get_request('zc', 1));
-$quality         = preg_replace("/[^0-9]+/", '', get_request('q', 80));
+$quality         = preg_replace("/[^0-9]+/", '', get_request('q', 100));
 $filters        = get_request('f', '');
 $sharpen        = get_request('s', 0);
 
@@ -85,7 +85,7 @@ check_cache ($mime_type);
 // if not in cache then clear some space and generate a new file
 cleanCache();
 
-ini_set('memory_limit', '50M');
+ini_set('memory_limit', '100M');
 
 // make sure that the src is gif/jpg/png
 if(!valid_src_mime_type($mime_type)) {
@@ -102,19 +102,29 @@ if(strlen($src) && file_exists($src)) {
     // Get original width and height
     $width = imagesx($image);
     $height = imagesy($image);
-    
+
+    if($zoom_crop==2){
+        if($new_width&&$new_height){
+            $img_true = $width/$height;
+            $img_crop = $new_width/$new_height;
+            if($img_crop > $img_true)$new_height=0;
+            else $new_width = 0;
+        }
+        $zoom_crop = 0;
+    }
+
     // generate new w/h if not provided
     if( $new_width && !$new_height ) {
         $new_height = $height * ( $new_width / $width );
-        
+
     } elseif($new_height && !$new_width) {
         $new_width = $width * ( $new_height / $height );
-        
+
     } elseif(!$new_width && !$new_height) {
         $new_width = $width;
         $new_height = $height;
     }
-    
+
     // create a new true color image
     $canvas = imagecreatetruecolor( $new_width, $new_height );
     imagealphablending($canvas, false);
@@ -124,7 +134,7 @@ if(strlen($src) && file_exists($src)) {
     imagefill($canvas, 0, 0, $color);
     // Restore transparency blending
     imagesavealpha($canvas, true);
-   
+
     if( $zoom_crop ) {
         $src_x = $src_y = 0;
         $src_w = $width;
@@ -146,7 +156,7 @@ if(strlen($src) && file_exists($src)) {
         // copy and resize part of an image with resampling
         imagecopyresampled( $canvas, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
     }
-    
+
     if ($filters != '' && function_exists('imagefilter') && defined('IMG_FILTER_NEGATE')) {
         // apply filters to image
         $filterList = explode("|", $filters);
@@ -171,12 +181,12 @@ if(strlen($src) && file_exists($src)) {
                     default:
                         imagefilter($canvas, $imageFilters[$filterSettings[0]][0]);
                         break;
-                        
+
                 }
             }
         }
     }
-	
+
 	if ($sharpen > 0 && function_exists('imageconvolution')) {
 			$sharpenMatrix = array(
 			array(-1,-1,-1),
@@ -187,13 +197,13 @@ if(strlen($src) && file_exists($src)) {
 		$offset = 0;
 		imageconvolution($canvas, $sharpenMatrix, $divisor, $offset);
 	}
-    
+
     // output image to browser based on mime type
     show_image($mime_type, $canvas);
-    
+
     // remove image from memory
     imagedestroy($canvas);
-    
+
 } else {
 
     if (strlen($src)) {
@@ -201,11 +211,11 @@ if(strlen($src) && file_exists($src)) {
     } else {
         displayError ('no source specified');
     }
-    
+
 }
 
 /**
- * 
+ *
  */
 function show_image($mime_type, $image_resized) {
 
@@ -216,80 +226,80 @@ function show_image($mime_type, $image_resized) {
     $cache_file_name = DIRECTORY_CACHE . '/' . get_cache_file();
 
     if (touch($cache_file_name)) {
-        
-        // give 666 permissions so that the developer 
+
+        // give 666 permissions so that the developer
         // can overwrite web server user
         chmod ($cache_file_name, 0666);
         $is_writable = 1;
-        
+
     } else {
-        
+
         $cache_file_name = NULL;
         header ('Content-type: ' . $mime_type);
-        
+
     }
 
     switch ($mime_type) {
-    
+
         case 'image/jpeg':
             imagejpeg($image_resized, $cache_file_name, $quality);
             break;
-        
+
         default :
             $quality = floor ($quality * 0.09);
             imagepng($image_resized, $cache_file_name, $quality);
-            
+
     }
-    
+
     if ($is_writable) {
         show_cache_file ($mime_type);
     }
 
     imagedestroy ($image_resized);
-    
+
     displayError ('error showing image');
 
 }
 
 /**
- * 
+ *
  */
 function get_request( $property, $default = 0 ) {
-    
+
     if( isset($_REQUEST[$property]) ) {
-    
+
         return $_REQUEST[$property];
-        
+
     } else {
-    
+
         return $default;
-        
+
     }
-    
+
 }
 
 /**
- * 
+ *
  */
 function open_image($mime_type, $src) {
 
 	$mime_type = strtolower($mime_type);
-	
+
     if (stristr ($mime_type, 'gif')) {
-    
+
         $image = imagecreatefromgif($src);
-        
+
     } elseif (stristr($mime_type, 'jpeg')) {
-    
+
         @ini_set ('gd.jpeg_ignore_warning', 1);
         $image = imagecreatefromjpeg($src);
-        
+
     } elseif (stristr ($mime_type, 'png')) {
-    
+
         $image = imagecreatefrompng($src);
-        
+
     }
-    
+
     return $image;
 
 }
@@ -301,36 +311,36 @@ function open_image($mime_type, $src) {
 function cleanCache() {
 
     $files = glob("cache/*", GLOB_BRACE);
-    
+
     if (count($files) > 0) {
-    
+
         $yesterday = time() - (24 * 60 * 60);
-        
+
         usort($files, 'filemtime_compare');
         $i = 0;
-        
+
         if (count($files) > CACHE_SIZE) {
-            
+
             foreach ($files as $file) {
-                
+
                 $i ++;
-                
+
                 if ($i >= CACHE_CLEAR) {
                     return;
                 }
-                
+
                 if (@filemtime($file) > $yesterday) {
                     return;
                 }
-                
+
 				if (file_exists($file)) {
 					unlink($file);
 				}
-                
+
             }
-            
+
         }
-        
+
     }
 
 }
@@ -342,7 +352,7 @@ function cleanCache() {
 function filemtime_compare($a, $b) {
 
     return filemtime($a) - filemtime($b);
-    
+
 }
 
 
@@ -351,9 +361,9 @@ function filemtime_compare($a, $b) {
  */
 function mime_type($file) {
 
-    if (stristr(PHP_OS, 'WIN')) { 
+    if (stristr(PHP_OS, 'WIN')) {
         $os = 'WIN';
-    } else { 
+    } else {
         $os = PHP_OS;
     }
 
@@ -362,7 +372,7 @@ function mime_type($file) {
     if (function_exists('mime_content_type') && $os != 'WIN') {
         $mime_type = mime_content_type($file);
     }
-    
+
 	// use PECL fileinfo to determine mime type
 	if (!valid_src_mime_type($mime_type)) {
 		if (function_exists('finfo_open')) {
@@ -397,34 +407,34 @@ function mime_type($file) {
              'png'  => 'image/png',
              'gif'  => 'image/gif'
          );
-        
+
         if (strlen($ext) && strlen($types[$ext])) {
             $mime_type = $types[$ext];
         }
-        
+
     }
-    
+
     return $mime_type;
 
 }
 
 
 /**
- * 
+ *
  */
 function valid_src_mime_type($mime_type) {
 
     if (preg_match("/jpg|jpeg|gif|png/i", $mime_type)) {
         return true;
     }
-    
+
     return false;
 
 }
 
 
 /**
- * 
+ *
  */
 function check_cache ($mime_type) {
 
@@ -442,18 +452,18 @@ function check_cache ($mime_type) {
 
 
 /**
- * 
+ *
  */
 function show_cache_file ($mime_type) {
 
     $cache_file = DIRECTORY_CACHE . '/' . get_cache_file();
     if (file_exists($cache_file)) {
         $gmdate_mod = gmdate("D, d M Y H:i:s", filemtime($cache_file));
-        
+
         if(! strstr($gmdate_mod, "GMT")) {
             $gmdate_mod .= " GMT";
         }
-        
+
         if (isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
             // check for updates
             $if_modified_since = preg_replace ("/;.*$/", "", $_SERVER["HTTP_IF_MODIFIED_SINCE"]);
@@ -463,7 +473,7 @@ function show_cache_file ($mime_type) {
             }
 
         }
-        
+
 		$fileSize = filesize ($cache_file);
         $buffer = file_get_contents($cache_file);
         ob_get_clean();
@@ -481,23 +491,23 @@ function show_cache_file ($mime_type) {
         echo $sContents;
         die();
     }
-    
+
 }
 
 
 /**
- * 
+ *
  */
 function get_cache_file() {
 
     global $lastModified;
     static $cache_file;
-    
+
     if (!$cache_file) {
         $cachename = $_SERVER['QUERY_STRING'] . VERSION . $lastModified;
         $cache_file = md5($cachename) . '.png';
     }
-    
+
     return $cache_file;
 
 }
@@ -513,7 +523,7 @@ function valid_extension ($ext) {
     } else {
         return FALSE;
     }
-    
+
 }
 
 
@@ -531,9 +541,9 @@ function checkExternal ($src) {
     );
 
     if (preg_match('/http:\/\//', $src) == true) {
-    
+
         $url_info = parse_url ($src);
-        
+
         $isAllowedSite = false;
         foreach ($allowedSites as $site) {
 			$site = '/' . addslashes($site) . '/';
@@ -541,69 +551,47 @@ function checkExternal ($src) {
                 $isAllowedSite = true;
             }
 		}
-        
+
 		if ($isAllowedSite) {
-		
+
 			$fileDetails = pathinfo($src);
 			$ext = strtolower($fileDetails['extension']);
-			
+
 			$filename = md5($src);
 			$local_filepath = DIRECTORY_TEMP . '/' . $filename . '.' . $ext;
-            
-            if (!file_exists($local_filepath)) {
-                
-            	if (function_exists('curl_init')) {
-                
-                    $fh = fopen($local_filepath, 'w');
-                    $ch = curl_init($src);
-                    
-                    curl_setopt($ch, CURLOPT_URL, $src);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-					curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-					curl_setopt($ch, CURLOPT_HEADER, 0);
-                    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0');
-                    curl_setopt($ch, CURLOPT_FILE, $fh);
-					
-					if (curl_exec($ch) === FALSE) {
-						if (file_exists($local_filepath)) {
-							unlink($local_filepath);
-						}
-						displayError('error reading file ' . $src . ' from remote host: ' . curl_error($ch));
-					}
-					
-					curl_close($ch);
-					fclose($fh);
 
-                } else {
-            
+            if (!file_exists($local_filepath)) {
+
+                {
+
                     if (!$img = file_get_contents($src)) {
                         displayError('remote file for ' . $src . ' can not be accessed. It is likely that the file permissions are restricted');
                     }
-                    
+
                     if (file_put_contents($local_filepath, $img) == FALSE) {
                         displayError('error writing temporary file');
                     }
-                    
+
                 }
-                
+
                 if (!file_exists($local_filepath)) {
                     displayError('local file for ' . $src . ' can not be created');
                 }
-                
+
             }
-            
+
             $src = $local_filepath;
-            
+
         } else {
-        
+
             displayError('remote host "' . $url_info['host'] . '" not allowed');
-            
+
         }
-        
+
     }
-    
+
     return $src;
-    
+
 }
 
 
@@ -614,20 +602,20 @@ function cleanSource($src) {
 
 	$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 	$regex = "/^((ht|f)tp(s|):\/\/)(www\.|)" . $host . "/i";
-	
+
 	$src = preg_replace ($regex, '', $src);
 	$src = strip_tags ($src);
     $src = checkExternal ($src);
-    
+
     // remove slash from start of string
     if (strpos($src, '/') === 0) {
         $src = substr ($src, -(strlen($src) - 1));
     }
 
-    // don't allow users the ability to use '../' 
+    // don't allow users the ability to use '../'
     // in order to gain access to files below document root
     $src = preg_replace("/\.\.+\//", "", $src);
-    
+
     // get path to image on file system
     $src = get_document_root($src) . '/' . $src;
 
@@ -637,7 +625,7 @@ function cleanSource($src) {
 
 
 /**
- * 
+ *
  */
 function get_document_root ($src) {
 
@@ -654,8 +642,8 @@ function get_document_root ($src) {
         if (file_exists($path . '/' . $src)) {
             return $path;
         }
-    }    
-    
+    }
+
     // the relative paths below are useful if timthumb is moved outside of document root
     // specifically if installed in wordpress themes like mimbo pro:
     // /wp-content/themes/mimbopro/scripts/timthumb.php
@@ -667,23 +655,23 @@ function get_document_root ($src) {
         "../../../..",
         "../../../../.."
     );
-    
+
     foreach ($paths as $path) {
         if(file_exists($path . '/' . $src)) {
             return $path;
         }
     }
-    
+
     // special check for microsoft servers
     if (!isset($_SERVER['DOCUMENT_ROOT'])) {
         $path = str_replace("/", "\\", $_SERVER['ORIG_PATH_INFO']);
         $path = str_replace($path, "", $_SERVER['SCRIPT_FILENAME']);
-        
+
         if (file_exists($path . '/' . $src)) {
             return $path;
         }
-    }    
-    
+    }
+
     displayError('file not found ' . $src);
 
 }
@@ -697,6 +685,6 @@ function displayError ($errorString = '') {
     header('HTTP/1.1 400 Bad Request');
 	echo '<pre>' . $errorString . '<br />TimThumb version : ' . VERSION . '</pre>';
     die();
-    
+
 }
 ?>

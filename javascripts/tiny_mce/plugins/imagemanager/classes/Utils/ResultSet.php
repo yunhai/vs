@@ -4,7 +4,7 @@
  *
  * @package MCManager.utils
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -42,23 +42,23 @@ class Moxiecode_ResultSet {
 
 	function getRows() {
 		$rowsArr = array();
-
+		
 		for ($i=0; $i<count($this->_rows);$i++)
-		$rowsArr[] = $this->getRow($i);
+			$rowsArr[] = $this->getRow($i);
 
 		return $rowsArr;
 	}
 
 	function getRow($index) {
 		if ($index < 0)
-		return null;
+			return null;
 
 		$row = $this->_rows[$index];
 
 		$obj = array();
 
 		for ($i=0; $i<count($row);$i++)
-		$obj[$this->_cols[$i]] = $row[$i];
+			$obj[$this->_cols[$i]] = $row[$i];
 
 		return $obj;
 	}
@@ -71,7 +71,7 @@ class Moxiecode_ResultSet {
 		);
 
 		if (is_array($this->_config))
-		$ar["config"] = $this->_config;
+			$ar["config"] = $this->_config;
 
 		return $ar;
 	}

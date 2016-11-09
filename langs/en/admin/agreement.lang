@@ -1,6 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'agreement',
-  'main_title' => 'agreement',
-);
-?>

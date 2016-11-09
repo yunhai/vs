@@ -10,10 +10,8 @@ var EmotionsDialog = {
 
 		tinyMCEPopup.execCommand('mceInsertContent', false, dom.createHTML('img', {
 			src : tinyMCEPopup.getWindowArg('plugin_url') + '/img/' + file,
-//			alt : ed.getLang(title),
-//			title : ed.getLang(title),
-			alt : title,
-			title : title,
+			alt : ed.getLang(title),
+			title : ed.getLang(title),
 			border : 0
 		}));
 

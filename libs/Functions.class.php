@@ -215,7 +215,7 @@ class VSFFunction {
 
 		$return['request_method'] = strtolower($_SERVER['REQUEST_METHOD']);
 		if($return['ajax'])
-			$return=$this->parse_ajax($return);
+		$return=$this->parse_ajax($return);
 		return $return;
 	}
 
@@ -224,7 +224,7 @@ class VSFFunction {
 	/*-------------------------------------------------------------------------*/
 
 	function parse_ajax($array=array()) {
-		$arrTem= explode('&amp;', $array['vs']);
+		$arrTem= explode('&amp;',$array['vs']);
 		$array['vs']=$arrTem[0];
 		$count= count($arrTem);
 		if($count>1){
@@ -340,6 +340,42 @@ class VSFFunction {
 			}
 		}
 		return $chosen;
+	}
+    function scaleImage($string,$width,$height) {
+		global $bw, $DB, $vsStd;
+		if(!file_exists($string))
+			return array();
+		$image = @getimagesize($string);
+		$height=$height?$height:$image['1'];
+		$width=$width?$width:$image['0'];
+		if($image['0']>$image['1']&&$image['1']>0){
+			if(($image['0']/$image['1'])>($width/$height)&&$image['0']>$width)
+			{
+				$tmp = $image['0']/$width;
+				$sheight = $image['1']/$tmp;
+				$swidth=$width;
+			}elseif($image['1']>$height)
+			{
+				$tmp = $image['1']/$height;
+				$swidth = $image['0']/$tmp;
+				$sheight=$height;
+			}
+		}elseif($image['0']>0) {
+			if(($image['1']/$image['0'])>($height/$width)&&$image['1']>$height)
+			{
+				$tmp = $image['1']/$height;
+				$swidth = $image['0']/$tmp;
+				$sheight=$height;
+			}elseif($image['0']>$width){
+				$tmp = $image['0']/$width;
+				$sheight = $image['1']/$tmp;
+				$swidth=$width;
+			}
+		}
+		$size['width'] = $swidth?$swidth:$image['0'];
+		$size['height'] = $sheight?$sheight:$image['1'];
+		$size['padding-top'] =$size['height']?(($height-$size['height'])/2):0;
+		return $size;
 	}
 
 }

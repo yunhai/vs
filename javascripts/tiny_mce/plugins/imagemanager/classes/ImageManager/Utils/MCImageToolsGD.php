@@ -4,7 +4,7 @@
  *
  * @package MCImageManager.utils
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -53,7 +53,7 @@ class ImageToolsGD {
 		}
 
 		if (!$this->canEdit($ext))
-		return false;
+			return false;
 
 		$this->_quality = $quality;
 		$this->_source = $source;
@@ -95,7 +95,7 @@ class ImageToolsGD {
 	 */
 	function rotateImage($source, $target, $ext, $angle = "90", $bgc = "0", $quality = "") {
 		if (!$this->canEdit($ext))
-		return false;
+			return false;
 
 		$this->_angle = $angle;
 		$this->_source = $source;
@@ -119,7 +119,7 @@ class ImageToolsGD {
 			case "bmp":
 				return false;
 		}
-
+		
 		return false;
 	}
 
@@ -137,7 +137,7 @@ class ImageToolsGD {
 	 */
 	function cropImage($source, $target, $top, $left, $width, $height, $ext, $quality="") {
 		if (!$this->canEdit($ext))
-		return false;
+			return false;
 
 		$this->_left = $left;
 		$this->_top = $top;
@@ -176,7 +176,7 @@ class ImageToolsGD {
 	 */
 	function flipImage($source, $target, $ext, $vert = false, $hori = false, $quality="") {
 		if (!$this->canEdit($ext))
-		return false;
+			return false;
 
 		$this->_source = $source;
 		$this->_target = $target;
@@ -217,12 +217,12 @@ class ImageToolsGD {
 		imagecolortransparent($image, $transparent);
 
 		ImageCopyResampled($image, $source, 0, 0, $this->_left, $this->_top, $this->_width, $this->_height, $this->_width, $this->_height);
-
+		
 		ImageDestroy($source);
 		$result = ImageGif($image, $this->_target);
 		ImageDestroy($image);
-
-		return $result;
+		
+		return $result; 
 	}
 
 	/**
@@ -233,9 +233,9 @@ class ImageToolsGD {
 		$source = ImagecreateFromPng($this->_source);
 
 		if ($this->_isPNG8($this->_source))
-		$image = ImageCreate($this->_width, $this->_height);
+			$image = ImageCreate($this->_width, $this->_height);
 		else
-		$image = ImageCreateTrueColor($this->_width, $this->_height);
+			$image = ImageCreateTrueColor($this->_width, $this->_height);
 
 		imagealphablending($image, false);
 		imagesavealpha($image, true);
@@ -262,13 +262,13 @@ class ImageToolsGD {
 
 		// this should set it to same file
 		if ($this->_quality != "")
-		$result = ImageJpeg($image, $this->_target, $this->_quality);
+			$result = ImageJpeg($image, $this->_target, $this->_quality);
 		else
-		$result = ImageJpeg($image, $this->_target);
+			$result = ImageJpeg($image, $this->_target);
 
 		ImageDestroy($image);
-
-
+		
+		
 		return $result;
 	}
 
@@ -300,9 +300,9 @@ class ImageToolsGD {
 			case 'jpeg':
 			case 'jpg':
 				if ($this->_quality != "")
-				$result = ImageJpeg($image, $this->_target, $this->_quality);
+					$result = ImageJpeg($image, $this->_target, $this->_quality);
 				else
-				$result = ImageJpeg($image, $this->_target);
+					$result = ImageJpeg($image, $this->_target);
 
 				break;
 
@@ -312,7 +312,7 @@ class ImageToolsGD {
 		}
 
 		ImageDestroy($image);
-
+		
 		return $result;
 	}
 
@@ -324,9 +324,9 @@ class ImageToolsGD {
 		$source = imagecreatefrompng($this->_source);
 
 		if ($this->_isPNG8($this->_source))
-		$image = ImageCreate($this->_width, $this->_height);
+			$image = ImageCreate($this->_width, $this->_height);
 		else
-		$image = ImageCreateTrueColor($this->_width, $this->_height);
+			$image = ImageCreateTrueColor($this->_width, $this->_height);
 
 		imagealphablending($image, true);
 		imagesavealpha($image, true);
@@ -348,9 +348,9 @@ class ImageToolsGD {
 			case 'jpeg':
 			case 'jpg':
 				if ($this->_quality != "")
-				$result = ImageJpeg($image, $this->_target, $this->_quality);
+					$result = ImageJpeg($image, $this->_target, $this->_quality);
 				else
-				$result = ImageJpeg($image, $this->_target);
+					$result = ImageJpeg($image, $this->_target);
 
 				break;
 
@@ -384,9 +384,9 @@ class ImageToolsGD {
 			case 'jpeg':
 			case 'jpg':
 				if ($this->_quality != "")
-				$result = ImageJpeg($image, $this->_target, $this->_quality);
+					$result = ImageJpeg($image, $this->_target, $this->_quality);
 				else
-				$result = ImageJpeg($image, $this->_target);
+					$result = ImageJpeg($image, $this->_target);
 
 				break;
 
@@ -410,9 +410,9 @@ class ImageToolsGD {
 			case 90:
 				$fill = imagecreatetruecolor ($height, $width);
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
+			break;
 
 			case 180:
 				$this->_hori = true;
@@ -422,9 +422,9 @@ class ImageToolsGD {
 			case 270:
 				$fill = imagecreatetruecolor ($height, $width);
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
+			break;
 		}
 
 		ImageDestroy($image);
@@ -444,14 +444,14 @@ class ImageToolsGD {
 		switch ($this->_angle) {
 			case 90:
 				if ($this->_isPNG8($this->_source))
-				$fill = ImageCreate($height, $width);
+					$fill = ImageCreate($height, $width);
 				else
-				$fill = ImageCreateTrueColor($height, $width);
+					$fill = ImageCreateTrueColor($height, $width);
 
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy ($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy ($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
+			break;
 
 			case 180:
 				$this->_hori = true;
@@ -460,16 +460,16 @@ class ImageToolsGD {
 
 			case 270:
 				if ($this->_isPNG8($this->_source))
-				$fill = ImageCreate($height, $width);
+					$fill = ImageCreate($height, $width);
 				else
-				$fill = ImageCreateTrueColor($height, $width);
+					$fill = ImageCreateTrueColor($height, $width);
 
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy ($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy ($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
+			break;
 		}
-
+		
 		ImageDestroy($image);
 		$result = ImagePng($fill, $this->_target);
 		ImageDestroy($fill);
@@ -487,9 +487,9 @@ class ImageToolsGD {
 			case 90:
 				$fill = imagecreatetruecolor ($height, $width);
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
+			break;
 
 			case 180:
 				$this->_hori = true;
@@ -499,11 +499,11 @@ class ImageToolsGD {
 			case 270:
 				$fill = imagecreatetruecolor ($height, $width);
 				for ($x=0; $x<$width; $x++)
-				for ($y=0; $y<$height; $y++)
-				imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
-				break;
+					for ($y=0; $y<$height; $y++)
+						imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
+			break;
 		}
-
+		
 		ImageDestroy($image);
 		$result = ImageGif($fill, $this->_target);
 		ImageDestroy($fill);
@@ -517,21 +517,21 @@ class ImageToolsGD {
 		$height = imagesy($source);
 
 		if ($this->_isPNG8($this->_source))
-		$image = ImageCreate($height, $width);
+			$image = ImageCreate($height, $width);
 		else
-		$image = ImageCreateTrueColor($height, $width);
+			$image = ImageCreateTrueColor($height, $width);
 
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
-			ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
+				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
 
 			if ($this->_vert)
-			ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 		}
 
 		if ($this->_vert) {
 			for ($i=0; $i<$height; $i++)
-			ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
+				ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
 		}
 
 		ImageDestroy($source);
@@ -552,17 +552,17 @@ class ImageToolsGD {
 
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
-			ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
+				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
 
 			$processed = true;
 		}
 
 		if ($this->_vert) {
 			for ($i=0; $i<$height; $i++)
-			ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
+				ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
 
 			if ($this->_vert)
-			ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 
 			$processed = true;
 		}
@@ -570,9 +570,9 @@ class ImageToolsGD {
 		ImageDestroy($source);
 
 		if ($processed)
-		$result = ImageJpeg($image, $this->_target);
+			$result = ImageJpeg($image, $this->_target);
 		else
-		$result = false;
+			$result = false;
 
 		ImageDestroy($image);
 
@@ -588,17 +588,17 @@ class ImageToolsGD {
 
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
-			ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
+				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
 
 			ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
 
 			if ($this->_vert)
-			ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 		}
 
 		if ($this->_vert) {
 			for ($i=0; $i<$height; $i++)
-			ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
+				ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
 		}
 
 		ImageDestroy($source);
@@ -619,13 +619,13 @@ class ImageToolsGD {
 					$buff = fread($fp, 4);
 
 					if (strlen($buff) != 4)
-					break;
+						break;
 
 					$chunk = unpack('Nlen', $buff);
 					$chunk['type'] = fread($fp, 4);
 
 					if (strlen($chunk['type']) != 4)
-					break;
+						break;
 
 					// Found header then read it
 					if ($chunk['type'] == 'IHDR') {
@@ -663,7 +663,7 @@ class ImageToolsGD {
 
 		foreach($list as $item) {
 			if (!function_exists($item))
-			return false;
+				return false;
 		}
 
 		return true;
@@ -671,7 +671,7 @@ class ImageToolsGD {
 
 	/**
 	 * Get the support with current GD.
-	 * @param String $type Extensions of image.
+ 	 * @param String $type Extensions of image.
 	 * @return Array An array with booleans, crop, resize, rotate.
 	 */
 	function getEditSupport($type) {
@@ -683,17 +683,17 @@ class ImageToolsGD {
 			case "jpg":
 				$resize = $this->hasFunctions("ImageCreateTrueColor,ImageCopyResampled,ImageSX,ImageSY");
 				$crop = $this->hasFunctions("ImageCreateTrueColor,ImageCopyResampled");
-				break;
+			break;
 
 			case "gif":
 				$resize = $this->hasFunctions("imagecolorallocate,imagefilledrectangle,imagecolortransparent,ImageCopyResampled,ImageSX,ImageSY");
 				$crop = $this->hasFunctions("imagecolorallocate,imagefilledrectangle,imagecolortransparent,ImageCopyResampled");
-				break;
+			break;
 
 			case "png":
 				$resize = $this->hasFunctions("imagecolorallocate,imagefilledrectangle,imagecolortransparent,ImageCopyResampled,ImageSX,ImageSY");
 				$crop = $this->hasFunctions("imagealphablending,imagesavealpha,ImageColorTransparent,ImageCopyResampled,ImageCreateTrueColor");
-				break;
+			break;
 		}
 
 		return array($crop, $resize, $rotate);
@@ -722,7 +722,7 @@ class ImageToolsGD {
 
 		foreach ($chunks as $chunk) {
 			if (!$chunk)
-			continue;
+				continue;
 
 			$parts = explode('=', $chunk);
 			$actions = array();
@@ -755,7 +755,7 @@ class ImageToolsGD {
 
 			// Add default action
 			if (count($actions) == 0)
-			$actions[] = "resize";
+				$actions[] = "resize";
 
 			// Scale it
 			if ($targetWidth != $width || $targetHeight != $height) {
@@ -811,7 +811,7 @@ class ImageToolsGD {
 
 		foreach ($chunks as $chunk) {
 			if (!$chunk)
-			continue;
+				continue;
 
 			$parts = explode('=', $chunk);
 
@@ -860,38 +860,38 @@ class ImageToolsGD {
 			$outPath = dirname($path) . '/' . $outPath;
 
 			if (file_exists($outPath))
-			unlink($outPath);
+				unlink($outPath);
 		}
 	}
 
 	/**
 	 * Check for the GD functions that are beeing used.
-	 * @param String $type Extensions of image.
+  	 * @param String $type Extensions of image.
 	 * @return Bool true or false depending on success or not.
 	 */
 	function canEdit($type) {
 		// just make a quick check, we dont need to loop if we can't find GD at all.
 		if (!function_exists("gd_info"))
-		return false;
+			return false;
 
 		$gdUsedFunctions = array();
 
 		// Check type specific functions
 		switch ($type) {
 			case "jpg":
-				$gdUsedFunctions[] = "ImagecreateFromJpeg";
+				$gdUsedFunctions[] = "ImagecreateFromJpeg";		
 				$gdUsedFunctions[] = "ImageJpeg";
-				break;
+			break;
 
 			case "gif":
 				$gdUsedFunctions[] = "ImagecreateFromGif";
 				$gdUsedFunctions[] = "ImageGif";
-				break;
+			break;
 
 			case "png":
 				$gdUsedFunctions[] = "ImagecreateFromPng";
 				$gdUsedFunctions[] = "ImagePng";
-				break;
+			break;
 
 			default:
 				return false;
@@ -915,7 +915,7 @@ class ImageToolsGD {
 		// Figure out what needs to be created
 		while ($path) {
 			if (file_exists($path))
-			break;
+				break;
 
 			$dirs[] = $path;
 			$pathAr = explode("/", $path);
@@ -927,7 +927,7 @@ class ImageToolsGD {
 		$dirs = array_reverse($dirs);
 		foreach ($dirs as $path) {
 			if (!@is_dir($path) && strlen($path) > 0)
-			mkdir($path, $rights);
+				mkdir($path, $rights);
 		}
 	}
 }

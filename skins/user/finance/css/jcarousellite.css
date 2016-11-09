@@ -1,0 +1,15 @@
+
+.slide_adverting{
+	width:230px;
+	margin:auto;
+}
+.slide_adverting li{
+	border:1px solid #dcdcdcs;
+	height:102px;
+	width:228px;
+	overflow:hidden;
+	margin-bottom:14px;
+}
+.slide_adverting li a{
+	display:block;
+}

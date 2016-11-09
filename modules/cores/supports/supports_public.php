@@ -16,7 +16,7 @@ if(!defined('IN_VSF')){
 	exit();
 }
 require_once(CORE_PATH."supports/supports.php");
-class supports_public {
+class supports_public{
 	protected $html = "";
 	protected $module;
 	protected $output = "";

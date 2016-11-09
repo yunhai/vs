@@ -18,26 +18,18 @@ class languages {
 	public $result = array();
 	public $objsource = "";
 
-	// Object constructor
 	function __construct() {
-
 		$this->language = new Lang();
-		// Set table to work with
 		$this->objsource = "langs";
 		$this->getAllLang();
 	}
 
 	public function getLangByObject($methods=array(),$langArry=array()) {
-		foreach ($methods as $method) {
-
-			foreach ($langArry as $lang) {
-				if($lang->$method()!=$this->language->$method()) {
+		foreach ($methods as $method)
+			foreach ($langArry as $lang){
+				if($lang->$method() != $this->language->$method())
 					unset($langArry[$lang->getId()]);
-				}
 			}
-				
-		}
-
 		return $langArry;
 	}
 
@@ -53,7 +45,12 @@ class languages {
 			$this->result['message'] = $vsLang->getWords('lang_no_id','There is no item with specified ID!');
 			return;
 		}
-
+//		print "<pre>";
+//		print_r($this->language->getId());
+//		print "</pre>";
+//print "<pre>";
+//print_r($this->arrayLang);
+//print "</pre>";
 		return $this->arrayLang[$this->language->getId()];
 	}
 
@@ -153,9 +150,8 @@ class languages {
 
 		$flags = array();
 		while($file=readdir($dh)) {
-			if($file=="." || $file==".." || is_dir($flagspath.$file)) continue;
-				
-			$flags[] = array('name'=>substr($file,0,-4),'value' => $file);
+			if($file=="." || $file==".." || $file==".svn" || is_dir($flagspath.$file)) continue;
+				$flags[] = array('name'=>substr($file,0,-4),'value' => $file);
 		}
 
 		return $flags;
@@ -222,31 +218,22 @@ class languages {
 		global $DB;
 
 		$this->arrayLang = array();
-		// Query to get all Langs
-		$DB->simple_construct(array('select'	=> '*',
+		$DB->simple_construct(
+				array(
+									'select'	=> '*',
 									'from'		=> $this->objsource,
 									'order'		=> 'langId',
 									'where'		=> $this->condition
-		)
+				)
 		);
 		$DB->simple_exec();
-
-		// Assign all Langs to an array
 		while($lang = $DB->fetch_row()) {
-			$oLang = new  Lang();
-				
+			$oLang = new Lang();
 			$oLang->convertToObject($lang);
-				
 			$this->arrayLang[$oLang->getId()] = $oLang;
 		}
-
-		unset($lang);
-		unset($oLang);
 	}
 
-	/**
-	 * Lang items
-	 */
 
 	function setItemFilePath() {
 		$lang = $this->getLangById($this->language->getId());

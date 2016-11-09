@@ -7,464 +7,457 @@ if (! defined ( 'IN_VSF' )) {
 
 global $vsStd;
 $vsStd->requireFile ( CORE_PATH . "orders/orders.php" );
-
+require_once(CORE_PATH."products/options.php");
 class orders_public {
 	protected $html;
 	protected $module;
 	protected $output;
-	private $textbooks;
-	
+	private $products;
+
 	function __construct() {
-		global $vsTemplate, $vsStd, $vsPrint;
-		$vsStd->requireFile ( CORE_PATH . "textbooks/textbooks.php" );
-		$vsPrint->addCSSFile("orders");
-		
-		$this->html = $vsTemplate->load_template('skin_orders');
-		$this->module = new orders();
-		
-		$this->textbooks = new textbooks();
+		global $vsTemplate,$bw,$vsModule,$vsStd;
+                $vsStd->requireFile ( CORE_PATH . "products/products.php" );
+		$this->model = new orders();
+		$this->products = new products();
+                $this->item = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
+                $this->total = 0;
+                $this->objItems = array();
+                $this->option = new  options();
+                $this->html = $vsTemplate->load_template('skin_orders');
 	}
 
-	
+	/**
+	 * @return unknown
+	 */
+
 	public function getOutput() {
 		return $this->output;
 	}
-	
+
 	function auto_run() {
 		global $bw,$vsSess;
-		switch ($bw->input [1]) {
-			case 'summary' :
-				$this->orderSummary ();
-				break;
-			case 'info' :
-				$this->orderInfo ();
-				break;
+                $this->model->getNavigator();
+		switch ($bw->input ['action']) {
+//			case 'summary' :
+//				$this->orderSummary ();
+//				break;
+////			case 'info' :
+////				$this->orderInfo ();
+////				break;
+                    //card Session
 			case 'cartsummary' :
 				$this->cartSummary ();
 				break;
 			case 'addtocart' :
-				$this->addtocart ();
+				$this->addtocart ($bw->input[2]);
 				break;
 			case 'updatecart' :
 				$this->updateCart ();
 				break;
 			case 'deletecart' :
-				$this->deleteCart ();
+				$this->deleteCart ($bw->input[2]);
 				break;
-			case 'successorder' :
-				$this->successOrder ();
+                        
+                        case 'deleteallcart':
+				$this->item = array();
+                                $this->saveItemstoSession();
+                                $this->cartSummary();
+                                break;
+                            //tao moi 1 orders
+                        case 'billName':
+				$this->output = $this->html->billName($option);
+				break;    
+			case 'neworder'	:
+				$this->newOrder($bw->input[2]);
+				break;    
+                            
+////			case 'successorder' :
+////				$this->successOrder ();
+////				break;
+//			case 'ReviewOrder':
+//				$this->ReviewOrder();
+//				break;
+//			case 'payment' :
+//				$this->payment ();
+//				break;
+//			case 'checkOut' :
+//				$this->checkOut ();
+//				break;
+//			case 'DoExpressCheckoutPayment':
+//				$this->DoExpressCheckoutPayment();
+//				break;
+//			case 'fal':
+//				$this->	showError();
+//				break;
+//			//order
+//			case 'delorder':
+//				$this->	delOrder($bw->input[2]);
+//				break;
+			
+			case 'vieworder':
+				$this->	viewOrder($bw->input[2]);
+                                
 				break;
-			case 'payment' :
-				$this->payment ();
-				break;
-			case 'deleteallcart':
-					unset($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']]['cart']);
+//			case 'continous':
+//				$this->	continous($bw->input[2]);
+//				break;
+
+//			case 'oldorder':
+//				$this->oldOrder($bw->input[2]);
+//				break;
+//			case 'deleteitem':
+//				$this->deleteItem($bw->input[2],$bw->input[3]);
+//				break;
+//			case 'updateorder':
+//				$this->updateOrder($bw->input[2]);
+//				break;
+//			case 'paymentpal' :
+//				$this->paymentPayPal ($bw->input[2]);
+//				break;
+//			case 'infoPay'	:
+//				$this->infoPay($bw->input[2]);
+//				break;
+//			//order
+			
 			default :
-					$this->loadDefault ();
-				break;
-				
-				
-			case 'transaction':
-					$this->transaction();
-				break;	
-				
-			case 'updateItem':
-					$this->updateItem($bw->input[2]);
-				break;
-				
-			case 'runout':
-					$this->runout($bw->input[2], $bw->input[3]);
-				break;
+				$this->cartSummary ();
 		}
 	}
+//	function infoPay($id){
+//		if($id){
+//		$this->model->setCondition("orderId in ({$id})");
+//		$item = $this->model->getOneObjectsByCondition();
+//
+//		$_SESSION['reshash']=unserialize($item->getInfo());
+//			$this->output = $this->html->paymentSuccess();
+//		}
+//	}
+//
+//	function updateOrder($idorder = 0){
+//		global $bw,$vsUser,$vsLang;
+//		$this->model->orderitem->setCondition("orderId in ({$idorder})");
+//		$listitem = $this->model->orderitem->getObjectsByCondition();
+//
+//		if($_POST['order']){
+//			foreach ( $_POST['order']  as $key => $value )
+//				if($listitem[$key]){
+//					if($listitem[$key]->getQuantity() !=$value ){
+//						$listitem[$key]->setQuantity(abs($value));
+//						$this->model->orderitem->updateObjectById($listitem[$key]);
+//					}
+//				}
+//		}
+//		$message = $vsLang->getWords("order_updatesuccess","Sản phẩm được nhật giỏ hàng thành công");
+//		$this->updateTotal($idorder);
+//		$this->viewOrder($idorder,$message);
+//
+//	}
+//	function deleteItem($order =0,$id = 1){
+//		global $bw,$vsUser,$vsLang;
+//		$this->model->orderitem->setCondition("itemId in ($id)");
+//		$this->model->orderitem->deleteObjectByCondition();
+//		$message = sprintf($vsLang->getWords("add_sucess_deleteId","Xóa sản phẩm có ID [%s] thành công "),$id);
+//		$this->updateTotal($order);
+//		return $this->viewOrder($order,$message);
+//	}
+//
+	
+//
+//
+//	function oldOrder($id=""){
+//		global $bw,$vsUser,$vsLang;
+//		if($id){
+//			$this->model->setCondition("orderId = {$id} AND orderSeri IS NULL");
+//			$obj = $this->model->getOneObjectsByCondition();
+//			if($obj){
+//				$this->orderProccess ( $id );
+//				$message = sprintf($vsLang->getWords("add_sucess_toorder","Sản phẩm được thêm vào đơn hàng [%s] "),$obj->getName());
+//				return $this->viewOrder($id,$message);
+//			}
+//		}
+//		$this->updateTotal($this->model->obj->getId());
+//		$this->viewOrder($this->model->obj->getId(),$message);
+//	}
+	function newOrder(){
+            global $bw,$vsUser,$vsLang,$vsPrint;
 
-	
-	
-	function runout($itemId = 0, $bookId = 0){
-		global $vsLang, $vsStd;
+            if(!count($this->item)){
+                $vsPrint->redirect_screen($vsLang->getWords('no_products','Không có sản phẩm để tạo đơn hàng'),'products/');
+                return;
+            }
+            $this->getObjectsItem();
+            if($vsUser){
+                $info = $vsUser->obj->getArrayInfo();
+                $this->model->obj->setUserId($vsUser->obj->getId());
+            }
+            $this->model->obj->convertToObject($bw->input);
+            $this->model->obj->setPostDate(time());
+            $this->model->obj->setTotal($this->total);
+            $id = $this->model->insertObject($this->model->obj);
 
-		$bookMessage = $this->textbooks->updateBook($bookId, 0, "");
-		$this->updateItem_RUNOUT($bookId);
-		
-		
-		return $this->transaction();
-		$message = $vsLang->getWords('update_item_fail','Error! This order is not updated.');
-		if($this->module->orderitem->result['status']) $message = $vsLang->getWords('update_item_successful','This order is updated.');
-		return $this->output = $this->html->updateItem($bookMessage."<br />".$message);
+            if ($this->model->result) {
+                global  $DB;
+                    $this->orderProccess ( $DB->get_insert_id());
+                    $message = sprintf($vsLang->getWords("order_add_success","Đơn hàng được tạo thành công"),$this->model->obj->getName());
+            }
+
+            $this->viewOrder($this->model->obj->getId(),$message);
 	}
-	
-	function updateItem_RUNOUT($bookId = ""){
-		global $vsLang;
-		$condition = 'bookId = '.$bookId.' AND itemStatus = 0';
-		$this->module->orderitem->setCondition($condition);
-		$this->orderitem->setGroup('orderId');
-		$items = $this->orderitem->getObjectsByCondition();
-		$orderIds = implode(",", $items);
-		$this->setCondition('orderId in ('.$orderIds.")");
-		$orders = $this->getObjectsByCondition();
-		
-		$this->module->orderitem->setCondition($condition);
-		$this->module->orderitem->updateObjectByCondition(array('itemStatus'=>-1));
-		
-		$first = reset($items);
-		$bookTitle = $first->getTitle();
-		$this->sendMailToTheOrder_RUNOUT($bookTitle, $orders);
-			
-		
-		if($this->module->orderitem->result['status']) return $vsLang->getWords('update_item_successful','This order is updated.');
-		return $vsLang->getWords('update_item_fail','Error! This order is not updated.');		
+
+
+	function billName(){
+		global $vsUser,$bw,$vsPrint,$vsLang;
+//                if(!$vsUser->obj->getId())
+//			$vsPrint->redirect_screen($vsLang->getWords('global_checkout_message','Để thực hiện checkOut bạn phải đăng nhập'),'users/login-form');
+//		$this->model->setCondition("userId = {$vsUser->obj->getId()} AND orderSeri IS NULL");
+//		$option['listorder'] = $this->model->getObjectsByCondition();
+		$this->output = $this->html->billName($option);
 	}
-	
-	
-	
-	function updateItem($itemId = 0, $status = 1, $condition = ""){
-		global $vsLang;
-		$this->module->orderitem->setCondition('itemId = '.$itemId.$condition);
-		$this->module->orderitem->updateObjectByCondition(array('itemStatus'=>$status));
-		
-		$message = $vsLang->getWords('update_item_fail','Error! This order is not updated.');
-		if($this->module->orderitem->result['status']) $message = $vsLang->getWords('update_item_successful','This order is updated.');
-		return $this->output = $this->html->updateItem($message);
+
+	function viewOrder($id=0,$message=""){
+		global $bw,$vsUser,$vsPrint,$vsLang,$vsStd,$vsSettings;
+               
+    	$this->model->setCondition("orderId in ({$id})");
+    	$option['order'] = $this->model->getOneObjectsByCondition();
+       	if(!$option['order'])  
+        	return $this->output = $this->html->viewOrder($option);
+     	$this->model->orderitems->setCondition("orderId in ({$id})");
+      	$this->model->orderitems->getObjectsByCondition();
+       	$option['pageList'] = $this->model->orderitems->getArrayObj();
+       	$te =0 ;
+      	foreach($option['pageList'] as $obj)
+        	$te += $obj->getTotals(false);
+		$option['message']= $message;
+    	$option['total'] = number_format($te ,0,"",",");
+          		  
+     	$htmlsendemail =  $this->html->viewSendEmail($option);
+     	$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
+		$this->email = new Emailer ();
+
+   		$this->email->setTo ($bw->input['orderEmail']);
+   		$this->email->addBCC($vsSettings->getSystemKey("contact_emailrecerver", "sangpm@vietsol.net", $bw->input['module']));
+		$this->email->setFrom ($vsSettings->getSystemKey("contact_emailrecerver", "sangpm@vietsol.net", $bw->input['module']),$bw->vars['global_websitename']);
+		$this->email->setSubject ($bw->vars['global_websitename']." - ". $vsLang->getWordsGlobal('global_xacnhandonhang','Xác nhận đơn hàng') );
+		$this->email->setBody ( $htmlsendemail );		
+               
+		$this->email->sendMail ();
+                
+
+    	$this->output = $this->html->viewOrder($option);
 	}
-	
-	function transaction(){
-		global $bw, $vsStd, $vsUser;
-		$url = "orders/transaction/";
-		$size = 2; $index = 2;
-		
-		$option = $this->module->getItemByUserId($vsUser->obj->getId(), $url, $size, $index);
-		
-		$option['leftHTML'] = $this->html->leftSubject($this->textbooks->getSubjectList());
-		$this->output = $this->html->transaction($option);
-	}
-	
-	function loadDefault(){
-		global $vsStd;
+
+//
+//
+//	function delOrder($id =0){
+//		global $bw,$vsUser,$vsPrint,$vsLang;
+//		$message ="";
+//		$this->model->setCondition("orderId in ({$id})");
+//		$obj = $this->model->getOneObjectsByCondition();
+//
+//		if($obj){
+//			$this->model->setCondition("orderId in ({$id})");
+//			$this->model->deleteObjectByCondition();
+//
+//			$this->model->orderitem->setCondition("orderId in ({$id})");
+//			$this->model->orderitem->deleteObjectByCondition();
+//
+//			$message = sprintf($vsLang->getWords("order_delelsuccess","Đơn hàng  [%s] đã được xóa."),$obj->getName());
+//		}
+//		$bw->input[2] = $bw->input['pageIndex']?$bw->input['pageIndex']:1;
+//		return $this->checkOut($message);
+//	}
+//	function checkOut($message=""){
+//		global $bw,$vsUser,$vsPrint,$vsLang;
+//		if(!$vsUser->obj->getId())
+//			$vsPrint->redirect_screen($vsLang->getWords('global_checkout_message','Để thực hiện checkOut bạn phải đăng nhập'),'users/login-form');
+//
+//			$this->model->setCondition("userId = {$vsUser->obj->getId()}");
+//			$option = $this->model->getPageList("orders/checkOut/",2,10);
+//
+//				$option['message']= $message;
+//		$this->output = $this->html->checkOut($option);
+//	}
+//
+//
+//
+//	function showError(){
+//		$this->output = $this->html->showError();
+//	}
+//
+	function loadDefault($message = ""){
+		global $vsPrint,$vsLang;
 		
 		$cartHtml = $this->cartSummary();
-		$option['leftHTML'] = $this->html->leftSubject($this->textbooks->getSubjectList());
-		$this->output = $this->html->mainHtml($cartHtml, $option);
+		$this->output = $this->html->mainHtml($cartHtml,$message);
 	}
-	
-	function payment() {
-		global $vsPrint, $vsLang, $bw, $vsUser;
-//		if(!$vsUser->obj->getId()) return $this->output = $this->html->login();
-		$option['leftHTML'] = $this->html->leftSubject($this->textbooks->getSubjectList());
-		switch ($bw->input[2]){
-			case 'accept':
-					$this->orderInfo($option);
-				break;
-			case 'cancel':
-				unset($_SESSION[APPLICATION_TYPE]['obj']);
-				unset($_SESSION[APPLICATION_TYPE]['groups']);
-				$_SESSION[APPLICATION_TYPE]['session']['userId']=0;
-				$vsPrint->boink_it($bw->base_url."orders/");
-				break;
-			default:
-				if(!count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']]['cart']['item']))
-					$this->cartSummary();
-				$option['customer'] = $this->html->customerInfo();
-				$this->output = $this->html->payment($option);
-		}
-	}
-	
-	function orderInfo() {
-		global $bw, $DB,$vsUser;
-		if(!count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']]['cart']['item']))
-			return $this->cartSummary();				
-		$time = time();
-		$this->module->obj->setPostDate($time);
-		$this->module->insertObject();
-		if($this->module->result)
-			$this->orderProccess($this->module->obj->getId(), $time);			
 
-		$this->output = $this->html->loadMessage();
-	}
-	
-	function orderProccess($orderId, $time) {
+
+
+//	function orderInfo() {
+//		global $bw, $DB,$vsUser;
+//
+//		$info = $vsUser->obj->getArrayInfo();
+//		$this->model->obj->setUserId($vsUser->obj->getId());
+//		$this->model->obj->setName($vsUser->obj->getFullName());
+//		$this->model->obj->setAddress($vsUser->obj->getAddress());
+//		$this->model->obj->setEmail($vsUser->obj->getEmail());
+//		$this->model->obj->setPhone($vsUser->obj->getPhone());
+//		$this->model->obj->setPostDate(time());
+//		$this->model->insertObject();
+//		if ($this->model->result) {
+//			$this->orderProccess ( $this->model->obj->getId() );
+//		}
+//
+//		$itemCart['cart'] = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['order'];
+//		$itemCart['paypal'] = $this->getProducPay($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['order']);
+//
+//		$this->output = $this->html->loadMessage($itemCart);
+//	}
+//
+
+
+	function orderProccess($OrderID) {
 		global $vsStd, $bw,$vsLang;
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart']['item'];
-		
-		
-		$itemId = "";
-		foreach( $cart  as $value ){
-			$this->module->orderitem->obj->convertToObject($value);
-			$this->module->orderitem->obj->setStatus(0);
-			$this->module->orderitem->obj->setPostDate($time);
-			$this->module->orderitem->obj->setOrderId($orderId);
-			$this->module->orderitem->insertObject();
-			$itemId .= $value['bookId'].","; 
-		}
-		
-		$itemIds = trim($itemId,",");
-				
-		$this->updateBook($itemIds);
-		
-		$vsStd->requireFile(LIBS_PATH."Email.class.php");
-		$this->sendEmailToOwner($itemIds);
-		$this->sendMailToTheOrder($orderId);
-		$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['order'] = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
-		unset ( $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'] );
-		unset ($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']]['cart']['count']);
-	}
-	
-	function updateBook($bookIds = 0){
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart']['item'];
-		
-		$this->textbooks->setCondition("bookId in (".$bookIds.")");
-		$this->textbooks->getObjectsByCondition();
-	
-		if(!count($this->textbooks->getArrayObj())) return $this->loadDefault();
-		$query = "UPDATE vsf_textbook SET bookSold = CASE bookId ";
-		
-		foreach($this->textbooks->getArrayObj() as $key=>$obj){
-			$query .= " WHEN ".$key." THEN ".($obj->getSold() + $cart[$key]['itemQuantity'])." "; 
-		}
-		$query .= " END  WHERE bookId in (".$bookIds.")";
-//sendMail;
-		$this->textbooks->executeQuery($query);
-	}
-	
-	function orderSummary() {
-		global $vsPrint, $vsLang, $vsTemplate;
-		$vsPrint->mainTitle = $vsLang->currentArrayWords ['main_title'];
-		$money = 0;
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['order'];
-		
-		foreach ( $cart as $value ) {
-			$value ['button'] = $value ['itemQuantity'];
-			$vsTemplate->assign_block_vars ( $value, 'CART_ITEM' );
-			$money = $money + $value ['total'];
-		}
-		$vsTemplate->assign_var ( 'Total', number_format ( $money ) );
-		$vsTemplate->assign_var ( 'message', $vsLang->currentArrayWords ['message'] );
-		$vsTemplate->assign_vars_form_string ( $this->html->cartSummary ( 1 ), 'CART_CURRENT' );
-		$vsTemplate->assign_vars_form_string ( $this->html->mainHtml () );
-	}
-	
-	function sendEmailToOwner($bookIds){
-		global $bw, $vsLang, $vsStd;		
-		$vsStd->requireFile(CORE_PATH."users/users.php");
-		
-
-		foreach($this->textbooks->getArrayObj() as $obj){
-			$array[$obj->getUserId()][] = $obj; 
-		}
-		$user = new users();
-		$user->setCondition("userId in (".implode(',', array_keys($array)).")");
-		$users = $user->getObjectsByCondition();
-		
-		$theOrder =  "<b>Name:</b>".$this->module->obj->getName()."<br />".
-					 "<b>Email:</b>".$this->module->obj->getEmail()."<br />".
-					 "<b>Phone:</b>".$this->module->obj->getPhone()."<br />".
-					 "<b>Address:</b>".$this->module->obj->getAddress()."<br />";	
-
-		$email = new Emailer();
-		
-		foreach($array as $element){
-			$bookName = "";
-			foreach($element as $book){	
-				$bookName .= "<strong>".$book->getTitle()."</strong>(".$book->getAuthor().", ".$book->getEdition().", ".$book->getRelease().") <br />";
-			}
-			$message = sprintf($vsLang->getWords('the_owner_mail_message', '<strong>%s</strong> has ordered book(s). <br />Booking detail as below: <br />'), $bw->input ['orderName']);
-			$message.= $bookName."<br />";
-			$message.= "The order information as below:<br />".$theOrder;
-			$message = $email->clean_message($message);
-			$email->setTo($users[$obj->getUserId()]->getName());
-			$email->setSubject($vsLang->getWords('the_order_mail_subject', 'Order Information'));
-			$email->setBody($message);
-			$email->sendMail();
-		}
-	}
-	
-	function sendMailToTheOrder($orderId){
-		global $bw, $vsLang, $vsStd;
-		
-		if(!$theOrderEmails){
-			$email = new Emailer();
-			$message = sprintf($vsLang->getWords('the_order_mail_message', 'You (<strong>%s</strong>) has ordered book(s). <br />Detail at: %s'), $bw->input ['orderName'], $bw->vars['board_url']."/orders/".$orderId);
-			$message = $email->clean_message($message);
-			$email->setTo($bw->input['orderEmail']);
-			$email->setSubject($vsLang->getWords('the_order_mail_subject', 'Order Information'));
-			$email->setBody($message );
-			$email->sendMail();
-		}
+		if(!count($this->objItems)) return ;
+                    foreach($this->objItems as $obj){
+                        $obj->setOrderId($OrderID);
+                        $this->model->orderitems->insertObject($obj);
+                    }
+                $this->item = array();
+                $this->saveItemstoSession();
 	}
 
-	function sendMailToTheOrder_RUNOUT($bookTitle = "", $theOrder=""){
-		global $bw, $vsLang, $vsStd;
-
-		if($theOrder){
-			$email = new Emailer();
-			foreach($theOrder as $element){
-				$message = sprintf($vsLang->getWords('the_order_mail_message_runout', 'The <strong>%s</strong> you has ordered is runout now.'), $bookTitle);
-				$message = $email->clean_message($message);
-				$email->setSubject($vsLang->getWords('the_order_mail_subject', 'Order Information'));
-				$email->setBody($message );
-				$email->setTo($element->getEmail());
-				$email->sendMail();
-			}
-		}
-	}
-	
-	function sendMailToAdmin() {
-		global $bw, $vsLang, $vsStd;
-		
-		$vsStd->requireFile(LIBS_PATH."Email.class.php");
-		$bw->vars['order_mail'] = $bw->vars ['order_mail'] ? $bw->vars ['order_mail'] : $bw->vars ['global_systememail'];
-		$email = new Emailer ( );
-		$message = sprintf($vsLang->getWords('mail_message', '<strong>%s</strong> has ordered books. <br />Detail at: %s' ), $bw->input ['orderName'], $bw->vars ['board_url'] . "/admin.php?vs=orders/" );
-		$message = $email->clean_message ( $message );
-		$email->setTo ( $bw->vars['order_mail'] );
-		$email->setSubject($vsLang->getWords('mail_subject', 'Order'));
-		$email->setBody($message);
-		$email->sendMail();
-	}
-	
-	function successOrder() {
-		global $vsPrint, $vsLang, $vsTemplate;
-		$vsPrint->mainTitle = $vsPrint->pageTitle = $vsLang->getWords ( 'cart_maintitle', 'Giỏ hàng' );
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['order'];
-		if ($cart) {
-			foreach ( $cart as $value ) {
-				$money = $money + $value ['total'];
-				$value ['total'] = number_format ( $value ['total'] );
-				$vsTemplate->assign_block_vars ( $value, 'CART_ITEM' );
-			}
-			$vsTemplate->assign_var ( 'Total', number_format ( $money ) );
-		}
-		$mess['message']=$vsLang->getWords('successOrder','Bạn đã đặt hàng thành công!');
-		$vsTemplate->assign_vars($mess);
-		$vsTemplate->assign_vars_form_string ( $this->html->messageOrder () );
-	}
-	
 	function cartSummary() {
 		global $vsPrint;
-		
-		$itemCart['cart'] = $this->getCart();
-		return $this->output = $this->html->cartSummary ($itemCart) ;
-		
-	}
-	
-	function getCart($message='') {
-		global $vsTemplate,$vsLang;
-		
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
-		$total = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'];
-		
-		if(!count($cart)) return "";
-		return $this->html->ItemList($cart, $total);
-	}
-	
-	function getProductArray($id) {
-		global $bw, $DB, $vsPrint;
-		$this->textbooks->getObjectById($id);
-		
-		if(!$this->textbooks->obj->getId()) $vsPrint->boink_it($_SERVER['HTTP_REFERER']);
-		
-		$item = array ( 'bookId' 			=> $this->textbooks->obj->getId(),
-						'bookUserId' 		=> $this->textbooks->obj->getUserId(),
-						'bookImage' 		=> $this->textbooks->obj->getImage(),
-						'itemTitle'			=> $this->textbooks->obj->getTitle(),
-						'itemPrice' 		=> $this->textbooks->obj->getPrice(),
-						'itemNumberPrice' 	=> $this->textbooks->obj->getPrice(), 
-						'itemTitle' 		=> $this->textbooks->obj->getTitle(),
-						'itemImage' 		=> $this->textbooks->obj->getImage(),
-						'itemQuantity' 		=> $bw->input[3]?$bw->input[3]:1, 
-						'total' 			=> $this->textbooks->obj->getPrice()
-						);
-		$item['total'] = $item['total']*$item['itemQuantity'];
-		return $item;
-	}
-	
-	function addtocart() {
-		global $bw, $vsPrint,$vsLang,$vsTemplate;
-		
-		if(is_numeric($bw->input [2])){
-			$this->item = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
-			$item = $this->getProductArray ( $bw->input [2] );
-			
-			$count = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['count'];
-			$total = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'];
+                $option['orderItem'] = $this->getObjectsItem();
+               
+                $option['total'] =  number_format($this->total ,0,"",",");
+                $option['total1']=$this->total;
+                $option['opt'] = array();
+                if($this->item){
+                    $ids = array_keys($this->item);
+                    $stringid = implode(",", $ids);
+                    $this->option->setCondition("productId in ({$stringid}) ");
+                    $option['opt'] = $this->option->getObjectsByCondition('getProductId',1);
+                }
+               
+		return $this->output = $this->html->cartSummary ($option) ;
 
-			$i = 0;
-			if(is_array($this->item )){
-				foreach($this->item as $key => $value){
-					if ($value['bookId'] == $item ['bookId']) {
-						$i ++;
-						$this->item[$key]['itemQuantity'] = $value ['itemQuantity'] + 1;
-						$this->item[$key]['total'] += $value ['itemPrice'];
-						$total +=$value ['itemPrice'];
-					}
-				}
-			}
-			
-			if(!$i){
-				$count = $count + 1;
-				$total += $item['total'];
-				$this->item [$item['bookId']] = $item;
-			}
-			
-			$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'] = $this->item;
-			$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['count'] = $count;
-			$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'] = $total;
-			$message = sprintf($vsLang->getWords("add_card_successfully","[%s] is added to your shopping cart."),$item['itemTitle']);
-		} else $message = $vsLang->getWords('add_card_fail','error whiling add item to cart.');
-		
-		return $this->output = $this->html->orderLoading($message, $count);
 	}
-	
-	function updateCart(){
-		global $bw, $vsLang, $_POST;
-	
-		if(count($_POST['cart'])){
-			$total = 0;
-			$cart  = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
-			$total = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'];
-			
-			foreach ( $_POST['cart']  as $key => $oValue ){
-				if (isset ($cart[$key]['bookId'])){
-					$update = $cart[$key]['itemPrice'] * ($oValue - $cart[$key]['itemQuantity']);
-	
-					$cart[$key]['itemQuantity'] = $oValue;
-					$cart[$key]['total'] += $update;
-					$total += $update;
-				}
-			}
-			$message = $vsLang->getWords('update_successfully','Your cart is updated!');
-			
-			$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'] = $cart;
-			$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'] = $total < 0 ? 0 : $total ;
-		}
-		
-		$count = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['count'];
-		return $this->output = $this->html->orderLoading($message, $count);
+
+// get 1 products from id
+	function getProductArray($id) {
+		global $bw, $DB,$vsPrint;
+		$this->products->setFieldsString("productId,productTitle,productPrice,productImage");
+		$obj = $this->products->getObjectById($id);
+		return $obj->convertOrderItem();
 	}
-	
-	function deleteCart() {
-		global $bw, $_POST, $vsLang;
-		
-		$cart = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'];
-		$count = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['count'];
-		$total = $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'];
-		
-		foreach(explode(",", $_POST['checkedItem']) as $key){
-			if (isset ($cart[$key])) {
-			$total -= $cart[$key]['total'];
-			$count --;
-			unset($cart[$key]);
-			
-			if(!$cart[$key]) unset($cart[$key]);
-			}
-		}
-				
-		if($count==0) $total=0;
-		$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['count'] = $count;
-		$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'] = $cart;
-		$_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['total'] = $total;
-		
-		$message = $vsLang->getWords('update_successfully','Your cart is updated!');
-		$this->output = $this->cartSummary().$this->html->orderLoading($message, $count);
+ //save list Item to session  
+        
+        function saveItemstoSession(){
+            $_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'] = $this->item;
+           
+        }
+// lấy array sessionItem to ObjecItems        
+        function getObjectsItem(){
+           
+            if(!$this->item) return array();
+            $this->total = 0;
+           
+            require_once(CORE_PATH."orders/OrderItem.class.php");
+                foreach ($this->item as $key => $val){
+                    $orderItem = new OrderItem();
+                    $orderItem->convertToObject($val);
+                    $this->total += $orderItem->getTotals(false);
+                    $this->objItems[$key] = $orderItem;
+                }
+            return $this->objItems;
+        }
+        
+
+	function addtocart($idP = 0) {
+		global $bw, $vsPrint,$vsLang,$vsTemplate;
+
+		if(is_numeric($idP)){
+                    if($this->item[$idP]){
+                        $this->item[$idP]['itemQuantity'] +=  1;
+                    }else{
+                        $item = $this->getProductArray ( $idP );
+                        $this->item[$idP] = $item;
+                    }
+                    $this->total += $this->item[$idP]['itemPrice'];
+                $message = sprintf($vsLang->getWords("order_communicate","Sản phẩm [%s] đã được thêm vào giỏ hàng."),$this->item[$idP]['itemTitle']);   
+                $this->saveItemstoSession();
+		}else 	$message = $vsLang->getWords('order_messages_none','Sản phẩm này không tồn tại.');
+
+		return $this->output = $this->html->orderLoading($message);
+
 	}
+
+	function updateCart() {
+		global $bw,$vsStd,$vsLang,$vsTemplate,$_POST ;
+                
+                $ids = array_keys($this->item);
+                $stringid = implode(",", $ids);
+                $this->option->setCondition("productId in ({$stringid}) ");
+                $option = $this->option->getObjectsByCondition();
+                
+               
+                foreach($this->item as $key => $val){
+
+                    if($_POST['price'][$key]){
+                        if($option[$_POST['price'][$key]]){
+                            $this->item[$key]['itemPrice'] = $option[$_POST['price'][$key]]->getPrice(false);
+                            $this->item[$key]['itemType']  = $option[$_POST['price'][$key]]->getTitle();
+                        }
+                    }
+                    
+                    if($_POST['cart'][$key])
+                        if($this->item[$key]){
+                            if($_POST['cart'][$key]==0)unset($this->item[$key]);
+                            else $this->item[$key]['itemQuantity'] = $_POST['cart'][$key];
+                        }
+                }
+
+               
+//		if($_POST['cart'])
+//			foreach ( $_POST['cart']  as $key => $value )
+//				if($this->item[$key]){
+//                                    if($value==0)unset($this->item[$key]);
+//                                    else $this->item[$key]['itemQuantity'] = $value;
+//                                        
+//				}
+		$message=$vsLang->getWords('update_succes','Giỏ hàng đã cập nhật thành công!');
+                $this->saveItemstoSession();
+		$this->cartSummary($message);
+	}
+
+	function deleteCart($list) {
+		global $bw,$vsTemplate,$_POST ,$vsLang;
+		
+		$arr = explode(",", $list);
+                    foreach($arr as $va){
+                        if($this->item[$va])unset($this->item[$va]);
+                    }
+		$this->saveItemstoSession();
+                 $message = $vsLang->getWords ( 'order_delete', 'Xóa sản phẩm thành công' );
+		$this->loadDefault($message);
+	}
+
+//	function sendMail() {
+//		global $bw, $vsLang, $vsStd;
+//
+//		$vsStd->requireFile ( LIBS_PATH . "Email.class.php" );
+//		$bw->vars ['order_mail'] = $bw->vars ['order_mail'] ? $bw->vars ['order_mail'] : $bw->vars ['global_systememail'];
+//		$email = new Emailer ( );
+//		$message = sprintf ( $vsLang->getWords ( 'order_mail_message', 'Khách hàng <strong>%s</strong> đã đặt hàng. <br />Xem chi tiết: %s' ), $bw->input ['orderName'], $bw->vars ['board_url'] . "/admin.php?vs=orders/" );
+//		$message = $email->clean_message ( $message );
+//		$email->setTo ( $bw->vars ['order_mail'] );
+//		$email->setSubject ( $vsLang->getWords ( 'order_subjectMail', 'Đơn đặt hàng' ) );
+//		$email->setMessage ( $message );
+//		$email->send_mail ();
+//	}
+
+
 }
 ?>

@@ -3,7 +3,7 @@ class menus_install {
 	public $query = "";
 	public $version = "3.4.1";
 	public $build = "634";
-	
+
 	function Install() {
 		$this->query[] = "DROP TABLE IF EXISTS `".SQL_PREFIX."menu`";
 		$this->query[] = "
@@ -43,7 +43,6 @@ class menus_install {
 			(12,2,'Simple pages','pages',1,1,'',3,1,0,0,2,'@1000',1),
 			(13,2,'Url alias manager','urlalias',5,1,'',3,1,0,0,2,'@1000',1),
 			(14,2,'Backup database','backup',1,1,'',5,1,1,0,2,'@1000',1),
-			(15,2,'System Configuration','SystemSettings',1,1,'System vars configuration',6,1,1,0,2,'@1000',1),
 			(16,2,'Language Manager','Languages',5,1,'Manage languagues',6,1,1,0,2,'@1000',1),
 			(17,2,'Skin manager','wrapper',10,1,'Manage skin system',6,1,1,0,2,'@1000',1),
 			(18,0,'Categories','0',0,0,'System categories',0,0,0,0,0,'@0000',-1);
@@ -53,7 +52,7 @@ class menus_install {
 			('Menus Manager','".$this->version."',1,1,'This is a system module for management all menu links in VS Framework.','menus')
 		";
 	}
-	
+
 	function Uninstall($moduleId) {
 		$this->query[] = "DROP TABLE `".SQL_PREFIX."menu`";
 		$this->query[] = "DELETE FROM `".SQL_PREFIX."module` WHERE `moduleId`=".$moduleId;

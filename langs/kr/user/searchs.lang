@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => '수색',
+  'main_title' => '수색',
+);
+$userLang = array();
+?>

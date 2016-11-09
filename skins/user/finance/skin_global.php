@@ -4,300 +4,174 @@
 /* CACHE FILE: Skin set id: 2                     */
 /* CACHE FILE: Generated: Wed, 28 Jul 2004 10:38:07 GMT */
 /* DO NOT EDIT DIRECTLY - THE CHANGES WILL NOT BE   */
-/* WRITTEN TO THE DATABASE AUTOMATICALLY            */
+/* WRITTEN TO THE DATABASE AUTOMATICALLY     $vsLang->currentLang->getFoldername()       */
 /*--------------------------------------------------*/
 
 class skin_global {
 	
+	//===========================================================================
+	// vs_global
+	//===========================================================================
 	function vs_global(){
-		global $bw,$vsLang,$vsUser,$vsMenu;
-		$count = abs($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart']['count']);
-		
-
-		$navigation = 1;
-		if($bw->input['module'] == 'users'){
-			if(!(in_array($bw->input[1], array('acctab', 'protab', 'settingtab')) || $bw->input['statuscomment'])){
-				$navigation = 0;
-			}
-		} 
-	
+		global $bw,$vsLang,$vsMenu,$vsSettings,$urlcate,$vsPrint;
+	$count= count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'])?count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item']):'0';
+    	$stringSearch = $vsLang->getWordsGlobal('search_key','Search...');   
+            
 		$BWHTML .= <<<EOF
-		<div id="center">
-		    <div id="header">
-		       	<a href="{$bw->vars['board_url']}" class="logo">
-					<img src="{$bw->vars['img_url']}/logo.jpg" alt='{$bw->vars['board_url']}'/>
-		       	</a>
-		       	<div class="search_top">
-		       		<form id='gsform' name='gsform' method='GET' action='{$bw->vars['board_url']}/search'>
-		        	<input placeholder="Search..." id='globalsearch' name='keyword' />
-		            <a href="#" id='submitglobalsearch'><img src="{$bw->vars['img_url']}/search_btn.jpg" alt='search'/></a>
-		            </form>
-		        </div>
-		        
-		        <script type='text/javascript'>
-		        	$('#submitglobalsearch').click(function(){
-		        		if($('#globalsearch').val() == '') return false;
-		        		$('#gsform').submit();
-		        	});
-		        	
-		        	$('#globalsearch').bind('keypress', function(e) {
-                		var code = (e.keyCode ? e.keyCode : e.which);
-						if(code == 13) {
-							if($('#globalsearch').val() == '') return false;
-		        			$('#gsform').submit();
-						}
-					});
-		        </script>
-		        
-		       {$this->topmenu}
-		    </div>
-		    <!-- STOP HEADER -->
-		    
-		    <div id="menu_top">
-		    	<ul>
-		    		<if=" $this->menu ">
-		    		<foreach="$this->menu as $menu">
-				        <li>
-				        	<a href="{$menu->getUrl(0)}" class="{$menu->getClassActive()}">
-				        		<span>{$menu->title}</span>
-				        	</a>
-			        	</li>
-				    </foreach>
-				    </if>
-		        </ul>
-		    </div>
-		    <!-- STOP MENU TOP -->
-		    <if=" $navigation ">
-		   	<div class="navigation">
-		    	<div class="navigation_left">
-		    		<if=" $this->GLOBAL_CAMPUS_LIST[$vsUser->obj->getCampusId()] ">
-		            	<p class="hi_member">Hi, {$vsUser->obj->getFullname()}!</p>
-            			<a href="#" class="collect_member" id="change">
-		       				{$this->GLOBAL_CAMPUS_LIST[$vsUser->obj->getCampusId()]->getTitle()}
-		       			</a>
-		            <else />
-		            	Welcome! Please
-		            		<a href="{$bw->vars['board_url']}/users/login" title="{$vsLang->getWords('global_login_label','Click here to login')}" style="margin:0px;">
-		            			sign in
-		            		</a>
-		            		or 
-		            		<a href="{$bw->vars['board_url']}/users/signup" title="{$vsLang->getWords('global_signup_label','Click here to signup')}" style="margin:0px;">
-		            			register
-		            		</a>
-					</if>
-		        </div>
-		        <a href="#" class="cart_link" id="shopping_cart" title="{$vsLang->getWords('global_cart_checkout','Checkout')}">
-		        	{$vsLang->getWords('global_shopping_cart','Shopping Cart')} ({$count})
-		        </a>
-		        <div id='mlcon' style="position:absolute;right: 270px;">
-			        <a href="#" class="post_link" id='post_link' title="{$vsLang->getWords('global_post_a_list','Post a listing')}">
-			        	{$vsLang->getWords('global_post_a_list','Post a listing')}
-			        </a>
-			        <div id='moreposting' style='display:none;'>
-			        	<a href="{$bw->vars['board_url']}/textbooks/sell" title="List a textbook">List a textbook</a>
-				        <a href="{$bw->vars['board_url']}/icMarket/post" title="List other items">List other items</a>
-			        </div>
-		        </div>
-		       
-		        <script language="javascript" type="text/javascript">
-			        	$(document).ready(function(){
-			        		var flag = true;
-							$("#post_link").click(function(){
-								if(flag){
-									$('#moreposting').css({display: "block"}).show();	
-									$(this).addClass("active");
-								}else{
-									$('#moreposting').css({display: "none"}).hide();	
-									$(this).removeClass("active");
-								}
-								flag = !flag;
-							});
-						}); 
-			        </script>
-		    </div>
-		   	</if>
-		    
-		  	{$this->SITE_MAIN_CONTENT}
-		   
-		    <div class='clear'></div>
-		    <div id="footer">
-		    	<p class="copyright">
-		    		<a href="{$bw->vars['board_url']}" title="Icampux" style='color:#000;'>
-		    		iCampux &copy; 2011
-		    		</a>
-		    	</p>
-		        <ul>
-		        	<if=" $this->bottom ">
-		        	<foreach="$this->bottom as $menu">
-				        <li><a href="{$menu->getUrl(0)}" class="{$menu->getClassActive()}">{$menu->title}</a></li>
-				    </foreach>
-				    </if>
-		        </ul>
-		        <div class='fright'>
-		        	{$vsLang->getWords('global_english','English')}
-		        	<img src="{$bw->vars['img_url']}/flang_arrow.png" alt="languages" width="10" />
-		        </div>
-		    </div>
-		</div>
-					<div id="global_callback"></div>
-			    	
-			    	<div style="display:none;" id="global_formContainer">
-			    		<div class="formHeader">
-					        <span class="form_label">Change Campus</span>
-					        <span id="global_close">X</span>
-					        <div class="clear"></div>
-					    </div>
-			    		<div id="global_container">
-			    			<div id="global_formCont"></div>
-			    			<div id="global_editForm">
-						    	<input class="input" type="hidden" name="campusId" />
-								<table cellpadding="0" cellspacing="1" width="100%" id="global_formTable">						
-							    	<tr>
-							        	<th>{$vsLang->getWords('name','Name')}</th>
-							            <td>
-							            	<if=" $this->GLOBAL_CAMPUS_LIST ">
-							            	<select name="userCampusId" id="userCampusId">
-							            	<foreach=" $this->GLOBAL_CAMPUS_LIST as $campus ">
-							            		<option value="{$campus->getId()}" > {$campus->getTitle()}</option>
-							            	</foreach>
-							            	</select>
-							            	</if>
-							            </td>
-							        </tr>
-							        <tr>
-							            <td colspan="2">
-							            	<button class="ui-state-default ui-corner-all" onclick="submitCampusForm()">{$vsLang->getWords('global_change_campus','Change')}</button>
-						            	</td>
-							        </tr>
-							    </table>
-						    </div>
-						</div>
-						<script type="text/javascript">
-							$(document).ready(function(){
-								vsf.jSelect('{$vsUser->obj->getCampusId()}','userCampusId')
-							});
-							
-							function submitCampusForm(){
-								$('#global_formContainer').block({
-						        	css: {
-						        		border: 'none',
-						        		padding: '20px',
-						        		backgroundColor: '#FFF',
-							            color: '#000',
-							            cursor:'progress',
-							            opacity: 0.9
-							        },
-							       message: "<div id='block_message'><img src='{$bw->vars['board_url']}/styles/images/ajax-loader.gif' alt='loading' /><br />{$vsLang->getWords('global_wait','Please wait...')}</div>",
-							       onBlock: function(){
-							        	var formElement = "<form method='post' id='changeCampusForm'></form>";
-										$('#global_formCont').append(formElement);
-										$('#changeCampusForm').append($('#global_formTable'));
-										vsf.submitForm($('#changeCampusForm'),'users/updateCampus/','global_callback');
-										return false;
-							        }
-								});
-							}
-						</script>
-					</div>
-					
-		<script type="text/javascript"> 
-			$(document).ready(function(){
-			
-//				$("#link_top").find('a:last').prev().css({border: "none"});
-//				$("#link_top").find('a:last').css({border: "none",color:"#008ab1"});
+           <a href="{$bw->base_url}" class="logo">
+		   	<object  width="190px" height="92px" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param value="{$bw->vars[img_url]}/flash_logo(190x92).swf" name="movie">
+    <param value="high" name="quality">
+    <param value="samedomain" name="allowscriptaccess">
+    <param name="wmode" value="transparent" />
+    <embed wmode="transparent" width="190" height="92" allowscriptaccess="samedomain" quality="high"  src="{$bw->vars[img_url]}/flash_logo(190x92).swf"  pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash">
+    		</object>
+		   </a>
+<div id="wrapper">
+   	{$this->menu}
+    <if="$this->listgallery">
+                <ul id="slide_banner">
+            <foreach="$this->listgallery as $baner1">
+                <li>{$baner1->createImageCache($baner1, 986, 260, 1)}</li>
+            </foreach>
+        </ul>
+               <else /> 
+    <if="$this->adv['banner']">
+        <ul id="slide_banner">
+            <foreach="$this->adv['banner'] as $baner">
+                <li>{$baner->createImageCache($baner->file, 986, 260, 1)}</li>
+            </foreach>
+        </ul>
+    </if>    
+                </if>
+	<div id="sitebar">
+        <if="$this->menuLeft">
+            <div class="sitebar_item">
+                    <h3 class="sitebar_title">{$vsLang->getWordsGlobal("global_danhmuc","danh mục")}</h3>
+                <ul class="danhmuc" id="menu">
+                    {$this->menuLeft}
+                </ul>
+            </div>
+        </if>
+        {$this->searchLeft}
+        
+        
+    </div>
+    <!-- STOP SITEBAR -->
+    
+    {$this->SITE_MAIN_CONTENT}
+    <!-- STOP CONTENT -->
+    
+    <div class="clear"></div>
+    
+    <div id="footer">
+    	<div class="tienich">
+            <a target="_blank" href="{$vsSettings->getSystemKey('dang_twis','twis', "config", 1, 1)}" class="twis" title="twister"><img src="{$bw->vars['img_url']}/icon7.png" /></a>
+            <a target="_blank" href="{$vsSettings->getSystemKey('dang_facebook','facebook', "config", 1, 1)}" title="facebook"><img src="{$bw->vars['img_url']}/icon6.png" /></a>
+            
+            <if="$this->supports">
+            <div class="support_onl">
+                <foreach="$this->supports as $sp">
+                    {$sp->show()}
+                </foreach>    
+            </div>
+            </if>
+            
+            <div class="clear_right"></div>
+        </div>
+        <div class="footer_page">
+        	<p class="banquyen">{$this->footer->getIntro(1000)}</p>
+            <p class="vietsol"> 
+                <a href='http://www.vietsol.net/' target='_blank' style="color:#666" title='{$vsLang->getWordsGlobal("global_tkwcn","Thiết kế web chuyên nghiệp")}'>{$vsLang->getWordsGlobal("global_tkweb","Thiết kế website")}</a>{$vsLang->getWordsGlobal("global_tkwebby"," bởi ")}
+        <a href='http://www.vietsol.net/gioi-thieu-cong-ty-thiet-ke-web/' style="color:#767676" target='_blank' title='{$vsLang->getWordsGlobal("global_tkweb_company","Công ty thiết kế web")}'  >Viet Solution</a>
+        	</p>
+            {$this->weblink}
+            <p class="truycap"> {$vsLang->getWordsGlobal("global_Online","Đang truy cập")}: <strong>{$this->state['today']}</strong>
+                        /{$vsLang->getWordsGlobal("global_Vistor","Tổng truy cập")}: <strong>{$this->state['visits']}</strong></p>
+            <div class="clear"></div>
+        </div>
+    </div>
 
-				$("#menu_top ul").find('li:last').addClass("li_last");
-//				$(".content_col ul").find('li:first').css({background:"none"});
-//				$(".col_title").find('a:last').css({margin:"0px"});
-//				$(".user_menu ul").find('li:first').css({background:"none"});
-//				$("#login_form ul").find('li:last').addClass("li5");
-	
-				
-				$("#change").click(function(){
-					$.blockUI({
-			        	css: {
-			        		border: 'none',            					
-				            color: '#000',
-				            cursor:'progress',
-				            padding: '0px'
-				        },
-				        message: $('#global_formContainer')
-					});
-		   		});
-		   		
-		   		$('#global_close').click(function(){
-					$('#global_formContainer').unblock();
-					$.unblockUI();
-				});
+
+</div>   
+<script type="text/javascript">
+    $(document).ready(function(){
+		   $('.menu_top').find('li:last').addClass('li_last');
+		   $('.menu_top').find('li:first a').css({background:'none'});
+		   $('#slide_banner').innerfade({
+				animationtype: 'fade',
+				speed:2000,
+				timeout:5000,
+				type: 'sequence',
+				containerheight: '260px'
 			});
-		</script>
+    });
+
+</script>
+<script>
+ $(function() {
+               if(window.hs!=null)
+		{
+			hs.graphicsDir = "{$bw->vars['cur_scripts']}/highslide/graphics/";
+			hs.align = 'center';
+			hs.transitions = ['expand', 'crossfade'];
+			hs.outlineType = 'glossy-dark';
+			hs.fadeInOut = true;
+			hs.dimmingOpacity = 0.75;
+			// Add the controlbar
+			if (hs.addSlideshow) hs.addSlideshow({
+                        //slideshowGroup: 'group1',
+                        interval: 5000,
+                        repeat: false,
+                        useControls: true,
+                        fixedControls: false,
+                        overlayOptions: {
+                                opacity: 1,
+                                position: 'top right',
+                                hideOnMouseOut: false
+                        }
+                });
+		}
+             });
+</script>
 EOF;
+						
 		return $BWHTML;
-}
-	
-	function error_page(){
-		global $bw, $vsLang;
-		
-		$BWHTML = "";
-		$BWHTML .= <<<EOF
-			<div class="error_page">
-		    	<h3>{$vsLang->getWords('global_error_page','Invalid Page')}</h3>
-		        <p class="error_page_text">{$vsLang->getWords('global_error',"We are sorry! This page doesn't exist on our site")}</p>
-		        <a href="{$bw->vars['board_url']}" class="error_home" title="{$vsLang->getWords('global_error_home','Go to home page')}">
-		        	{$vsLang->getWords('global_error_home','Go to home page')}
-		        </a><br/><br/>
-		        <a href="javascript: history.go(-1)" class="error_prev" title="{$vsLang->getWords('global_error_previous','Go to previous page')}">
-		        	{$vsLang->getWords('global_error_previous','Go to previous page')}
-		        </a>
-		        <form>
-		        	<input type="text" onfocus="if(this.value=='Quick search') this.value='';" onblur="if(this.value=='') this.value='Quick search';" value="Quick search"  />
-		            <input type="submit" value="Search" class="error_submit_search" />
-		            <div class="clear_left"></div>
-		        </form>
-		    </div>
-EOF;
+
 	}
-	
-	function redirectJS($message = '', $redirect = ''){
+function addCSS($cssUrl="") {
 		$BWHTML .= <<<EOF
-        	<script type='text/javascript'>
-        		<if=" $message ">
-        			$.blockUI({
-				        css: {
-				        		border: 'none',
-	            				padding: '50px',
-					            backgroundColor: '#C0C0C0',
-					            color: '#000',
-					            cursor:'progress'
-					        },
-						message: '<h1>{$message}</h1>'
-					});
-					setTimeout(function(){
-						$.unblockUI();
-						<if=" $redirect ">
-						location.href = '{$redirect}';
-						</if>
-					}, 2000);
-        		<else />
-	        		location.href = '{$redirect}';
-				</if>
-        	</script>
+<link type="text/css" rel="stylesheet" href="{$cssUrl}.css" />
 EOF;
+		//--endhtml--//
+		return $BWHTML;
 	}
-	
-	function addCSS($cssUrl="") {
+function addFlash($url="",$width=0,$height=0,$mode="opaque") {
 		$BWHTML .= <<<EOF
-		<link type="text/css" rel="stylesheet" href="{$cssUrl}.css" />
+<object height="{$height}" width="{$width}" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0">
+        <param name="movie" value="{$url}">
+        <param name="quality" value="high">
+        <param name="allowscriptaccess" value="samedomain">
+        <param value="{$mode}" name="wmode">
+        <embed height="{$height}" width="{$width}" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="{$url}" quality="high" allowscriptaccess="samedomain" wmode="{$mode}">
+          <noembed>
+          </noembed>
+        
+      </object>
+EOF;
+		//--endhtml--//
+		return $BWHTML;
+	}        
+	function importantAjaxCallBack(){
+		global $bw,$vsLang;
+		$BWHTML .= <<<EOF
 EOF;
 		return $BWHTML;
 	}
 
-	
-	
-	
-function addJavaScriptFile($file="", $type='file') {
-	global $bw;
-    $BWHTML .= <<<EOF
+	function addJavaScriptFile($file="",$type='file') {
+		global $bw;
+		$BWHTML .= <<<EOF
     <if="$type=='cur_file'">
 		<script type="text/javascript" src='{$bw->vars['cur_scripts']}/{$file}.js'></script>
 		<else />
@@ -305,30 +179,31 @@ function addJavaScriptFile($file="", $type='file') {
 			<script type="text/javascript" src='{$file}'></script>
 			<else />
 			<if="$type=='file'">
-				<script type="text/javascript" src='{$bw->vars['js']}/{$file}.js'></script>
+				<script type="text/javascript" src='{$bw->vars['board_url']}/javascripts/{$file}.js'></script>
 			</if>
 		</if>
 	</if>
+	
 EOF;
-	return $BWHTML;
-}
+		return $BWHTML;
+	}
 
-
-function addJavaScript($script="") {
-$BWHTML = "";
-$BWHTML .= <<<EOF
+	function addJavaScript($script="") {
+		$BWHTML = "";
+		$BWHTML .= <<<EOF
 <script language="javascript" type="text/javascript">
-{$script}
+
+		{$script}
 </script>
 EOF;
-return $BWHTML;
-}
+		return $BWHTML;
+	}
 
-function addDropDownScript($id="") {
-$BWHTML = "";
-//--starthtml--//
+	function addDropDownScript($id="") {
+		$BWHTML = "";
+		//--starthtml--//
 
-$BWHTML .= <<<EOF
+		$BWHTML .= <<<EOF
 ddsmoothmenu.init({
 	mainmenuid: "{$id}", //Menu DIV id
 	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
@@ -337,19 +212,21 @@ ddsmoothmenu.init({
 	contentsource: "markup", //"markup" or ["container_id", "path_to_menu_file"]
 })
 EOF;
-return $BWHTML;		
-}
 
-function PermissionDenied($error="") {
-$BWHTML .= <<<EOF
+		//--endhtml--//
+		return $BWHTML;
+	}
+
+	function PermissionDenied($error="") {
+		$BWHTML .= <<<EOF
 <div class="red">
-{$error}</div>
+		{$error}</div>
 EOF;
-return $BWHTML;
-}
+		return $BWHTML;
+	}
 
-function displayFatalError($message="",$line="",$file="", $trace="") {
-$BWHTML .= <<<EOF
+	function displayFatalError($message="",$line="",$file="", $trace="") {
+		$BWHTML .= <<<EOF
 <div class="vs-common">
 	<div class="red" align="left" style="padding: 20px">
 		Error: {$message}<br />
@@ -359,73 +236,29 @@ $BWHTML .= <<<EOF
 	</div>
 </div>
 EOF;
-return $BWHTML;
-}
-//http://khanglinh.com:8080/skins/user/finance/images/flash/header_980x135.swf
-//http://khanglinh.com:8080/skins/user/finance/flash/header_980x135.swf
-function global_main_title() {
-global $bw, $vsPrint;
-$BWHTML = "";
-//--starthtml--//
-$BWHTML .= <<<EOF
+		return $BWHTML;
+	}
+	function global_main_title() {
+		global $bw, $vsPrint;
+		$BWHTML = "";
+		//--starthtml--//
+		$BWHTML .= <<<EOF
 	<span class="{$bw->input['module']}">{$vsPrint->mainTitle}</span>
 EOF;
 
-//--endhtml--//
-return $BWHTML;
-}
-
-
-	
-	function Redirect($Text="",$Url="",$css="") {
-	global $bw;
-	$BWHTML = "";
-	$BWHTML .= <<<EOF
-	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html40/loose.dtd">
-	<html>
-		<head>
-		<title>Redirecting...</title>
-		<meta http-equiv='refresh' content='2; url=$Url' />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		$css
-		<style type="text/css">
-			.title
-			{
-				color:red;
-			}
-			.text
-			{
-				padding:10px;
-				color:#009F3C;
-			}
-		</style>
-		</head>
-	  	<body >
-			<center>
-			<table style="background-color:#6ac3cb" cellpadding="0" cellspacing="0" width="100%" height="100%"> 
-				<tr>
-					<td width="416px" align="center" valign="middle" style="background:url({$bw->vars ['board_url']}/styles/redirect/direct.jpg) no-repeat center  top;" height="432px">
-							<br/><br/><br/><br/>
-						<img src="{$bw->vars ['board_url']}/styles/redirect/turtle.gif">
-						<br/><br/>
-						<p class="text">{$Text}</p>
-					    <a href='$Url' title="{$Url}" class="title">( Click here if you do not wish to wait )</a>
-					 </td>
-				</tr>  
-			</table> 
-			</center>
-		</body>
-	</html>
-EOF;
-	return $BWHTML;
+		//--endhtml--//
+		return $BWHTML;
 	}
 	
-function pop_up_window($title="",$css="",$text="") {
-$IPBHTML = "";
-//--starthtml--//
+	//===========================================================================
+	// pop_up_window
+	//===========================================================================
+	function pop_up_window($title="",$css="",$text="") {
+		$IPBHTML = "";
+		//--starthtml--//
 
 
-$IPBHTML .= <<<EOF
+		$IPBHTML .= <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"> 
  <head> 
@@ -440,9 +273,61 @@ $IPBHTML .= <<<EOF
  </body>
 </html>
 EOF;
-return $IPBHTML;
+
+ //--endhtml--//
+ return $IPBHTML;
+	}
+
+	//===========================================================================
+	// Redirect
+	//===========================================================================
+	function Redirect($Text="",$Url="",$css="") {
+		global $bw;
+		$BWHTML = "";
+		//--starthtml--//
+		//
+		$BWHTML .= <<<EOF
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html40/loose.dtd">
+<html>
+	<head>
+	<title>Redirecting...</title>
+	<meta http-equiv='refresh' content='2; url=$Url' />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	$css
+	<style type="text/css">
+		.title
+		{
+			color:red;
+		}
+		.text
+		{
+			padding:10px;
+			color:#009F3C;
+		}
+	</style>
+	</head>
+  	<body >
+		<center>
+		<table style="background-color:#6ac3cb" cellpadding="0" cellspacing="0" width="100%" height="100%"> 
+			<tr>
+				<td width="416px" align="center" valign="middle" style="background:url({$bw->vars ['board_url']}/styles/redirect/direct.jpg) no-repeat center  top;" height="432px">
+						<br/><br/><br/><br/>
+					<img src="{$bw->vars ['board_url']}/styles/redirect/turtle.gif">
+					<br/><br/>
+					<p class="text">{$Text}</p>
+				    <a href='$Url' title="{$Url}" class="title">( Click here if you do not wish to wait )</a>
+				 </td>
+			</tr>  
+		</table> 
+		</center>
+	</body>
+</html>
+EOF;
+
+	//--endhtml--//
+	return $BWHTML;
+	}
+
 }
 
-
-}
 ?>

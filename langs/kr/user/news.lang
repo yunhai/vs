@@ -1,0 +1,13 @@
+<?php
+$lang = array (
+  'pageTitle' => '뉴스',
+  'main_title' => '뉴스',
+  'about_pagetitle' => 'GIỚI THIỆU CÔNG TY',
+  'news_title' => '뉴스',
+  'other_news' => '다른 소식',
+  'cactinkhac' => '다른 소식',
+  'ngaydangtin' => '날짜',
+);
+$userLang = array (
+);
+?>

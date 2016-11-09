@@ -4,7 +4,7 @@
  *
  * @package FavoriteCookiePlugin
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -34,10 +34,10 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 
 	function onRPC(&$man, $cmd, $input) {
 		if ($cmd == "addFavorites")
-		return $this->_addFavorites($man, $input);
+			return $this->_addFavorites($man, $input);
 
 		if ($cmd == "removeFavorites")
-		return $this->_removeFavorites($man, $input);
+			return $this->_removeFavorites($man, $input);
 
 		return null;
 	}
@@ -49,9 +49,9 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 			$status = $this->removeFavorite($man, $input["path". $i]);
 
 			if ($status)
-			$result->add("OK", $man->encryptPath($input["path". $i]), "Path was removed.");
+				$result->add("OK", $man->encryptPath($input["path". $i]), "Path was removed.");
 			else
-			$result->add("FAILED", $man->encryptPath($input["path". $i]), "Path was not removed.");
+				$result->add("FAILED", $man->encryptPath($input["path". $i]), "Path was not removed.");
 		}
 
 		return $result->toArray();
@@ -64,9 +64,9 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 			$status = $this->addFavorite($man, $input["path". $i]);
 
 			if ($status)
-			$result->add("OK", $man->encryptPath($input["path". $i]), "Path was added.");
+				$result->add("OK", $man->encryptPath($input["path". $i]), "Path was added.");
 			else
-			$result->add("FAILED", $man->encryptPath($input["path". $i]), "Path was not added.");
+				$result->add("FAILED", $man->encryptPath($input["path". $i]), "Path was not added.");
 		}
 
 		return $result->toArray();
@@ -93,10 +93,10 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 			array_unshift($patharray, $path);
 
 			if (count($patharray) > $maxfavorites)
-			array_pop($patharray);
+				array_pop($patharray);
 
 		} else
-		$patharray[] = $path;
+			$patharray[] = $path;
 
 		$cookievalue = implode(",", $patharray);
 
@@ -106,12 +106,12 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 
 	function getCookieData($type) {
 		if ($this->_cookieData)
-		return $this->_cookieData;
+			return $this->_cookieData;
 
 		if (isset($_COOKIE["MCManagerFavoriteCookie_". $type]))
-		return $_COOKIE["MCManagerFavoriteCookie_". $type];
+			return $_COOKIE["MCManagerFavoriteCookie_". $type];
 		else
-		return "";
+			return "";
 	}
 
 	function setCookieData($type, $val) {
@@ -137,13 +137,13 @@ class Moxiecode_FavoritesPlugin extends Moxiecode_ManagerPlugin {
 			for($i=0;$i<count($patharray);$i++) {
 				if (is_array($path)) {
 					if (in_array($patharray[$i], $path))
-					$break = true;
+						$break = true;
 
 				} else {
 					if ($patharray[$i] == $path)
-					$break = true;
+						$break = true;
 				}
-
+				
 				if ($break) {
 					array_splice($patharray, $i, 1);
 					break;
@@ -219,13 +219,13 @@ class FavoriteFile extends Moxiecode_BaseFileImpl {
 
 		$patharray = array();
 		if (IndexOf($cookievalue, ",") != -1)
-		$patharray = split(",", $cookievalue);
+			$patharray = split(",", $cookievalue);
 		else if ($cookievalue != "")
-		$patharray[] = $cookievalue;
+			$patharray[] = $cookievalue;
 
 		foreach ($patharray as $path) {
 			if (!$man->verifyPath($path))
-			continue;
+				continue;
 
 			$file = $man->getFile($path);
 
@@ -235,10 +235,10 @@ class FavoriteFile extends Moxiecode_BaseFileImpl {
 			}
 
 			if ($man->verifyFile($file) < 0)
-			continue;
+				continue;
 
 			if ($filter->accept($file) == BASIC_FILEFILTER_ACCEPTED)
-			$files[] = $file;
+				$files[] = $file;
 		}
 
 		return $files;
@@ -246,9 +246,9 @@ class FavoriteFile extends Moxiecode_BaseFileImpl {
 
 	function _getCookieData($type) {
 		if (isset($_COOKIE["MCManagerFavoriteCookie_". $type]))
-		return $_COOKIE["MCManagerFavoriteCookie_". $type];
+			return $_COOKIE["MCManagerFavoriteCookie_". $type];
 		else
-		return "";
+			return "";
 	}
 
 	function _removeFavorite(&$man, $path=array()) {
@@ -264,13 +264,13 @@ class FavoriteFile extends Moxiecode_BaseFileImpl {
 			for($i=0;$i<count($patharray);$i++) {
 				if (is_array($path)) {
 					if (in_array($patharray[$i], $path))
-					$break = true;
+						$break = true;
 
 				} else {
 					if ($patharray[$i] == $path)
-					$break = true;
+						$break = true;
 				}
-
+				
 				if ($break) {
 					array_splice($patharray, $i, 1);
 					break;

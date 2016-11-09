@@ -1,116 +1,131 @@
 <?php
-class Product extends BasicObject {
-	private $code 	= NULL;
-	private $price 	= NULL;
-	private $image 	= NULL;
-	private $hits 	= NULL;
-	
-	private $cleanTitle 	= NULL;
-	private $cleanContent 	= NULL;
-	
-	
-	public $message = NULL;
-	
+class Product extends BasicObject {	
+  	private $hotPrice = 0;
+	private $clearSearch = NULL;
+	private $manu	= NULL;
+
 	function __construct() {
 		parent::__construct ();
 	}
-	
+
 	function __destruct() {
 		parent::__destruct ();
-		unset ( $this->code );
 		unset ( $this->price );
-		unset ( $this->image );
-		unset ( $this->hits );
+		unset ( $this->certification );
+		unset ( $this->app );
 		unset ( $this->cleanTitle);
 		unset ( $this->cleanContent);
 	}
-	
 	public function convertToDB() {
-		isset ( $this->catId ) 	? ($dbobj ['productCatId'] 	= $this->getCatId()) : '';
-		isset ( $this->id ) 	? ($dbobj ['productId'] 	= $this->id) : '';
-		
-		isset ( $this->intro ) 	? ($dbobj ['productIntro'] 	= $this->intro) : '';
-		isset ( $this->content )? ($dbobj ['productContent']= $this->content) : '';
-		isset ( $this->code )	? ($dbobj ['productCode']	= $this->code) : '';
-		isset ( $this->image ) 	? ($dbobj ['productImage'] 	= $this->image) : '';
-		isset ( $this->postdate)? ($dbobj ['productPostDate']= $this->postdate) : '';
-		isset ( $this->price)	? ($dbobj ['productPrice']	= $this->price) : '';
-		isset ( $this->index ) 	? ($dbobj ['productIndex'] 	= $this->index) : '';
-		isset ( $this->hits ) 	? ($dbobj ['productHits'] 	= $this->hits) : '';
-		isset ( $this->status ) ? ($dbobj ['productStatus'] = $this->status) : '';
-				
-		if(isset ( $this->title )){
-			$dbobj ['productTitle'] 	 = $this->title;
-			$dbobj ['productCleanTitle'] = VSFTextCode::removeAccent(str_replace("/", '-', $this->title),'-');
+		$dbobj = parent::convertToDB('product');
+    	isset ( $this->postdate )       ? ($dbobj ["productPostDate"]   = $this->postdate) : "";
+      	isset ( $this->price)           ? ($dbobj ['productPrice']	 = $this->price) : '';            
+       	isset ( $this->hotPrice)	? ($dbobj ['productHotPrice']	 = $this->hotPrice) : '';
+		isset ( $this->clearSearch )  ? ($dbobj ['productClearSearch']       = $this->clearSearch) : '';
+		isset ( $this->manu ) 	? ($dbobj ['productManu'] 	= $this->manu) : '';
+		if(isset ( $this->intro ) || isset($this->content) || isset ( $this->title )){
+			$cleanContent = VSFTextCode::removeAccent($this->title)." ";
+			$cleanContent .= VSFTextCode::removeAccent(strip_tags($this->getIntro()))." ";
+			$cleanContent.= VSFTextCode::removeAccent(strip_tags($this->getContent()));
+			$dbobj['productClearSearch'] = $cleanContent;
 		}
-		
-		if(isset ( $this->intro ) || isset($this->content)){
-			$cleanContent = VSFTextCode::removeAccent(str_replace("/", '-', $this->intro),'-');
-			$cleanContent.= VSFTextCode::removeAccent(str_replace("/", '-', $this->content),'-');	
-			$dbobj ['productCleanContent'] = $cleanContent;	
-		}
-		return $dbobj;
+      	 return $dbobj;
 	}
-	
 	function convertToObject($object) {
 		global $vsMenu;
-		isset ( $object ['productId'] ) ? $this->setId ( $object ['productId'] ) : '';
-		isset ( $object ['productCatId'] ) ? $this->setCatId ( $object ['productCatId'] ) : '';
-		isset ( $object ['productCatId'] ) ? $this->setCategory ( $object ['productCatId'] ) : '';
-		isset ( $object ['productTitle'] ) ? $this->setTitle ( $object ['productTitle'] ) : '';
-		isset ( $object ['productIntro'] ) ? $this->setIntro ( $object ['productIntro'] ) : '';
-		isset ( $object ['productContent'] ) ? $this->setContent ( $object ['productContent'] ) : '';
-		isset ( $object ['productCode'] ) ? $this->setCode( $object ['productCode'] ) : '';
-		isset ( $object ['productPrice'] ) ? $this->setPrice( $object ['productPrice'] ) : '';
-		isset ( $object ['productImage'] ) ? $this->setImage ( $object ['productImage'] ) : '';
-		isset ( $object ['productPostDate'] ) ? $this->setPostdate ( $object ['productPostDate'] ) : '';
-		isset ( $object ['productHits'] ) ? $this->setHits ( $object ['productHits'] ) : '';
-		isset ( $object ['productIndex'] ) ? $this->setIndex ( $object ['productIndex'] ) : '';
-		isset ( $object ['productStatus'] ) ? $this->setStatus ( $object ['productStatus'] ) : '';
-	}
-	
-	function validate() {
-		$status = true;
-			
-		if ($this->title == "") {
-			$this->message .= "Product title can not be blank!";
-			$status = false;
-		}
-		return $status;
-	}
-	
-	public function getCode() {
-		return $this->code;
+       	parent::convertToObject($object,'product');
+		
+		isset ( $object ['productPostDate'] )   ? $this->setPostDate( $object ['productPostDate'] ) : '';
+		isset ( $object ['productPrice'] )      ? $this->setPrice( $object ['productPrice'] )       : '';
+    	isset ( $object ['productHotPrice'] )   ? $this->setHotPrice( $object ['productHotPrice'] ) : '';
+    	isset ( $object ['productClearSearch'] )   ? $this->setCleanSearch ( $object ['productClearSearch'] ) : '';
+		isset ( $object ['productManu'] ) 		? $this->manu = $object ['productManu'] : '';
 	}
 
-	public function getPrice() {
+
+	public function setApp($app) {
+		$this->app = $app;
+	}
+
+	public function setCertification($cer) {
+		$this->certification = $cer;
+	}
+        
+        public function setManu($app) {
+		$this->manu = $app;
+	}
+
+	public function getManu() {
+		return $this->manu;
+	}
+ 
+        public function getPrice($number=true,$rss=0) {
+		global $vsLang,$donvi;
+		if ((APPLICATION_TYPE=='user' && $number)||$rss){
+			if ($this->price>0){
+                                if($this->manu && $donvi[$this->manu])$temp =" / ".$donvi[$this->manu]->getTitle();
+				return number_format ( $this->price,0,"","." )."(VND)".$temp;
+			}
+			return $vsLang->getWords('callprice','Call');
+		}
+		
 		return $this->price;
 	}
 
-	public function getImage() {
-		return $this->image;
+        public function getHotPrice($number=true,$rss=0) {
+		global $vsLang;
+		if ((APPLICATION_TYPE=='user' && $number)||$rss){
+			if ($this->hotPrice>0){
+				return number_format ( $this->hotPrice,0,"","." );
+			}
+			return $vsLang->getWords('callprice','Call');
+		}
+		
+		return $this->hotPrice;
 	}
-
-	public function getHits() {
-		return $this->hits;
-	}
-
-	public function setCode($code) {
-		$this->code = $code;
-	}
-
-	public function setPrice($price) {
+	
+        public function setPrice($price) {
 		$this->price = $price;
 	}
 
-	public function setImage($image) {
-		$this->image = $image;
+        public function setHotPrice($price) {
+		$this->hotPrice = $price;
 	}
-
-	public function setHits($hits) {
-		$this->hits = $hits;
-	}
-
-
 	
+	function getContent($size=0, $br = 0, $tags = "") {
+		global $vsCom;
+
+		$parser = new PostParser ();
+		$parser->pp_do_html = 1;
+		$parser->pp_nl2br = $br;
+		
+		$content = $parser->post_db_parse($this->content);
+		if($size){
+			if($tags) $content = strip_tags($content, $tags);
+			else $content = strip_tags($content);
+			return VSFTextCode::cutString($content, $size);
+		}
+		return $content;
+	}
+	
+	public function getCleanSearch() {
+		return $this->cleanSearch;
+	}
+
+	public function setCleanSearch($cleanSearch) {
+		$this->cleanSearch = $cleanSearch;
+	}
+        
+        public function convertOrderItem() {
+            global $vsPrint;
+		if(!$this->getId())$vsPrint->boink_it($_SERVER['HTTP_REFERER']);
+                $item = array ( 'productId' 		=> $this->getId(),
+                                'itemPrice' 		=>$this->getPrice(false),
+                                'itemTitle' 		=> $this->getTitle(),
+                                'itemStatus'            =>$this->getStatus(),
+                                'itemQuantity' 		=> 1
+                                );
+                return $item;
+	}
+
 }

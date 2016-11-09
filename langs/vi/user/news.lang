@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Thông tin Hoàng Long',
+  'main_title' => 'Thông tin Hoàng Long',
+  'xemchitiet' => 'xem chi tiết',
+  'cactinkhac2' => 'CÁC TIN KHÁC',
+);
+$userLang = array (
+);
+?>

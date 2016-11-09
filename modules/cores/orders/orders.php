@@ -14,9 +14,11 @@ class orders extends VSFObject {
 		$this->primaryField = 'orderId';
 		$this->basicClassName = 'Order';
 		$this->tableName = 'order';
+                
 		$this->obj	=$this->createBasicObject ();
 		$this->fields = $this->obj->convertToDB();
-		$this->orderitem = new orderItems();
+		$this->orderitems = new orderItems();
+					
 	}
 	
 	function __destruct() {
@@ -24,17 +26,8 @@ class orders extends VSFObject {
 		unset ( $this->className );
 		unset ( $this->objsource );
 	}
+        
+        
 	
-	function getItemByUserId($userId, $url, $size, $index){
-		$this->orderitem->setCondition('bookUserId in ('.$userId.")");
-		$this->orderitem->setOrder('orderId DESC');
-		return $this->orderitem->getPageList($url, $index, $size);
-	}
-	
-	function updateOrderItem($condition= "", $update= array()){
-		if($condition) $this->orderitem->setCondition($condition);
-		$this->orderitem->updateObjectByCondition($update);
-		return $this->orderitem->result;
-	}
 }
 ?>

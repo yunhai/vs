@@ -5,10 +5,10 @@ class UserSession {
 	private $userId = NULL;
 	private $userStatus = NULL;
 	private $time 	= NULL;
-	
+
 	function __construct() {
 	}
-	
+
 	function __destruct() {
 		unset($this->id);
 		unset($this->code);
@@ -16,7 +16,7 @@ class UserSession {
 		unset($this->userId);
 		unset($this->userStatus);
 	}
-/**
+	/**
 	 * change Admin object to array to insert database
 	 * @return array $dbobj
 	 */
@@ -28,7 +28,7 @@ class UserSession {
 		isset ( $this->userStatus ) ? ($dbobj ['userStatus'] 	= $this->userStatus): '';
 		return $dbobj;
 	}
-	
+
 	/**
 	 * change Admin from database object to Admin object
 	 * @param array $dbobj Database object
@@ -41,7 +41,7 @@ class UserSession {
 		isset ( $object ['sessionTime'] ) 	? $this->setTime( $object ['sessionTime'] ) 	: '';
 		isset ( $object ['userId'] ) 		? $this->setUserId( $object ['userId'] ) 		: '';
 		isset ( $object ['userStatus'] ) 	? $this->setUserStatus( $object ['userStatus'] ): '';
-	}	
+	}
 	/**
 	 * get the Name of AdminSession class
 	 *
@@ -50,7 +50,7 @@ class UserSession {
 	public function getCode() {
 		return $this->code;
 	}
-	
+
 	/**
 	 * get the Description of AdminSession class
 	 *
@@ -87,17 +87,17 @@ class UserSession {
 	public function getId() {
 		return $this->id;
 	}
-	
+
 	/**
 	 * get Last Login time of AdminSession class
 	 * @return  int $this->lastLogin of AdminSession class
 	 */
 	public function getTime($format=null) {
 		if($format)
-			return VSFDateTime::GetDate($this->time,$format);
+		return VSFDateTime::GetDate($this->time,$format);
 		return $this->time;
 	}
-			
+		
 	/**
 	 * set the Name of AdminSession class
 	 *
@@ -106,7 +106,7 @@ class UserSession {
 	public function setId($id=0) {
 		$this->id = intval($id);
 	}
-	
+
 	/**
 	 * set the Password of AdminSession class
 	 *
@@ -115,12 +115,12 @@ class UserSession {
 	public function setCode($code=null){
 		$this->code = md5($code);
 	}
-	
+
 	/**
 	 * set the Last Login of the AdminSession class
 	 * @param int $lastlogin
 	 */
-	
+
 	public function setTime($time=0) {
 		$this->time = intval($time);
 	}

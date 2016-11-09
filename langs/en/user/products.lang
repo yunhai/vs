@@ -1,0 +1,37 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Products',
+  'main_title' => 'Products',
+  'news_title' => 'news',
+  'products_title' => 'Products',
+  'product_price' => 'Price',
+  'product_price_unit' => 'USD',
+  'other_news' => 'Other News',
+  'callprice' => 'Call',
+  'products_other' => 'same products',
+  'product_search' => 'Search for Products',
+  'home_giaban' => 'Price',
+  'home_giaKm' => 'Price KM',
+  'home_dathang' => 'Orders',
+  'Cac_tin_khac' => 'Other news',
+  'cacsanphamcungloai' => 'Same products',
+  'nhasanxuat' => 'Manufacture',
+  'dathang' => 'Orders',
+  'giaban' => 'Price',
+  'giaKm' => ' Price KM',
+  'goiphanhoi' => 'Send comment',
+  'xemphanhoi' => 'View comment',
+  'chiase' => 'Shared',
+  'feeback_fullname' => 'Full name',
+  'feeback_email' => 'Email',
+  'err_comment_name_blank' => 'please enter your Fullname!',
+  'err_commnet_email_blank' => 'Please enter right of kind email!',
+  'err_comment_title_blank' => 'Please enter Title!',
+  'err_comment_code_blank' => 'Please enter security code!',
+  'err_commnet_content_blank' => 'Please enter yours comment!',
+  'thank_message' => 'Security code not true',
+  'comment_successful' => 'Your comment had been send',
+);
+$userLang = array (
+);
+?>

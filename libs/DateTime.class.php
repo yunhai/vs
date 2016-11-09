@@ -10,8 +10,9 @@ class VSFDateTime {
 	/*-------------------------------------------------------------------------*/
 	// Get Date By BabyWolf (Simple)
 	/*-------------------------------------------------------------------------*/
-	function getDate($date, $method="SHORT", $standard=false){
-		global $bw, $vsLang, $vsSettings;
+	function getDate($date, $method="SHORT",$standard=false)
+	{
+		global $bw, $vsLang;
 
 		$daytext = array(	'Mon'	=> $vsLang->getWords('global_d_mon','Monday'),
 							'Tue'	=> $vsLang->getWords('global_d_tue','Tuesday'),
@@ -25,26 +26,28 @@ class VSFDateTime {
 		$date += $bw->vars['TimeZone']*3600;
 
 		if($method == "")
-			$method = "LONG";
+		$method = "LONG";
 
 		if($method == "SHORT")
-			$method = 'm/d/Y';
+		$method = 'd/m/Y';
 
 		if($method == "LONG")
-			$method = 'D d/m/Y h:i:s';
+		$method = 'D d/m/Y h:i:s';
 			
 		if($method == "VN_LONG")
-			$method = 'g:i d/m/Y';
+		$method = 'g:i d/m/Y';
 			
-			
-		$result = gmdate($method, $date);
-		$result = strtr($result, $daytext);
+		if($method == "RSS")
+        $method = 'd/m/Y h:i:s A';
+                    
+		$result = gmdate($method,$date);
+		$result = strtr($result,$daytext);
 
 		if($standard)
-			$result .= " GMT+(".$vsSettings->getSystemKey('global_servertimezone', '+7', 'global', 0, 1).")";
+		$result .= " GMT+(".isset($bw->vars['global_servertimezone'])?$bw->vars['global_servertimezone']:'7'.")";
+			
 		return $result;
 	}
-	
 	function GetRemainMonth($expireddate=0) {
 		$cmonth = $this->GetDate(time(),'m');
 		$cyear = $this->GetDate(time(),'Y');

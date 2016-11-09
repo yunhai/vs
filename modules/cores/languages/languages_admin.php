@@ -64,20 +64,22 @@ class languages_admin extends languages {
 
 	function auto_run() {
 		global $bw;
+
 		//-------------------------------------------
 		// What to do?
 		//-------------------------------------------
+
 		switch ($bw->input [1]) {
 			// User langauge zone
 			case 'switch':
-				$this->switchUserLanguage();
+					$this->switchUserLanguage();
 				break;
 
 				// Word zone
 			case 'deleteWord' :
 				$this->deleteWord ();
 				break;
-			case 'addMore' :
+			case 'addWord' :
 				$this->addMoreWord ();
 				break;
 				// Item File Lang Module zone
@@ -102,9 +104,6 @@ class languages_admin extends languages {
 			case 'viewLangModule' :
 				$this->viewLangModule ();
 				break;
-				//			case 'defaultLang' :
-				//				$this->defaultLang ();
-				//				break;
 			case 'deleteLang' :
 				$this->deleteLang ();
 				break;
@@ -141,13 +140,7 @@ class languages_admin extends languages {
 
 	}
 
-	function relation(){
-		global $systemsettings,$bw,$vsSkin;
 
-		$systemsettings->getGlobalSystemSetting("ddkey","val");
-
-
-	}
 	function additemform() {
 		//		global $bw, $vsTemplate;
 		return $this->output = $this->html->addLangItemForm ();
@@ -160,7 +153,6 @@ class languages_admin extends languages {
 		$language = $this->getLangById($bw->input[2]);
 		$_SESSION[APPLICATION_TYPE]['language']['currentLang'] = $language->convertToDB();
 		$vsPrint->boink_it($_SERVER['HTTP_REFERER']);
-		//$vsPrint->boink_it($bw->vars['board_url'].'/admin.php');
 	}
 
 	function defaultLang() {
@@ -181,7 +173,8 @@ class languages_admin extends languages {
 	}
 
 	function getWordArray() {
-		global $bw;
+		global $bw, $vsUser;
+
 		if ($bw->input [4]) {
 			$this->language->setId ( $bw->input [2] );
 			$this->langtype=$bw->input [3];
@@ -193,17 +186,72 @@ class languages_admin extends languages {
 			$_SESSION ['moduleName'] = $bw->input [3];
 		} else
 		require ($_SESSION ['pathLang']);
-		return $lang;
+
+                $lang['root'] = $lang;
+                $lang['user'] = $userLang;
+                return $lang;
+
 	}
 
-	function updateModuleWord($valuearr = array()) {
-		global $vsLang;
+	function updateModuleWord($valuearr = array(), $delete = 0) {
+		global $vsLang, $vsUser, $bw;
+                
+                require $_SESSION ['pathLang'];
+
+                if($delete==1){//Delete word
+                    $word = current($valuearr);
+                     if($lang[$word]) unset($lang[$word]);
+                    if($userLang[$word]) unset($userLang[$word]);
+//                    foreach ($lang as $k=>$v)
+//                        if($k==$word['key']) unset($lang[$k]);
+//                    foreach ($userLang as $k=>$v)
+//                        if($k==$word['key']) unset($userLang[$k]);
+                }else
+                    if($delete==2){
+                        if(!$vsUser->checkRoot()) $userLang=$userLang+$valuearr;
+                            else
+                                if(!$bw->input['root']) $userLang=$userLang+$valuearr;
+                                else
+                                    $lang=$lang+$valuearr;
+                    }else
+                    foreach($valuearr as $key=>$value){
+                        foreach ($lang as $k=>$v)
+                            if($k==$key) $lang[$k] = $value;
+                        foreach ($userLang as $k=>$v)
+                            if($k==$key) $userLang[$k] = $value;
+                    }
+
+
+
+
 
 		$content = "<?php\n";
-		$content .= "\$lang = ";
-		$content .= var_export ( $valuearr, true );
+
+                
+
+                if(!$vsUser->checkRoot()){
+                //require $_SESSION ['pathLang'];
+
+                $content .= "\$lang = ";
+		$content .= var_export ( $lang, true );
 		$content .= ";\n";
+
+		$content .= "\$userLang = ";
+		$content .= var_export ( $userLang, true );
+		$content .= ";\n";
+
+                }else{
+                    $content .= "\$lang = ";
+                    $content .= var_export ( $lang, true );
+                    $content .= ";\n";
+
+                    $content .= "\$userLang = ";
+                    $content .= var_export ( $userLang, true );
+                    $content .= ";\n";
+                }
+
 		$content .= "?>";
+  
 		@chmod ( $_SESSION ['pathLang'], 0777 );
 		$wf = fopen ( $_SESSION ['pathLang'], "w" );
 		fwrite ( $wf, $content );
@@ -213,45 +261,46 @@ class languages_admin extends languages {
 
 	function deleteWord() {
 		global $bw;
-		$valuearr = $this->getWordArray ();
-		unset ( $valuearr [$bw->input [3]] );
-		$this->updateModuleWord ( $valuearr );
+                $valuearr['key'] = $bw->input[3];
+		$this->updateModuleWord ( $valuearr, 1 );
 		$this->viewItem ( "The word key <b>[" . $bw->input [3] . "]</b> has been deleted." );
 	}
 
 	function addMoreWord() {
 		global $bw;
-		$valuearr = $this->getWordArray ();
-		$valuearr += array ($bw->input ['wkey'] => $bw->input ['wdisplay'] );
-
-		$this->updateModuleWord ( $valuearr );
+                
+		$valuearr = array ($bw->input ['wkey'] => $bw->input ['wdisplay'] );
+		$this->updateModuleWord ( $valuearr, 2);
 		$this->viewItem ( "The word key <b>[" . $bw->input ['wkey'] . "]</b> has been added with value <b>[" . $bw->input ['wdisplay'] . "]." );
 	}
 
 	function saveLanguages() {
 		global $bw;
 		$InputArray = array ();
-
 		foreach ( $bw->input as $key => $value ) {
 			if (substr ( $key, 0, 4 ) == 'key_')
 			$InputArray [substr ( $key, 4 )] = $value;
 		}
-
 		$this->updateModuleWord ( $InputArray );
 		$this->viewItem ( "All language in " . $bw->input [0] . " have been saved." );
 	}
 
 	function viewItem($message = "") {
-		global $vsTemplate;
+		global $vsTemplate, $vsUser;
 		$valuearr = $this->getWordArray ();
+                if(!$vsUser->checkRoot())
+                        $valuearr = $valuearr['user'];
+                else $valuearr = $valuearr['root']+$valuearr['user'];
 		$langitem ['moduleName'] = $_SESSION ['moduleName'];
 
+                if($valuearr)
 		foreach ( $valuearr as $key => $value ) {
 			$var_array['key']=$key;
 			$var_array['value']=$value;
 			$show[]=$var_array;
 			//			$vsTemplate->assign_block_vars($var_array,'WORD_ITEM');
 		}
+                
 		$showall['WORD_ITEM'] = $show;
 		unset($var_array);
 		unset($valuearr);
@@ -312,14 +361,12 @@ class languages_admin extends languages {
 	function viewLangModule($message='') {
 		global $bw,$vsTemplate;
 
-		$_SESSION ['url_href'] = $bw->input ['vs'];
+		$_SESSION['url_href'] = $bw->input ['vs'];
 
-		$form['CURRENT_LANG_ITEM']=$this->getLangItemList ($message);
-		$form ['CURRENT_LANG_ADD_ITEM']= $this->html->addLangItemForm();
+		$form['CURRENT_LANG_ITEM'] = $this->getLangItemList($message);
+                
+		$form['CURRENT_LANG_ADD_ITEM'] = $this->html->addLangItemForm();
 		$this->output = $this->html->FileLangMainAjax($form);
-
-		//		$vsTemplate->assign_vars_form_string( $this->html->addLangItemForm(),'CURRENT_LANG_ADD_ITEM');
-		//		$vsTemplate->assign_vars_form_string( $this->html->FileLangMainAjax());
 	}
 	/**
 	 * This function is for get all items in a Lang
@@ -375,18 +422,17 @@ class languages_admin extends languages {
 	* @return html of add form and item list
 	*/
 	function viewLangWith() {
-		global $bw,$vsTemplate;
+		global $bw,$vsTemplate,$vsUser;
 
 		$_SESSION ['url_href'] = $bw->input ['vs'];
 
 		$show['CURRENT_LANG_ITEM']=$this->getLangItemList ();
-
+                if($vsUser->checkRoot())
 		$show['CURRENT_LANG_ADD_ITEM']=$this->html->addLangItemForm();
+                else $show['CURRENT_LANG_ADD_ITEM'] = '';
 
 		$this->output = $this->html->FileLangMain($show);
 
-		//		$vsTemplate->assign_vars_form_string( $this->html->addLangItemForm(),'CURRENT_LANG_ADD_ITEM');
-		//		$vsTemplate->assign_vars_form_string( $this->html->FileLangMain(),'moduleHandle',0);
 	}
 
 	/**
@@ -405,23 +451,19 @@ class languages_admin extends languages {
 		$form ['message'] = $message;
 		$form ['title'] = $vsLang->getWords ( 'creat_new_lang' ,' Create Language set  ');
 		$form['submit'] = $vsLang->getWords('creat_new_lang_bt','Add');
-		if ($formtype=='edit')
-		{
+		if($formtype=='edit'){
 			$this->language = $this->getLangById ( $bw->input [2] );
 			$form['submit'] = $vsLang->getWords('edit_selected_lang_bt','Edit');
 			$form ['title'] = $vsLang->getWords ( 'edit_selected_lang' ,' Edit Language set  ');
 			$form['switchform'] = <<<EOF
-		<input class="button" type="button" value="Switch to Add Form" name="switch" onclick="javascript:vsf.get('Languages/addLangForm/','langmodule');" />
+				<input class="button" type="button" value="Switch to Add Form" name="switch" onclick="javascript:vsf.get('languages/addLangForm/','langmodule');" />
 EOF;
-			//		$vsTemplate->convertObject($this->language);
-			$form['language']=$this->language;
+			$form['language'] = $this->language;
 		}
-		// Get flags symbol from flags folder
-		$flags = $this->getLanguageSymbol ();
+		$flags = $this->getLanguageSymbol();
 
 		$form['flags'] = $flags;
-		// Set up properties and attribs for flag options
-		if(!$form['language'])$form['language']=new Lang();
+		if(!$form['language'])$form['language'] = new Lang();
 
 		return $this->output = $this->html->addEditLangForm ($form);
 	}
@@ -565,11 +607,8 @@ EOF;
 	 * @return Out put module html
 	 */
 	function displayLanguagesForm() {
-		global $bw,$vsTemplate;
 		$show['form'] = $this->addEditLangForm ();
-
 		$show['list'] = $this->getLangsList ();
-
 
 		return $this->output = $this->html->languagesMain($show);
 	}

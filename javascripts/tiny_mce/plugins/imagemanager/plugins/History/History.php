@@ -4,7 +4,7 @@
  *
  * @package HistoryCookiePlugin
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -50,10 +50,10 @@ class Moxiecode_HistoryPlugin extends Moxiecode_ManagerPlugin {
 			array_unshift($patharray, $path);
 
 			if (count($patharray) > $maxhistory)
-			array_pop($patharray);
+				array_pop($patharray);
 
 		} else
-		$patharray[] = $path;
+			$patharray[] = $path;
 
 		$cookievalue = implode(",", $patharray);
 
@@ -63,9 +63,9 @@ class Moxiecode_HistoryPlugin extends Moxiecode_ManagerPlugin {
 
 	function getCookieData($type) {
 		if (isset($_COOKIE["MCManagerHistoryCookie_". $type]))
-		return $_COOKIE["MCManagerHistoryCookie_". $type];
+			return $_COOKIE["MCManagerHistoryCookie_". $type];
 		else
-		return "";
+			return "";
 	}
 
 	function setCookieData($type, $val) {
@@ -138,13 +138,13 @@ class Moxiecode_HistoryFile extends Moxiecode_BaseFileImpl {
 
 		$patharray = array();
 		if (IndexOf($cookievalue, ",") != -1)
-		$patharray = split(",", $cookievalue);
+			$patharray = split(",", $cookievalue);
 		else if ($cookievalue != "")
-		$patharray[] = $cookievalue;
+			$patharray[] = $cookievalue;
 
 		foreach ($patharray as $path) {
 			if (!$man->verifyPath($path))
-			continue;
+				continue;
 
 			$file = $man->getFile($path);
 
@@ -154,10 +154,10 @@ class Moxiecode_HistoryFile extends Moxiecode_BaseFileImpl {
 			}
 
 			if ($man->verifyFile($file) < 0)
-			continue;
+				continue;
 
 			if ($filter->accept($file) == BASIC_FILEFILTER_ACCEPTED)
-			$files[] = $file;
+				$files[] = $file;
 		}
 
 		return $files;
@@ -165,9 +165,9 @@ class Moxiecode_HistoryFile extends Moxiecode_BaseFileImpl {
 
 	function _getCookieData($type) {
 		if (isset($_COOKIE["MCManagerHistoryCookie_". $type]))
-		return $_COOKIE["MCManagerHistoryCookie_". $type];
+			return $_COOKIE["MCManagerHistoryCookie_". $type];
 		else
-		return "";
+			return "";
 	}
 
 	function _removeFavorite(&$man, $path=array()) {
@@ -183,13 +183,13 @@ class Moxiecode_HistoryFile extends Moxiecode_BaseFileImpl {
 			for($i=0;$i<count($patharray);$i++) {
 				if (is_array($path)) {
 					if (in_array($patharray[$i], $path))
-					$break = true;
+						$break = true;
 
 				} else {
 					if ($patharray[$i] == $path)
-					$break = true;
+						$break = true;
 				}
-
+				
 				if ($break) {
 					array_splice($patharray, $i, 1);
 					break;

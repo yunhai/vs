@@ -1,25 +1,29 @@
 <?php
 class skin_admins {
 function MainPage() {
-global $bw, $vsLang,$vsUser;
+global $bw, $vsLang,$vsUser,$vsSettings;
 $BWHTML = "";
 $BWHTML .= <<<EOF
+<script></script>
 <div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
 	<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all-inner">
 		<li class="ui-state-default ui-corner-top">
         	<a href="{$bw->base_url}admins/displayadmin/&ajax=1">{$vsLang->getWords('tab_admin_users','Admin Users')}</a></li>
-        <if="$vsUser->checkViewPermission($bw->input[0],'displaygroup')">
+        <if="$vsUser->checkViewPermission($bw->input[0],'displaygroup') and $vsSettings->getSystemKey($bw->input['module'].'_group_tab', 0, $bw->input['module'])">
     	<li class="ui-state-default ui-corner-top ">
     		<a href="{$bw->base_url}admins/displaygroup/&ajax=1">{$vsLang->getWords('tab_admin_groups','Admin Groups')}</a></li>
     	</if>
-    	<if="$vsUser->checkViewPermission($bw->input[0],'permission')">
+    	<if="$vsUser->checkViewPermission($bw->input[0],'permission')and  $vsSettings->getSystemKey($bw->input['module'].'_permission_tab', 0, $bw->input['module'])">
 		<li class="ui-state-default ui-corner-top">
         	<a href="{$bw->base_url}admins/permission/&ajax=1">{$vsLang->getWords('tab_admin_permission','Admin Permission')}</a></li>
         </if>
-        
+        <if=" $vsSettings->getSystemKey($bw->input['module'].'_settings_tab', 0, $bw->input['module']) ">
         <li class="ui-state-default ui-corner-top">
         	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">{$vsLang->getWords("tab_{$bw->input[0]}_ss",'Settings')}</a></li>
-        
+        </if>
+       <!-- <li class="ui-state-default ui-corner-top">
+			        		<a href="{$bw->base_url}settings/moduleObjTab/config/&ajax=1">{$vsLang->getWords('tab_contact_config','Người dùng cấu hình')}</a>
+			        	</li> -->
 </ul>
 <div class="clear"></div>
 </div>
@@ -314,6 +318,7 @@ $BWHTML = "";
 
 
 $BWHTML .= <<<EOF
+<input type="hidden" name="checkedObj" id="checked-obj" value="" />
 <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-top">
 	<span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{$vsLang->getWords('admin_list','List of admins')}</a></h3>
 <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
@@ -343,7 +348,7 @@ $BWHTML .= <<<EOF
     <table  cellpadding="0" cellspacing="1" width="100%">
         <thead>
             <tr>
-            	<th width="15"><input type="checkbox" onclick="checkAll()" onclicktext="checkAll()" name="all" /></th>
+            	<th width="15"><input type="checkbox" onclick="vsf.checkAll()" name="all" /></th>
                 <th>{$vsLang->getWords('admin_list_name','Account')}</th>
                 <th>{$vsLang->getWords('admin_list_visible','Is Visible?')}</th>
                 <th>{$vsLang->getWords('admin_list_joindate','Joined date')}</th>
@@ -360,12 +365,12 @@ $BWHTML .= <<<EOF
 			<tr class="{$class}">
 				<td>
 					<if=" !$obj->current ">
-						<input type="checkbox" onclicktext="checkObject({$obj->getId()});" onclick="checkObject({$obj->getId()});" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
+						<input type="checkbox"  onclick="vsf.checkObject();" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
 					<else />
 						<img src='{$bw->vars['img_url']}/disabled.png' alt='X' style="margin-left: 3px;" />
 					</if>
 				</td>
-				<td onclick="vsf.get('admins/editadmin/{$obj->getId()}/','adminform');" class="cursor" title="{$vsLang->getWords('edit_title','Edit this information')}">
+				<td  class="cursor" ">
 					<a title="{$vsLang->getWords('global_a_title_edit',"Edit this information")}" href="javascript:vsf.get('admins/editadmin/{$obj->getId()}/','adminform');">
 	               		{$obj->getName()}
 	               	</a>	
@@ -389,114 +394,44 @@ $BWHTML .= <<<EOF
     <div class="clear"></div>
 </div>
 <script>
-	function checkObject() {
-					var checkedString = '';
-					$("input[type=checkbox]").each(function(){
-						if($(this).hasClass('myCheckbox')){
-							if(this.checked) checkedString += $(this).val()+',';
-						}
-					});
-					checkedString = checkedString.substr(0,checkedString.lastIndexOf(','));
-					$('#checked-obj').val(checkedString);
-					
-				}
-			
-				function checkAll() {
-					var checked_status = $("input[name=all]:checked").length;
-					var checkedString = '';
-					$("input[type=checkbox]").each(function(){
-						if($(this).hasClass('myCheckbox')){
-						this.checked = checked_status;
-						if(checked_status) checkedString += $(this).val()+',';
-						}
-					});
-					$("span[acaica=myCheckbox]").each(function(){
-						if(checked_status)
-							this.style.backgroundPosition = "0 -50px";
-						else this.style.backgroundPosition = "0 0";
-					});
-					$('#checked-obj').val(checkedString);
-				}
-				
-				$(document).ready(function(){
- 					$("#check_all_admin").click(function(){						
-							var checked_status = this.checked;
-						$("input[class=ck_admin]").each(function(){
-								this.checked = checked_status;
-							});
-						});
-
-				});
-				function getJson(){
-					var flag="true"; var jsonStr = "";
-								$("input[type=checkbox]").each(function(){
-									if($(this).hasClass('myCheckbox')){
-										if(this.checked){
-											flag="false";
-											jsonStr += this.value + ',';
-										}
-									}
-								});				
-													
-								jsonStr = jsonStr.substr(0,jsonStr.lastIndexOf(','));
-								if(flag=="true"){
-										jAlert(
-											"aaaa",
-											"{$bw->vars['global_websitename']} Dialog"
-										);
-										return false;
-								}
-						return jsonStr;
-				}
-				function deleteAllAdmin(){
-						jConfirm(
-							'{$vsLang->getWords("contact_deleteContactConfirm","Are you sure to delete this contact information?")}', 
-							'{$bw->vars['global_websitename']} Dialog', 
-							function(r){
-								if(r){
-									var flag="true"; var jsonStr = "";
-									
-								jsonStr = getJson();
-								
-								if(jsonStr)
-									vsf.get('admins/deleteadmins/'+jsonStr+'/&pageIndex={$bw->input[2]}','obj-list');
-								}
-							}
-						);
-					}
-					function showAllAdmin(){
-						jConfirm(
-							'{$vsLang->getWords("contact_showAdminConfirm","Are you sure to show this contact information?")}', 
-							'{$bw->vars['global_websitename']} Dialog', 
-							function(r){
-								if(r){
-									var flag="true"; var jsonStr = "";
-									
-								jsonStr = getJson();
-								
-								if(jsonStr)
-									vsf.get('admins/showAdmins/'+jsonStr+'/&pageIndex={$bw->input[2]}','obj-list');
-								}
-							}
-						);
-					}	
-					function hiddenAllAdmin(){
-						jConfirm(
-							'{$vsLang->getWords("contact_hiddenContactConfirm","Are you sure to hidden this contact information?")}', 
-							'{$bw->vars['global_websitename']} Dialog', 
-							function(r){
-								if(r){
-									var flag="true"; var jsonStr = "";
-									
-								jsonStr = getJson();
-							
-								if(jsonStr)
-									vsf.get('admins/hiddenAdmins/'+jsonStr+'/&pageIndex={$bw->input[2]}','obj-list');
-								}
-							}
-						);
-					}	
-				</script>
+     
+        function deleteAllAdmin(){
+                if(vsf.checkValue())
+                            jConfirm(
+                                    '{$vsLang->getWords("contact_deleteContactConfirm","Are you sure to delete this contact information?")}',
+                                    '{$bw->vars['global_websitename']} Dialog',
+                                    function(r){
+                                            if(r){
+                                                    vsf.get('admins/deleteadmins/'+$('#checked-obj').val()+'/&pageIndex={$bw->input[2]}','obj-list');
+                                            }
+                                    }
+                            );
+                }
+        function showAllAdmin(){
+        if(vsf.checkValue())
+                jConfirm(
+                        '{$vsLang->getWords("contact_showAdminConfirm","Are you sure to show this contact information?")}',
+                        '{$bw->vars['global_websitename']} Dialog',
+                        function(r){
+                                if(r){
+                                        vsf.get('admins/showAdmins/'+ $('#checked-obj').val() +'/&pageIndex={$bw->input[2]}','obj-list');
+                                }
+                        }
+                );
+        }
+        function hiddenAllAdmin(){
+        if(vsf.checkValue())
+                jConfirm(
+                        '{$vsLang->getWords("contact_hiddenContactConfirm","Are you sure to hidden this contact information?")}',
+                        '{$bw->vars['global_websitename']} Dialog',
+                        function(r){
+                                if(r){
+                                        vsf.get('admins/hiddenAdmins/'+$('#checked-obj').val()+'/&pageIndex={$bw->input[2]}','obj-list');
+                                }
+                        }
+                );
+        }
+        </script>
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -534,14 +469,17 @@ $BWHTML .= <<<EOF
         	<tr>
                 <th>{$vsLang->getWords('admin_form_header_name','Account')}</th>
                 <td><input id="adminName" type="text" name="adminName" value="{$obj->getName()}" /></td>
-            </tr><tr>
+            </tr>
+            <tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_password','Password')}</th>
                 <td><input id="adminPassword" type="password" name="adminPassword" value="" /></td>
             </tr>
+            
             <tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_visible','Is visible')}</th>
-                <td><input class="checkbox" type="checkbox" name="adminStatus" value="1"/></td>
+                <td><input class="checkbox" type="checkbox" name="adminStatus" id="adminStatus" value="1"/></td>
             </tr>
+             
             <if="$vsSettings->getSystemKey('admin_index',0, 'admins')">
             <tr>
                 <th valign="top">{$vsLang->getWords('admin_form_header_index','Index')}</th>
@@ -645,7 +583,7 @@ $('#addedtiadmin').click(function(){
 $(document).ready(function () {
 	var the_LANGFORM	= window.document.getElementById('addeditadmin');
 
-	vsf.checkbox('{$obj->getStatus()}',the_LANGFORM.adminStatus);
+	vsf.jCheckbox('{$obj->getStatus()}','adminStatus');
 	var listgroup = "{$obj->getGroups()}";
 	
 	if(listgroup.length){
@@ -724,11 +662,34 @@ return $BWHTML;
 }
 
 function LoginForm($error = "") {
-global $bw, $vsLang;
- 
+global $bw, $vsLang, $vsSettings;
 $BWHTML = "";
 $BWHTML .= <<<EOF
+<if="$bw->input['ajax']">
+        <script>
+        $(document).ready(function()
+        {
+            document.location.href='{$bw->vars['board_url']}/admin.php';
+            });
+        </script>
+<else />
+
 <center>
+<a id="checkie" href="#TB_inline?height=220&width=600&inlineId=hiddenModalContent&modal=true" class="thickbox"></a>
+<div style="display: none;" id="hiddenModalContent">
+<p style="text-align:center; font-size:16px; padding-top:40px"><span>{$vsLang->getWords('ie6_notes','You are using IE. Please use FireFox to website administrator.
+If not FireFox. You can download the browser here.')}</span><br />
+    <p style="text-align:center">
+        <a href="{$vsSettings->getSystemKey('firefox_link', 'http://www.mozilla.com/', 'global', 1, 1)}" target="_blank">
+            <img src="{$bw->vars['img_url']}/download.gif" />
+        </a>
+    </p>
+</p>
+<p style="float:right; vertical-align:bottom;">
+
+<!--<a id="TB_closeWindowButton" href="#">{$vsLang->getWords('close', 'Close')}</a>-->
+</p>
+</div>
 <a target="_blank" href="{$bw->vars ['board_url']}" class="buttom_back_cd" title="{$bw->vars ['global_websitename']}">Trở lại trang chủ</a>
 <a target="_blank" href="http://www.vietsol.net" style="right:0px;left:auto;padding-left:25px;" class="buttom_back_cd logo_cd" title="{$vsLang->getWords('global_vietsolution_full','Công ty TNHH Thương Mại Điện Tử Giải Pháp Việt')}">
 	{$vsLang->getWordsGlobal('global_version', 'VS FRAMEWORK 4.0')}
@@ -744,7 +705,8 @@ $BWHTML .= <<<EOF
 	<center>
 <div class="uvn-login" align="center">
 <div class="uvn-login-form">
-	
+        
+        
 	<div class="login-form">
 	<p align="center" class="system_error"></p>
 		<form action="{$bw->base_url}admins/dologin/" method="post">
@@ -759,8 +721,9 @@ $BWHTML .= <<<EOF
 			</div>
 			<!--
 			<div class="remember">
-				<input type="checkbox" />
-				<span>{$vsLang->getWords('admins_rememberPassword','Remember these informations')}</span>
+				
+				<span><a href="">{$vsLang->getWords('admins_forgorpass','Forgot Password')}</a></span>
+				
 			</div>
 			-->
 			<div class="submit-cell"><button class="log_me_in" type="submit">{$vsLang->getWords('admins_logInTitle','Login')}</button></div>
@@ -778,8 +741,8 @@ $BWHTML .= <<<EOF
 <script type="text/javascript">
 $(document).ready(function()
 {
-	 var viewportwidth;
-	 var viewportheight;
+         var viewportwidth;
+	
  if (typeof window.innerWidth != 'undefined')
  {
       viewportwidth = window.innerWidth,
@@ -800,6 +763,7 @@ $(document).ready(function()
 
 	var percent=((viewportheight-$('#wrapper').height())/viewportheight*100)/2;
 	var percentwidth=((viewportwidth-$('#wrapper').width())/viewportwidth*100)/2;
+                        
 	$('#container').css('top','140px');
 	$('#container').css('left','150px');
 
@@ -849,6 +813,7 @@ $('.error').html('<strong>Đang bật chế độ Caps Lock!</strong><br /> Mậ
 setfocus();
 document.getElementById('adminPassword').onkeypress = caps_check;
 </script>
+</if>
 EOF;
 
 return $BWHTML;

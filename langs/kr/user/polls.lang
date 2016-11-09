@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'polls',
+  'main_title' => 'polls',
+);
+$userLang = array();
+?>

@@ -1,0 +1,245 @@
+#content{
+	width:712px;
+	float:right;
+	overflow:hidden;
+	margin-right:12px;
+	margin-bottom:35px;
+}
+.main_title{
+	position:relative;
+	background:url(../images/line.png) no-repeat right bottom;
+	padding-bottom:19px;
+	margin-bottom:3px;
+}
+.main_title_text,.main_title_gallery,.main_title_gallery2,.main_title_service,.main_title_map,.main_title_khuyenmai,.main_title_contact,.main_title_tuyendung{
+	background:url(../images/tintuc_icon.png) no-repeat left center;
+	padding-left:35px;
+	height:26px;
+	line-height:26px;
+	color:#6a0606;
+	font-size:15px;
+}
+#center{
+	background:#fbfbfb url(../images/line2.png) no-repeat bottom center;
+	border:1px solid #d2d2d2;
+}
+.tintuc{
+	width:660px;
+	padding:3px 16px 55px 32px;
+}
+.news_item{
+	margin-top:20px;
+}
+.news_item h3 a,.tintuc_title{
+	background:url(../images/line.png) no-repeat bottom left;
+	padding-bottom:22px;
+	display:block;
+	color:#520606;
+}
+.news_item h3 a span,.tintuc_title span{
+	color:#606060;
+	font-weight:normal;
+}
+.news_img{
+	float:right;
+	border:1px solid #cfcfcf;
+	padding:3px;
+	width:145px;
+	height:101px;
+	overflow:hidden;
+	margin-left:10px;
+}
+.tintuc_title{
+	padding-top:20px;
+	margin-bottom:10px;
+}
+.detail p{
+	padding-bottom:10px;
+}
+.other{
+	padding-bottom:40px;
+}
+.other a{
+	display:block;
+	background:url(../images/dot.png) no-repeat left 8px;
+	padding-bottom:5px;
+	text-indent:10px;
+	color:#666;
+}
+
+/*================================
+			GALLERY
+================================*/
+.main_title_gallery{
+	background:url(../images/gallery_icon.png) no-repeat left center;
+}
+.gallery{
+	padding-bottom:20px;
+}
+.gallery a{
+	float:left;
+	width:149px;
+	height:148px;
+	text-align:center;
+	border:3px solid #fff;
+	margin-right:12px;
+	margin-bottom:10px;
+	margin-left:11px;
+}
+.main_title_gallery2{
+	background:url(../images/gallery_icon2.png) no-repeat left center;
+}
+.video{
+	width:695px;
+	height:385px;
+	margin:10px auto;
+}
+.gallery_dangnhap form{
+	background:url(../images/dangnhap_bg.png) no-repeat;
+	width:446px;
+	padding:88px 300px 34px 45px;
+}
+.gallery_dangnhap form label{
+	float:left;
+	width:108px;
+	line-height:23px;
+	color:#000;
+	font-weight:bold;
+}
+.gallery_dangnhap form input{
+	width:336px;
+	text-indent:10px;
+	border:1px solid #d3d2d2;
+	height:17px;
+	padding:3px 0px;
+}
+.gallery_dangnhap form input.gallery_btn{
+	width:88px;
+	height:25px;
+	color:#fff;
+	padding:0px;
+	border:none;
+	background:url(../images/gallery_btn.jpg) no-repeat;
+	font-size:10px;
+	text-indent:0px;
+	float:right;
+	margin-top:10px;
+}
+
+/*================================
+			SERVICE
+================================*/
+.main_title_service{
+	background:url(../images/dichvu_icon.png) no-repeat left center;
+}
+.main_title_map{
+	background:url(../images/map_icon.png) no-repeat left center;
+}
+.sodosanh img{
+	margin-top:10px;
+}
+.thucdon{
+	padding-left:35px;
+	width:675px;
+	padding-top:20px;
+	padding-bottom:70px;
+}
+.main_title_khuyenmai{
+	background:url(../images/khuyenmai_icon.png) no-repeat left center;
+}
+.main_title_contact{
+	background:url(../images/contact_icon.png) no-repeat left center;
+}
+.main_title_tuyendung{
+	background:url(../images/tuyendung_icon.png) no-repeat left center;
+}
+/*===================================================
+				LIEN HE
+==================================================*/
+#contact h3.title_center {
+    color:#da251c;
+	font-weight:normal;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+#contact{
+    width:500px;
+	margin-bottom:30px;
+}
+#contact form label,.form_tuyendung label {
+    float: left;
+    width: 61px;
+	font-weight:bold;
+	margin-bottom:8px;
+	line-height:20px;
+	text-align:right;
+	margin-right:5px;
+}
+#contact form input, #contact form textarea ,.form_tuyendung input, .form_tuyendung textarea {
+    float: left;
+    font-size: 11px;
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 8px;
+    width:412px;
+}
+#contact form input.input_submit, #contact form input.input_reset, .form_tuyendung input.tuyendung_submit, .form_tuyendung input.tuyendung_reset {
+    background: url("../images/btn_contact.jpg") no-repeat scroll 0 0 transparent;
+    border:none;
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 65px;
+    margin-top: 10px;
+    padding-bottom: 2px;
+    text-align: center;
+    width: 68px;
+}
+#contact form input.input_reset,  .form_tuyendung input.tuyendung_reset {
+    margin-left: 10px;
+}
+#contact form textarea, .form_tuyendung textarea {
+    height: 110px;
+}
+#contact form img,.form_tuyendung img{
+	float:left;
+	margin-left:5px;
+}
+#contact form a.mamoi,.form_tuyendung a.mamoi{
+	float:left;
+	background:url(../images/capcha_btn.jpg) no-repeat left center;
+	padding-left:23px;
+	color:#666666;
+	margin-left:5px;
+    margin-top: 3px;
+}
+.map {
+    background:#FFFFFF;
+    border: 1px solid #CCCCCC;
+    height: 253px;
+    padding: 3px;
+    width:503px;
+	margin-bottom:30px;
+}
+#contact p img{
+	vertical-align:middle;
+	margin-right:5px;
+}
+.form_tuyendung label {
+	width:87px;
+}
+.form_tuyendung input.tuyendung_submit{
+	margin-left:90px;
+}
+.tuyendung{
+	padding:30px 30px 60px 30px;
+	width:650px;
+}
+.tuyendung a{
+	display:block;
+	background:url(../images/icon8.jpg) no-repeat left 3px;
+	padding-left:15px;
+	padding-bottom:10px;
+	color:#666;
+}

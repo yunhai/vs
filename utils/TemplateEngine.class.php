@@ -6,10 +6,10 @@
 |   =============================================
 |   by Matthew Mecham
 |   (c) 2001 - 2006 Invision Power Services, Inc.
-|   
+|
 |   =============================================
-|   
-|   
+|
+|
 +---------------------------------------------------------------------------
 |   > $Date: 2005-10-10 14:03:20 +0100 (Mon, 10 Oct 2005) $
 |   > $Revision: 22 $
@@ -25,13 +25,13 @@
 |   New template module to build, rebuild and generate caches of templates
 |   which include the new IPB HTML Logic system.
 |   Example:
-|   
+|
 |    <if='ibf.vars['threaded_per_page'] == 10'>
 |       html here
 ||    <else />
 |       html here
 |    </if>
-|   
+|
 +--------------------------------------------------------------------------
 */
 
@@ -52,7 +52,7 @@ class VSFTemplate
     var $foreach_blocks = array();
     var $allow_php_code = 1;
     public $global_template;
-    
+
     function __construct($templatePath="",$rebuild=0)
     {
         $this->skin_path = $this->root_path . $templatePath;
@@ -67,7 +67,7 @@ class VSFTemplate
         fwrite($file, $file_content);
         fclose($file);
     }
-    
+
     function load_template($template_file_name=""){
         if($this->arrayTemplate[$template_file_name])
             return new $template_file_name();
@@ -79,7 +79,7 @@ class VSFTemplate
         }
         if(!is_dir($this->cache_path))
             mkdir($this->cache_path, 0777, true);
-        
+
         if(!file_exists($this->skin_path."/".$template_file_name.".php"))
         {
             print $this->skin_path."/".$template_file_name.".php không tồn tại";
@@ -92,9 +92,10 @@ class VSFTemplate
         eval($result) ;
         $this->write_cache($result,$this->cache_path."/".$template_file_name.".php");
         $this->arrayTemplate[$template_file_name]=$template_file_name;
+        
         return new $template_file_name();
     }
-    
+
     function convert_cache_to_eval($data='', $full_class_name='', $id=1)
     {
         $final_content = $this->_return_function_data( $data );
@@ -103,7 +104,7 @@ class VSFTemplate
             $_templates = array();
             preg_match( "#<__templatebits__>(.+?)</__templatebits__>#is", $data, $match );
             if ( $match[1] )
-            { 
+            {
                 preg_match_all( "#<bit>(.+?)</bit>#is", $data, $matches );
                 for ( $i = 0; $i < count( $matches[0] ); $i++)
                 {
@@ -112,12 +113,12 @@ class VSFTemplate
                         $_templates[ $file ][] = $name;
                 }
             }
-            
+
             if ( is_array( $_templates ) AND count( $_templates ) )
                 foreach( $_templates as $file => $idx )
                 {
                     $_data = implode( '', file( CACHE_PATH."cache/skin_cache/cacheid_".$id."/".$file.".php" ) );
-                    
+
                     $final_content .= $this->_return_function_data( $_data, $_templates[ $file ] );
                 }
         }
@@ -129,30 +130,30 @@ class VSFTemplate
             if(! file_exists($this->cache_path."/".$this->extends.".php")||$this->rebuilcache)
                 $this->load_template("{$this->extends}");
         }
-        else 
-            $out  = "class {$full_class_name}{\n\n";
+        else
+        $out  = "class {$full_class_name}{\n\n";
         $out .= $final_content;
         $out .= "\n\n}";
         return $out;
     }
-    
+
     function _return_function_data( $data='', $function_find=array() )
     {
         $final_content = '';
         $data = preg_replace( "#<"."\?php\n+?(.+?)\n+?\?".">#is", "\\1", $data );
         preg_match( "/class(.*?)extends(.*?)\{/s", $data, $class_data );
-        if(trim($class_data[2])) 
+        if(trim($class_data[2]))
             $this->extends = trim($class_data[2]);
         else $this->extends="";
         $data = str_replace( "\r"  , "\n", $data );
         $data = str_replace( "\n\n", "\n", $data );
-        
+
         $farray = explode( "\n", $data );
-        
+
         //-----------------------------------------
         // Functions...
         //-----------------------------------------
-        
+
         $functions    = array();
         $script_token = 0;
         $flag         = 0;
@@ -163,14 +164,14 @@ class VSFTemplate
             //-----------------------------------------
             if ( preg_match( "/<script/i", $f ) )
                 $script_token = 1;
-            
+
             if ( preg_match( "/<\/script>/i", $f ) )
                 $script_token = 0;
-            
+
             //-----------------------------------------
             // NOT IN JS
             //-----------------------------------------
-            
+
             if ( $script_token == 0 )
                 if ( preg_match( "/^function\s*([\w\_]+)\s*\((.*)\)/i", $f, $matches ) )
                 {
@@ -179,7 +180,7 @@ class VSFTemplate
                     $flag                     = $matches[1];
                     continue;
                 }
-            
+
             if ( $flag )
             {
                 $functions[ $flag ] .= $f."\n";
@@ -200,11 +201,11 @@ class VSFTemplate
         }
         return $final_content;
     }
-    
+
     /*-------------------------------------------------------------------------*/
     // Convert HTML to PHP cache file
     /*-------------------------------------------------------------------------*/
-    
+
     function convert_html_to_php($func_name, $func_data, $func_html, $func_pre_html=array(), $func_desc="", $com_bit_update_trigger='', $compile=1)
     {
         $this->foreach_blocks = array();
@@ -214,17 +215,17 @@ class VSFTemplate
         // func data
         //-------------------------------
         $func_data = preg_replace( "#".'\$'."(\w+)(,|$)#i", "\$\\1=\"\"\\2", str_replace( " ", "", $func_data ) );
-        
+
         if ( $compile )
             $_func_code = '' . $this->compile_html_to_php( trim( $func_html ), $func_data,$func_pre_html[1] ) . '';
         else
             $_func_code = "<<<EOF" . $this->unconvert_tags( $func_html ) . "\nEOF";
         $_func_code = preg_replace( "#\\\{1,}\"#s", '\\"', $_func_code );
-        
+
         $top    = "//===========================================================================\n".
                   "// <vsf:{$func_name}:desc:{$func_desc}:trigger:{$com_bit_update_trigger}>\n".
                   "//===========================================================================\n";
-                  
+
         $start  = "function {$func_name}($func_data) {".($func_pre_html[1]?$func_pre_html[1].";":"")."$func_pre_html[2]\n//--starthtml--//\n";
         $middle = '$BWHTML .= <<<EOF
         '.$_func_code.'
@@ -263,11 +264,11 @@ EOF;';
         //-------------------------------
         return $top.$start.$php_tags.$middle.$end;
     }
-    
+
     /*-------------------------------------------------------------------------*/
     // Convert HTML logic to cached PHP
     /*-------------------------------------------------------------------------*/
-    
+
     function compile_html_to_php( $text, $normal_func_data='', $global_string="" )
     {
         //----------------------------------------
@@ -318,11 +319,11 @@ EOF;';
             $text = str_replace('\\\\$', '\\$', $text);
         return $text;
     }
-    
+
     /*-------------------------------------------------------------------------*/
     // Convert HTML logic to cached PHP (work function)
     /*-------------------------------------------------------------------------*/
-    
+
     function _process_raw_html_foreach_logic( $text, $normal_func_data='',$global_string="" )
     {
         $total_length = strlen( $text );
@@ -346,7 +347,7 @@ EOF;';
                 $_final[] = '$'.$match[1];
         }
         $clean_func_data = implode( ",", $_final );
-        
+
         while ( 1 == 1 )
         {
             $_end = 0;
@@ -355,7 +356,7 @@ EOF;';
             //----------------------------------------
             $found_foreach = strpos( $template, $tag_foreach, $found_end_foreach + 1 );
             //----------------------------------------
-            // No logic found? 
+            // No logic found?
             //----------------------------------------
             if ( $found_foreach === FALSE )
                 break;
@@ -373,7 +374,7 @@ EOF;';
                 $found_end_foreach = $found_foreach + 1;
                 continue;
             }
-            
+
             //----------------------------------------
             // End statement?
             //----------------------------------------
@@ -442,12 +443,12 @@ EOF;';
                 //----------------------------------------
                 // None found...
                 //----------------------------------------
-                
+
                 if ( $found_end_foreach === FALSE )
                     return str_replace("\\'", "'", $template);
             }
-            
-            
+
+
             $rlen   = $found_end_foreach - strlen($tag_end_foreach) + 1 - $_end + 1;
             $block  = substr($template, $_end + 3, $rlen + 5);
             //----------------------------------------
@@ -476,25 +477,25 @@ EOF;';
                 }
                 $block = $this->_process_raw_html_foreach_logic($block, $_normal_func_data);
             }
-            
+
             //----------------------------------------
             // Clean up...
             //----------------------------------------
-            
+
             $str_find    = array('\\"', '\\\\');
             $str_replace = array('"'  , '\\'  );
             $str_find[]    = "\\'";
             $str_replace[] = "'";
             $str_find[]    = '\\$delim';
             $str_replace[] =  $delim;
-            
+
             //----------------------------------------
             // ...statement
             //----------------------------------------
-            
+
             $statement = str_replace($str_find, $str_replace, $statement);
             $block     = str_replace($str_find, $str_replace, $block);
-            
+
             //----------------------------------------
             // Create PHP statement
             //----------------------------------------
@@ -504,15 +505,16 @@ EOF;';
             $block = $this->_process_raw_html_logic( $block );
             $php_block     = $this->_process_raw_html_logic( addslashes($block) );
             $php_tags      = $this->_process_raw_php_tags( $block );
+
             $this_foreach_block = "
 //===========================================================================
-// Foreach loop function
+// Foreach loop function $ifstatement
 //===========================================================================
 function ".$function_name."(".$normal_func_data.")
 {
 ".$global_string.";
     \$BWHTML = '';
-    \$vsf_count = 0;
+    \$vsf_count = 1;
     \$vsf_class = '';
     foreach( ".$statement." )
     {
@@ -532,11 +534,11 @@ EOF;
         }
         return str_replace(array("\\'","\\"),array("'",""), $template);
     }
-    
+
     /*-------------------------------------------------------------------------*/
     // Convert HTML PHP tags
     /*-------------------------------------------------------------------------*/
-    
+
     function _process_raw_php_tags( $text )
     {
         //-----------------------------------------
@@ -565,11 +567,11 @@ EOF;
         }
         return $php;
     }
-    
+
     /*-------------------------------------------------------------------------*/
     // Convert HTML logic to cached PHP (work function)
     /*-------------------------------------------------------------------------*/
-    
+
     function _process_raw_html_logic( $text )
     {
         //----------------------------------------
@@ -587,7 +589,7 @@ EOF;
         $found_end_if = -1;
         $tag_else     = '<else />';
         $found_else   = -1;
-        
+
         $allow_delim  = array( '"', '\'' );
         //----------------------------------------
         // Keep the server busy for a while
@@ -605,14 +607,14 @@ EOF;
             $found_if = strpos( $template, $tag_if, $found_end_if + 1 );
             #$this->_add_debug( "Found <if>: $found_if" );
             //----------------------------------------
-            // No logic found? 
+            // No logic found?
             //----------------------------------------
             if ( $found_if === FALSE )
                 break;
             //----------------------------------------
             // Beginning of the logic...
             //----------------------------------------
-            
+
             $_start = $found_if + strlen($tag_if) + 1;
             $delim  = $template[ $_start - 1 ];
             //----------------------------------------
@@ -643,7 +645,7 @@ EOF;
                     //----------------------------------------
                     // Unescaped end delimiter
                     //----------------------------------------
-                    
+
                     $_end = $i - 1;
                     break;
                 }
@@ -690,7 +692,7 @@ EOF;
                     break;
                 $if_end_recurse = $found_end_if;
                 $found_end_if   = strpos( $template, $tag_end_if, $if_end_recurse + 1 );
-                
+
                 //----------------------------------------
                 // None found...
                 //----------------------------------------
@@ -730,7 +732,7 @@ EOF;
             // No else
             //----------------------------------------
             if ( $found_else == -1 )
-            { 
+            {
                 $rlen   = $found_end_if - strlen($tag_end_if) + 1 - $_end + 1;
                 $_true  = substr($template, $_end + 3, $rlen);
                 $_false = '';
@@ -742,22 +744,22 @@ EOF;
                 $rlen   = $found_end_if - strlen($tag_end_if) - $found_else - 3;
                 $_false = substr($template, $found_else + strlen($tag_else), $rlen);
             }
-            
+
             //----------------------------------------
             // Recurse
             //----------------------------------------
-            
+
             if ( strpos( $_true, $tag_if ) !== FALSE )
                 $_true = $this->_process_raw_html_logic($_true);
             if ( strpos( $_false, $tag_if ) !== FALSE )
                 $_false = $this->_process_raw_html_logic($_false);
-    
+
             //----------------------------------------
             // Clean up...
             //----------------------------------------
             $str_find    = array('\\"', '\\\\');
             $str_replace = array('"'  , '\\'  );
-            
+
             if ( $delim == "'" )
             {
                 $str_find[]    = "\\'";
@@ -765,7 +767,7 @@ EOF;
             }
             $str_find[]    = '\\$delim';
             $str_replace[] =  $delim;
-            
+
             //----------------------------------------
             // ...statement
             //----------------------------------------
@@ -773,7 +775,7 @@ EOF;
             //----------------------------------------
             // Create PHP statement
             //----------------------------------------
-            
+
             $php_statement = "\nEOF;
 if($statement) {
 \$BWHTML .= <<<EOF
@@ -791,12 +793,12 @@ EOF;
         }
         return str_replace("\\'", "'", $template);
     }
-    
-    
+
+
     //===================================================
     // Convert special tags into HTML safe versions
     //===================================================
-    
+
     function convert_tags($t="")
     {
         # IPB 2.1+ Kernel
@@ -809,11 +811,11 @@ EOF;
         $t = preg_replace( "/\{ipb\.vars\[(['\"])?(sql_driver|sql_host|sql_database|sql_pass|sql_user|sql_port|sql_tbl_prefix|smtp_host|smtp_port|smtp_user|smtp_pass|html_dir|base_dir|upload_dir)(['\"])?\]\}/", "" , $t );
         return $t;
     }
-    
+
     //===================================================
     // Uncovert them back again
     //===================================================
-    
+
     function unconvert_tags($t="")
     {
         //----------------------------------------
@@ -826,11 +828,11 @@ EOF;
         $t = preg_replace( "#ip(?:s|b|d)\.(member|vars|skin|lang|input)#i", '$this->ipsclass->\\1'         , $t );
         return $t;
     }
-    
+
     //===================================================
     // Convert: PHP logic to HTML logic
     //===================================================
-    
+
     /**
     * Convert PHP tags to HTML tags
     *
@@ -842,11 +844,11 @@ EOF;
         $php = $this->_reverse_ipshtml( $this->convert_tags( $php ) );
         return $php;
     }
-    
+
     //===================================================
     // Reverse: $BWHTML to normal $HTML
     //===================================================
-    
+
     /**
     * Reverse HEREDOC tags
     *
@@ -861,29 +863,29 @@ EOF;
         $code = $this->_trim_newlines($code);
         return $code;
     }
-    
+
     //===================================================
     // Remove leading and trailing newlines
     //===================================================
-    
+
     function _trim_newlines($code)
     {
         $code = preg_replace("/^\n{1,}/s", "", $code );
         $code = preg_replace("/\n{1,}$/s", "", $code );
         return $code;
     }
-    
+
     //===================================================
     // Remove preg_replace/e slashes
     //===================================================
-    
+
     function _trim_slashes($code)
     {
         $code = str_replace( '\"' , '"', $code );
         $code = str_replace( "\\'", "'", $code );
         return $code;
     }
-    
+
     /**
     * Add debug message
     */
@@ -906,5 +908,3 @@ EOF;
 }
 
 ?>
-
-

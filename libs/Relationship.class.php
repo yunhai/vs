@@ -57,7 +57,7 @@ class Relationship{
 		}
 	} 
 	
-	function convertToObject($object=array()) {
+function convertToObject($object=array()) {
 		isset($object['objectId'])		? $this->setObjectId($object['objectId'])		:'';
 		isset($object['relId'])			? $this->setRelId($object['relId'])				:'';
 		

@@ -4,7 +4,7 @@
  *
  * @package MCImageManager.authenicators
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
  */
 
 /**
@@ -13,7 +13,7 @@
  * @package MCImageManager.Authenticators
  */
 class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
-	/**#@+
+    /**#@+
 	 * @access public
 	 */
 
@@ -38,7 +38,7 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 		if ($dir == "language") {
 			// Override language key
 			if (isset($_SESSION[$prefix . "ExternalAuthenticator_general__language"]))
-			$config["general.language"] = $_SESSION[$prefix . "ExternalAuthenticator_general__language"];
+				$config["general.language"] = $_SESSION[$prefix . "ExternalAuthenticator_general__language"];
 
 			return true;
 		}
@@ -61,16 +61,16 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 					$rootPathItems = explode('=', $rootPathItems[0]);
 
 					if (count($rootPathItems) > 1)
-					$rootPath = $rootPathItems[1];
+						$rootPath = $rootPathItems[1];
 					else
-					$rootPath = $rootPathItems[0];
+						$rootPath = $rootPathItems[0];
 
 					if (!file_exists($rootPath))
-					@mkdir($rootPath);
+						@mkdir($rootPath);
 
 					// Use rootpath as path
 					if (!$config['filesystem.path'] || !$man->isChildPath($rootPath, $config['filesystem.path']))
-					$config['filesystem.path'] = $rootPath;
+						$config['filesystem.path'] = $rootPath;
 
 					return true;
 				}
@@ -83,7 +83,7 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 			$ignored = array("key");
 			foreach ($_POST as $key => $value) {
 				if (!in_array($key, $ignored))
-				$data .= $value;
+					$data .= $value;
 			}
 
 			// Check input
@@ -92,7 +92,7 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 				$_SESSION[$prefix . 'ExternalAuthenticator'] = true;
 
 				if ($useCookie)
-				setcookie($prefix . 'enabled', md5($secretKey . $_SERVER['REMOTE_ADDR']), 0, '/');
+					setcookie($prefix . 'enabled', md5($secretKey . $_SERVER['REMOTE_ADDR']), 0, '/');
 
 				// Set config parameters
 				foreach ($_POST as $key => $value) {
@@ -111,18 +111,18 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 
 		// Force absolute
 		if (strpos($authURL, "http") !== 0 && strpos($authURL, "/") !== 0)
-		$authURL = "plugins/ExternalAuthenticator/" . $authURL;
+			$authURL = "plugins/ExternalAuthenticator/" . $authURL;
 
 		// Setup return URL
 		$prot = "http";
 		$port = "";
 
 		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
-		$prot = "https";
+			$prot = "https";
 
 		// Non default port
 		if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443")
-		$port = ":" . $_SERVER['SERVER_PORT'];
+			$port = ":" . $_SERVER['SERVER_PORT'];
 
 		// If RPC or stream then return it using config
 		if ($dir == "rpc" || $dir  == "stream") {
@@ -130,7 +130,7 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 
 			// Make it absolute
 			if (strpos($authURL, "/") === 0)
-			$authURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . $authURL;
+				$authURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . $authURL;
 
 			$returnURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . dirname(dirname($_SERVER['PHP_SELF'])) . "/index.php?type=" . $man->getType();
 			$config['authenticator.login_page'] = $authURL . "?return_url=" . urlencode($returnURL);

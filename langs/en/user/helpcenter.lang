@@ -1,6 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'helpcenter',
-  'main_title' => 'helpcenter',
-);
-?>

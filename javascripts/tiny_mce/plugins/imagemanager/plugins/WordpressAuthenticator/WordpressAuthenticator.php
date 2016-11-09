@@ -4,7 +4,7 @@
  *
  * @package WordpressAuthenticator
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
 $mcOldCWD = getcwd();
@@ -18,7 +18,7 @@ chdir($mcOldCWD);
  * @package MCImageManager.Authenticators
  */
 class Moxiecode_WordpressAuthenticator extends Moxiecode_ManagerPlugin {
-	/**#@+
+    /**#@+
 	 * @access public
 	 */
 

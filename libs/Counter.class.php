@@ -50,22 +50,6 @@ class VSSCounter {
 		
 		$query = array ("select" => "time, visits, guests, members, bots ", "from" => "counter_log ", "where" => "'1=1' " );
 		
-//		if (! $timestart) {
-//			if ($timestop) {
-//				$query ['where'] .= " AND time <= $timestop ";
-//			}
-//		} else {
-//			if (! $timestop) {
-//				$query ['where'] .= " AND time = $timestart ";
-//			} else {
-//				if ($timestop == $timestart) {
-//					return $total;
-//				} else {
-//					$query ['where'] .= " AND time > $timestart ";
-//					$query ['where'] .= " AND time <= $timestop ";
-//				}
-//			}
-//		}
 		
 		if(!$timestop){
 			$timestart = $timestart - 86400;
@@ -97,15 +81,15 @@ class VSSCounter {
 	function getStatesInformation(){
 		global $DB,$vsTemplate,$vsStd,$bw;
 
-		$DB->simple_construct(
-			array(	'select'	=> 'COUNT(*) as totalmember',
-					'from'		=> 'user'
-				)
-		);
-		$DB->simple_exec();
-		$stats = $DB->fetch_row();
-		
-		$DB->simple_construct(
+//		$DB->simple_construct(
+//			array(	'select'	=> 'COUNT(*) as totalmember',
+//					'from'		=> 'user'
+//				)
+//		);
+//		$DB->simple_exec();
+//		$stats = $DB->fetch_row();
+
+                $DB->simple_construct(
 			array(	'select'	=> '*',
 					'from'		=> 'user_session',
 					'where'		=> 'sessionTime >'.(time()-(30*60))
@@ -133,7 +117,7 @@ class VSSCounter {
 	
 		$temp = $this->getStatesInformation();
 
-		if($vsSettings->getSystemKey('state_full', 0, 'counter'))
+		if($vsSettings->getSystemKey('state_full', 1, 'counter', 1, 1))
 			$visits = $this->getStatistic ( 0, $this->datetime['local_daystart']);
 		else
 			$visits = $this->getStatistic($this->datetime['local_daystart']);
@@ -144,32 +128,32 @@ class VSSCounter {
 
 		$visits_array	=	array();
 		// Count Yesterday's Visits
-		if ($vsSettings->getSystemKey('counter_yesterday', 0, 'counter')) {
+		if ($vsSettings->getSystemKey('counter_yesterday', 0, 'counter', 1, 1)) {
 			$visits_array =  $this->getStatistic ( $this->datetime['local_yesterdaystart'] );
 			$visits['yesterday'] = $visits_array ['visits'];
 		}
 
 		// Count This Week's Visits
-		if ($vsSettings->getSystemKey('counter_week', 0, 'counter')) {
+		if ($vsSettings->getSystemKey('counter_week', 0, 'counter', 1, 1)) {
 			$visits_array =  $this->getStatistic (  $this->datetime['weekstart'],  $this->datetime['local_daystart'] );
 			$visits['week'] = $visits_array ['visits'];
 			//			$visits['week'] += $visits ['visits'];
 		}
 		// Count Last Week's Visits
-		if ($vsSettings->getSystemKey('counter_last_week', 0, 'counter')) {
+		if ($vsSettings->getSystemKey('counter_last_week', 0, 'counter', 1, 1)) {
 			$visits_array =  $this->getStatistic ( $this->datetime['lweekstart'],  $this->datetime['local_weekstart'] );
 			$visits['lastweek'] = $visits_array ['visits'];
 		}
 
 		// Count This Month's Visits
-		if ($vsSettings->getSystemKey('counter_month', 0, 'counter')) {
+		if ($vsSettings->getSystemKey('counter_month', 0, 'counter', 1, 1)) {
 			$visits_array =  $this->getStatistic ( $this->datetime['local_monthstart'],  $this->datetime['local_daystart'] );
 			$visits['month'] = $visits_array ['visits'];
 			//			$visits['month'] += $visits ['visits'];
 		}
 
 		// Count Last Month's Visits
-		if ($vsSettings->getSystemKey('counter_last_month',0, 'counter')) {
+		if ($vsSettings->getSystemKey('counter_last_month',0, 'counter', 1, 1)) {
 			$visits_array =  $this->getStatistic ( $this->datetime['lmonthstart'],  $this->datetime['local_monthstart'] );
 			$visits['lastmonth'] = $visits_array ['visits'];
 		}

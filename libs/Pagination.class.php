@@ -15,6 +15,7 @@
  */
 
 class VSFPagination {
+    
 	public $p_Style = "Number";
 	public $p_Size = 10;
 	public $p_Current = 0;
@@ -23,12 +24,12 @@ class VSFPagination {
 	public $p_TotalRow = 0;
 	public $p_TotalPage = 0;
 	public $p_MaxPageView = 5;
-	public $p_EndingBy = ".vsf";
+	public $p_EndingBy = ".html";
 	public $url="";
 	public $ajax=1;
 	public $callbackobjectId='';
 	public $advance = NULL;
-
+        
 	public $text = array();
 
 	function __construct() {
@@ -38,9 +39,10 @@ class VSFPagination {
 		$this->text['p_Previous'] = $this->text['p_Previous']?$this->text['p_Previous']:"Previous";
 		$this->text['p_Next'] = $this->text['p_Next']?$this->text['p_Next']:"Next";
 			
-		$this->text['p_Page'] = $this->text['p_Page']?$this->text['p_Page']:'';
+		$this->text['p_Page'] = $this->text['p_Page']?$this->text['p_Page']:'';//$vsLang->getWordsGlobal('n_Page_n','');
 		$this->text['p_Total'] = $this->text['p_Total']?$this->text['p_Total']:"Total";
 		$this->text['p_Pages'] = $this->text['p_Pages']?$this->text['p_Pages']:"page(s)";
+                $this->text['p_Sub'] = $vsLang->getWordsGlobal('P_trang','trang')."-";
 	}
 
 	/**
@@ -49,7 +51,13 @@ class VSFPagination {
 	 */
 	function SetCurrentPage($index=0) {
 		global $bw, $vsPrint;
-			
+                
+		if($bw->input[$index]){
+                    //add by Sangpm
+                $query = explode('-',$bw->input[$index]);
+		$bw->input[$index] = intval($query[count($query)-1]);
+                }
+                
 		$bw->input[$index] = rtrim($bw->input[$index],$this->p_EndingBy);
 			
 		if(!is_numeric($bw->input[$index]) && $bw->input[$index]!="") $vsPrint->boink_it($bw->base_url);
@@ -66,6 +74,7 @@ class VSFPagination {
 	function BuildPageLinks(){
 		global $vsPrint;
 		$this->p_StartRow = $this->p_Size*($this->p_Current-1);
+
 		$this->p_TotalPage = floor(($this->p_TotalRow-1)/$this->p_Size)+1;
 
 		if($this->p_TotalPage < 1) $this->p_TotalPage = 1;
@@ -101,7 +110,7 @@ class VSFPagination {
 				break;
 		}
 			
-		$this->p_Links = str_replace("/1".$this->p_EndingBy,"/",$this->p_Links);
+		$this->p_Links = str_replace("/{$this->text['p_Sub']}1".$this->p_EndingBy,"/",$this->p_Links);
 	}
 
 	function BuildPageLinksText() {
@@ -128,9 +137,27 @@ class VSFPagination {
 
 	function BuildPageLinksNumber($nCurrentPage, $nTotalPage)
 	{
+            global $bw;
 		$strPageLinks = "";
 		$strResult = "";
-			
+		
+                if(APPLICATION_TYPE=='user'){
+                    if($nCurrentPage<$nTotalPage&&$nCurrentPage>1){
+                        $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage-1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
+                        $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nCurrentPage+1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /></a>';
+                    }
+                    else
+                        if($nCurrentPage==1){
+                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].'1'.$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
+                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].'2'.$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /></a>';
+                        }
+                        if($nCurrentPage==$nTotalPage){
+                            $strPre = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage-1).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_prev.jpg" /></a>';
+                            $strNext = '<a href="'.$this->url.$this->text['p_Sub'].($nTotalPage).$this->p_EndingBy.$bw->input['advance'].'"><img src="'.$bw->vars['img_url'].'/page_next.jpg" /> </a>';
+                        }
+                }
+
+
 		if($nTotalPage > 0) {
 			if($nTotalPage <= $this->p_MaxPageView) {
 				for($i = 1; $i <= $nTotalPage; $i++)
@@ -167,21 +194,23 @@ class VSFPagination {
 			$strPageLinks = trim($strPageLinks);
 			$strResult = $this->BuildPageLinksNumberUrl($strPageLinks,$nTotalPage);
 			$strResult = str_replace(">".$nCurrentPage."<"," class='active' >".$nCurrentPage."<",$strResult);
-			$this->p_Links = $this->text['p_Page']." ".$strResult;
+			$this->p_Links = $strPre.$this->text['p_Page']." ".$strResult.$strNext;
 		}
 	}
 	 
 	function BuildPageLinksNumberUrl($strPageLinks, $nTotalPage){
 		$strResult = ""; global $bw;
-		$strPageUrl = $this->url."PAGE".$this->p_EndingBy.$bw->input['advance'];
-			
+		$strPageUrl = $this->url.$this->text['p_Sub']."PAGE".$this->p_EndingBy.$bw->input['advance'];
+
+                
 			
 		if($this->ajax==1)
 		$strPageUrl = "<a href=\"javascript:vsf.get('".$strPageUrl."','".$this->callbackobjectId."')\">TEXT</a> ";
 		else
 		$strPageUrl = "<a href='{$strPageUrl}'>TEXT</a> ";
-
+            
 		$strTemp = split(' ',$strPageLinks);
+               
 		foreach($strTemp as $str){
 			if($str == "<<"){
 				$strResult .= str_replace("PAGE","1",$strPageUrl);
@@ -198,7 +227,9 @@ class VSFPagination {
 				$strResult .= str_replace("PAGE",$str,$strPageUrl);
 				$strResult = str_replace("TEXT",$str,$strResult);
 			}
+                        
 		}
+                
 		return $strResult;
 	}
 }
